@@ -1,0 +1,176 @@
+﻿NON Connecté
+
+(fichier index.php)
+
+
+- Accueil (dans index.php)
+
+Ecran :
+
+	- Présentation breve
+	- "Votre statut :"	
+		- Client (lien vers page connexion.php)
+		- Prestataire (lien vers page connexion.php)
+
+		
+- Présentation (pres.php)
+
+Ecran :
+
+	- Présentation complète
+	
+	
+- Contact (contact.php)
+
+Ecran : Form de contact
+
+
+
+Module complémentaire :
+
+	Barre fixe :
+		- Connexion : Login """" / Mdp """" OK 
+_____________________
+
+Connexion : 
+
+(connexion.php)
+
+Ecran :
+	- Bloc connexion (login/mdp)
+	- Bloc inscription (lien vers page inscription.php)
+
+__________________________________
+Inscription :
+
+(inscription.php)
+
+- Etape 1 :
+ 
+	- Statut (client ou presta)
+	- Idendifiants connexion
+		- Login
+		- Mdp
+		- Mail
+	- Validation
+
+
+<< Compte crée >>
+	-Choix entre :
+		- editer le profil (lien vers editProfil.php)
+		- SI client
+			- "Créer un projet" (lien vers creaProjet.php)
+		- Sinon
+			- "Rechercher un projet" (lien vers rechercheProjet.php)
+
+_____________________
+
+- Edition profil perso : 
+
+(editProfil.php)
+
+	
+	- Informations personnelles
+		- Nom, prénom
+		- Adresse
+		- CP
+		- Téléphone
+		- Mail
+		
+	Si Client : 
+		- Avatar
+		- Personne physique / morale
+		- Secteur d'activité
+		- Présentation
+		
+	Si Presta : 
+		- Avatar
+		- Diplome et formation
+		- Expérience professionnalisation
+		- Compétences
+		- Présentation
+
+________________________________________
+
+Connecté
+
+CLIENT
+
+(accueilClient.php)
+
+- Accueil
+
+Ecran :
+
+	- Statut du compte (barre progress, reste à compléter...)
+	
+	Si pas projet en cours
+		- Faire une demande (lien vers creaProjet.php)
+	Sinon
+		- Affichage du ou des projets du clients (+ lien vers par mesProjets.php)
+	
+	Si pas projet en cours
+		- Liste top prestataires (list_TopPrestaList.php)
+	Sinon
+		- Liste des prestataires en fonction des demandes du client (liste_PersoCli.php)
+		
+	
+- Espace projet
+	- Faire une demande (lien vers creaProjet.php)
+	- Mes projets (lien vers mesProjets.php)
+	- Liste projet finis (lien vers page projetFinis.php)
+
+- Espace profil	(lien vers monProfil.php)
+
+- Espace recherche (lien vers recherche.php)
+
+______________________________________________________________________
+
+PRESTATAIRE
+
+(acceuilPresta.php)
+
+- Accueil
+
+	- Statut du compte (barre progress, reste à compléter...)
+	
+	Si pas projet en cours
+		- Rechercher un projet (recherche.php)
+	Sinon
+		- Affichage du ou des projets du prestataires
+	
+	Si spécialités renseignées
+		- Liste en fonction de ses spécialités (list_PersoPresta.php)
+	Sinon
+		- Liste 10 derniers projets postés (list_lastProjet.php)
+	
+- Espace projet
+	- Mes projets (lien vers mesProjets.php)
+	- Liste projet finis (lien vers projetFinis.php)
+
+- Espace profil	(lien vers monProfil.php)
+
+- Espace recherche (lien vers recherche.php)
+
+_________________________________________________________________________
+
+Liste page :
+
+
+index.php 
+pres.php
+contact.php
+connexion.php
+inscription.php
+editProfil.php
+
+accueilClient.php
+creaProjet.php
+
+accueilPresta.php
+
+
+mesProjets.php
+projetFinis.php
+monProfil.php
+recherche.php
