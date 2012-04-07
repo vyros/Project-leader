@@ -1,5 +1,7 @@
 <?php
 include_once("classes/classUtilisateur.php");
+include_once("classes/classSite.php");
+
 session_start();
 // print_r($_SESSION['monUtilisateur']);
 ?>
@@ -155,7 +157,7 @@ if (isset($_SESSION['ouvert'])) {
                     <div class="section_w220 fl">
                         <div class="header_01">Praesent varius</div>
                         <ul class="normal_list">
-                            <li><a href="#">Nascetur ridiculus mus</a></li>
+                            <li><a href="#"><?php echo SITE::getUrl(); ?></a></li>
                             <li><a href="#">Curabitur quis velit quis tortor</a></li> 
                             <li><a href="#">Vivamus a velit</a></li>
                             <li><a href="#">Cum sociis natoque penatibus</a></li>

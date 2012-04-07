@@ -1,3 +1,3 @@
-﻿<?
-	print_r($_GET);
+﻿<?php
+print_r($_GET);
 ?>

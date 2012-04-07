@@ -14,7 +14,7 @@ if ($_POST["action"] == "VerificationCompte") {
     if (isset($_POST['log'])) {
         $log = $_POST['log'];
     }
-    
+
     $mdp = '';
     if (isset($_POST['mdp'])) {
         $mdp = $_POST['mdp'];
@@ -29,11 +29,10 @@ if ($_POST["action"] == "VerificationCompte") {
 
         $object = mysql_fetch_object($access);
         $_SESSION['monUtilisateur'] = new UTILISATEUR($object->uti_id);
-
         $_SESSION['ouvert'] = true;
 
         echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
-        echo ("location.href = 'http://localhost/project_leader/#accueilPerso';");
+        echo ("location.href = '" . SITE::getUrl() . "#accueilPerso';");
         echo ("</script>");
     }
 } elseif ($_POST["action"] == "inscripCompte") {
@@ -41,7 +40,6 @@ if ($_POST["action"] == "VerificationCompte") {
     $mail = $_POST["mail"];
     $log = $_POST["log"];
     $statut = $_POST["statut"];
-
     $mdp = $_POST["mdp"];
     $mdp2 = $_POST["mdp2"];
 
@@ -50,15 +48,17 @@ if ($_POST["action"] == "VerificationCompte") {
         echo ("<script language = \"JavaScript\">alert('erreur');");
         echo ("location.href = 'inscription.php';");
         echo ("</script>");
+        
     } else {
 
         $monUtilisateur = new UTILISATEUR();
         $monUtilisateur->inserUti($log, mail, $mdp, $statut);
 
         echo ("<script language = \"JavaScript\">alert('Enregistrement effectué');");
-        echo ("location.href = 'http://localhost/project_leader/#fin_inscrip';");
+        echo ("location.href = '" . SITE::getUrl() . "#fin_inscrip';");
         echo ("</script>");
     }
+    
 } elseif ($_POST["action"] == "inserProjet") {
 
 
@@ -89,7 +89,7 @@ if ($_POST["action"] == "VerificationCompte") {
     $demander->inserDem($idProjet, $tabIdCompetence);
 
     echo ("<script language = \"JavaScript\">alert('Projet créer');");
-    echo ("location.href = 'http://localhost/project_leader/#accueilPerso';");
+    echo ("location.href = '" . SITE::getUrl() . "#accueilPerso';");
     echo ("</script>");
 }
 ?>

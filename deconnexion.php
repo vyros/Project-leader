@@ -1,10 +1,8 @@
-<?php 
+<?php
 session_start();
+session_destroy();
 
-		session_destroy();
-							
-		echo ("<script language = \"JavaScript\">alert('Vous êtes déconnecté');"); 
-		echo ("location.href = 'http://localhost/project_leader/';"); 
-		echo ("</script>");
-
+echo ("<script language = \"JavaScript\">alert('Vous êtes déconnecté');");
+echo ("location.href = '".SITE::getUrl()."';");
+echo ("</script>");
 ?>
