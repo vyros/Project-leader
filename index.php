@@ -1,5 +1,5 @@
 <?php
-include_once("Classes/classUtilisateur.php");
+include_once("classes/classUtilisateur.php");
 session_start();
 // print_r($_SESSION['monUtilisateur']);
 ?>

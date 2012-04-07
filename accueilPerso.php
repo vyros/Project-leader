@@ -1,15 +1,15 @@
 <?php
-include_once("Classes/classUtilisateur.php");
+include_once("classes/classUtilisateur.php");
 session_start();
 // print_r($_SESSION['monUtilisateur']);
 
 $statut = $_SESSION['monUtilisateur']->getStatut();
-include_once("Classes/classProjet.php");
-include_once("Classes/classCorrespondre.php");
-include_once("Classes/classCategorie.php");
-include_once("Classes/classParticiper.php");
-include_once("Classes/classDemander.php");
-include_once("Classes/classCompetence.php");
+include_once("classes/classProjet.php");
+include_once("classes/classCorrespondre.php");
+include_once("classes/classCategorie.php");
+include_once("classes/classParticiper.php");
+include_once("classes/classDemander.php");
+include_once("classes/classCompetence.php");
 ?>
 
   <script type="text/javascript">

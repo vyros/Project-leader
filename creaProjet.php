@@ -1,8 +1,8 @@
 <?php
-include_once("Classes/classUtilisateur.php");
+include_once("classes/classUtilisateur.php");
 session_start();
-include_once("Classes/classCategorie.php");
-include_once("Classes/classCompetence.php");
+include_once("classes/classCategorie.php");
+include_once("classes/classCompetence.php");
 // print_r($_SESSION['monUtilisateur']);
 ?>
 
