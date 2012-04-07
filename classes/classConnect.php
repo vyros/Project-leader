@@ -2,10 +2,10 @@
 class Connexion {
     
     CONST SERVEUR = 'localhost';
-    CONST UTILISATEUR = '';
-    CONST PASSWORD = '';
+    CONST UTILISATEUR = 'project-leader';
+    CONST PASSWORD = 'L9psTTUGyZUArLE6';
     CONST SEL_PASSWORD = '';
-    CONST BASE = 'bdd_pl';
+    CONST BASE = 'project-leader';
 
     public function __construct() {
         $this->connecter();
