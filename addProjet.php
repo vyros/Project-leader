@@ -50,7 +50,7 @@ include_once("classes/classCompetence.php");
         while ($row = mysql_fetch_array($toutesLesCompetences)) {
             $idCompetence[$i] = "$row[competence_id]";
             $libCompetence[$i] = "$row[competence_libelle]";
-            ?>
+?>
             {
             id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
             name: "<?php echo str_replace('"', '', json_encode($libCompetence[$i])); ?>"
