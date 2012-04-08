@@ -26,8 +26,8 @@ include_once("classes/classCompetence.php");
                         <td><h6>Catégorie :&nbsp </h6></td>
                         <td><select name="categorie" id="categorie" ><option></option>
                                 <?php
-                                $toutesLesCategories = CATEGORIE::toutes();
-                                $toutesLesCompetences = COMPETENCE::toutes();
+                                $toutesLesCategories = CATEGORIE::getAll();
+                                $toutesLesCompetences = COMPETENCE::getAll();
 
                                 while ($row = mysql_fetch_array($toutesLesCategories)) {
                                     ?>

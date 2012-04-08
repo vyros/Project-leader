@@ -1,5 +1,5 @@
 <?php
-include_once("classConnect.php");
+include_once("classConnexion.php");
 
 class PROJET {
 
@@ -7,88 +7,90 @@ class PROJET {
     private $m_libelle;
     private $m_description;
     private $m_budget;
-    private $m_delai;
-    private $m_dateCreation;
+    private $m_echeance;
+    private $m_date;
 
     public function __construct() {
         // distinction existant/ nouveau en fonction du nombre d'arguments
-        $nombreArgument = func_num_args();
-        if ($nombreArgument == 1) {
+        $argc = func_num_args();
+        if ($argc == 1) {
             // l'id
-            $t_code = func_get_arg(0);
+            $t_id = func_get_arg(0);
 
             // appel du constructeur existant avec l'id
-            $this->existant($t_code);
+            $this->exists($t_id);
             
-        } elseif ($nombreArgument == 2) {
+        } elseif ($argc == 2) {
             
         }
     }
 
-    public function existant($p_code) {
+    public function exists($p_id) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM PROJET " .
-                " WHERE projet_id = " . $p_code . " LIMIT 1;";
+        $requete = " SELECT * FROM projet " .
+                " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        // execution et renvoi de la resource
-        $resultat = Connexion::executeSql($requete)
+        $resultat = Connexion::doSql($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
         $ligne = Connexion::fetchArray($resultat);
 
         if ($ligne != null) {
-            $this->m_code = $p_code;
-            $this->m_libelle = stripslashes($ligne['projet_libelle']);
-            $this->m_description = stripslashes($ligne['projet_description']);
-            $this->m_budget = stripslashes($ligne['projet_budget']);
-            $this->m_delai = stripslashes($ligne['projet_delai']);
-            $this->m_dateCreation = stripslashes($ligne['projet_dateCreation']);
+            $this->m_id = $p_id;
+            $this->m_libelle = stripslashes($ligne['prj_libelle']);
+            $this->m_description = stripslashes($ligne['prj_description']);
+            $this->m_budget = stripslashes($ligne['prj_budget']);
+            $this->m_echeance = stripslashes($ligne['prj_echeance']);
+            $this->m_date = stripslashes($ligne['prj_date']);
         }
     }
 
     public static function maxPjt() {
 
         $connexion = new Connexion();
-        $requete = "SELECT projet_id FROM PROJET ORDER BY projet_id DESC LIMIT 1 ";
-        $result = Connexion::executeSql($requete);
+        $requete = "SELECT prj_id FROM projet ORDER BY prj_id DESC LIMIT 1 ";
+        $resultat = Connexion::doSql($requete);
 
-        if ($result == false) {
+        if ($resultat == false) {
             die(mysql_error());
         }
 
-        if (mysql_num_rows($result) == 1) {
-            $object = mysql_fetch_object($result);
-            $codeProjet = $object->projet_id;
+        if (mysql_num_rows($resultat) == 1) {
+            $object = mysql_fetch_object($resultat);
+            $idProjet = $object->prj_id;
+            
         } else {
-            $codeProjet = "1";
+            $idProjet = "1";
         }
 
-        return $codeProjet;
+        return $idProjet;
     }
 
-    public static function dernierProjet() {
+    public static function lastProjet() {
 
         $connexion = new Connexion();
-        $requete = "SELECT * FROM PROJET";
-        $result = Connexion::executeSql($requete);
+        $requete = "SELECT * FROM projet";
+        $resultat = Connexion::doSql($requete);
+        
         mysql_query("SET NAMES 'utf8'");
 
-        return $result;
+        return $resultat;
     }
 
-    public function inserProjet($p_libelle, $p_description, $p_budget, $p_delai) {
+    public function addProjet($p_libelle, $p_description, $p_budget, $p_echeance) {
 
         $connexion = new Connexion();
-        $dateCreation = date("Y-m-d");
-        $query = "INSERT INTO PROJET (projet_libelle ,projet_description, projet_budget, projet_delai, projet_dateCreation) " .
-                "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_delai . "','" . $dateCreation . "')";
+        $date = date("c");
         
-        mysql_query($query);
+        $requete = "INSERT INTO projet (prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
+                "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . $date . "')";
+        
+        mysql_query($requete);
     }
 
 // accesseurs
-    public function getCode() {
+    public function getId() {
         return $this->m_id;
     }
 
@@ -104,12 +106,12 @@ class PROJET {
         return $this->m_budget;
     }
 
-    public function getDelai() {
-        return $this->m_delai;
+    public function getEcheance() {
+        return $this->m_echeance;
     }
 
     public function getDateCreation() {
-        return $this->m_dateCreation;
+        return $this->m_date;
     }
 }
 ?>

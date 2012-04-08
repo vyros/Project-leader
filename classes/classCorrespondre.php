@@ -1,61 +1,61 @@
 <?php
-include_once("classConnect.php");
+include_once("classConnexion.php");
 
 class CORRESPONDRE {
 
-    private $m_idProjet;
-    private $m_idCategorie;
+    private $m_prj_id;
+    private $m_cat_id;
 
     public function __construct() {
         // distinction existant/ nouveau en fonction du nombre d'arguments
-        $nombreArgument = func_num_args();
-        if ($nombreArgument == 1) {
+        $argc = func_num_args();
+        if ($argc == 1) {
             // l'id
-            $t_code = func_get_arg(0);
+            $t_id = func_get_arg(0);
 
             // appel du constructeur existant avec l'id
-            $this->existant($t_code);
+            $this->exists($t_id);
             
-        } elseif ($nombreArgument == 2) {
+        } elseif ($argc == 2) {
             
         }
     }
 
-    public function existant($p_code) {
+    public function exists($p_id) {
 
         $connexion = new Connexion();
         $requete = " SELECT * FROM correspondre " .
-                " WHERE idProjet = " . $p_code . " LIMIT 1;";
+                " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::executeSql($requete)
+        $resultat = Connexion::doSql($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
         $ligne = Connexion::fetchArray($resultat);
 
         if ($ligne != null) {
-            $this->m_idProjet = $p_code;
-            $this->m_idCategorie = stripslashes($ligne['idCategorie']);
+            $this->m_prj_id = $p_id;
+            $this->m_cat_id = stripslashes($ligne['cat_id']);
         }
     }
 
-    public function inserCorres($p_idProjet, $p_idCateg) {
+    public function addCorrespondance($p_prj_id, $p_cat_id) {
 
         $connexion = new Connexion();
 
-        $query = "INSERT INTO correspondre (idProjet ,idCategorie) " .
-                "VALUES ('" . $p_idProjet . "','" . $p_idCateg . "')";
+        $requete = "INSERT INTO correspondre (prj_id, cat_id) " .
+                "VALUES ('" . $p_prj_id . "','" . $p_cat_id . "')";
         
-        mysql_query($query);
+        return mysql_query($requete);
     }
 
 // accesseurs
     public function getIdProjet() {
-        return $this->m_idProjet;
+        return $this->m_prj_id;
     }
 
     public function getIdCategorie() {
-        return $this->m_idCategorie;
+        return $this->m_cat_id;
     }
 }
 ?>

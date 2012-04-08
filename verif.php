@@ -20,7 +20,7 @@ if ($_POST["action"] == "VerificationCompte") {
         $mdp = $_POST['mdp'];
     }
 
-    $access = UTILISATEUR::verifAccess($log, $mdp);
+    $access = UTILISATEUR::chkAccess($log, $mdp);
     if ($access === false) {
         die(mysql_error());
     }
@@ -32,7 +32,7 @@ if ($_POST["action"] == "VerificationCompte") {
         $_SESSION['ouvert'] = true;
 
         echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
-        echo ("location.href = '" . SITE::getUrl() . "#accueilPerso';");
+        echo ("location.href = 'index.php#accueilPerso';");
         echo ("</script>");
     }
 } elseif ($_POST["action"] == "inscripCompte") {
@@ -52,7 +52,7 @@ if ($_POST["action"] == "VerificationCompte") {
     } else {
 
         $monUtilisateur = new UTILISATEUR();
-        if ($monUtilisateur->inserUti($log, $mail, $mdp, $statut)) {
+        if ($monUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
             
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
             echo ("location.href = 'index.php#fin_inscrip';");
@@ -76,24 +76,24 @@ if ($_POST["action"] == "VerificationCompte") {
     $tabIdCompetence = explode(',', $idCompetence);
 
     $monProjet = new PROJET();
-    $monProjet->inserProjet($libelle, $description, $budget, $delai);
+    $monProjet->addProjet($libelle, $description, $budget, $delai);
 
     $idProjet = PROJET::maxPjt();
     $idUti = $_SESSION['monUtilisateur']->getId();
 
     $participer = new PARTICIPER();
-    $participer->inserParticip($idUti, $idProjet);
+    $participer->addParticipation($idUti, $idProjet);
 
-    $idCateg = CATEGORIE::getIdViaLib($categorie);
+    $idCateg = CATEGORIE::getIdFromLibelle($categorie);
 
     $correspondre = new CORRESPONDRE();
-    $correspondre->inserCorres($idProjet, $idCateg);
+    $correspondre->addCorrespondance($idProjet, $idCateg);
 
     $demander = new DEMANDER();
-    $demander->inserDem($idProjet, $tabIdCompetence);
+    $demander->addDemande($idProjet, $tabIdCompetence);
 
     echo ("<script language = \"JavaScript\">alert('Projet créer');");
-    echo ("location.href = '" . SITE::getUrl() . "#accueilPerso';");
+    echo ("location.href = 'index.php#accueilPerso';");
     echo ("</script>");
 }
 ?>

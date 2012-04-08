@@ -1,5 +1,5 @@
 <?php
-include_once("classConnect.php");
+include_once("classConnexion.php");
 
 class COMPETENCE {
 
@@ -8,67 +8,66 @@ class COMPETENCE {
 
     public function __construct() {
         // distinction existant/ nouveau en fonction du nombre d'arguments
-        $nombreArgument = func_num_args();
-        if ($nombreArgument == 1) {
+        $argc = func_num_args();
+        if ($argc == 1) {
             // l'id
-            $t_code = func_get_arg(0);
+            $t_id = func_get_arg(0);
 
             // appel du constructeur existant avec l'id
-            $this->existant($t_code);
+            $this->exists($t_id);
             
-        } elseif ($nombreArgument == 2) {
+        } elseif ($argc == 2) {
             
         }
     }
 
-    public function existant($p_code) {
+    public function exists($p_id) {
 
         $connexion = new Connexion();
         $requete = " SELECT * FROM competence " .
-                " WHERE competence_id = " . $p_code . " LIMIT 1;";
+                " WHERE cpt_id = " . $p_id . " LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::executeSql($requete)
+        $resultat = Connexion::doSql($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
         $ligne = Connexion::fetchArray($resultat);
 
         if ($ligne != null) {
-            
-            $this->m_id = $p_code;
-            $this->m_libelle = stripslashes($ligne['competence_libelle']);
+            $this->m_id = $p_id;
+            $this->m_libelle = stripslashes($ligne['cpt_libelle']);
         }
     }
 
-    public static function toutes() {
+    public static function getAll() {
 
         $connexion = new Connexion();
         $requete = "SELECT * FROM competence";
-        $result = Connexion::executeSql($requete);
+        $resultat = Connexion::doSql($requete);
 
         mysql_query("SET NAMES 'utf8'");
 
-        return $result;
+        return $resultat;
     }
 
     public static function getId($p_libelle) {
 
         $connexion = new Connexion();
-        $requete = "SELECT competence_id FROM categorie " .
-                "WHERE competence_libelle = '" . $p_libelle . "'";
+        $requete = "SELECT cpt_id FROM categorie " .
+                "WHERE cpt_libelle = '" . $p_libelle . "'";
 
-        $result = Connexion::executeSql($requete);
+        $resultat = Connexion::doSql($requete);
 
-        if ($result == false) {
+        if ($resultat == false) {
             die(mysql_error());
         }
 
-        if (mysql_num_rows($result) == 1) {
-            $object = mysql_fetch_object($result);
-            $codeComp = $object->competence_id;
+        if (mysql_num_rows($resultat) == 1) {
+            $object = mysql_fetch_object($resultat);
+            $idCompetence = $object->cpt_id;
         }
 
-        return $codeComp;
+        return $idCompetence;
     }
 
     public function getLibelle() {

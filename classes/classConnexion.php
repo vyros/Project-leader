@@ -8,18 +8,18 @@ class Connexion {
     CONST BASE = 'project-leader';
 
     public function __construct() {
-        $this->Connecter();
+        $this->doConnection();
     }
 
-    public static function Connecter() {
+    public static function doConnection() {
 
-        $result = mysql_connect(self::SERVEUR, self::UTILISATEUR, self::PASSWORD) or die("Pb connexion serveur " . mysql_error());
-        mysql_select_db(self::BASE) or die("Pb selection base " . mysql_error());
+        $resultat = mysql_connect(self::SERVEUR, self::UTILISATEUR, self::PASSWORD) or die("Erreur connexion serveur : " . mysql_error());
+        mysql_select_db(self::BASE) or die("Erreur selection base : " . mysql_error());
 
-        return $result;
+        return $resultat;
     }
 
-    public static function executeSql($requete) {
+    public static function doSql($requete) {
         $resultat = mysql_query($requete);
         if (!mysql_error()) {
             return $resultat;

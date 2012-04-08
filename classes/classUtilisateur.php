@@ -1,5 +1,5 @@
 <?php
-include_once("classConnect.php");
+include_once("classConnexion.php");
 
 class UTILISATEUR {
 
@@ -16,37 +16,38 @@ class UTILISATEUR {
     private $m_tel;
     private $m_presentation;
     private $m_statut;
-    private $m_dateInscription;
+    private $m_date;
+    private $m_ddc;
 
     public function __construct() {
         // distinction existant/ nouveau en fonction du nombre d'arguments
-        $nombreArgument = func_num_args();
-        if ($nombreArgument == 1) {
+        $argc = func_num_args();
+        if ($argc == 1) {
             // l'id
-            $t_code = func_get_arg(0);
+            $t_id = func_get_arg(0);
 
             // appel du constructeur existant avec l'id
-            $this->existant($t_code);
+            $this->exists($t_id);
             
-        } elseif ($nombreArgument == 2) {
+        } elseif ($argc == 2) {
             
         }
     }
 
-    public function existant($p_code) {
+    public function exists($p_id) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM UTILISATEUR " .
-                " WHERE uti_id = " . $p_code . " LIMIT 1;";
+        $requete = " SELECT * FROM utilisateur " .
+                " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::executeSql($requete)
+        $resultat = Connexion::doSql($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
         $ligne = Connexion::fetchArray($resultat);
 
         if ($ligne != null) {
-            $this->m_id = $p_code;
+            $this->m_id = $p_id;
             $this->m_login = stripslashes($ligne['uti_login']);
             $this->m_mail = stripslashes($ligne['uti_mail']);
             $this->m_mdp = stripslashes($ligne['uti_mdp']);
@@ -59,40 +60,41 @@ class UTILISATEUR {
             $this->m_tel = stripslashes($ligne['uti_tel']);
             $this->m_presentation = stripslashes($ligne['uti_presentation']);
             $this->m_statut = stripslashes($ligne['uti_statut']);
-            $this->m_dateInscription = stripslashes($ligne['uti_dateInscription']);
+            $this->m_date = stripslashes($ligne['uti_date']);
+            $this->m_ddc = stripslashes($ligne['uti_ddc']);
         }
     }
 
-    public static function verifAccess($p_log, $p_mdp) {
+    public static function chkAccess($p_log, $p_mdp) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM UTILISATEUR " .
+        $requete = " SELECT * FROM utilisateur " .
                 " WHERE uti_login = '" . $p_log . "' " .
                 " AND uti_mdp = '" . $p_mdp . "' LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::executeSql($requete)
+        $resultat = Connexion::doSql($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
 
         return $resultat;
     }
 
-    public static function voirParticipation($p_id) {
+    public static function chkParticipation($p_id) {
 
         $connexion = new Connexion();
-
         //requete qui donne resultat si l'id de l'uti en parametre existe dans la table Participer
     }
 
-    public function inserUti($p_log, $p_mail, $p_mdp, $p_statut) {
+    public function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
 
         $connexion = new Connexion();
-        $dateInscription = date("Y-m-d");
+        $date = date("c");
         
-        $query = "INSERT INTO UTILISATEUR (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date_entree) " .
-                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $dateInscription . "')";
-        var_dump($query);
-        return mysql_query($query);
+        $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
+                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $date . "')";
+        
+        var_dump($requete);
+        return mysql_query($requete);
     }
 
 // accesseurs
@@ -120,7 +122,7 @@ class UTILISATEUR {
         return $this->m_ddn;
     }
 
-    public function getAdr() {
+    public function getAdresse() {
         return $this->m_adresse;
     }
 
@@ -142,6 +144,10 @@ class UTILISATEUR {
 
     public function getStatut() {
         return $this->m_statut;
+    }
+    
+    public function getDateCreation() {
+        return $this->m_date;
     }
 }
 ?>

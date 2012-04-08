@@ -82,7 +82,7 @@ include_once("classes/classCompetence.php");
         $monProjet = new PROJET($idProjet);
         $libelleProjet = $monProjet->getLibelle();
 ?>
-        <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>" ><?echo $libelleProjet;?></a>
+        <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>" ><?php echo $libelleProjet; ?></a>
 
         <div class="section_w140 fr">
             <div class="rc_btn_02"><a href="#creaProjet">Créer autre projet</a></div>
@@ -158,7 +158,7 @@ include_once("classes/classCompetence.php");
                     </thead>
                     <tbody>
 <?php
-        $les10DerniersProjet = PROJET::dernierProjet();
+        $les10DerniersProjet = PROJET::lastProjet();
 
         //init
         $i = 0;
@@ -175,7 +175,7 @@ include_once("classes/classCompetence.php");
             $budget[$i] = "$row[projet_budget]";
 
             $demander = new DEMANDER($idProjet[$i]);
-            $toutesLesCompetences = $demander->getLesCompetences();
+            $toutesLesCompetences = $demander->getAll();
 
             $j = 0;
             while ($row = mysql_fetch_array($toutesLesCompetences)) {
