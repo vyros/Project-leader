@@ -71,7 +71,7 @@ if (isset($_SESSION['ouvert'])) {
 //barre perso : nom user + icone profil + icone se deconnecter 
 ?>
                     <div style="position: relative; left: 862px; top: 10px;"> 
-                        Bonjour <? echo $_SESSION['monUtilisateur']->getLogin(); ?> ! 
+                        Bonjour <?php echo $_SESSION['monUtilisateur']->getLogin(); ?> ! 
                         <a href="#monProfil.php" class="button style2"><span>Mon profil</span></a> /
                         <a href="#deconnexion.php" class="button style2"><span>Se déconnecter</span></a>
                     </div>

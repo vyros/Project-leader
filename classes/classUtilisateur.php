@@ -36,7 +36,7 @@ class UTILISATEUR {
     public function existant($p_code) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM utilisateur " .
+        $requete = " SELECT * FROM UTILISATEUR " .
                 " WHERE uti_id = " . $p_code . " LIMIT 1;";
 
         // execution et renvoi de la resource
@@ -66,7 +66,7 @@ class UTILISATEUR {
     public static function verifAccess($p_log, $p_mdp) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM utilisateur " .
+        $requete = " SELECT * FROM UTILISATEUR " .
                 " WHERE uti_login = '" . $p_log . "' " .
                 " AND uti_mdp = '" . $p_mdp . "' LIMIT 1;";
 
@@ -87,10 +87,11 @@ class UTILISATEUR {
     public function inserUti($p_log, $p_mail, $p_mdp, $p_statut) {
 
         $connexion = new Connexion();
-        // $dateinscription = date("Y-m-d");  
-        $query = "INSERT INTO utilisateur (uti_login ,uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_dateInscription) " .
-                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $dateInscription . "')";
+        $dateInscription = date("Y-m-d");
         
+        $query = "INSERT INTO UTILISATEUR (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date_entree) " .
+                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $dateInscription . "')";
+        var_dump($query);
         return mysql_query($query);
     }
 

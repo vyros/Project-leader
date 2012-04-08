@@ -28,7 +28,7 @@ class PROJET {
     public function existant($p_code) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM projet " .
+        $requete = " SELECT * FROM PROJET " .
                 " WHERE projet_id = " . $p_code . " LIMIT 1;";
 
         // execution et renvoi de la resource
@@ -50,7 +50,7 @@ class PROJET {
     public static function maxPjt() {
 
         $connexion = new Connexion();
-        $requete = "SELECT projet_id FROM projet ORDER BY projet_id DESC LIMIT 1 ";
+        $requete = "SELECT projet_id FROM PROJET ORDER BY projet_id DESC LIMIT 1 ";
         $result = Connexion::executeSql($requete);
 
         if ($result == false) {
@@ -70,7 +70,7 @@ class PROJET {
     public static function dernierProjet() {
 
         $connexion = new Connexion();
-        $requete = "SELECT * FROM projet";
+        $requete = "SELECT * FROM PROJET";
         $result = Connexion::executeSql($requete);
         mysql_query("SET NAMES 'utf8'");
 
@@ -81,7 +81,7 @@ class PROJET {
 
         $connexion = new Connexion();
         $dateCreation = date("Y-m-d");
-        $query = "INSERT INTO projet (projet_libelle ,projet_description, projet_budget, projet_delai, projet_dateCreation) " .
+        $query = "INSERT INTO PROJET (projet_libelle ,projet_description, projet_budget, projet_delai, projet_dateCreation) " .
                 "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_delai . "','" . $dateCreation . "')";
         
         mysql_query($query);

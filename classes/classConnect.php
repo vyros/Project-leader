@@ -8,7 +8,7 @@ class Connexion {
     CONST BASE = 'project-leader';
 
     public function __construct() {
-        $this->connecter();
+        $this->Connecter();
     }
 
     public static function Connecter() {

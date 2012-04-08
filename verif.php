@@ -52,15 +52,19 @@ if ($_POST["action"] == "VerificationCompte") {
     } else {
 
         $monUtilisateur = new UTILISATEUR();
-        $monUtilisateur->inserUti($log, mail, $mdp, $statut);
+        if ($monUtilisateur->inserUti($log, $mail, $mdp, $statut)) {
+            
+            echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
+            echo ("location.href = 'index.php#fin_inscrip';");
+            echo ("</script>");
+        }
 
-        echo ("<script language = \"JavaScript\">alert('Enregistrement effectué');");
-        echo ("location.href = '" . SITE::getUrl() . "#fin_inscrip';");
+        echo ("<script language = \"JavaScript\">alert('Erreur d'enregistrement !');");
+        echo ("location.href = 'index.php';");
         echo ("</script>");
     }
     
 } elseif ($_POST["action"] == "inserProjet") {
-
 
     $libelle = $_POST["libelle"];
     $categorie = $_POST["categorie"];
