@@ -69,7 +69,7 @@ include_once("classes/classCompetence.php");
     // + lien vers page mesProjets
 
     //Si non, afficher Pas de projet en cours
-    // + lien vers page creaProjet (dans les 2 cas)
+    // + lien vers page addProjet (dans les 2 cas)
 
     $idUtilisateur = $_SESSION['monUtilisateur']->getId();
     $objParticiper = new PARTICIPER($idUtilisateur);
@@ -85,7 +85,7 @@ include_once("classes/classCompetence.php");
         <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>"><?php echo $lblProjet; ?></a>
 
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#creaProjet">Créer autre projet</a></div>
+            <div class="rc_btn_02"><a href="#addProjet">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
 <?php
@@ -96,7 +96,7 @@ include_once("classes/classCompetence.php");
 ?>
 
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#creaProjet">Créer votre projet</a></div>
+            <div class="rc_btn_02"><a href="#addProjet">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
 <?php   } else { ?>

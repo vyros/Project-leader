@@ -7,7 +7,7 @@ include_once("classes/classCategorie.php");
 include_once("classes/classParticiper.php");
 include_once("classes/classDemander.php");
 
-if ($_POST["action"] == "VerificationCompte") {
+if ($_POST["action"] == "chkCompte") {
 
     //RECUPERER DONNEE
     $log = '';
@@ -32,10 +32,10 @@ if ($_POST["action"] == "VerificationCompte") {
         $_SESSION['ouvert'] = true;
 
         echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
-        echo ("location.href = 'index.php#accueilPerso';");
+        echo ("location.href = 'index.php#accueilClient';");
         echo ("</script>");
     }
-} elseif ($_POST["action"] == "inscripCompte") {
+} elseif ($_POST["action"] == "addCompte") {
 
     $mail = $_POST["mail"];
     $log = $_POST["log"];
@@ -55,7 +55,7 @@ if ($_POST["action"] == "VerificationCompte") {
         if ($objUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
             
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-            echo ("location.href = 'index.php#fin_inscrip';");
+            echo ("location.href = 'index.php#endInscription';");
             echo ("</script>");
         }
 
@@ -64,7 +64,7 @@ if ($_POST["action"] == "VerificationCompte") {
         echo ("</script>");
     }
     
-} elseif ($_POST["action"] == "inserProjet") {
+} elseif ($_POST["action"] == "addProjet") {
 
     $libelle = $_POST["libelle"];
     $categorie = $_POST["categorie"];
@@ -93,7 +93,7 @@ if ($_POST["action"] == "VerificationCompte") {
     $objDemander->addDemande($idProjet, $tabIdCompetence);
 
     echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
-    echo ("location.href = 'index.php#accueilPerso';");
+    echo ("location.href = 'index.php#accueilClient';");
     echo ("</script>");
 }
 ?>

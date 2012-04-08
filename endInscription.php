@@ -8,7 +8,7 @@
 
         <div class="content_col_w420 fr">
             
-            <form method="POST" action="verif.php">
+            <form method="POST" action="checkout.php">
 
                 <input type="hidden" name="action" value="VerificationCompte"/>
                 <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>

@@ -11,9 +11,9 @@ include_once("classes/classCompetence.php");
     <div id="templatemo_content">
         <div class="content_col_w420 fl">
 
-            <form method="POST" action="verif.php">
+            <form method="POST" action="checkout.php">
 
-                <input type="hidden" name="action" value="inserProjet"/>
+                <input type="hidden" name="action" value="addProjet"/>
                 <div class="header_02">Créer votre projet<br/></div>
 
                 <table align="center">

@@ -76,8 +76,8 @@ if (isset($_SESSION['ouvert'])) {
                         <a href="#deconnexion.php" class="button style2"><span>Se déconnecter</span></a>
                     </div>
 <?php } else { ?>
-                    <form method="POST" action="verif.php">
-                        <input type="hidden" name="action" value="VerificationCompte"/>
+                    <form method="POST" action="checkout.php">
+                        <input type="hidden" name="action" value="chkCompte"/>
                         <div style="position: relative; left: 862px; top: 10px;"> 
                             Login :<input type='text' name='log' size='18' maxlength='100' value="" />
                             Password :<input type='password' name='mdp' size='18' maxlength='100' value="" />
@@ -95,10 +95,10 @@ if (isset($_SESSION['ouvert'])) {
 ?>
                     <!-- Start css3menu.com BODY section -->
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="#accueilPerso.php" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                        <li class="topmenu"><a href="#accueilClient.php" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                         <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                             <ul>
-                                <li class="subfirst"><a href="#creaProjet.php">Créer votre projet</a></li>
+                                <li class="subfirst"><a href="#addProjet.php">Créer votre projet</a></li>
                                 <li><a href="#mesProjets">Mes projets</a></li>
                                 <li class="sublast"><a href="#projetsFinis.php">Projets finis</a></li>
                             </ul></li>
@@ -107,7 +107,7 @@ if (isset($_SESSION['ouvert'])) {
 <?php } else if ($statut == "prestataire") { ?>
                     <!-- Start css3menu.com BODY section -->
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="#accueilPerso.php" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                        <li class="topmenu"><a href="#accueilClient.php" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                         <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                             <ul>
                                 <li class="subfirst"><a href="#mesProjets.php">Mes projets</a></li>

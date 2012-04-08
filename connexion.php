@@ -2,7 +2,7 @@
     <div id="templatemo_content">
         <div class="content_col_w420 fl">
 
-            <form method="POST" action="verif.php">
+            <form method="POST" action="checkout.php">
 
                 <input type="hidden" name="action" value="VerificationCompte"/>
                 <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
@@ -30,7 +30,7 @@
 
         <div class="content_col_w420 fr">
             
-            <form method="POST" action="verif.php" style="position: relative; left: 75px;">
+            <form method="POST" action="checkout.php" style="position: relative; left: 75px;">
                 
                 <input type="hidden" name="action" value="inscripCompte"/>
                 <div class="header_02">Inscription<br/></div>
