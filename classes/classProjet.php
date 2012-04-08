@@ -67,10 +67,15 @@ class PROJET {
         return $idProjet;
     }
 
-    public static function lastProjet() {
+    public static function lastProjet($p_n = 0) {
 
         $connexion = new Connexion();
-        $requete = "SELECT * FROM projet";
+        $requete = "SELECT * FROM projet ";
+        
+        if($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        }
+        
         $resultat = Connexion::doSql($requete);
         
         mysql_query("SET NAMES 'utf8'");

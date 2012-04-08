@@ -51,8 +51,8 @@ if ($_POST["action"] == "VerificationCompte") {
         
     } else {
 
-        $monUtilisateur = new UTILISATEUR();
-        if ($monUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
+        $objUtilisateur = new UTILISATEUR();
+        if ($objUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
             
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
             echo ("location.href = 'index.php#fin_inscrip';");
@@ -71,28 +71,28 @@ if ($_POST["action"] == "VerificationCompte") {
     $idCompetence = $_POST["blah"];
     $description = $_POST["description"];
     $budget = $_POST["budget"];
-    $delai = $_POST["delai"];
+    $echeance = $_POST["echeance"];
 
     $tabIdCompetence = explode(',', $idCompetence);
 
-    $monProjet = new PROJET();
-    $monProjet->addProjet($libelle, $description, $budget, $delai);
+    $objProjet = new PROJET();
+    $objProjet->addProjet($libelle, $description, $budget, $echeance);
 
     $idProjet = PROJET::maxPjt();
-    $idUti = $_SESSION['monUtilisateur']->getId();
+    $idUtilisateur = $_SESSION['monUtilisateur']->getId();
 
-    $participer = new PARTICIPER();
-    $participer->addParticipation($idUti, $idProjet);
+    $objParticiper = new PARTICIPER();
+    $objParticiper->addParticipation($idUtilisateur, $idProjet);
 
-    $idCateg = CATEGORIE::getIdFromLibelle($categorie);
+    $idCategorie = CATEGORIE::getIdFromLibelle($categorie);
 
-    $correspondre = new CORRESPONDRE();
-    $correspondre->addCorrespondance($idProjet, $idCateg);
+    $objCorrespondre = new CORRESPONDRE();
+    $objCorrespondre->addCorrespondance($idProjet, $idCategorie);
 
-    $demander = new DEMANDER();
-    $demander->addDemande($idProjet, $tabIdCompetence);
+    $objDemander = new DEMANDER();
+    $objDemander->addDemande($idProjet, $tabIdCompetence);
 
-    echo ("<script language = \"JavaScript\">alert('Projet créer');");
+    echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
     echo ("location.href = 'index.php#accueilPerso';");
     echo ("</script>");
 }

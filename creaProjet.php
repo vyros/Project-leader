@@ -1,9 +1,10 @@
 <?php
 include_once("classes/classUtilisateur.php");
+
 session_start();
+
 include_once("classes/classCategorie.php");
 include_once("classes/classCompetence.php");
-// print_r($_SESSION['monUtilisateur']);
 ?>
 
 <div id="templatemo_content_wrapper">

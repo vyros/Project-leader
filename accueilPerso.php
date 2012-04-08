@@ -1,9 +1,9 @@
 <?php
 include_once("classes/classUtilisateur.php");
-session_start();
-// print_r($_SESSION['monUtilisateur']);
 
+session_start();
 $statut = $_SESSION['monUtilisateur']->getStatut();
+
 include_once("classes/classProjet.php");
 include_once("classes/classCorrespondre.php");
 include_once("classes/classCategorie.php");
@@ -71,18 +71,18 @@ include_once("classes/classCompetence.php");
     //Si non, afficher Pas de projet en cours
     // + lien vers page creaProjet (dans les 2 cas)
 
-    $idUti = $_SESSION['monUtilisateur']->getId();
-    $particip = new PARTICIPER($idUti);
-    $idProjet = $particip->getIdProjet($idUti);
+    $idUtilisateur = $_SESSION['monUtilisateur']->getId();
+    $objParticiper = new PARTICIPER($idUtilisateur);
+    $idProjet = $objParticiper->getIdProjet($idUtilisateur);
 
     if($idProjet != "") {
         // récuperer l'intitulé du projet et afficher l'avancement
         // + lien vers mesProjets
 
-        $monProjet = new PROJET($idProjet);
-        $libelleProjet = $monProjet->getLibelle();
+        $objProjet = new PROJET($idProjet);
+        $lblProjet = $objProjet->getLibelle();
 ?>
-        <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>" ><?php echo $libelleProjet; ?></a>
+        <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>"><?php echo $lblProjet; ?></a>
 
         <div class="section_w140 fr">
             <div class="rc_btn_02"><a href="#creaProjet">Créer autre projet</a></div>
@@ -90,7 +90,7 @@ include_once("classes/classCompetence.php");
         </div>
 <?php
     } else {
-        echo "Pas de projet en cours";
+        echo "Aucun projet en cours";
 
         if($statut == "client") {
 ?>
@@ -158,44 +158,46 @@ include_once("classes/classCompetence.php");
                     </thead>
                     <tbody>
 <?php
-        $les10DerniersProjet = PROJET::lastProjet();
+        $lastNProjets = PROJET::lastProjet(10);
 
         //init
         $i = 0;
 
         // boucle tant qu'une ligne existe dans le resultat de la requête
-        while ($row = mysql_fetch_array($les10DerniersProjet)) {
+        while ($row = mysql_fetch_array($lastNProjets)) {
 
-            $idProjet[$i] = "$row[projet_id]";
-            $libelleProjet[$i] = "$row[projet_libelle]";
-            $correspondre = new CORRESPONDRE($idProjet[$i]);
-            $idCategorie = $correspondre->getIdCategorie();
-            $maCategorie = new CATEGORIE($idCategorie);
-            $libelleCategorie = $maCategorie->getLibelle();
-            $budget[$i] = "$row[projet_budget]";
+            $idProjet[$i] = "$row[prj_id]";
+            $lblProjet[$i] = "$row[prj_libelle]";
+            
+            $objCorrespondre = new CORRESPONDRE($idProjet[$i]);
+            $idCategorie = $objCorrespondre->getIdCategorie();
+            
+            $objCategorie = new CATEGORIE($idCategorie);
+            $lblCategorie = $objCategorie->getLibelle();
+            $budget[$i] = "$row[prj_budget]";
 
-            $demander = new DEMANDER($idProjet[$i]);
-            $toutesLesCompetences = $demander->getAll();
+            $objDemander = new DEMANDER($idProjet[$i]);
+            $resAllCompetences = $objDemander->getAll();
 
             $j = 0;
-            while ($row = mysql_fetch_array($toutesLesCompetences)) {
-                $idCompetence[$j] = "$row[idCompetence]";
-                $maCompetence = new COMPETENCE($idCompetence[$j]);
-                $chaineCompetence[] = $maCompetence->getLibelle();
+            while ($row = mysql_fetch_array($resAllCompetences)) {
+                $idCompetence[$j] = "$row[cpt_id]";
+                $objCompetence = new COMPETENCE($idCompetence[$j]);
+                $lstCompetence[] = $objCompetence->getLibelle();
             }
 
             // print_r($chaineCompetence);
-            $dateCreation[$i] = "$row[projet_dateCreation]";
+            $dateCreation[$i] = "$row[prj_date]";
 ?>
                         <tr id="ligneProjet<?php echo $idProjet[$i]; ?>" class="gradeX">
                             <td id="libelle">
-                                <input type="hidden" name="libelle" value="<?php echo $libelleProjet[$i]; ?>"> 
-                                <?php echo $libelleProjet[$i]; ?>
+                                <input type="hidden" name="libelle" value="<?php echo $lblProjet[$i]; ?>"> 
+                                <?php echo $lblProjet[$i]; ?>
                             </td>
 
                             <td id="categorie">
-                                <input type="hidden" name="categorie" value="<?php echo $libelleCategorie; ?>">
-                                <?php echo $libelleCategorie; ?>											
+                                <input type="hidden" name="categorie" value="<?php echo $lblCategorie; ?>">
+                                <?php echo $lblCategorie; ?>											
                             </td>
 
                             <td id="budget">
@@ -204,12 +206,12 @@ include_once("classes/classCompetence.php");
                             </td>
 
                             <td id="competence">
-                                <input type="hidden" name="competence" value="<?php echo $chaineCompetence; ?>">
+                                <input type="hidden" name="competence" value="<?php echo $lstCompetence; ?>">
 <?php
             $j = 0;
-            while ($chaineCompetence[$j] != "") {
+            while ($lstCompetence[$j] != "") {
                 echo ('-');
-                echo $chaineCompetence[$j];
+                echo $lstCompetence[$j];
                 echo ('</br>');
                 $j++; 
             }
