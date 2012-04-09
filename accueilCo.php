@@ -1,15 +1,6 @@
 <?php
-include_once("classes/classUtilisateur.php");
-
-session_start();
-$statut = $_SESSION['monUtilisateur']->getStatut();
-
-include_once("classes/classProjet.php");
-include_once("classes/classCorrespondre.php");
-include_once("classes/classCategorie.php");
-include_once("classes/classParticiper.php");
-include_once("classes/classDemander.php");
-include_once("classes/classCompetence.php");
+include_once("classes/classSite.php");
+SITE::init();
 ?>
 
 <script type="text/javascript">
@@ -54,7 +45,7 @@ include_once("classes/classCompetence.php");
     // {
 
 
-    // document.location.href='#mesProjets?idProjet='+idProjet+'';
+    // document.location.href='#projetLst?idProjet='+idProjet+'';
 
     // }
 </script>
@@ -66,37 +57,37 @@ include_once("classes/classCompetence.php");
     //tester si dans table participer il existe l'idUti
     // Si oui, prendre l'idProjet et afficher l'intitulé et l'avancement du projet
     // Si plusieurs projets, afficher les plus récents
-    // + lien vers page mesProjets
+    // + lien vers page projetLst
 
     //Si non, afficher Pas de projet en cours
-    // + lien vers page addProjet (dans les 2 cas)
+    // + lien vers page projetAdd (dans les 2 cas)
 
-    $idUtilisateur = $_SESSION['monUtilisateur']->getId();
+    $idUtilisateur = SITE::getUtilisateur()->getId();
     $objParticiper = new PARTICIPER($idUtilisateur);
     $idProjet = $objParticiper->getIdProjet($idUtilisateur);
 
     if($idProjet != "") {
         // récuperer l'intitulé du projet et afficher l'avancement
-        // + lien vers mesProjets
+        // + lien vers projetLst
 
         $objProjet = new PROJET($idProjet);
         $lblProjet = $objProjet->getLibelle();
 ?>
-        <a href="#mesProjets?idProjet=<?php echo $idProjet; ?>"><?php echo $lblProjet; ?></a>
+        <a href="#projetLst?idProjet=<?php echo $idProjet; ?>"><?php echo $lblProjet; ?></a>
 
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#addProjet">Créer un projet</a></div>
+            <div class="rc_btn_02"><a href="#projetAdd">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
 <?php
     } else {
         echo "Aucun projet en cours";
 
-        if($statut == "client") {
+        if(SITE::getUtilisateur()->getStatut() == "client") {
 ?>
 
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#addProjet">Créer votre projet</a></div>
+            <div class="rc_btn_02"><a href="#projetAdd">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
 <?php   } else { ?>
@@ -113,7 +104,7 @@ include_once("classes/classCompetence.php");
         <div class="margin_bottom_30"></div>
 
 <?php
-    if ($statut == "client") {
+    if (SITE::getUtilisateur()->getStatut() == "client") {
 ?>
         <div class="header_02">Liste de prestataire</div>
 <?php

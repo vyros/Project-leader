@@ -1,13 +1,8 @@
 <?php
-include_once("classes/classUtilisateur.php");
-session_start();
-include_once("classes/classProjet.php");
-include_once("classes/classCorrespondre.php");
-include_once("classes/classCategorie.php");
-include_once("classes/classParticiper.php");
-include_once("classes/classDemander.php");
+include_once("classes/classSite.php");
+SITE::init();
 
-if ($_POST["action"] == "chkCompte") {
+if ($_POST["action"] == "chkUtilisateur") {
 
     //RECUPERER DONNEE
     $log = '';
@@ -28,14 +23,14 @@ if ($_POST["action"] == "chkCompte") {
     if (mysql_num_rows($access) == 1) {
 
         $object = mysql_fetch_object($access);
-        $_SESSION['monUtilisateur'] = new UTILISATEUR($object->uti_id);
-        $_SESSION['ouvert'] = true;
+        SITE::setUtilisateur(new UTILISATEUR($object->uti_id));
 
-        echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
-        echo ("location.href = 'index.php#accueilClient';");
+        echo ("<script language = \"JavaScript\">");
+//        echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
+        echo ("location.href = 'index.php#accueilCo';");
         echo ("</script>");
     }
-} elseif ($_POST["action"] == "addCompte") {
+} elseif ($_POST["action"] == "addUtilisateur") {
 
     $mail = $_POST["mail"];
     $log = $_POST["log"];
@@ -55,7 +50,7 @@ if ($_POST["action"] == "chkCompte") {
         if ($objUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
             
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-            echo ("location.href = 'index.php#endInscription';");
+            echo ("location.href = 'index.php#inscription';");
             echo ("</script>");
         }
 
@@ -64,7 +59,7 @@ if ($_POST["action"] == "chkCompte") {
         echo ("</script>");
     }
     
-} elseif ($_POST["action"] == "addProjet") {
+} elseif ($_POST["action"] == "projetAdd") {
 
     $libelle = $_POST["libelle"];
     $categorie = $_POST["categorie"];
@@ -93,7 +88,7 @@ if ($_POST["action"] == "chkCompte") {
     $objDemander->addDemande($idProjet, $tabIdCompetence);
 
     echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
-    echo ("location.href = 'index.php#accueilClient';");
+    echo ("location.href = 'index.php#accueilCo';");
     echo ("</script>");
 }
 ?>

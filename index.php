@@ -1,9 +1,6 @@
 <?php
-include_once("classes/classUtilisateur.php");
 include_once("classes/classSite.php");
-
-session_start();
-// print_r($_SESSION['monUtilisateur']);
+SITE::init();
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -67,50 +64,50 @@ session_start();
             <div id="templatemo_header_wrapper">
                 <!-- Free Web Templates from TemplateMo.com -->
 <?php
-if (isset($_SESSION['ouvert'])) {
+if (SITE::chkUtilisateur()) {
 //barre perso : nom user + icone profil + icone se deconnecter 
 ?>
                     <div style="position: relative; left: 862px; top: 10px;"> 
-                        Bonjour <?php echo $_SESSION['monUtilisateur']->getLogin(); ?> ! 
+                        Bonjour <?php echo SITE::getUtilisateur()->getLogin(); ?> ! 
                         <a href="#monProfil" class="button style2"><span>Mon profil</span></a> /
                         <a href="#deconnexion" class="button style2"><span>Se déconnecter</span></a>
                     </div>
 <?php } else { ?>
                     <form method="POST" action="checkout.php">
-                        <input type="hidden" name="action" value="chkCompte"/>
+                        <input type="hidden" name="action" value="chkUtilisateur"/>
                         <div style="position: relative; left: 862px; top: 10px;"> 
                             Login :<input type='text' name='log' size='18' maxlength='100' value="" />
                             Password :<input type='password' name='mdp' size='18' maxlength='100' value="" />
                             <input type="submit" value="Valider" />
                         </div>
                     </form>
-<?php } ?>	
+<?php } ?>
                 <div id="templatemo_header">
                     <div id="logo"></div>
 <?php
-if (isset($_SESSION['ouvert'])) {
-    $statut = $_SESSION['monUtilisateur']->getStatut();
-
-    if ($statut == "client") {
+if (SITE::chkUtilisateur()) {
+    if (SITE::getUtilisateur()->getStatut() == "client") {
 ?>
                     <!-- Start css3menu.com BODY section -->
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="#accueilClient" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                        <li class="topmenu"><a href="#accueilCo" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                         <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                             <ul>
-                                <li class="subfirst"><a href="#addProjet">Créer votre projet</a></li>
-                                <li><a href="#mesProjets">Mes projets</a></li>
+                                <li class="subfirst"><a href="#projetAdd">Créer votre projet</a></li>
+                                <li><a href="#projetLst">Mes projets</a></li>
                                 <li class="sublast"><a href="#projetsFinis">Projets finis</a></li>
                             </ul></li>
                         <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
                     </ul>
-<?php } else if ($statut == "prestataire") { ?>
+                    
+<?php } else if (SITE::getUtilisateur()->getStatut() == "prestataire") { ?>
+                    
                     <!-- Start css3menu.com BODY section -->
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="#accueilClient" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                        <li class="topmenu"><a href="#accueilCo" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                         <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                             <ul>
-                                <li class="subfirst"><a href="#mesProjets">Mes projets</a></li>
+                                <li class="subfirst"><a href="#projetLst">Mes projets</a></li>
                                 <li class="sublast"><a href="#projetsFinis">Projets finis</a></li>
                             </ul></li>
                         <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
@@ -120,9 +117,9 @@ if (isset($_SESSION['ouvert'])) {
 } else {
 ?>
                     <ul id="css3menu1" class="topmenu">
-                        <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
-                        <li class="topmenu"><a href="#pres" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Présentation"/>Présentation</span></a></li>
-                        <li class="topmenu"><a href="#mesProjets" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
+                        <li class="topmenu"><a href="#accueilUnco" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                        <li class="topmenu"><a href="#presentation" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Présentation"/>Présentation</span></a></li>
+                        <li class="topmenu"><a href="#projetLst" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
                     </ul>
 <?php } ?>
                     <div class="cleaner"></div>

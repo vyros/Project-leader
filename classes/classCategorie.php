@@ -25,7 +25,7 @@ class CATEGORIE {
     public function exists($p_id) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM CATEGORIE " .
+        $requete = " SELECT * FROM categorie " .
                 " WHERE cat_id = " . $p_id . " LIMIT 1;";
 
         // echo $requete."<br/>";

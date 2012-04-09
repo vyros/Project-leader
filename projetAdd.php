@@ -1,19 +1,14 @@
 <?php
-include_once("classes/classUtilisateur.php");
-
-session_start();
-
-include_once("classes/classCategorie.php");
-include_once("classes/classCompetence.php");
+include_once("classes/classSite.php");
+SITE::init();
 ?>
-
 <div id="templatemo_content_wrapper">
     <div id="templatemo_content">
         <div class="content_col_w420 fl">
 
             <form method="POST" action="checkout.php">
 
-                <input type="hidden" name="action" value="addProjet"/>
+                <input type="hidden" name="action" value="projetAdd"/>
                 <div class="header_02">Créer votre projet<br/></div>
 
                 <table align="center">
@@ -26,14 +21,14 @@ include_once("classes/classCompetence.php");
                     <tr>
                         <td><h6>Catégorie :&nbsp </h6></td>
                         <td><select name="categorie" id="categorie" ><option></option>
-                                <?php
-                                $toutesLesCategories = CATEGORIE::getAll();
-                                $toutesLesCompetences = COMPETENCE::getAll();
+<?php
+                                $resAllCategories = CATEGORIE::getAll();
+                                $resAllCompetences = COMPETENCE::getAll();
 
-                                while ($row = mysql_fetch_array($toutesLesCategories)) {
-                                    ?>
-                                    <option><?php echo "$row[cat_libelle]"; ?></option>
-<?php                           } ?>	
+                                while ($row = mysql_fetch_array($resAllCategories)) {
+                                    echo "<option>$row[cat_libelle]</option>";
+                                 }
+?>	
                             </select>
                         </td>
                     </tr>
@@ -47,7 +42,7 @@ include_once("classes/classCompetence.php");
                                     $(document).ready(function() {
                                         $("#demo-input-local").tokenInput([
 <?php
-        while ($row = mysql_fetch_array($toutesLesCompetences)) {
+        while ($row = mysql_fetch_array($resAllCompetences)) {
             $idCompetence[$i] = "$row[cpt_id]";
             $libCompetence[$i] = "$row[cpt_libelle]";
 ?>
@@ -74,7 +69,7 @@ include_once("classes/classCompetence.php");
                     </tr>
 
                     <tr>
-                        <td><h6>Echeance :&nbsp </h6></td>
+                        <td><h6>Echeance (en jours) :&nbsp </h6></td>
                         <td><input type='text' name='delai' size='25' maxlength='100' value=""/><br><br></td>
                     </tr>
                     <br><br>

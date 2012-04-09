@@ -4,7 +4,7 @@
         }
 
         $.history.init(function(url) {
-                load(url == "" ? "accueil" : url);
+                load(url == "" ? "accueilUnco" : url);
             });
 
         $('#ajax-links a').live('click', function(e) {

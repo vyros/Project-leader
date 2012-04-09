@@ -4,7 +4,7 @@
 
             <form method="POST" action="checkout.php">
 
-                <input type="hidden" name="action" value="VerificationCompte"/>
+                <input type="hidden" name="action" value="chkUtilisateur"/>
                 <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
                 <table align="center">
@@ -32,7 +32,7 @@
             
             <form method="POST" action="checkout.php" style="position: relative; left: 75px;">
                 
-                <input type="hidden" name="action" value="addCompte"/>
+                <input type="hidden" name="action" value="addUtilisateur"/>
                 <div class="header_02">Inscription<br/></div>
                 
                 <table align="center">

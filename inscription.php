@@ -10,7 +10,7 @@
             
             <form method="POST" action="checkout">
 
-                <input type="hidden" name="action" value="chkCompte"/>
+                <input type="hidden" name="action" value="chkUtilisateur"/>
                 <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
                 <table align="center">
