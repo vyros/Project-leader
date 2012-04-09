@@ -32,7 +32,7 @@ include_once("classes/classCompetence.php");
 
                                 while ($row = mysql_fetch_array($toutesLesCategories)) {
                                     ?>
-                                    <option><?php echo "$row[categorie_libelle]"; ?></option>
+                                    <option><?php echo "$row[cat_libelle]"; ?></option>
 <?php                           } ?>	
                             </select>
                         </td>
@@ -48,8 +48,8 @@ include_once("classes/classCompetence.php");
                                         $("#demo-input-local").tokenInput([
 <?php
         while ($row = mysql_fetch_array($toutesLesCompetences)) {
-            $idCompetence[$i] = "$row[competence_id]";
-            $libCompetence[$i] = "$row[competence_libelle]";
+            $idCompetence[$i] = "$row[cpt_id]";
+            $libCompetence[$i] = "$row[cpt_libelle]";
 ?>
             {
             id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
@@ -74,7 +74,7 @@ include_once("classes/classCompetence.php");
                     </tr>
 
                     <tr>
-                        <td><h6>Délai :&nbsp </h6></td>
+                        <td><h6>Echeance :&nbsp </h6></td>
                         <td><input type='text' name='delai' size='25' maxlength='100' value=""/><br><br></td>
                     </tr>
                     <br><br>

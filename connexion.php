@@ -32,15 +32,15 @@
             
             <form method="POST" action="checkout.php" style="position: relative; left: 75px;">
                 
-                <input type="hidden" name="action" value="inscripCompte"/>
+                <input type="hidden" name="action" value="addCompte"/>
                 <div class="header_02">Inscription<br/></div>
                 
                 <table align="center">
                     <tr>
-                        <td><h6>Pr&eacute;ciser votre statut (Client / Prestataire) :&nbsp </h6></td>
+                        <!--td><h6>Pr&eacute;ciser votre statut (Client / Prestataire) :&nbsp</h6></td-->
                         <td>
                             <select type="text" name="statut">
-                                <option selected></option>
+                                <option selected>-- Selectionnez un statut --</option>
                                 <option value="client">Client</option>
                                 <option value="prestataire">Prestataire</option>
                             </select>

@@ -8,9 +8,9 @@
 
         <div class="content_col_w420 fr">
             
-            <form method="POST" action="checkout.php">
+            <form method="POST" action="checkout">
 
-                <input type="hidden" name="action" value="VerificationCompte"/>
+                <input type="hidden" name="action" value="chkCompte"/>
                 <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
                 <table align="center">

@@ -93,7 +93,7 @@ class UTILISATEUR {
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
                 "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $date . "')";
         
-        var_dump($requete);
+//        var_dump($requete);
         return mysql_query($requete);
     }
 

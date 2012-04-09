@@ -54,7 +54,7 @@ include_once("classes/classCompetence.php");
     // {
 
 
-    // document.location.href='#mesProjets.php?idProjet='+idProjet+'';
+    // document.location.href='#mesProjets?idProjet='+idProjet+'';
 
     // }
 </script>
@@ -82,7 +82,7 @@ include_once("classes/classCompetence.php");
         $objProjet = new PROJET($idProjet);
         $lblProjet = $objProjet->getLibelle();
 ?>
-        <a href="#mesProjets.php?idProjet=<? echo $idProjet;?>"><?php echo $lblProjet; ?></a>
+        <a href="#mesProjets?idProjet=<?php echo $idProjet; ?>"><?php echo $lblProjet; ?></a>
 
         <div class="section_w140 fr">
             <div class="rc_btn_02"><a href="#addProjet">Créer un projet</a></div>

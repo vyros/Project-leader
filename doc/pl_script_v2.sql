@@ -179,3 +179,6 @@ alter table posseder add constraint fk_posseder foreign key (cpt_id)
 alter table posseder add constraint fk_posseder2 foreign key (uti_id)
       references utilisateur (uti_id) on delete restrict on update restrict;
 
+insert into categorie (cat_libelle) values ('Site internet'), ('Application mobile');
+
+insert into competence (cpt_libelle) values ('PHP'), ('Ruby');
