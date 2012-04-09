@@ -56,29 +56,29 @@ if ($_POST["action"] == "chkUtilisateur") {
 
     $libelle = $_POST["libelle"];
     $categorie = $_POST["categorie"];
-    $idCompetence = $_POST["blah"];
+    $tabIdCompetence = explode(',', $_POST["blah"]);
     $description = $_POST["description"];
     $budget = $_POST["budget"];
     $echeance = $_POST["echeance"];
 
-    $tabIdCompetence = explode(',', $idCompetence);
-
     $objProjet = new PROJET();
-    $objProjet->addProjet($libelle, $description, $budget, $echeance);
+    if($objProjet->addProjet($libelle, $description, $budget, $echeance)) {
+        
+    }
 
-    $idProjet = PROJET::maxPjt();
-    $idUtilisateur = $_SESSION['monUtilisateur']->getId();
+    $idUtilisateur = SITE::getUtilisateur()->getId();
 
     $objParticiper = new PARTICIPER();
-    $objParticiper->addParticipation($idUtilisateur, $idProjet);
-
-    $idCategorie = CATEGORIE::getIdFromLibelle($categorie);
+    $objParticiper->addParticipation(SITE::getUtilisateur()->getId(), 
+            $objProjet->getId());
 
     $objCorrespondre = new CORRESPONDRE();
-    $objCorrespondre->addCorrespondance($idProjet, $idCategorie);
+    $objCorrespondre->addCorrespondance($objProjet->getId(), 
+            CATEGORIE::getIdFromLibelle($categorie));
 
     $objDemander = new DEMANDER();
-    $objDemander->addDemande($idProjet, $tabIdCompetence);
+    $objDemander->addDemande($objProjet->getId(), 
+            $tabIdCompetence);
 
     echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
     echo ("location.href = 'index.php#accueilCo';");

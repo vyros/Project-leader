@@ -12,7 +12,6 @@ SITE::init();
                 <div class="header_02">Créer votre projet<br/></div>
 
                 <table align="center">
-
                     <tr>
                         <td><h6>Intitulé :&nbsp </h6></td>
                         <td><input type='text' name='libelle' size='25' maxlength='100' value=""/><br><br></td>
@@ -22,12 +21,13 @@ SITE::init();
                         <td><h6>Catégorie :&nbsp </h6></td>
                         <td><select name="categorie" id="categorie" ><option></option>
 <?php
-                                $resAllCategories = CATEGORIE::getAll();
-                                $resAllCompetences = COMPETENCE::getAll();
+                                $resAllCategorie = CATEGORIE::getAll();
+                                $resAllCompetence = COMPETENCE::getAll();
 
-                                while ($row = mysql_fetch_array($resAllCategories)) {
+                                while ($row = mysql_fetch_array($resAllCategorie)) {
                                     echo "<option>$row[cat_libelle]</option>";
-                                 }
+                                }
+                                mysql_free_result($resAllCategorie);
 ?>	
                             </select>
                         </td>
@@ -42,7 +42,7 @@ SITE::init();
                                     $(document).ready(function() {
                                         $("#demo-input-local").tokenInput([
 <?php
-        while ($row = mysql_fetch_array($resAllCompetences)) {
+        while ($row = mysql_fetch_array($resAllCompetence)) {
             $idCompetence[$i] = "$row[cpt_id]";
             $libCompetence[$i] = "$row[cpt_libelle]";
 ?>
@@ -50,7 +50,10 @@ SITE::init();
             id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
             name: "<?php echo str_replace('"', '', json_encode($libCompetence[$i])); ?>"
             },
-<?php   } ?>
+<?php
+        } 
+        mysql_free_result($resAllCompetence);
+?>
                                         ]);
                                     });
                                 </script>
@@ -65,12 +68,12 @@ SITE::init();
 
                     <tr>
                         <td><h6>Budget :&nbsp </h6></td>
-                        <td><input type='text' name='budget' size='25' maxlength='100' value=""/><br><br></td>
+                        <td><input type='text' name='budget' size='25' maxlength='10' value=""/><br><br></td>
                     </tr>
 
                     <tr>
                         <td><h6>Echeance (en jours) :&nbsp </h6></td>
-                        <td><input type='text' name='delai' size='25' maxlength='100' value=""/><br><br></td>
+                        <td><input type='text' name='echeance' size='25' maxlength='10' value=""/><br><br></td>
                     </tr>
                     <br><br>
 

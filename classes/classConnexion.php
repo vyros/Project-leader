@@ -10,6 +10,10 @@ class Connexion {
     public function __construct() {
         $this->doConnection();
     }
+    
+    public function __destruct() {
+        mysql_close();
+    }
 
     public static function doConnection() {
 

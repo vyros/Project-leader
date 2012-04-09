@@ -139,81 +139,53 @@ SITE::init();
                         </thead>
                         <tbody>
 <?php
-
-
-
-
-
-
-
-
-
-
-                            $i = 0;
-                            
-                            $resProjets = PROJET::getNLastProjet(10);
-                            // boucle tant qu'une ligne existe dans le resultat de la requête
-                            while ($row = mysql_fetch_array($resProjets)) {
-
-                                $idProjet[$i] = "$row[prj_id]";
-                                $lblProjet[$i] = "$row[prj_libelle]";
-
-                                $objCorrespondre = new CORRESPONDRE($idProjet[$i]);
-                                $idCategorie = $objCorrespondre->getIdCategorie();
-
-                                $objCategorie = new CATEGORIE($idCategorie);
-                                $lblCategorie = $objCategorie->getLibelle();
-                                $budget[$i] = "$row[prj_budget]";
-
-                                $objDemander = new DEMANDER($idProjet[$i]);
-                                $resAllCompetences = $objDemander->getAll();
-
-                                $j = 0;
-                                while ($row = mysql_fetch_array($resAllCompetences)) {
-                                    $idCompetence[$j] = "$row[cpt_id]";
-                                    $objCompetence = new COMPETENCE($idCompetence[$j]);
-                                    $lstCompetence[] = $objCompetence->getLibelle();
-                                }
-
-                                // print_r($chaineCompetence);
-                                $dateCreation[$i] = "$row[prj_date]";
+                            $lstProjetId = PROJET::getNLastProjetId(10);
+                            foreach ($lstProjetId as $id) {
+                                $objProjet = new PROJET($id);
                                 ?>
-                                <tr id="ligneProjet<?php echo $idProjet[$i]; ?>" class="gradeX">
+                            <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                     <td id="libelle">
-                                        <input type="hidden" name="libelle" value="<?php echo $lblProjet[$i]; ?>"> 
-                                        <?php echo $lblProjet[$i]; ?>
+                                        <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
+                                        <?php echo $objProjet->getLibelle(); ?>
                                     </td>
 
                                     <td id="categorie">
-                                        <input type="hidden" name="categorie" value="<?php echo $lblCategorie; ?>">
-                                        <?php echo $lblCategorie; ?>											
+                                        <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+<?php
+                                        $lstCategorieId = $objProjet->getAllCategorie();
+                                        foreach ($lstCategorieId as $idCategorie) {
+                                            $objCategorie = new CATEGORIE($idCategorie);
+                                            echo ('- ');
+                                            echo $objCategorie->getLibelle();
+                                            echo ('</br>');
+                                        }
+?>											
                                     </td>
 
                                     <td id="budget">
-                                        <input type="hidden" name="budget" value="<?php echo $budget[$i]; ?>">
-                                        <?php echo $budget[$i]; ?>											
+                                        <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
+                                        <?php echo $objProjet->getBudget(); ?>											
                                     </td>
 
                                     <td id="competence">
-                                        <input type="hidden" name="competence" value="<?php echo $lstCompetence; ?>">
-                                        <?php
-                                        $j = 0;
-                                        while ($lstCompetence[$j] != "") {
-                                            echo ('-');
-                                            echo $lstCompetence[$j];
+                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+<?php
+                                        $lstCompetenceId = $objProjet->getAllCompetence();
+                                        foreach ($lstCompetenceId as $idCompetence) {
+                                            $objCompetence = new COMPETENCE($idCompetence);
+                                            echo ('- ');
+                                            echo $objCompetence->getLibelle();
                                             echo ('</br>');
-                                            $j++;
                                         }
-                                        ?>									
+?>									
                                     </td>
 
                                     <td id="dateCreation">
-                                        <input type="hidden" name="dateCreation" value="<?php echo $dateCreation[$i]; ?>">
-                                        <?php echo $dateCreation[$i]; ?>											
+                                        <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
+                                        <?php echo $objProjet->getDateCreation(); ?>											
                                     </td>
                                 </tr>
                                 <?php
-                                $i++;
                             }
                             ?>
                         </tbody>
@@ -227,12 +199,9 @@ SITE::init();
 
     <div class="content_col_w420 fr">
         <div class="header_02">Votre compte</div>
-        <?php
-// barre progression du compte (+ liens vers page monProfil)
-        ?>
         <div class="testimonial_box_wrapper">
             <div class="testimonial_box">
-                <div class="header_03"><a href="#">(Barre progression)</a></div>
+                <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
 
             </div>
         </div>

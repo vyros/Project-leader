@@ -27,18 +27,27 @@ class PARTICIPER {
         $requete = " SELECT * FROM participer " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        $resultat = Connexion::doSql($requete)
+        $resultat = mysql_query($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
-        $ligne = Connexion::fetchArray($resultat);
+        $ligne = mysql_fetch_array($resultat);
 
         if ($ligne != null) {
             $this->m_uti_id = $p_id;
             $this->m_prj_id = stripslashes($ligne['prj_id']);
         }
+        
+        mysql_free_result($resultat);
     }
 
-    public function addParticipation($p_prj_id, $p_uti_id) {
+    /**
+     * Ajoute une participation.
+     * 
+     * @param int $p_uti_id Id de l'utilisateur.
+     * @param int $p_prj_id Id du projet.
+     * @return boolean Retourne vrai si succès, sinon retourne non.
+     */
+    public function addParticipation($p_uti_id, $p_prj_id) {
 
         $connexion = new Connexion();
         $date = date("c");

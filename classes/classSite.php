@@ -39,7 +39,7 @@ class SITE {
      */
     static public function kill() {
 
-        SITE::init(TRUE);
+        SITE::init(true);
         if (SITE::chkUtilisateur()) {
             session_destroy();
             echo ("<script language = \"JavaScript\">alert('Vous êtes déconnecté');");

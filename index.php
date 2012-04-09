@@ -23,9 +23,20 @@ SITE::init();
         <link rel="stylesheet" href="css/demo_page.css" type="text/css" media="all">
         <link rel="stylesheet" href="css/demo_table.css" type="text/css" media="all">
         <script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="src/jquery.tokeninput.js"></script>
+        <script type="text/javascript" src="js/jquery.tokeninput.js"></script>
         <link rel="stylesheet" href="styles/token-input.css" type="text/css" />
 
+        <!-- Progress bar -->
+<!--        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery-ui.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+            $("#progressbar").progressbar({ value: 37 });
+        });
+        </script>-->
+        
         <script type="text/javascript">
             var monTable;
         </script>
@@ -65,7 +76,7 @@ SITE::init();
                 <!-- Free Web Templates from TemplateMo.com -->
 <?php
 if (SITE::chkUtilisateur()) {
-//barre perso : nom user + icone profil + icone se deconnecter 
+                    //barre perso : nom user + icone profil + icone se deconnecter 
 ?>
                     <div style="position: relative; left: 862px; top: 10px;"> 
                         Bonjour <?php echo SITE::getUtilisateur()->getLogin(); ?> ! 

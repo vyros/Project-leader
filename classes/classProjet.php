@@ -18,8 +18,8 @@ class PROJET {
             $t_id = func_get_arg(0);
 
             // appel du constructeur existant avec l'id
+            $connexion = new Connexion();
             $this->exists($t_id);
-            
         } elseif ($argc == 2) {
             
         }
@@ -27,14 +27,13 @@ class PROJET {
 
     public function exists($p_id) {
 
-        $connexion = new Connexion();
         $requete = " SELECT * FROM projet " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $resultat = Connexion::doSql($requete)
+        $resultat = mysql_query($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
-        
-        $ligne = Connexion::fetchArray($resultat);
+
+        $ligne = mysql_fetch_array($resultat);
 
         if ($ligne != null) {
             $this->m_id = $p_id;
@@ -44,6 +43,8 @@ class PROJET {
             $this->m_echeance = stripslashes($ligne['prj_echeance']);
             $this->m_date = stripslashes($ligne['prj_date']);
         }
+        
+        mysql_free_result($resultat);
     }
 
     public static function maxPjt() {
@@ -59,7 +60,6 @@ class PROJET {
         if (mysql_num_rows($resultat) == 1) {
             $object = mysql_fetch_object($resultat);
             $idProjet = $object->prj_id;
-            
         } else {
             $idProjet = "1";
         }
@@ -67,22 +67,33 @@ class PROJET {
         return $idProjet;
     }
 
-    public static function getNLastProjet($p_n = 0) {
+    /**
+     * Obtenir les N derniers projets.
+     * 
+     * @param type $p_n Les N derniers projets.
+     * @return array Retourne un tableau contenant l'id des N derniers projets. 
+     */
+    public static function getNLastProjetId($p_n = 0) {
 
         $connexion = new Connexion();
         $requete = "SELECT * FROM projet ORDER BY prj_date DESC ";
-        
-        if($p_n != 0) {
+
+        if ($p_n != 0) {
             $requete .= " LIMIT $p_n;";
         } else {
             $requete .= ";";
         }
-        
-        $resultat = Connexion::doSql($requete);
-        
-        mysql_query("SET NAMES 'utf8'");
 
-        return $resultat;
+        $resultat = mysql_query($requete)
+                or die("erreur requete!<br/><br/>(" . $requete . ")");
+
+        $array = NULL;
+        while ($obj = mysql_fetch_object($resultat)) {
+            $array[] = $obj->prj_id;
+        }
+        mysql_free_result($resultat);
+
+        return $array;
     }
 
     public function addProjet($p_libelle, $p_description, $p_budget, $p_echeance) {
@@ -92,8 +103,49 @@ class PROJET {
         
         $requete = "INSERT INTO projet (prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
                 "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . $date . "')";
+
+        mysql_query("LOCK TABLES projet WRITE;");
+        /* @var $res boolean */
+        if($res = mysql_query($requete)) {
+            $this->exists(mysql_insert_id());
+        }
+        mysql_query("UNLOCK TABLES;");
         
-        mysql_query($requete);
+        return $res;
+    }
+
+    public function getAllCategorie() {
+        $connexion = new Connexion();
+        $requete = "SELECT cat_id FROM correspondre " .
+                " WHERE prj_id = '" . $this->m_id . "';";
+
+        $resultat = mysql_query($requete)
+                or die("erreur requete!<br/><br/>(" . $requete . ")");
+
+        $array = NULL;
+        while ($obj = mysql_fetch_object($resultat)) {
+            $array[] = $obj->cat_id;
+        }
+        mysql_free_result($resultat);
+
+        return $array;
+    }
+
+    public function getAllCompetence() {
+        $connexion = new Connexion();
+        $requete = "SELECT cpt_id FROM demander " .
+                " WHERE prj_id = '" . $this->m_id . "';";
+
+        $resultat = mysql_query($requete)
+                or die("erreur requete!<br/><br/>(" . $requete . ")");
+
+        $array = NULL;
+        while ($obj = mysql_fetch_object($resultat)) {
+            $array[] = $obj->cpt_id;
+        }
+        mysql_free_result($resultat);
+
+        return $array;
     }
 
 // accesseurs

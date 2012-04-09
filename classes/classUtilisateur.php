@@ -125,7 +125,7 @@ class UTILISATEUR {
     }
 
     // accesseurs
-    function getId($p_log = null, $p_mdp = null) {            
+    public function getId($p_log = null, $p_mdp = null) {            
         return $this->m_id;
     }
 
