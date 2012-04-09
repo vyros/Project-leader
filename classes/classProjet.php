@@ -172,5 +172,9 @@ class PROJET {
     public function getDateCreation() {
         return $this->m_date;
     }
+    
+    public function __toString() {
+        return "id : $this->m_id ; libelle : $this->m_libelle";
+    }
 }
 ?>
