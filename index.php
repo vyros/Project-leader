@@ -95,7 +95,7 @@ if (SITE::chkUtilisateur()) {
                             <ul>
                                 <li class="subfirst"><a href="#projetAdd">Créer votre projet</a></li>
                                 <li><a href="#projetLst">Mes projets</a></li>
-                                <li class="sublast"><a href="#projetsFinis">Projets finis</a></li>
+                                <li class="sublast"><a href="#projetEnd">Projets finis</a></li>
                             </ul></li>
                         <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
                     </ul>
@@ -108,7 +108,7 @@ if (SITE::chkUtilisateur()) {
                         <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                             <ul>
                                 <li class="subfirst"><a href="#projetLst">Mes projets</a></li>
-                                <li class="sublast"><a href="#projetsFinis">Projets finis</a></li>
+                                <li class="sublast"><a href="#projetEnd">Projets finis</a></li>
                             </ul></li>
                         <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
                     </ul>
@@ -116,12 +116,15 @@ if (SITE::chkUtilisateur()) {
     }
 } else {
 ?>
+                    <!-- Start css3menu.com BODY section -->
                     <ul id="css3menu1" class="topmenu">
                         <li class="topmenu"><a href="#accueilUnco" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                         <li class="topmenu"><a href="#presentation" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Présentation"/>Présentation</span></a></li>
                         <li class="topmenu"><a href="#projetLst" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
                     </ul>
-<?php } ?>
+<?php 
+}
+?>
                     <div class="cleaner"></div>
                 </div> <!-- end of header -->
                 <div>

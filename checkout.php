@@ -15,18 +15,11 @@ if ($_POST["action"] == "chkUtilisateur") {
         $mdp = $_POST['mdp'];
     }
 
-    $access = UTILISATEUR::chkAccess($log, $mdp);
-    if ($access === false) {
-        die(mysql_error());
-    }
-
-    if (mysql_num_rows($access) == 1) {
-
-        $object = mysql_fetch_object($access);
-        SITE::setUtilisateur(new UTILISATEUR($object->uti_id));
-
+    $idUtilisateur = UTILISATEUR::getAccessToId($log, $mdp);
+    if ($idUtilisateur !== null) {
+        SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
+        
         echo ("<script language = \"JavaScript\">");
-//        echo ("<script language = \"JavaScript\">alert('Connexion réussie');");
         echo ("location.href = 'index.php#accueilCo';");
         echo ("</script>");
     }

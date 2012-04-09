@@ -41,10 +41,10 @@ class UTILISATEUR {
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::doSql($requete)
+        $resultat = mysql_query($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
         
-        $ligne = Connexion::fetchArray($resultat);
+        $ligne = mysql_fetch_array($resultat);
 
         if ($ligne != null) {
             $this->m_id = $p_id;
@@ -63,26 +63,54 @@ class UTILISATEUR {
             $this->m_date = stripslashes($ligne['uti_date']);
             $this->m_ddc = stripslashes($ligne['uti_ddc']);
         }
+        
+        mysql_free_result($resultat);
     }
 
-    public static function chkAccess($p_log, $p_mdp) {
+    public static function getAccessToId($p_log, $p_mdp) {
 
         $connexion = new Connexion();
-        $requete = " SELECT * FROM utilisateur " .
+        $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_login = '" . $p_log . "' " .
                 " AND uti_mdp = '" . $p_mdp . "' LIMIT 1;";
 
         // execution et renvoi de la resource
-        $resultat = Connexion::doSql($requete)
+        $resultat = mysql_query($requete)
                 or die("erreur requete!<br/><br/>(" . $requete . ")");
 
-        return $resultat;
+        $ligne = mysql_fetch_object($resultat);
+        
+        $id = null;
+        if ($ligne != null)
+            $id = $ligne->uti_id;
+
+        mysql_free_result($resultat);
+        return $id;
     }
 
-    public static function chkParticipation($p_id) {
+    public function getNLastProjetId($p_n = 0) {
 
         $connexion = new Connexion();
-        //requete qui donne resultat si l'id de l'uti en parametre existe dans la table Participer
+        $requete = " SELECT prj_id FROM participer " .
+                " WHERE uti_id = '" . $this->m_id . "'" .
+                " ORDER BY par_date DESC ";
+
+        if($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+        
+        $resultat = mysql_query($requete)
+                or die("erreur requete!<br/><br/>(" . $requete . ")");
+
+        $array = NULL;
+        while ($obj = mysql_fetch_object($resultat)) {
+            $array[] = $obj->prj_id;
+        }
+        mysql_free_result($resultat);
+        
+        return $array;
     }
 
     public function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
@@ -93,12 +121,11 @@ class UTILISATEUR {
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
                 "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $date . "')";
         
-//        var_dump($requete);
         return mysql_query($requete);
     }
 
-// accesseurs
-    public function getId() {
+    // accesseurs
+    function getId($p_log = null, $p_mdp = null) {            
         return $this->m_id;
     }
 

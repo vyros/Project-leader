@@ -15,7 +15,8 @@ class Connexion {
 
         $resultat = mysql_connect(self::SERVEUR, self::UTILISATEUR, self::PASSWORD) or die("Erreur connexion serveur : " . mysql_error());
         mysql_select_db(self::BASE) or die("Erreur selection base : " . mysql_error());
-
+        mysql_query("SET NAMES 'utf8'");
+        
         return $resultat;
     }
 
@@ -30,7 +31,7 @@ class Connexion {
 
     public static function fetchArray($resultat) {
         if ($resultat != NULL) {
-            //return mysql_fetch_array($resultat, MYSQL_ASSOC);
+
             $res = mysql_fetch_array($resultat);
             return $res;
         }

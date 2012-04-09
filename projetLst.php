@@ -10,8 +10,6 @@ if(SITE::chkUtilisateur()) {
     }
     
 } else {
-    echo ("<script language = \"JavaScript\">");
-    echo ("location.href = 'index.php';");
-    echo ("</script>");
+    
 }
 ?>

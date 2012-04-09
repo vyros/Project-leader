@@ -67,13 +67,15 @@ class PROJET {
         return $idProjet;
     }
 
-    public static function lastProjet($p_n = 0) {
+    public static function getNLastProjet($p_n = 0) {
 
         $connexion = new Connexion();
-        $requete = "SELECT * FROM projet ";
+        $requete = "SELECT * FROM projet ORDER BY prj_date DESC ";
         
         if($p_n != 0) {
             $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
         }
         
         $resultat = Connexion::doSql($requete);
