@@ -1,6 +1,7 @@
 <?php
 include_once("classes/classSite.php");
 SITE::init();
+echo 'nico';
 ?>
 
 <script type="text/javascript">
