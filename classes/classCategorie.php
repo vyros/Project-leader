@@ -1,5 +1,4 @@
 <?php
-include_once("classConnexion.php");
 
 class CATEGORIE {
 
@@ -7,16 +6,12 @@ class CATEGORIE {
     private $m_libelle;
 
     public function __construct() {
-        // distinction existant/ nouveau en fonction du nombre d'arguments
-        
-        $argc = func_num_args();
-        if ($argc == 1) {
-            // l'id
-            $t_id = func_get_arg(0);
 
-            // appel du constructeur existant avec l'id
-            $this->exists($t_id);
-            
+        if (func_num_args() == 1) {
+            $t_argv = func_get_arg(0);
+            if (is_array($t_argv)) {
+                $this->exists($t_argv[0][0]);
+            }
         } elseif ($argc == 2) {
             
         }
@@ -24,52 +19,47 @@ class CATEGORIE {
 
     public function exists($p_id) {
 
-        $connexion = new Connexion();
         $requete = " SELECT * FROM categorie " .
                 " WHERE cat_id = " . $p_id . " LIMIT 1;";
 
-        // echo $requete."<br/>";
-        // execution et renvoi de la resource
-        $resultat = Connexion::doSql($requete)
-                or die("erreur requete!<br/><br/>(" . $requete . ")");
-        
-        $ligne = Connexion::fetchArray($resultat);
-
-        if ($ligne != null) {
+        $array = SITE::getConnexion()->getFetchArray($requete);
+        if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($ligne['cat_libelle']);
+            $this->m_libelle = stripslashes($array[0][cat_libelle]);
         }
     }
 
-    public static function getAll() {
+    /**
+     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public static function getLstNIds($p_n = 0) {
 
-        $connexion = new Connexion();
-        $requete = "SELECT * FROM categorie";
-        $resultat = Connexion::doSql($requete);
-        
-        mysql_query("SET NAMES 'utf8'");
+        $requete = "SELECT cat_id FROM categorie ";
 
-        return $resultat;
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return SITE::getConnexion()->getFetchArray($requete);
     }
 
     public static function getIdFromLibelle($p_libelle) {
 
-        $connexion = new Connexion();
         $requete = "SELECT cat_id FROM categorie " .
                 "WHERE cat_libelle = '" . $p_libelle . "'";
-        
-        $resultat = Connexion::doSql($requete);
 
-        if ($resultat == false) {
-            die(mysql_error());
+        $array = SITE::getConnexion()->getFetchArray($requete);
+        if ($array != null) {
+            return $array[cat_id];
         }
 
-        if (mysql_num_rows($resultat) == 1) {
-            $object = mysql_fetch_object($resultat);
-            $idCategorie = $object->cat_id;
-        }
-
-        return $idCategorie;
+        return null;
     }
 
     public function getId() {
@@ -79,5 +69,7 @@ class CATEGORIE {
     public function getLibelle() {
         return $this->m_libelle;
     }
+
 }
+
 ?>

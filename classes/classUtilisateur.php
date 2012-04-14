@@ -1,5 +1,4 @@
 <?php
-include_once("classConnexion.php");
 
 class UTILISATEUR {
 
@@ -20,112 +19,108 @@ class UTILISATEUR {
     private $m_ddc;
 
     public function __construct() {
-        // distinction existant/ nouveau en fonction du nombre d'arguments
-        $argc = func_num_args();
-        if ($argc == 1) {
-            // l'id
-            $t_id = func_get_arg(0);
 
-            // appel du constructeur existant avec l'id
-            $this->exists($t_id);
-            
-        } elseif ($argc == 2) {
+        if (func_num_args() == 1) {
+            $t_argv = func_get_arg(0);
+            if (is_array($t_argv)) {
+                $this->exists($t_argv[0][0]);
+            }
+        } else {
             
         }
     }
 
     public function exists($p_id) {
 
-        $connexion = new Connexion();
         $requete = " SELECT * FROM utilisateur " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        // execution et renvoi de la resource
-        $resultat = mysql_query($requete)
-                or die("erreur requete!<br/><br/>(" . $requete . ")");
+        $array = SITE::getConnexion()->getFetchArray($requete);
         
-        $ligne = mysql_fetch_array($resultat);
-
-        if ($ligne != null) {
+        if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_login = stripslashes($ligne['uti_login']);
-            $this->m_mail = stripslashes($ligne['uti_mail']);
-            $this->m_mdp = stripslashes($ligne['uti_mdp']);
-            $this->m_nom = stripslashes($ligne['uti_nom']);
-            $this->m_prenom = stripslashes($ligne['uti_prenom']);
-            $this->m_ddn = stripslashes($ligne['uti_ddn']);
-            $this->m_adresse = stripslashes($ligne['uti_adresse']);
-            $this->m_cp = stripslashes($ligne['uti_cp']);
-            $this->m_ville = stripslashes($ligne['uti_ville']);
-            $this->m_tel = stripslashes($ligne['uti_tel']);
-            $this->m_presentation = stripslashes($ligne['uti_presentation']);
-            $this->m_statut = stripslashes($ligne['uti_statut']);
-            $this->m_date = stripslashes($ligne['uti_date']);
-            $this->m_ddc = stripslashes($ligne['uti_ddc']);
+            $this->m_login = stripslashes($array[0][uti_login]);
+            $this->m_mail = stripslashes($array[0][uti_mail]);
+            $this->m_mdp = stripslashes($array[0][uti_mdp]);
+            $this->m_nom = stripslashes($array[0][uti_nom]);
+            $this->m_prenom = stripslashes($array[0][uti_prenom]);
+            $this->m_ddn = stripslashes($array[0][uti_ddn]);
+            $this->m_adresse = stripslashes($array[0][uti_adresse]);
+            $this->m_cp = stripslashes($array[0][uti_cp]);
+            $this->m_ville = stripslashes($array[0][uti_ville]);
+            $this->m_tel = stripslashes($array[0][uti_tel]);
+            $this->m_presentation = stripslashes($array[0][uti_presentation]);
+            # Le statut
+            $this->m_statut = $this->chkStatut(stripslashes($array[0][uti_statut]));
+            $this->m_date = stripslashes($array[0][uti_date]);
+            $this->m_ddc = stripslashes($array[0][uti_ddc]);
         }
-        
-        mysql_free_result($resultat);
     }
 
+    /**
+     * Fonction static d'authentification d'un couple login|mdp.
+     * 
+     * @param string $p_log Le login
+     * @param string $p_mdp Le mot de passe
+     * @return array Retourne un tableau avec l'id de l'utilisateur associé 
+     *  au couple login|mdp, retourne null si aucun enregistrement.
+     */
     public static function getAccessToId($p_log, $p_mdp) {
 
-        $connexion = new Connexion();
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_login = '" . $p_log . "' " .
                 " AND uti_mdp = '" . $p_mdp . "' LIMIT 1;";
 
-        // execution et renvoi de la resource
-        $resultat = mysql_query($requete)
-                or die("erreur requete!<br/><br/>(" . $requete . ")");
-
-        $ligne = mysql_fetch_object($resultat);
-        
-        $id = null;
-        if ($ligne != null)
-            $id = $ligne->uti_id;
-
-        mysql_free_result($resultat);
-        return $id;
+        return SITE::getConnexion()->getFetchArray($requete);
     }
 
-    public function getNLastProjetId($p_n = 0) {
+    /**
+     * Obtenir les N derniers projets de l'utilisateur. 
+     * Tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public function getLstNLastProjetIds($p_n = 0) {
 
-        $connexion = new Connexion();
         $requete = " SELECT prj_id FROM participer " .
                 " WHERE uti_id = '" . $this->m_id . "'" .
                 " ORDER BY par_date DESC ";
 
-        if($p_n != 0) {
+        if ($p_n != 0) {
             $requete .= " LIMIT $p_n;";
         } else {
             $requete .= ";";
         }
-        
-        $resultat = mysql_query($requete)
-                or die("erreur requete!<br/><br/>(" . $requete . ")");
 
-        $array = NULL;
-        while ($obj = mysql_fetch_object($resultat)) {
-            $array[] = $obj->prj_id;
-        }
-        mysql_free_result($resultat);
-        
-        return $array;
+        return SITE::getConnexion()->getFetchArray($requete);
     }
 
+    /**
+     * Ajoute un utilisateur.
+     * 
+     * @return boolean Retourne vrai si succès, sinon retourne faux.
+     */
     public function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
 
-        $connexion = new Connexion();
-        $date = date("c");
-        
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
-                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . $date . "')";
-        
-        return mysql_query($requete);
+                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . date("c") . "')";
+
+        return SITE::getConnexion()->doSql($requete);
     }
 
-    // accesseurs
-    public function getId($p_log = null, $p_mdp = null) {            
+    private function chkStatut($p_statut) {
+        if ($p_statut == "client") {
+            return new CLIENT($p_statut);
+        } elseif ($p_statut == "prestataire") {
+            return new PRESTATAIRE($p_statut);
+        }
+
+        return null;
+    }
+
+    public function getId($p_log = null, $p_mdp = null) {
         return $this->m_id;
     }
 
@@ -169,12 +164,23 @@ class UTILISATEUR {
         return $this->m_mail;
     }
 
+    /**
+     * Retourne le statut de l'utilisateur.
+     * 
+     * @return UTILISATEUR 
+     */
     public function getStatut() {
         return $this->m_statut;
     }
-    
+
     public function getDateCreation() {
         return $this->m_date;
     }
+
+    public function __toString() {
+        return "$this->m_login depuis $this->m_date";
+    }
+
 }
+
 ?>

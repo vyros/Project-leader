@@ -75,7 +75,7 @@ SITE::init();
             <div id="templatemo_header_wrapper">
                 <!-- Free Web Templates from TemplateMo.com -->
 <?php
-if (SITE::chkUtilisateur()) {
+if(SITE::getUtilisateur()) {
                     //barre perso : nom user + icone profil + icone se deconnecter 
 ?>
                     <div style="position: relative; left: 862px; top: 10px;"> 
@@ -96,7 +96,7 @@ if (SITE::chkUtilisateur()) {
                 <div id="templatemo_header">
                     <div id="logo"></div>
 <?php
-if (SITE::chkUtilisateur()) {
+if (SITE::getUtilisateur()) {
     if (SITE::getUtilisateur()->getStatut() == "client") {
 ?>
                     <!-- Start css3menu.com BODY section -->

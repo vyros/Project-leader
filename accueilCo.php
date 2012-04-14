@@ -53,23 +53,30 @@ SITE::init();
 <div id="templatemo_content">
     <div class="content_col_w420 fl">
         <div class="header_02">Dernier(s) projet(s)</div>
+        <div class="testimonial_box_wrapper">
+            <div class="testimonial_box">
+                <p>
+                    <?php
+                    $i = 0;
+                    $lstIDs = SITE::getUtilisateur()->getLstNLastProjetIds(5);
+                    foreach ($lstIDs as $id) {
+                        $objProjet = new PROJET($id);
+                        echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" .
+                        $objProjet->getLibelle() . "</a><br />";
+                        $i++;
+                    }
+                    ?>
+                </p>
+            </div>
+        </div>
         <?php
-        $i = 0;
-        $lstProjetId = SITE::getUtilisateur()->getNLastProjetId(5);
-        foreach ($lstProjetId as $id) {
-            $objProjet = new PROJET($id);
-            echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" . 
-                    $objProjet->getLibelle() . "</a><br />";
-            $i++;
-        }
-
         if ($i != 0) {
-?>
+            ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a href="#projetAdd">Créer un projet</a></div>
                 <div class="cleaner"></div>            
             </div>
-<?php
+            <?php
         } else {
             echo "Aucun projet en cours";
 
@@ -97,34 +104,31 @@ SITE::init();
         if (SITE::getUtilisateur()->getStatut() == "client") {
             ?>
             <div class="header_02">Liste de prestataire</div>
-<?php
-// tester si dans table participer il existe l'idUti
-// Si oui, afficher une liste des prestataires en rapport avec les compétences recherchées pour les projets existants et passés de l'uti
-// Sinon, listes des tops prestataires 
-?>
             <div class="testimonial_box_wrapper">
                 <div class="testimonial_box">
-                    <div class="header_03"><a href="#">Aliquam pretium porta odio</a></div>
-                    <p>Donec iaculis felis id neque. Morbi nunc. Praesent varius egestas velit.</p>
+                    <p>
+                        <?php
+                        $lstIDs = PRESTATAIRE::getLstNIds(10);
+                        foreach ($lstIDs as $id) {
+                            $objUtilisateur = new UTILISATEUR($id);
+                            echo "<a href=\"#utilisateurLst?idUtilisateur=" . $objUtilisateur->getId() . "\">" .
+                            $objUtilisateur . "</a><br />";
+                        }
+                        ?>
+                    </p>
                 </div>
             </div>
 
-            <div class="testimonial_box_wrapper">
-                <div class="testimonial_box">
-                    <div class="header_03"><a href="#">Sed pellentesque placerat augue</a></div>
-                    <p>Sed ultrices. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur velit tellus, placerat et, dapibus varius, aliquet quis, purus.</p>
-                </div>
-            </div>
 
             <?php
         } else {
             ?>
             <div class="header_02">Liste de projet</div>
-<?php
+            <?php
 // tester si dans les tables  posseder (relier à competence et cv) il existe l'idUti
 // Si oui, afficher une liste des projets en rapport avec les compétences et/ou spécialité de l'uti
 // Sinon, listes des 10 derniers projets postés
-?>
+            ?>
             <div id="demo">
                 <table id="listeProjet">
                     <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -138,12 +142,12 @@ SITE::init();
                             </tr>
                         </thead>
                         <tbody>
-<?php
-                            $lstProjetId = PROJET::getNLastProjetId(10);
+                            <?php
+                            $lstProjetId = PROJET::getLstNIds(10);
                             foreach ($lstProjetId as $id) {
                                 $objProjet = new PROJET($id);
                                 ?>
-                            <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
+                                <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                     <td id="libelle">
                                         <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
                                         <?php echo $objProjet->getLibelle(); ?>
@@ -151,15 +155,15 @@ SITE::init();
 
                                     <td id="categorie">
                                         <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-<?php
-                                        $lstCategorieId = $objProjet->getAllCategorie();
+                                        <?php
+                                        $lstCategorieId = $objProjet->getCategorieIds();
                                         foreach ($lstCategorieId as $idCategorie) {
                                             $objCategorie = new CATEGORIE($idCategorie);
                                             echo ('- ');
                                             echo $objCategorie->getLibelle();
                                             echo ('</br>');
                                         }
-?>											
+                                        ?>											
                                     </td>
 
                                     <td id="budget">
@@ -169,15 +173,15 @@ SITE::init();
 
                                     <td id="competence">
                                         <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-<?php
-                                        $lstCompetenceId = $objProjet->getAllCompetence();
+                                        <?php
+                                        $lstCompetenceId = $objProjet->getCompetenceIds();
                                         foreach ($lstCompetenceId as $idCompetence) {
                                             $objCompetence = new COMPETENCE($idCompetence);
                                             echo ('- ');
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
                                         }
-?>									
+                                        ?>									
                                     </td>
 
                                     <td id="dateCreation">

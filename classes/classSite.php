@@ -1,18 +1,24 @@
 <?php
 
+/**
+ *  Cette classe travail essentiellement sur la variable de session.
+ * 
+ * @author jimmy
+ */
 class SITE {
 
     /**
      * Initialisation du site, des classes et de la variable de session.
      * 
-     * @param boolean $p_uu Pour "utilisateur uniquement" :
-     *  charge uniquement la classe UTILISATEUR.
+     * @param boolean $p_min Pour utilisation minimum, charge uniquement les classes
+     *  UTILISATEUR et CONNEXION.
      */
-    static public function init($p_uu = false) {
+    static public function init($p_min = false) {
 
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
-        if ($p_uu) {
+        if ($p_min) {
+            include_once('classes/classConnexion.php');
             include_once('classes/classUtilisateur.php');
             
         } else {
@@ -31,6 +37,7 @@ class SITE {
         }
 
         session_start();
+        self::getConnexion();
     }
 
     /**
@@ -40,7 +47,7 @@ class SITE {
     static public function kill() {
 
         SITE::init(true);
-        if (SITE::chkUtilisateur()) {
+        if (SITE::getUtilisateur()) {
             session_destroy();
             echo ("<script language = \"JavaScript\">alert('Vous êtes déconnecté');");
             echo ("location.href = 'index.php';");
@@ -55,6 +62,24 @@ class SITE {
      */
     static public function getUrl() {
         return "http://" . $_SERVER['HTTP_HOST'] . "" . dirname($_SERVER['PHP_SELF']) . "/";
+    }
+    
+    /**
+     * Test la connexion instanciée dans la variable de session. En créée une nouvelle
+     *  si aucune n'existe ou si fermée.
+     * 
+     * @return CONNEXION La connexion a utiliser.
+     */
+    static public function getConnexion() {
+        if (isset($_SESSION[connexion]) && $_SESSION[connexion] instanceof CONNEXION) {
+            if ($_SESSION[connexion]->isConnected()) {
+                return $_SESSION[connexion];
+            }
+            unset($_SESSION[connexion]);
+        }
+        
+        $_SESSION[connexion] = new CONNEXION();
+        return $_SESSION[connexion];
     }
 
     /**
@@ -75,12 +100,16 @@ class SITE {
     /**
      * Retourne l'utilisateur instancié dans la variable de session.
      * 
-     * @return UTILISATEUR 
+     * @return UTILISATEUR Retourne faux si aucun utilisateur instancié.
      */
     static public function getUtilisateur() {
-        return $_SESSION[utilisateur];
-    }
+        if (isset($_SESSION[utilisateur]) && $_SESSION[utilisateur] instanceof UTILISATEUR) {
+            return $_SESSION[utilisateur];
+        }
 
+        return false;
+    }
+    
     /**
      * Enregistre l'utilisateur en paramètre dans la variable de session.
      * 

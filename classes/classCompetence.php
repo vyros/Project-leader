@@ -1,5 +1,4 @@
 <?php
-include_once("classConnexion.php");
 
 class COMPETENCE {
 
@@ -7,71 +6,89 @@ class COMPETENCE {
     private $m_libelle;
 
     public function __construct() {
-        // distinction existant/ nouveau en fonction du nombre d'arguments
-        $argc = func_num_args();
-        if ($argc == 1) {
-            // l'id
-            $t_id = func_get_arg(0);
 
-            // appel du constructeur existant avec l'id
-            $this->exists($t_id);
-            
-        } elseif ($argc == 2) {
+        if (func_num_args() == 1) {
+            $t_argv = func_get_arg(0);
+            if (is_array($t_argv)) {
+                $this->exists($t_argv[0][0]);
+            }
+        } else {
             
         }
     }
 
     public function exists($p_id) {
 
-        $connexion = new Connexion();
         $requete = " SELECT * FROM competence " .
                 " WHERE cpt_id = " . $p_id . " LIMIT 1;";
 
-        // execution et renvoi de la resource
-        $resultat = Connexion::doSql($requete)
-                or die("erreur requete!<br/><br/>(" . $requete . ")");
-        
-        $ligne = Connexion::fetchArray($resultat);
-
-        if ($ligne != null) {
+        $array = SITE::getConnexion()->getFetchArray($requete);
+        if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($ligne['cpt_libelle']);
+            $this->m_libelle = stripslashes($array[0][cpt_libelle]);
         }
     }
 
-    public static function getAll() {
+    /**
+     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public static function getLstNIds($p_n = 0) {
 
-        $connexion = new Connexion();
-        $requete = "SELECT * FROM competence";
-        $resultat = Connexion::doSql($requete);
+        $requete = "SELECT cpt_id FROM competence ";
 
-        mysql_query("SET NAMES 'utf8'");
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
 
-        return $resultat;
+        return SITE::getConnexion()->getFetchArray($requete);
     }
+    
+    
+    public static function getNRessource($p_n = 0) {
 
-    public static function getId($p_libelle) {
+        $requete = "SELECT * FROM competence ";
 
-        $connexion = new Connexion();
-        $requete = "SELECT cpt_id FROM categorie " .
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return SITE::getConnexion()->getFetchRessource($requete);
+    }
+    
+
+    /**
+     * Retourne l'id correspondant au libelle.
+     * 
+     * @param  string Le libelle a rechercher.
+     * @return array Retourne un tableau contenant l'id de l'enregistrement,
+     *  retourne null si aucun.
+     */
+    public static function getIdFromLibelle($p_libelle) {
+
+        $requete = "SELECT cpt_id FROM competence " .
                 "WHERE cpt_libelle = '" . $p_libelle . "'";
 
-        $resultat = Connexion::doSql($requete);
 
-        if ($resultat == false) {
-            die(mysql_error());
+        $array = SITE::getConnexion()->getFetchArray($requete);
+        if ($array != null) {
+            return $array[cpt_id];
         }
 
-        if (mysql_num_rows($resultat) == 1) {
-            $object = mysql_fetch_object($resultat);
-            $idCompetence = $object->cpt_id;
-        }
-
-        return $idCompetence;
+        return null;
     }
 
     public function getLibelle() {
         return $this->m_libelle;
     }
+
 }
+
 ?>

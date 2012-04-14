@@ -20,15 +20,13 @@ SITE::init();
                     <tr>
                         <td><h6>Catégorie :&nbsp </h6></td>
                         <td><select name="categorie" id="categorie" ><option></option>
-<?php
-                                $resAllCategorie = CATEGORIE::getAll();
-                                $resAllCompetence = COMPETENCE::getAll();
-
-                                while ($row = mysql_fetch_array($resAllCategorie)) {
-                                    echo "<option>$row[cat_libelle]</option>";
+                                <?php
+                                $lstCategorieIds = CATEGORIE::getLstNIds();
+                                foreach ($lstCategorieIds as $value) {
+                                    $objCategorie = new CATEGORIE($value);
+                                    echo "<option>" . $objCategorie->getLibelle() . "</option>";
                                 }
-                                mysql_free_result($resAllCategorie);
-?>	
+                                ?>
                             </select>
                         </td>
                     </tr>
@@ -42,20 +40,23 @@ SITE::init();
                                     $(document).ready(function() {
                                         $("#demo-input-local").tokenInput([
 <?php
-        while ($row = mysql_fetch_array($resAllCompetence)) {
-            $idCompetence[$i] = "$row[cpt_id]";
-            $libCompetence[$i] = "$row[cpt_libelle]";
+$i = 0;
+$ressource = COMPETENCE::getNRessource();
+while ($row = mysql_fetch_array($ressource)) {
+    $idCompetence[$i] = "$row[cpt_id]";
+    $libCompetence[$i] = "$row[cpt_libelle]";
+    ?>
+                    {
+                        id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
+                        name: "<?php echo str_replace('"', '', json_encode($libCompetence[$i])); ?>"
+                    },   
+    <?php
+    $i++;
+}
+mysql_free_result($ressource);
 ?>
-            {
-            id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
-            name: "<?php echo str_replace('"', '', json_encode($libCompetence[$i])); ?>"
-            },
-<?php
-        } 
-        mysql_free_result($resAllCompetence);
-?>
-                                        ]);
-                                    });
+        ]);
+    });
                                 </script>
                             </div>
                             <br><br></td>
