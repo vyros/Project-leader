@@ -2,16 +2,16 @@
 include_once("classes/classSite.php");
 SITE::init();
 
-$lstProjetId = PROJET::getLstNIds(10);
+$lstProjetIds = PROJET::getLstNIds(10);
 
 $idUtilisateur = null;
 if (SITE::getUtilisateur() && !isset($_GET['all'])) {
     $idUtilisateur = SITE::getUtilisateur()->getId();
-    $lstProjetId = SITE::getUtilisateur()->getLstNLastProjetIds(10);
+    $lstProjetIds = SITE::getUtilisateur()->getLstNLastProjetIds(10);
 }
 
 if (isset($_GET['idProjet'])) {
-    $lstProjetId = $_GET['idProjet'];
+    $lstProjetIds = $_GET['idProjet'];
 }
 ?>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -32,8 +32,8 @@ if (isset($_GET['idProjet'])) {
     </thead>
     <tbody>
         <?php
-        foreach ($lstProjetId as $id) {
-            $objProjet = new PROJET($id);
+        foreach ($lstProjetIds as $idProjet) {
+            $objProjet = new PROJET($idProjet);
             ?>
             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                 <td id="libelle">
@@ -44,8 +44,8 @@ if (isset($_GET['idProjet'])) {
                 <td id="categorie">
                     <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
                     <?php
-                    $lstCategorieId = $objProjet->getCategorieIds();
-                    foreach ($lstCategorieId as $idCategorie) {
+                    $lstCategorieIds = $objProjet->getCategorieIds();
+                    foreach ($lstCategorieIds as $idCategorie) {
                         $objCategorie = new CATEGORIE($idCategorie);
                         echo ('- ');
                         echo $objCategorie->getLibelle();
@@ -62,8 +62,8 @@ if (isset($_GET['idProjet'])) {
                 <td id="competence">
                     <input type="hidden" name="competence" value="<?php echo '???'; ?>">
                     <?php
-                    $lstCompetenceId = $objProjet->getCompetenceIds();
-                    foreach ($lstCompetenceId as $idCompetence) {
+                    $lstCompetenceIds = $objProjet->getCompetenceIds();
+                    foreach ($lstCompetenceIds as $idCompetence) {
                         $objCompetence = new COMPETENCE($idCompetence);
                         echo ('- ');
                         echo $objCompetence->getLibelle();

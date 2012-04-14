@@ -58,9 +58,9 @@ SITE::init();
                 <p>
                     <?php
                     $i = 0;
-                    $lstIDs = SITE::getUtilisateur()->getLstNLastProjetIds(5);
-                    foreach ($lstIDs as $id) {
-                        $objProjet = new PROJET($id);
+                    $lstProjetIds = SITE::getUtilisateur()->getLstNLastProjetIds(5);
+                    foreach ($lstProjetIds as $idProjet) {
+                        $objProjet = new PROJET($idProjet);
                         echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" .
                         $objProjet->getLibelle() . "</a><br />";
                         $i++;
@@ -108,9 +108,9 @@ SITE::init();
                 <div class="testimonial_box">
                     <p>
                         <?php
-                        $lstIDs = PRESTATAIRE::getLstNIds(10);
-                        foreach ($lstIDs as $id) {
-                            $objUtilisateur = new UTILISATEUR($id);
+                        $lstUtilisateurIds = PRESTATAIRE::getLstNIds(10);
+                        foreach ($lstUtilisateurIds as $idUtilisateur) {
+                            $objUtilisateur = new UTILISATEUR($idUtilisateur);
                             echo "<a href=\"#utilisateurLst?idUtilisateur=" . $objUtilisateur->getId() . "\">" .
                             $objUtilisateur . "</a><br />";
                         }
@@ -143,9 +143,9 @@ SITE::init();
                         </thead>
                         <tbody>
                             <?php
-                            $lstProjetId = PROJET::getLstNIds(10);
-                            foreach ($lstProjetId as $id) {
-                                $objProjet = new PROJET($id);
+                            $lstProjetIds = PROJET::getLstNIds(10);
+                            foreach ($lstProjetIds as $idProjet) {
+                                $objProjet = new PROJET($idProjet);
                                 ?>
                                 <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                     <td id="libelle">
@@ -156,8 +156,8 @@ SITE::init();
                                     <td id="categorie">
                                         <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
                                         <?php
-                                        $lstCategorieId = $objProjet->getCategorieIds();
-                                        foreach ($lstCategorieId as $idCategorie) {
+                                        $lstCategorieIds = $objProjet->getCategorieIds();
+                                        foreach ($lstCategorieIds as $idCategorie) {
                                             $objCategorie = new CATEGORIE($idCategorie);
                                             echo ('- ');
                                             echo $objCategorie->getLibelle();
@@ -174,8 +174,8 @@ SITE::init();
                                     <td id="competence">
                                         <input type="hidden" name="competence" value="<?php echo '???'; ?>">
                                         <?php
-                                        $lstCompetenceId = $objProjet->getCompetenceIds();
-                                        foreach ($lstCompetenceId as $idCompetence) {
+                                        $lstCompetenceIds = $objProjet->getCompetenceIds();
+                                        foreach ($lstCompetenceIds as $idCompetence) {
                                             $objCompetence = new COMPETENCE($idCompetence);
                                             echo ('- ');
                                             echo $objCompetence->getLibelle();
