@@ -19,8 +19,8 @@ class SITE {
 
         if ($p_min) {
             include_once('classes/classConnexion.php');
+            include_once('classes/classClasse.php');
             include_once('classes/classUtilisateur.php');
-            
         } else {
             if ($handle = opendir('classes/')) {
                 while (false !== ($file = readdir($handle))) {
@@ -63,7 +63,7 @@ class SITE {
     static public function getUrl() {
         return "http://" . $_SERVER['HTTP_HOST'] . "" . dirname($_SERVER['PHP_SELF']) . "/";
     }
-    
+
     /**
      * Test la connexion instanciée dans la variable de session. En créée une nouvelle
      *  si aucune n'existe ou si fermée.
@@ -77,7 +77,7 @@ class SITE {
             }
             unset($_SESSION[connexion]);
         }
-        
+
         $_SESSION[connexion] = new CONNEXION();
         return $_SESSION[connexion];
     }
@@ -109,7 +109,7 @@ class SITE {
 
         return false;
     }
-    
+
     /**
      * Enregistre l'utilisateur en paramètre dans la variable de session.
      * 
@@ -125,5 +125,23 @@ class SITE {
         }
         return false;
     }
+
+    /**
+     *
+     * @param array $p_array Un tableau à plusieurs niveuax.
+     * @return array Un tableau à un niveau. 
+     */
+    static public function getOneLevelArray($p_array) {
+        while (is_array($p_array[0])) {
+            $t_array = $p_array[0];
+            unset($p_array);
+            $p_array = $t_array;
+            unset($t_array);
+        }
+        
+        return $p_array;
+    }
+
 }
+
 ?>

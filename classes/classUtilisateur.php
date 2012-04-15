@@ -1,6 +1,6 @@
 <?php
 
-class UTILISATEUR {
+class UTILISATEUR extends CLASSE {
 
     private $m_id;
     private $m_login;
@@ -19,15 +19,7 @@ class UTILISATEUR {
     private $m_ddc;
 
     public function __construct() {
-
-        if (func_num_args() == 1) {
-            $t_argv = func_get_arg(0);
-            if (is_array($t_argv)) {
-                $this->exists($t_argv[0][0]);
-            }
-        } else {
-            
-        }
+        parent::__construct(func_get_args());
     }
 
     public function exists($p_id) {
@@ -35,25 +27,24 @@ class UTILISATEUR {
         $requete = " SELECT * FROM utilisateur " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
-        
+        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_login = stripslashes($array[0][uti_login]);
-            $this->m_mail = stripslashes($array[0][uti_mail]);
-            $this->m_mdp = stripslashes($array[0][uti_mdp]);
-            $this->m_nom = stripslashes($array[0][uti_nom]);
-            $this->m_prenom = stripslashes($array[0][uti_prenom]);
-            $this->m_ddn = stripslashes($array[0][uti_ddn]);
-            $this->m_adresse = stripslashes($array[0][uti_adresse]);
-            $this->m_cp = stripslashes($array[0][uti_cp]);
-            $this->m_ville = stripslashes($array[0][uti_ville]);
-            $this->m_tel = stripslashes($array[0][uti_tel]);
-            $this->m_presentation = stripslashes($array[0][uti_presentation]);
+            $this->m_login = stripslashes($array[uti_login]);
+            $this->m_mail = stripslashes($array[uti_mail]);
+            $this->m_mdp = stripslashes($array[uti_mdp]);
+            $this->m_nom = stripslashes($array[uti_nom]);
+            $this->m_prenom = stripslashes($array[uti_prenom]);
+            $this->m_ddn = stripslashes($array[uti_ddn]);
+            $this->m_adresse = stripslashes($array[uti_adresse]);
+            $this->m_cp = stripslashes($array[uti_cp]);
+            $this->m_ville = stripslashes($array[uti_ville]);
+            $this->m_tel = stripslashes($array[uti_tel]);
+            $this->m_presentation = stripslashes($array[uti_presentation]);
             # Le statut
-            $this->m_statut = $this->chkStatut(stripslashes($array[0][uti_statut]));
-            $this->m_date = stripslashes($array[0][uti_date]);
-            $this->m_ddc = stripslashes($array[0][uti_ddc]);
+            $this->m_statut = $this->chkStatut(stripslashes($array[uti_statut]));
+            $this->m_date = stripslashes($array[uti_date]);
+            $this->m_ddc = stripslashes($array[uti_ddc]);
         }
     }
 
@@ -100,14 +91,18 @@ class UTILISATEUR {
     /**
      * Ajoute un utilisateur.
      * 
-     * @return boolean Retourne vrai si succès, sinon retourne faux.
+     * @return UTILISATEUR Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
     public function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
 
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
                 "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . date("c") . "')";
 
-        return SITE::getConnexion()->doSql($requete);
+        $idUtilisateur = SITE::getConnexion()->doSql($requete, "utilisateur");
+        if ($idUtilisateur) {
+            return new UTILISATEUR($idUtilisateur);
+        }
+        return null;
     }
 
     private function chkStatut($p_statut) {

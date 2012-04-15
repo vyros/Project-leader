@@ -11,7 +11,8 @@ if (SITE::getUtilisateur() && !isset($_GET['all'])) {
 }
 
 if (isset($_GET['idProjet'])) {
-    $lstProjetIds = $_GET['idProjet'];
+    unset($lstProjetIds);
+    $lstProjetIds[] = array(0 => $_GET['idProjet']);
 }
 ?>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -85,8 +86,6 @@ if (isset($_GET['idProjet'])) {
                 if ($idUtilisateur !== null) {
                     ?>
                     <td id="action">
- 
-                        
                         <?php echo $objProjet->getDescription(); ?>							
                     </td>
                     <?php

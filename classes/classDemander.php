@@ -2,21 +2,13 @@
 
 include_once("classConnexion.php");
 
-class DEMANDER {
+class DEMANDER extends CLASSE {
 
     private $m_prj_id;
     private $m_cpt_id;
 
     public function __construct() {
-
-        if (func_num_args() == 1) {
-            $t_argv = func_get_arg(0);
-            if (is_array($t_argv)) {
-                $this->exists($t_argv[0][0]);
-            }
-        } else {
-            
-        }
+        parent::__construct(func_get_args());
     }
 
     public function exists($p_id) {
@@ -24,10 +16,10 @@ class DEMANDER {
         $requete = " SELECT * FROM demander " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
+        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_prj_id = $p_id;
-            $this->m_cpt_id = stripslashes($array[0][cpt_id]);
+            $this->m_cpt_id = stripslashes($array[cpt_id]);
         }
     }
 

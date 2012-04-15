@@ -1,4 +1,5 @@
 <?php
+
 include_once("classes/classSite.php");
 SITE::init();
 
@@ -18,7 +19,7 @@ if ($_POST["action"] == "chkUtilisateur") {
     $idUtilisateur = UTILISATEUR::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
         SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
-        
+
         echo ("<script language = \"JavaScript\">");
         echo ("location.href = 'index.php#accueilCo';");
         echo ("</script>");
@@ -36,12 +37,12 @@ if ($_POST["action"] == "chkUtilisateur") {
         echo ("<script language = \"JavaScript\">alert('erreur');");
         echo ("location.href = 'inscription.php';");
         echo ("</script>");
-        
     } else {
 
-        $objUtilisateur = new UTILISATEUR();
-        if ($objUtilisateur->addUtilisateur($log, $mail, $mdp, $statut)) {
-            
+        /* @var $objUtilisateur UTILISATEUR */
+        $objUtilisateur = UTILISATEUR::addUtilisateur($log, $mail, $mdp, $statut);
+        if ($objUtilisateur instanceof UTILISATEUR) {
+
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
             echo ("location.href = 'index.php#inscription';");
             echo ("</script>");
@@ -51,7 +52,6 @@ if ($_POST["action"] == "chkUtilisateur") {
         echo ("location.href = 'index.php';");
         echo ("</script>");
     }
-    
 } elseif ($_POST["action"] == "projetAdd") {
 
     $libelle = $_POST["libelle"];
@@ -61,27 +61,26 @@ if ($_POST["action"] == "chkUtilisateur") {
     $budget = $_POST["budget"];
     $echeance = $_POST["echeance"];
 
-    $objProjet = new PROJET();
-    if($objProjet->addProjet($libelle, $description, $budget, $echeance)) {
-        
+    /* @var $objProjet PROJET */
+    $objProjet = PROJET::addProjet($libelle, $description, $budget, $echeance);
+    if ($objProjet instanceof PROJET) {
+
+        $idUtilisateur = SITE::getUtilisateur()->getId();
+
+        $objParticiper = new PARTICIPER();
+        $objParticiper->addParticipation(SITE::getUtilisateur()->getId(), 
+                $objProjet->getId());
+
+        $objCorrespondre = new CORRESPONDRE();
+        $objCorrespondre->addCorrespondance($objProjet->getId(), 
+                CATEGORIE::getIdFromLibelle($categorie));
+
+        $objDemander = new DEMANDER();
+        $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
+
+        echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
+        echo ("location.href = 'index.php#accueilCo';");
+        echo ("</script>");
     }
-
-    $idUtilisateur = SITE::getUtilisateur()->getId();
-
-    $objParticiper = new PARTICIPER();
-    $objParticiper->addParticipation(SITE::getUtilisateur()->getId(), 
-            $objProjet->getId());
-
-    $objCorrespondre = new CORRESPONDRE();
-    $objCorrespondre->addCorrespondance($objProjet->getId(), 
-            CATEGORIE::getIdFromLibelle($categorie));
-
-    $objDemander = new DEMANDER();
-    $objDemander->addDemande($objProjet->getId(), 
-            $tabIdCompetence);
-
-    echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
-    echo ("location.href = 'index.php#accueilCo';");
-    echo ("</script>");
 }
 ?>

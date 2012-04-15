@@ -8,7 +8,6 @@
 class CLIENT extends STATUT {
 
     public function __construct() {
-
         parent::__construct(func_get_args());
     }
 

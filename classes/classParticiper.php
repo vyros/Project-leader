@@ -2,21 +2,13 @@
 
 include_once("classConnexion.php");
 
-class PARTICIPER {
+class PARTICIPER extends CLASSE {
 
     private $m_prj_id;
     private $m_uti_id;
 
     public function __construct() {
-
-        if (func_num_args() == 1) {
-            $t_argv = func_get_arg(0);
-            if (is_array($t_argv)) {
-                $this->exists($t_argv[0][0]);
-            }
-        } else {
-            
-        }
+        parent::__construct(func_get_args());
     }
 
     public function exists($p_id) {
@@ -24,10 +16,10 @@ class PARTICIPER {
         $requete = " SELECT * FROM participer " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
+        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_uti_id = $p_id;
-            $this->m_prj_id = stripslashes($array[0][prj_id]);
+            $this->m_prj_id = stripslashes($array[prj_id]);
         }
     }
 

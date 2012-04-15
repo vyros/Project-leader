@@ -24,7 +24,6 @@ class CONNEXION {
                 or die("Erreur connexion serveur : " . mysql_error());
 
         mysql_select_db(self::BASE) or die("Erreur selection base : " . mysql_error());
-
         mysql_query("SET NAMES 'utf8'");
 
         return $resultat;
@@ -62,6 +61,7 @@ class CONNEXION {
             mysql_query("LOCK TABLES $table WRITE;");
 
             $lastInsertId = false;
+            
             /* @var $resultat boolean */
             if ($resultat = mysql_query($requete)) {
                 $lastInsertId = mysql_insert_id();

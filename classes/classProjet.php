@@ -1,6 +1,6 @@
 <?php
 
-class PROJET {
+class PROJET extends CLASSE {
 
     private $m_id;
     private $m_libelle;
@@ -10,15 +10,7 @@ class PROJET {
     private $m_date;
 
     public function __construct() {
-
-        if (func_num_args() == 1) {
-            $t_argv = func_get_arg(0);
-            if (is_array($t_argv)) {
-                $this->exists($t_argv[0][0]);
-            }
-        } else {
-            
-        }
+        parent::__construct(func_get_args());
     }
 
     public function exists($p_id) {
@@ -26,14 +18,14 @@ class PROJET {
         $requete = " SELECT * FROM projet " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
+        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($array[0][prj_libelle]);
-            $this->m_description = stripslashes($array[0][prj_description]);
-            $this->m_budget = stripslashes($array[0][prj_budget]);
-            $this->m_echeance = stripslashes($array[0][prj_echeance]);
-            $this->m_date = stripslashes($array[0][prj_date]);
+            $this->m_libelle = stripslashes($array[prj_libelle]);
+            $this->m_description = stripslashes($array[prj_description]);
+            $this->m_budget = stripslashes($array[prj_budget]);
+            $this->m_echeance = stripslashes($array[prj_echeance]);
+            $this->m_date = stripslashes($array[prj_date]);
         }
     }
 
@@ -60,14 +52,18 @@ class PROJET {
     /**
      * Ajoute un projet.
      * 
-     * @return boolean Retourne vrai si succès, sinon retourne non.
+     * @return PROJET Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
-    public function addProjet($p_libelle, $p_description, $p_budget, $p_echeance) {
+    static public function addProjet($p_libelle, $p_description, $p_budget, $p_echeance) {
 
         $requete = "INSERT INTO projet (prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
                 "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . date("c") . "')";
 
-        return SITE::getConnexion()->doSql($requete);
+        $idProjet = SITE::getConnexion()->doSql($requete, "projet");
+        if ($idProjet) {
+            return new PROJET($idProjet);
+        }
+        return null;
     }
 
     /**
