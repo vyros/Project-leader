@@ -2,7 +2,16 @@
 
 class COMPETENCE extends CLASSE {
 
+    /**
+     *
+     * @var int 
+     */
     private $m_id;
+    
+    /**
+     *
+     * @var string 
+     */
     private $m_libelle;
 
     public function __construct() {
@@ -77,6 +86,10 @@ class COMPETENCE extends CLASSE {
         return null;
     }
 
+    public function getId() {
+        return $this->m_id;
+    }
+    
     public function getLibelle() {
         return $this->m_libelle;
     }

@@ -40,20 +40,17 @@ SITE::init();
                                     $(document).ready(function() {
                                         $("#demo-input-local").tokenInput([
 <?php
-$i = 0;
-$ressource = COMPETENCE::getNRessource();
-while ($row = mysql_fetch_array($ressource)) {
-    $idCompetence[$i] = "$row[cpt_id]";
-    $libCompetence[$i] = "$row[cpt_libelle]";
+
+$lstCompetenceIds = COMPETENCE::getLstNIds();
+foreach ($lstCompetenceIds as $value) {
+    $objCompetence = new COMPETENCE($value);
     ?>
                     {
-                        id: <?php echo str_replace('"', '', json_encode($idCompetence[$i])); ?>, 
-                        name: "<?php echo str_replace('"', '', json_encode($libCompetence[$i])); ?>"
+                        id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                        name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                     },   
     <?php
-    $i++;
 }
-mysql_free_result($ressource);
 ?>
         ]);
     });
