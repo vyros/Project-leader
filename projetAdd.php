@@ -9,6 +9,8 @@ SITE::init();
             <form method="POST" action="checkout.php">
 
                 <input type="hidden" name="action" value="projetAdd"/>
+                <input type="hidden" name="etat" value="1"/>
+                
                 <div class="header_02">Créer votre projet<br/></div>
 
                 <table align="center">

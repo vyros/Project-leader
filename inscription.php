@@ -1,5 +1,4 @@
 ﻿<div id="templatemo_content_wrapper">
-
     <div id="templatemo_content">
         <div class="content_col_w420 fl">
             <div class="header_02">Félication, votre compte est crée !<br/></div>

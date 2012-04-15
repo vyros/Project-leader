@@ -88,6 +88,32 @@ class UTILISATEUR extends CLASSE {
         return SITE::getConnexion()->getFetchArray($requete);
     }
 
+    
+    /**
+     * Obtenir les N derniers projets de l'utilisateur. 
+     * Tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public function getLstNLastClosedProjetIds($p_n = 0) {
+        
+        $requete = " SELECT pa.prj_id FROM participer as pa " .
+                " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
+                " WHERE pa.uti_id = " . $this->m_id . " " .
+                " AND pr.eta_id = 3 ORDER BY pa.par_date DESC ";
+
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return SITE::getConnexion()->getFetchArray($requete);
+    }
+
+    
     /**
      * Ajoute un utilisateur.
      * 

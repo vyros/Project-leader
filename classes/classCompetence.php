@@ -49,21 +49,6 @@ class COMPETENCE extends CLASSE {
 
         return SITE::getConnexion()->getFetchArray($requete);
     }
-    
-    
-    public static function getNRessource($p_n = 0) {
-
-        $requete = "SELECT * FROM competence ";
-
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return SITE::getConnexion()->getFetchRessource($requete);
-    }
-    
 
     /**
      * Retourne l'id correspondant au libelle.

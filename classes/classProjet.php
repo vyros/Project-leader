@@ -3,6 +3,7 @@
 class PROJET extends CLASSE {
 
     private $m_id;
+    private $m_eta_id;
     private $m_libelle;
     private $m_description;
     private $m_budget;
@@ -21,6 +22,7 @@ class PROJET extends CLASSE {
         $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
+            $this->m_eta_id = stripslashes($array[eta_id]);
             $this->m_libelle = stripslashes($array[prj_libelle]);
             $this->m_description = stripslashes($array[prj_description]);
             $this->m_budget = stripslashes($array[prj_budget]);
@@ -54,10 +56,10 @@ class PROJET extends CLASSE {
      * 
      * @return PROJET Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
-    static public function addProjet($p_libelle, $p_description, $p_budget, $p_echeance) {
+    static public function addProjet($p_etat, $p_libelle, $p_description, $p_budget, $p_echeance) {
 
-        $requete = "INSERT INTO projet (prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
-                "VALUES ('" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . date("c") . "')";
+        $requete = "INSERT INTO projet (eta_id, prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
+                "VALUES (" . $p_etat . ", '" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . date("c") . "')";
 
         $idProjet = SITE::getConnexion()->doSql($requete, "projet");
         if ($idProjet) {
@@ -96,6 +98,10 @@ class PROJET extends CLASSE {
 
     public function getId() {
         return $this->m_id;
+    }
+    
+    public function getEtatId() {
+        return $this->m_eta_id;
     }
 
     public function getLibelle() {

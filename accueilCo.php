@@ -40,19 +40,11 @@ SITE::init();
         }
         return aReturn;
     }
-
-    // function pageMesProjet(idProjet)
-    // {
-
-
-    // document.location.href='#projetLst?idProjet='+idProjet+'';
-
-    // }
 </script>
 
 <div id="templatemo_content">
     <div class="content_col_w420 fl">
-        <div class="header_02">Dernier(s) projet(s)</div>
+        <div class="header_02">Vos derniers projets</div>
         <div class="testimonial_box_wrapper">
             <div class="testimonial_box">
                 <p>
@@ -103,7 +95,7 @@ SITE::init();
         <?php
         if (SITE::getUtilisateur()->getStatut() == "client") {
             ?>
-            <div class="header_02">Liste de prestataire</div>
+            <div class="header_02">Liste de prestataires</div>
             <div class="testimonial_box_wrapper">
                 <div class="testimonial_box">
                     <p>
@@ -123,7 +115,7 @@ SITE::init();
             <?php
         } else {
             ?>
-            <div class="header_02">Liste de projet</div>
+            <div class="header_02">Liste de projets</div>
             <?php
 // tester si dans les tables  posseder (relier à competence et cv) il existe l'idUti
 // Si oui, afficher une liste des projets en rapport avec les compétences et/ou spécialité de l'uti

@@ -54,6 +54,7 @@ if ($_POST["action"] == "chkUtilisateur") {
     }
 } elseif ($_POST["action"] == "projetAdd") {
 
+    $etatId = $_POST["etat"];
     $libelle = $_POST["libelle"];
     $categorie = $_POST["categorie"];
     $tabIdCompetence = explode(',', $_POST["blah"]);
@@ -62,7 +63,7 @@ if ($_POST["action"] == "chkUtilisateur") {
     $echeance = $_POST["echeance"];
 
     /* @var $objProjet PROJET */
-    $objProjet = PROJET::addProjet($libelle, $description, $budget, $echeance);
+    $objProjet = PROJET::addProjet($etatId, $libelle, $description, $budget, $echeance);
     if ($objProjet instanceof PROJET) {
 
         $idUtilisateur = SITE::getUtilisateur()->getId();
