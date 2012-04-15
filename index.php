@@ -97,6 +97,7 @@ if(SITE::getUtilisateur()) {
                     <div id="logo"></div>
 <?php
 if (SITE::getUtilisateur()) {
+    #if (SITE::getUtilisateur()->getStatut() instanceof CLIENT) {
     if (SITE::getUtilisateur()->getStatut() == "client") {
 ?>
                     <!-- Start css3menu.com BODY section -->

@@ -1,7 +1,5 @@
 <?php
 
-include_once("classConnexion.php");
-
 class DEMANDER extends CLASSE {
 
     private $m_prj_id;
