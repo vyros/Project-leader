@@ -15,7 +15,6 @@ if (isset($_GET['idProjet'])) {
     $lstProjetIds[] = array(0 => $_GET['idProjet']);
 }
 ?>
-
 <div class="content_col_w420 fl">
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">

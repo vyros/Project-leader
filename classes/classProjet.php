@@ -51,6 +51,17 @@ class PROJET extends CLASSE {
         return SITE::getConnexion()->getFetchArray($requete);
     }
 
+    public static function getLstNObjs($p_n = 0) {
+        $lstArray = self::getLstNLastProjetIds($p_n);
+        $objArray = null;
+
+        foreach ($lstArray as $value) {
+            $objArray[] = new PROJET($value);
+        }
+
+        return $objArray;
+    }
+
     /**
      * Ajoute un projet.
      * 
@@ -83,6 +94,23 @@ class PROJET extends CLASSE {
     }
 
     /**
+     * Retourne la categorie associée au projet.
+     * 
+     * @return array Retourne un tableau contenant l'objet de l'enregistrement,
+     *  retourne null si aucun.
+     */
+    public function getCategorieObjs() {
+        $lstArray = $this->getCategorieIds();
+        $objArray = null;
+
+        foreach ($lstArray as $value) {
+            $objArray[] = new CATEGORIE($value);
+        }
+
+        return $objArray;
+    }
+
+    /**
      * Retourne la competence associée au projet.
      * 
      * @return array Retourne un tableau contenant l'id de l'enregistrement,
@@ -96,10 +124,27 @@ class PROJET extends CLASSE {
         return SITE::getConnexion()->getFetchArray($requete);
     }
 
+    /**
+     * Retourne la competence associée au projet.
+     * 
+     * @return array Retourne un tableau contenant l'objet de l'enregistrement,
+     *  retourne null si aucun.
+     */
+    public function getCompetenceObjs() {
+        $lstArray = $this->getCompetenceIds();
+        $objArray = null;
+
+        foreach ($lstArray as $value) {
+            $objArray[] = new COMPETENCE($value);
+        }
+
+        return $objArray;
+    }
+
     public function getId() {
         return $this->m_id;
     }
-    
+
     public function getEtatId() {
         return $this->m_eta_id;
     }

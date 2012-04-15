@@ -87,6 +87,18 @@ class UTILISATEUR extends CLASSE {
 
         return SITE::getConnexion()->getFetchArray($requete);
     }
+    
+    
+    public function getLstNLastProjetObjs($p_n = 0) {
+        $lstArray = $this->getLstNLastProjetIds($p_n);
+        $objArray = null;
+        
+        foreach ($lstArray as $value) {
+            $objArray[] = new PROJET($value);
+        }
+        
+        return $objArray;
+    }
 
     
     /**

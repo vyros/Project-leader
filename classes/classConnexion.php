@@ -17,8 +17,12 @@ class CONNEXION {
     public function __destruct() {
         mysql_close($this->m_connection);
     }
+    
+    public function __wakeup() {
+        $this->m_connection = $this->doConnection();
+    }
 
-    private function doConnection() {
+    public function doConnection() {
 
         $resultat = mysql_connect(self::SERVEUR, self::UTILISATEUR, self::PASSWORD)
                 or die("Erreur connexion serveur : " . mysql_error());
@@ -56,12 +60,12 @@ class CONNEXION {
 
         if (is_null($table))
             return mysql_query($requete);
-        
+
         else {
             mysql_query("LOCK TABLES $table WRITE;");
 
             $lastInsertId = false;
-            
+
             /* @var $resultat boolean */
             if ($resultat = mysql_query($requete)) {
                 $lastInsertId = mysql_insert_id();
@@ -82,7 +86,7 @@ class CONNEXION {
     public function getFetchArray($requete, $type = MYSQL_BOTH) {
         $array = null;
         $resultat = mysql_query($requete);
-        
+
         $i = 0;
         while ($obj = mysql_fetch_array($resultat, $type)) {
             $array[$i] = $obj;
@@ -92,7 +96,7 @@ class CONNEXION {
 
         return $array;
     }
-    
+
     /**
      * Retourne la ressource associée au resultat d'une requête.
      * 

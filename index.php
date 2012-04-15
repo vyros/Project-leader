@@ -85,8 +85,8 @@ SITE::init();
                                     <a href="#deconnexion" class="button style2"><span>Se déconnecter</span></a>
                                 </div>
                             <?php } else { ?>
-                                <form method="POST" action="checkout.php">
-                                    <input type="hidden" name="action" value="chkUtilisateur"/>
+                                <form method="POST" action="accueil.php">
+                                    <input type="hidden" name="action" value="getUtilisateur"/>
                                     <div style="position: relative; left: 862px; top: 10px;"> 
                                         Login :<input type='text' name='log' size='18' maxlength='100' value="" />
                                         Password :<input type='password' name='mdp' size='18' maxlength='100' value="" />
@@ -103,7 +103,7 @@ SITE::init();
                                         ?>
                                         <!-- Start css3menu.com BODY section -->
                                         <ul id="css3menu1" class="topmenu">
-                                            <li class="topmenu"><a href="#accueilCo" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                                            <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                                             <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                                                 <ul>
                                                     <li class="subfirst"><a href="#projetAdd">Créer votre projet</a></li>
@@ -117,7 +117,7 @@ SITE::init();
 
                                         <!-- Start css3menu.com BODY section -->
                                         <ul id="css3menu1" class="topmenu">
-                                            <li class="topmenu"><a href="#accueilCo" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                                            <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                                             <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                                                 <ul>
                                                     <li class="subfirst"><a href="#projetLst">Mes projets</a></li>
@@ -131,7 +131,7 @@ SITE::init();
                                     ?>
                                     <!-- Start css3menu.com BODY section -->
                                     <ul id="css3menu1" class="topmenu">
-                                        <li class="topmenu"><a href="#accueilUnco" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+                                        <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
                                         <li class="topmenu"><a href="#presentation" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Présentation"/>Présentation</span></a></li>
                                         <li class="topmenu"><a href="#projetLst" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
                                     </ul>
@@ -154,8 +154,8 @@ SITE::init();
                                      */
                                     ?>
                                 </div>
-                            </div>  
-                        </div>  <!-- end of content -->
+                            </div>  <!-- end of content -->
+                        </div>
                     </div>
 
                     <div id="templatemo_footer_wrapper">

@@ -3,7 +3,7 @@
 include_once("classes/classSite.php");
 SITE::init();
 
-if ($_POST["action"] == "chkUtilisateur") {
+if ($_POST["action"] == "getUtilisateur") {
 
     //RECUPERER DONNEE
     $log = '';
@@ -21,7 +21,7 @@ if ($_POST["action"] == "chkUtilisateur") {
         SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
 
         echo ("<script language = \"JavaScript\">");
-        echo ("location.href = 'index.php#accueilCo';");
+        echo ("location.href = 'index.php#accueil';");
         echo ("</script>");
     }
 } elseif ($_POST["action"] == "addUtilisateur") {
@@ -52,7 +52,7 @@ if ($_POST["action"] == "chkUtilisateur") {
         echo ("location.href = 'index.php';");
         echo ("</script>");
     }
-} elseif ($_POST["action"] == "projetAdd") {
+} elseif ($_POST["action"] == "AddProjet") {
 
     $etatId = $_POST["etat"];
     $libelle = $_POST["libelle"];
@@ -80,7 +80,7 @@ if ($_POST["action"] == "chkUtilisateur") {
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
         echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
-        echo ("location.href = 'index.php#accueilCo';");
+        echo ("location.href = 'index.php#accueil';");
         echo ("</script>");
     }
 }

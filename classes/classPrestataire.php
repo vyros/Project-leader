@@ -19,8 +19,8 @@ class PRESTATAIRE extends STATUT {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    public static function getLstNIds($p_n) {
-        
+    public static function getLstNIds($p_n = 0) {
+
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "'";
 
@@ -32,6 +32,19 @@ class PRESTATAIRE extends STATUT {
 
         return SITE::getConnexion()->getFetchArray($requete);
     }
+
+    public static function getLstNObjs($p_n = 0) {
+
+        $lstArray = self::getLstNIds($p_n);
+        $objArray = null;
+
+        foreach ($lstArray as $value) {
+            $objArray[] = new Utilisateur($value);
+        }
+
+        return $objArray;
+    }
+
 }
 
 ?>

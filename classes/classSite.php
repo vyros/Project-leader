@@ -37,6 +37,8 @@ class SITE {
         }
 
         session_start();
+        // la connexion existe
+        
         self::getConnexion();
     }
 
@@ -72,33 +74,19 @@ class SITE {
      */
     static public function getConnexion() {
         if (isset($_SESSION[connexion]) && $_SESSION[connexion] instanceof CONNEXION) {
-            if ($_SESSION[connexion]->isConnected()) {
-                return $_SESSION[connexion];
+            if (!$_SESSION[connexion]->isConnected()) {
+                $_SESSION[connexion]->doConnection();
             }
-            unset($_SESSION[connexion]);
+        } else {
+            $_SESSION[connexion] = new CONNEXION();
         }
 
-        $_SESSION[connexion] = new CONNEXION();
         return $_SESSION[connexion];
     }
 
     /**
-     * Vérifie qu'il existe un utilisateur instancié dans la variable de session.
-     * 
-     * @return boolean Retourne vrai si un utilisateur est instancié dans 
-     *  la variable de session, sinon retourne faux.
-     */
-    static public function chkUtilisateur() {
-
-        if ($_SESSION[utilisateur] instanceof UTILISATEUR) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Retourne l'utilisateur instancié dans la variable de session.
+     * Vérifie qu'il existe un utilisateur instancié dans la variable de session,
+     *  et le retourne le cas échéant.
      * 
      * @return UTILISATEUR Retourne faux si aucun utilisateur instancié.
      */
