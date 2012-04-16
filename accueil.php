@@ -128,6 +128,6 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
 } elseif (isset ($objUtilisateur)) {
     include 'views/accueilUtilisateur.php';
 } else {
-    include 'views/accueilVisiteur.php';
+    include './views/accueilVisiteur.php';
 }
 ?>
