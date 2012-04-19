@@ -1,5 +1,5 @@
 <?php
-include_once("classes/classSite.php");
+include_once("models/classSite.php");
 SITE::init();
 ?>
 <div class="content_col_w420 fl">

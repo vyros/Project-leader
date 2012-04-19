@@ -11,18 +11,18 @@ class SITE {
      * Initialisation du site, des classes et de la variable de session.
      * 
      * @param boolean $p_min Pour utilisation minimum, charge uniquement les classes
-     *  UTILISATEUR et CONNEXION.
+     *  UTILISATEUR, CONNEXION et CLASSE.
      */
     static public function init($p_min = false) {
 
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
         if ($p_min) {
-            include_once('classes/classConnexion.php');
-            include_once('classes/classClasse.php');
-            include_once('classes/classUtilisateur.php');
+            include_once('models/classConnexion.php');
+            include_once('models/classClasse.php');
+            include_once('models/classUtilisateur.php');
         } else {
-            if ($handle = opendir('classes/')) {
+            if ($handle = opendir('models/')) {
                 while (false !== ($file = readdir($handle))) {
                     $input[] = $file;
                 }
@@ -31,7 +31,7 @@ class SITE {
                 $clsInput = preg_grep('/^(class)+/', $input);
                 foreach ($clsInput as $value) {
                     if ($value != "classSite.php")
-                        include_once("classes/$value");
+                        include_once("models/$value");
                 }
             }
         }

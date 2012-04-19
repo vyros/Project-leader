@@ -1,6 +1,6 @@
 <?php
 
-include_once("classes/classSite.php");
+include_once("models/classSite.php");
 SITE::init();
 
 if ($_POST["action"] == "getUtilisateur") {

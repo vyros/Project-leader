@@ -1,5 +1,5 @@
 <?php
-include_once("classes/classSite.php");
+include_once("models/classSite.php");
 SITE::init();
 ?>
 
@@ -29,16 +29,10 @@ SITE::init();
                 <!-- Progress bar -->
                 <!--        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
                         <script src="js/jquery.min.js"></script>
-                        <script src="js/jquery-ui.min.js"></script>
-                        
-                        <script>
-                        $(document).ready(function() {
-                            $("#progressbar").progressbar({ value: 37 });
-                        });
-                        </script>-->
+                        <script src="js/jquery-ui.min.js"></script>-->
 
                 <script type="text/javascript">
-                    var monTable;
+                    var varTable;
                 </script>
 
                 <script>
@@ -46,6 +40,7 @@ SITE::init();
                         var origContent = "";
 
                         function loadContent(hash) {
+                            var contentName = "";
                             if(hash != "") {
                                 if(origContent == "") {
                                     origContent = $('#content').html();
@@ -56,7 +51,7 @@ SITE::init();
                                 $('#content').html(origContent);
                             }
                         }
-
+                        
                         $(document).ready(function() {
                             $.history.init(loadContent);
                             $('#navigation a').not('.external-link').click(function(e) {
@@ -98,7 +93,6 @@ SITE::init();
                                 <div id="logo"></div>
                                 <?php
                                 if (SITE::getUtilisateur()) {
-                                    #if (SITE::getUtilisateur()->getStatut() instanceof CLIENT) {
                                     if (SITE::getUtilisateur()->getStatut() == "client") {
                                         ?>
                                         <!-- Start css3menu.com BODY section -->
@@ -140,9 +134,6 @@ SITE::init();
                                 ?>
                                 <div class="cleaner"></div>
                             </div> <!-- end of header -->
-                            <div>
-
-                            </div>
                         </div> <!-- end of header wrapper -->
 
                         <div id="templatemo_content_wrapper">
@@ -150,7 +141,7 @@ SITE::init();
                                 <div id="content">
                                     <?php
                                     /**
-                                     * Ici ajax charge la partie dynamique du site.
+                                     * Ici ajax charge la partie dynamique du corps du site.
                                      */
                                     ?>
                                 </div>

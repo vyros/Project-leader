@@ -14,7 +14,13 @@ class UTILISATEUR extends CLASSE {
     private $m_ville;
     private $m_tel;
     private $m_presentation;
+    
+    /**
+     *
+     * @var STATUT 
+     */
     private $m_statut;
+    
     private $m_date;
     private $m_ddc;
 

@@ -1,5 +1,5 @@
 <?php
-include_once("classes/classSite.php");
+include_once("models/classSite.php");
 SITE::init();
 
 // Action requise
@@ -25,7 +25,7 @@ if ($_POST["action"] == "getUtilisateur") {
     }
     
     echo ("<script language = \"JavaScript\">");
-    echo ("location.href = 'index.php#accueil';");
+//    echo ("location.href = 'index.php#accueil';");
     echo ("</script>");
     
 } elseif ($_POST["action"] == "addUtilisateur") {
@@ -49,7 +49,7 @@ if ($_POST["action"] == "getUtilisateur") {
             $message = "Enregistrement effectué avec succès !";
             
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-            echo ("location.href = 'index.php#accueil';");
+//            echo ("location.href = 'index.php#accueil';");
             echo ("</script>");
         }
 
@@ -67,14 +67,14 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
     ?>
 
     <script type="text/javascript">
-        var monTable;
+        var varTable;
     </script>
 
     <script>
         $(document).ready(function() {
             /* Add a click handler to the rows - this could be used as a callback */
             $("#example tbody").click(function(event) {
-                $(monTable.fnSettings().aoData).each(function () {
+                $(varTable.fnSettings().aoData).each(function () {
                     $(this.nTr).removeClass('row_selected');
                 });
                 $(event.target.parentNode).addClass('row_selected');
@@ -82,12 +82,12 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
          
             /* Add a click handler for the delete row */
             $('#delete').click( function() {
-                var anSelected = fnGetSelected( monTable );
-                monTable.fnDeleteRow( anSelected[0] );
+                var anSelected = fnGetSelected( varTable );
+                varTable.fnDeleteRow( anSelected[0] );
             } );
          
             /* Init the table */
-            monTable = $('#example').dataTable( );
+            varTable = $('#example').dataTable( );
         } );
 
         function fnGetSelected( oTableLocal ) {
@@ -128,6 +128,6 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
 } elseif (isset ($objUtilisateur)) {
     include 'views/accueilUtilisateur.php';
 } else {
-    include './views/accueilVisiteur.php';
+    include 'views/accueilVisiteur.php';
 }
 ?>
