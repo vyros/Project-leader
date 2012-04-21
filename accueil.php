@@ -16,14 +16,19 @@ if ($_POST["action"] == "getUtilisateur") {
         $mdp = $_POST['mdp'];
     }
 
+    /**
+     * Le controleur définit le message suite à l'action 
+     */
     $idUtilisateur = UTILISATEUR::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
         SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
+        
         $message[succes] = "Succès !";
     } else {
         $message[erreur] = "Erreur !";
     }
     
+    // Intrusif
     echo ("<script language = \"JavaScript\">");
 //    echo ("location.href = 'index.php#accueil';");
     echo ("</script>");
@@ -57,10 +62,6 @@ if ($_POST["action"] == "getUtilisateur") {
 //        echo ("location.href = 'index.php';");
         echo ("</script>");
     }
-}
-
-if(isset($message)) {
-    include 'views/message.php';
 }
 
 if (SITE::getUtilisateur() instanceof UTILISATEUR) {
@@ -109,25 +110,41 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
     /**
      * L'accueil d'un utilisateur montre ses N derniers projets 
      */
-    $lstUtilisateurProjetObjs = SITE::getUtilisateur()->getLstNLastProjetObjs(5);
+//    $lstUtilisateurProjetObjs = SITE::getUtilisateur()->getLstNLastProjetObjs(5);
+    SITE::setInformation("lstUtilisateurProjetObjs", 
+            SITE::getUtilisateur()->getLstNLastProjetObjs(5));
     
     if (SITE::getUtilisateur()->getStatut() instanceof CLIENT) {
         /**
          * L'accueill d'un client montre une liste de N prestataires 
          */
-        $lstUtilisateurObjs = PRESTATAIRE::getLstNObjs(10);
-        include 'views/accueilClient.php';
+//        $lstUtilisateurObjs = PRESTATAIRE::getLstNObjs(10);
+        SITE::setInformation("lstUtilisateurObjs", 
+            PRESTATAIRE::getLstNObjs(10));
+        
+        SITE::setView("accueilClient");
+//        include 'views/accueilClient.php';
     } else {
         /**
          * L'accueill d'un prestataire montre une liste de N projets 
          */
-        $lstProjetIds = PROJET::getLstNObjs(10);
-        include 'views/accueilPrestataire.php';
+//        $lstProjetIds = PROJET::getLstNObjs(10);
+        SITE::setInformation("lstProjetIds", 
+            PROJET::getLstNObjs(10));
+        
+        SITE::setView("accueilPrestataire");
+//        include 'views/accueilPrestataire.php';
     }
 
 } elseif (isset ($objUtilisateur)) {
-    include 'views/accueilUtilisateur.php';
+    SITE::setView("accueilUtilisateur");
+//    include 'views/accueilUtilisateur.php';
 } else {
-    include 'views/accueilVisiteur.php';
+    SITE::setView("accueilVisiteur");
+//    include 'views/accueilVisiteur.php';
+}
+
+if(!SITE::getController(true)) {
+    SITE::getView();
 }
 ?>

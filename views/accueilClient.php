@@ -11,6 +11,7 @@
             <p>
                 <?php
                 $i = 0;
+                $lstUtilisateurProjetObjs = &SITE::getInformation("lstUtilisateurProjetObjs");
                 foreach ($lstUtilisateurProjetObjs as $objProjet) {
                     echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" .
                     $objProjet->getLibelle() . "</a><br />";
@@ -47,6 +48,7 @@
         <div class="testimonial_box">
             <p>
                 <?php
+                $lstUtilisateurObjs = &SITE::getInformation("lstUtilisateurObjs");
                 foreach ($lstUtilisateurObjs as $objUtilisateur) {
                     echo "<a href=\"#utilisateurLst?idUtilisateur=" . $objUtilisateur->getId() . "\">" .
                     $objUtilisateur . "</a><br />";

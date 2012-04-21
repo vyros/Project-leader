@@ -1,5 +1,4 @@
 <?php
-
 include_once("models/classSite.php");
 SITE::init();
 
@@ -19,11 +18,11 @@ if ($_POST["action"] == "getUtilisateur") {
     $idUtilisateur = UTILISATEUR::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
         SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
-
-        echo ("<script language = \"JavaScript\">");
-        echo ("location.href = 'index.php#accueil';");
-        echo ("</script>");
+        $message[succes] = "Succès !";
+    } else {
+        $message[erreur] = "Erreur !";
     }
+    
 } elseif ($_POST["action"] == "addUtilisateur") {
 
     $mail = $_POST["mail"];

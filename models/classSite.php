@@ -83,6 +83,57 @@ class SITE {
 
         return $_SESSION[connexion];
     }
+    
+    /**
+     * Inclut le controleur demandé par la variable $_POST 
+     */
+    static public function getController($check = false) {
+        if (isset($_POST[controller]) && !$check) {
+            include "$_POST[controller].php";
+            
+        } elseif(isset ($_POST[controller])) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    static public function setController($p_controller) {
+        $_POST[controller] = "$p_controller";
+    }
+    
+    static public function getInformation($p_libelle = null) {
+        if(!is_null($p_libelle)) {
+            if(isset($_SESSION[$p_libelle]))
+                return $_SESSION[$p_libelle];
+        }
+        
+        return null;
+    }
+    
+    static public function setInformation($p_libelle, $p_information) {
+        $_SESSION[$p_libelle] = $p_information;
+    }
+    
+    static public function getMessage() {
+        if (isset($_POST[succes]) || isset($_POST[erreur])) {
+           ;
+        }
+    }
+
+    /**
+     * Inclut le controleur demandé par la variable $_POST 
+     */
+    static public function getView() {
+        if (isset($_POST[view])) {
+            include 'views/message.php';
+            include "views/$_POST[view]";
+        }
+    }
+    
+    static public function setView($p_view) {
+        $_POST[view] = "$p_view.php";
+    }
 
     /**
      * Vérifie qu'il existe un utilisateur instancié dans la variable de session,

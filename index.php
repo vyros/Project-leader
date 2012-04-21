@@ -64,7 +64,9 @@ SITE::init();
                         });
                     })(jQuery);
                 </script>
-
+                <?php
+                SITE::getController();
+                ?>
                 </head>
                 <body>
                     <div id="ajax-links">
@@ -80,7 +82,8 @@ SITE::init();
                                     <a href="#deconnexion" class="button style2"><span>Se déconnecter</span></a>
                                 </div>
                             <?php } else { ?>
-                                <form method="POST" action="accueil.php">
+                                <form method="POST" action="index.php">
+                                    <input type="hidden" name="controller" value="accueil"/>
                                     <input type="hidden" name="action" value="getUtilisateur"/>
                                     <div style="position: relative; left: 862px; top: 10px;"> 
                                         Login :<input type='text' name='log' size='18' maxlength='100' value="" />
@@ -140,6 +143,7 @@ SITE::init();
                             <div id="templatemo_content">
                                 <div id="content">
                                     <?php
+                                    SITE::getView();
                                     /**
                                      * Ici ajax charge la partie dynamique du corps du site.
                                      */
