@@ -7,7 +7,7 @@ SITE::init();
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>web design template, free css html layout</title>
+        <title>project-leader</title>
         <meta name="keywords" content="web design template, free css html layout" />
         <meta name="description" content="web design template, free css html layout provided by templatemo.com for any website purpose" />
         <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
@@ -18,7 +18,8 @@ SITE::init();
 
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery.history.js"></script>
-        <script type="text/javascript" src="js/ajax.js"></script>
+        <!--script type="text/javascript" src="js/ajax.js"></script-->
+        <script type="text/javascript" src="js/oXHR.js"></script>
 
         <link rel="stylesheet" href="css/demo_page.css" type="text/css" media="all">
             <link rel="stylesheet" href="css/demo_table.css" type="text/css" media="all">
@@ -26,115 +27,54 @@ SITE::init();
                 <script type="text/javascript" src="js/jquery.tokeninput.js"></script>
                 <link rel="stylesheet" href="styles/token-input.css" type="text/css" />
 
-                <!-- Progress bar -->
-                <!--        <link rel="stylesheet" href="css/jquery-ui.css" type="text/css"/>
-                        <script src="js/jquery.min.js"></script>
-                        <script src="js/jquery-ui.min.js"></script>-->
-
                 <script type="text/javascript">
                     var varTable;
                 </script>
 
                 <script>
-                    (function($){
-                        var origContent = "";
+                (function($){
+                    var origContent = "";
 
-                        function loadContent(hash) {
-                            var contentName = "";
-                            if(hash != "") {
-                                if(origContent == "") {
-                                    origContent = $('#content').html();
-                                }
-                                $('#content').load(hash +"",
-                                function(){ prettyPrint(); });
-                            } else if(origContent != "") {
-                                $('#content').html(origContent);
+                    function loadContent(hash) {
+                        var contentName = "";
+                        if(hash != "") {
+                            if(origContent == "") {
+                                origContent = $('#content').html();
                             }
+                            $('#content').load(hash +"",
+                            function(){ prettyPrint(); });
+                        } else if(origContent != "") {
+                            $('#content').html(origContent);
                         }
+                    }
                         
-                        $(document).ready(function() {
-                            $.history.init(loadContent);
-                            $('#navigation a').not('.external-link').click(function(e) {
-                                var url = $(this).attr('href');
-                                url = url.replace(/^.*#/, '');
-                                $.history.load(url);
-                                return false;
-                            });
-                            $("#progressbar").progressbar({ value: 37 });
+                    $(document).ready(function() {
+                        getEntete();
+                        $.history.init(loadContent);
+                        $('#navigation a').not('.external-link').click(function(e) {
+                            var url = $(this).attr('href');
+                            url = url.replace(/^.*#/, '');
+                            $.history.load(url);
+                            return false;
                         });
-                    })(jQuery);
+                    });
+                })(jQuery);
                 </script>
-                <?php
-                SITE::getController();
-                ?>
+
                 </head>
                 <body>
                     <div id="ajax-links">
                         <div id="templatemo_header_wrapper">
                             <!-- Free Web Templates from TemplateMo.com -->
-                            <?php
-                            if (SITE::getUtilisateur()) {
-                                //barre perso : nom user + icone profil + icone se deconnecter 
-                                ?>
-                                <div style="position: relative; left: 862px; top: 10px;"> 
-                                    Bonjour <?php echo SITE::getUtilisateur()->getLogin(); ?> ! 
-                                    <a href="#monProfil" class="button style2"><span>Mon profil</span></a> /
-                                    <a href="#deconnexion" class="button style2"><span>Se déconnecter</span></a>
-                                </div>
-                            <?php } else { ?>
-                                <form method="POST" action="index.php">
-                                    <input type="hidden" name="controller" value="accueil"/>
-                                    <input type="hidden" name="action" value="getUtilisateur"/>
-                                    <div style="position: relative; left: 862px; top: 10px;"> 
-                                        Login :<input type='text' name='log' size='18' maxlength='100' value="" />
-                                        Password :<input type='password' name='mdp' size='18' maxlength='100' value="" />
-                                        <input type="submit" value="Valider" />
-                                    </div>
-                                </form>
-                            <?php } ?>
                             <div id="templatemo_header">
                                 <div id="logo"></div>
-                                <?php
-                                if (SITE::getUtilisateur()) {
-                                    if (SITE::getUtilisateur()->getStatut() == "client") {
-                                        ?>
-                                        <!-- Start css3menu.com BODY section -->
-                                        <ul id="css3menu1" class="topmenu">
-                                            <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
-                                            <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
-                                                <ul>
-                                                    <li class="subfirst"><a href="#projetAdd">Créer votre projet</a></li>
-                                                    <li><a href="#projetLst">Mes projets</a></li>
-                                                    <li class="sublast"><a href="#projetEnd">Projets finis</a></li>
-                                                </ul></li>
-                                            <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
-                                        </ul>
-
-                                    <?php } else if (SITE::getUtilisateur()->getStatut() == "prestataire") { ?>
-
-                                        <!-- Start css3menu.com BODY section -->
-                                        <ul id="css3menu1" class="topmenu">
-                                            <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
-                                            <li class="topmenu"><a href="#" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
-                                                <ul>
-                                                    <li class="subfirst"><a href="#projetLst">Mes projets</a></li>
-                                                    <li class="sublast"><a href="#projetEnd">Projets finis</a></li>
-                                                </ul></li>
-                                            <li class="topmenu"><a href="#recherche" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
-                                        </ul>
-                                        <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <!-- Start css3menu.com BODY section -->
-                                    <ul id="css3menu1" class="topmenu">
-                                        <li class="topmenu"><a href="#accueil" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
-                                        <li class="topmenu"><a href="#presentation" style="height:24px;line-height:24px;"><span><img src="testmenu.css3prj_files/css3menu1/256base-open-over.png" alt="Présentation"/>Présentation</span></a></li>
-                                        <li class="topmenu"><a href="#projetLst" style="height:24px;line-height:24px;"><img src="testmenu.css3prj_files/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
-                                    </ul>
+                                <div id="entete">
                                     <?php
-                                }
-                                ?>
+                                    /**
+                                     * Ici ajax charge la partie dynamique de l'entête.
+                                     */
+                                    ?>
+                                </div>
                                 <div class="cleaner"></div>
                             </div> <!-- end of header -->
                         </div> <!-- end of header wrapper -->
@@ -143,7 +83,6 @@ SITE::init();
                             <div id="templatemo_content">
                                 <div id="content">
                                     <?php
-                                    SITE::getView();
                                     /**
                                      * Ici ajax charge la partie dynamique du corps du site.
                                      */

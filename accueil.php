@@ -1,20 +1,17 @@
 <?php
+header("Content-Type: text/plain");
+
 include_once("models/classSite.php");
 SITE::init();
 
+$action = (isset($_GET["action"])) ? $_GET["action"] : null;
+
 // Action requise
-if ($_POST["action"] == "getUtilisateur") {
+if (!is_null($action) && $action == "getUtilisateur") {
 
     //RECUPERER DONNEE
-    $log = '';
-    if (isset($_POST['log'])) {
-        $log = $_POST['log'];
-    }
-
-    $mdp = '';
-    if (isset($_POST['mdp'])) {
-        $mdp = $_POST['mdp'];
-    }
+    $log = (isset($_GET["log"])) ? $_GET["log"] : null;
+    $mdp = (isset($_GET["mdp"])) ? $_GET["mdp"] : null;
 
     /**
      * Le controleur définit le message suite à l'action 
@@ -23,50 +20,58 @@ if ($_POST["action"] == "getUtilisateur") {
     if ($idUtilisateur !== null) {
         SITE::setUtilisateur(new UTILISATEUR($idUtilisateur));
         
-        $message[succes] = "Succès !";
+        $message[succes] = "Connexion réussie !";
     } else {
-        $message[erreur] = "Erreur !";
+        $message[erreur] = "Erreur de login et/ou de mot de passe !";
     }
     
     // Intrusif
-    echo ("<script language = \"JavaScript\">");
-//    echo ("location.href = 'index.php#accueil';");
-    echo ("</script>");
+//    echo ("<script language = \"JavaScript\">");
+//    echo ("getRequest('entete', 'entete');");
+//    echo ("</script>");
     
-} elseif ($_POST["action"] == "addUtilisateur") {
+} elseif (!is_null($action) && $$action == "addUtilisateur") {
 
-    $mail = $_POST["mail"];
-    $log = $_POST["log"];
-    $statut = $_POST["statut"];
-    $mdp = $_POST["mdp"];
-    $mdp2 = $_POST["mdp2"];
+    $mail = (isset($_GET["mail"])) ? $_GET["mail"] : null;
+    $log = (isset($_GET["log"])) ? $_GET["log"] : null;
+    $statut = (isset($_GET["statut"])) ? $_GET["statut"] : null;
+    $mdp = (isset($_GET["mdp"])) ? $_GET["mdp"] : null;
+    $mdp2 = (isset($_GET["mdp2"])) ? $_GET["mdp2"] : null;
 
     if ($mdp != $mdp2) {
 
-        echo ("<script language = \"JavaScript\">alert('erreur');");
-        echo ("</script>");
+        $message[erreur] = "Erreur !";
+        
+        // Intrusif
+//        echo ("<script language = \"JavaScript\">alert('erreur');");
+//        echo ("</script>");
     } else {
 
         /* @var $objUtilisateur UTILISATEUR */
         $objUtilisateur = UTILISATEUR::addUtilisateur($log, $mail, $mdp, $statut);
         if ($objUtilisateur instanceof UTILISATEUR) {
 
-            $message = "Enregistrement effectué avec succès !";
+            $message[succes] = "Enregistrement effectué avec succès !";
             
-            echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
+            // Intrusif
+//            echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
 //            echo ("location.href = 'index.php#accueil';");
-            echo ("</script>");
+//            echo ("</script>");
+        } else {
+            $message[erreur] = "Erreur !";
         }
-
-        echo ("<script language = \"JavaScript\">alert('Erreur d'enregistrement !');");
+        
+        // Intrusif
+//        echo ("<script language = \"JavaScript\">alert('Erreur d'enregistrement !');");
 //        echo ("location.href = 'index.php';");
-        echo ("</script>");
+//        echo ("</script>");
     }
 }
 
+include 'views/message.php';
+
 if (SITE::getUtilisateur() instanceof UTILISATEUR) {
     ?>
-
     <script type="text/javascript">
         var varTable;
     </script>
@@ -110,41 +115,25 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
     /**
      * L'accueil d'un utilisateur montre ses N derniers projets 
      */
-//    $lstUtilisateurProjetObjs = SITE::getUtilisateur()->getLstNLastProjetObjs(5);
-    SITE::setInformation("lstUtilisateurProjetObjs", 
-            SITE::getUtilisateur()->getLstNLastProjetObjs(5));
+    $lstUtilisateurProjetObjs = SITE::getUtilisateur()->getLstNLastProjetObjs(5);
     
     if (SITE::getUtilisateur()->getStatut() instanceof CLIENT) {
         /**
          * L'accueill d'un client montre une liste de N prestataires 
          */
-//        $lstUtilisateurObjs = PRESTATAIRE::getLstNObjs(10);
-        SITE::setInformation("lstUtilisateurObjs", 
-            PRESTATAIRE::getLstNObjs(10));
-        
-        SITE::setView("accueilClient");
-//        include 'views/accueilClient.php';
+        $lstUtilisateurObjs = PRESTATAIRE::getLstNObjs(10);
+        include 'views/accueilClient.php';
     } else {
         /**
          * L'accueill d'un prestataire montre une liste de N projets 
          */
-//        $lstProjetIds = PROJET::getLstNObjs(10);
-        SITE::setInformation("lstProjetIds", 
-            PROJET::getLstNObjs(10));
-        
-        SITE::setView("accueilPrestataire");
-//        include 'views/accueilPrestataire.php';
+        $lstProjetIds = PROJET::getLstNObjs(10);
+        include 'views/accueilPrestataire.php';
     }
 
 } elseif (isset ($objUtilisateur)) {
-    SITE::setView("accueilUtilisateur");
-//    include 'views/accueilUtilisateur.php';
+    include 'views/accueilUtilisateur.php';
 } else {
-    SITE::setView("accueilVisiteur");
-//    include 'views/accueilVisiteur.php';
-}
-
-if(!SITE::getController(true)) {
-    SITE::getView();
+    include 'views/accueilVisiteur.php';
 }
 ?>

@@ -1,10 +1,22 @@
 <?php
-if(isset($_POST[succes])) {
-    $message = $_POST[succes];
-} elseif(isset($_POST[erreur])) {
-    $message = $_POST[erreur];
+$message = (isset($message[succes])) ? $message[succes] : null;
+if(!isset($message[succes]) && isset($message[erreur]))
+    $message = $message[erreur];
+
+if (!is_null($message)) {
+    ?>
+    <div class="content_col_w420 fr">
+        <div class="header_02">Message</div>
+        <div class="testimonial_box_wrapper">
+            <div class="testimonial_box">
+                <p>
+                    <?php
+                    echo $message;
+                    ?>
+                </p>
+            </div>
+        </div>
+    </div><!-- end of a section -->
+    <?php
 }
 ?>
-<div class="content_col_w420 fl">
-    <div class="header_02"><?php echo $message; ?></div>
-</div><!-- end of a section -->

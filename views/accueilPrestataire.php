@@ -11,7 +11,6 @@
             <p>
                 <?php
                 $i = 0;
-                $lstUtilisateurProjetObjs = SITE::getInformation("lstUtilisateurProjetObjs");
                 foreach ($lstUtilisateurProjetObjs as $objProjet) {
                     echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" .
                     $objProjet->getLibelle() . "</a><br />";
@@ -62,7 +61,6 @@
                 </thead>
                 <tbody>
                     <?php
-                    $lstProjetObjs = SITE::getInformation("lstProjetObjs");
                     foreach ($lstProjetObjs as $objProjet) {
                         ?>
                         <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
