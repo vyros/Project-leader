@@ -12,7 +12,7 @@
                 <?php
                 $i = 0;
                 foreach ($lstUtilisateurProjetObjs as $objProjet) {
-                    echo "<a href=\"#projetLst?idProjet=" . $objProjet->getId() . "\">" .
+                    echo "<a href=\"#projetLst.php?idProjet=" . $objProjet->getId() . "\">" .
                     $objProjet->getLibelle() . "</a><br />";
                     $i++;
                 }
@@ -24,7 +24,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#projetAdd">Créer un projet</a></div>
+            <div class="rc_btn_02"><a href="#projetAdd.php">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -32,7 +32,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#projetAdd">Créer votre projet</a></div>
+            <div class="rc_btn_02"><a href="#projetAdd.php">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -48,7 +48,7 @@
             <p>
                 <?php
                 foreach ($lstUtilisateurObjs as $objUtilisateur) {
-                    echo "<a href=\"#utilisateurLst?idUtilisateur=" . $objUtilisateur->getId() . "\">" .
+                    echo "<a href=\"#utilisateurLst.php?idUtilisateur=" . $objUtilisateur->getId() . "\">" .
                     $objUtilisateur . "</a><br />";
                 }
                 ?>

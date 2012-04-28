@@ -55,7 +55,7 @@ if (!is_null($action) && $action == "getUtilisateur") {
             
             // Intrusif
 //            echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-//            echo ("location.href = 'index.php#accueil';");
+//            echo ("location.href = 'index.php#accueil.php';");
 //            echo ("</script>");
         } else {
             $message[erreur] = "Erreur !";

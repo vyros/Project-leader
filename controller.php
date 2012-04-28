@@ -43,7 +43,7 @@ if ($_POST["action"] == "getUtilisateur") {
         if ($objUtilisateur instanceof UTILISATEUR) {
 
             echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-            echo ("location.href = 'index.php#inscription';");
+            echo ("location.href = 'index.php#inscription.php';");
             echo ("</script>");
         }
 
@@ -79,7 +79,7 @@ if ($_POST["action"] == "getUtilisateur") {
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
         echo ("<script language = \"JavaScript\">alert('Projet créer avec succès');");
-        echo ("location.href = 'index.php#accueil';");
+        echo ("location.href = 'index.php#accueil.php';");
         echo ("</script>");
     }
 }

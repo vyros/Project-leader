@@ -22,6 +22,10 @@ class SITE {
             include_once('models/classClasse.php');
             include_once('models/classUtilisateur.php');
         } else {
+            
+            include_once("models/classClasse.php");
+            include_once("models/classStatut.php");
+            
             if ($handle = opendir('models/')) {
                 while (false !== ($file = readdir($handle))) {
                     $input[] = $file;
@@ -30,7 +34,8 @@ class SITE {
 
                 $clsInput = preg_grep('/^(class)+/', $input);
                 foreach ($clsInput as $value) {
-                    if ($value != "classSite.php")
+                    if ($value != "classSite.php" && $value != "classClasse.php" 
+                            && $value != "classStatut.php")
                         include_once("models/$value");
                 }
             }

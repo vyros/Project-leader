@@ -19,7 +19,7 @@ class PRESTATAIRE extends STATUT {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    public static function getLstNIds($p_n = 0) {
+    private static function getLstNIds($p_n = 0) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "'";

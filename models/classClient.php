@@ -18,7 +18,7 @@ class CLIENT extends STATUT {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    public static function getLstNIds($p_n) {
+    private static function getLstNIds($p_n) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "' ";

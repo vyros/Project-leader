@@ -30,7 +30,7 @@ abstract class STATUT {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    abstract public static function getLstNIds($p_n);
+    private static function getLstNIds($p_n) {}
 
     public function __toString() {
         $res = strtolower(get_class($this));
