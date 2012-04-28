@@ -89,6 +89,17 @@ create table demander
 );
 
 /*==============================================================*/
+/* Table : etat                                             */
+/*==============================================================*/
+create table etat
+(
+   eta_id               int(8) not null auto_increment,
+   eta_libelle          varchar(100),
+   eta_date             datetime,
+   primary key (eta_id)
+);
+
+/*==============================================================*/
 /* Table : participer                                           */
 /*==============================================================*/
 create table participer
@@ -115,6 +126,7 @@ create table posseder
 create table projet
 (
    prj_id               int(8) not null auto_increment,
+   eta_id               int(8) not null,
    prj_libelle          varchar(100),
    prj_date             datetime,
    prj_budget           int,
@@ -179,6 +191,64 @@ alter table posseder add constraint fk_posseder foreign key (cpt_id)
 alter table posseder add constraint fk_posseder2 foreign key (uti_id)
       references utilisateur (uti_id) on delete restrict on update restrict;
 
-insert into categorie (cat_libelle) values ('Site internet'), ('Application mobile');
+alter table projet add constraint fk_etat foreign key (eta_id)
+      references etat (eta_id) on delete restrict on update restrict;
 
-insert into competence (cpt_libelle) values ('PHP'), ('Ruby');
+
+INSERT INTO `utilisateur` (`uti_login`, `uti_statut`, `uti_mail`, `uti_mdp`, `uti_nom`, `uti_prenom`, `uti_ddn`, `uti_adresse`, `uti_cp`, `uti_ville`, `uti_tel`, `uti_presentation`, `uti_date`, `uti_ddc`) VALUES
+('vyros', 'client', 'vyros', 'vyros', '', '', '0000-00-00', '', '', '', '', '', '2012-04-09 13:12:21', NULL),
+('varius', 'prestataire', 'varius', 'varius', '', '', '0000-00-00', '', '', '', '', '', '2012-04-09 18:57:13', NULL);
+
+insert into `etat` (`eta_libelle`) values ('Nouveau'), ('En cours'), ('Fermé'), ('Rejeté');
+
+INSERT INTO `projet` (`eta_id`, `prj_libelle`, `prj_date`, `prj_budget`, `prj_echeance`, `prj_description`) VALUES
+(1, 'project-leader', '2012-04-09 13:13:34', 5000, 0, 'site de gestion de projets'),
+(1, '12 monkeys', '2012-04-09 23:06:33', 454, 0, '12 monkeys'),
+(1, 'machete', '2012-04-09 23:06:35', 454, 0, 'machete'),
+(1, 'mr. brooks', '2012-04-09 22:49:18', 300, 0, 'mr. brooks'),
+(1, 'bliss', '2012-04-09 23:25:18', 4000, 0, 'bliss'),
+(1, 'crash', '2012-04-09 23:36:06', 300, 300, 'crash'),
+(2, 'the killer', '2012-04-09 23:39:20', 434, 34, 'the killer'),
+(3, 'blade runner', '2012-04-09 23:45:21', 32, 32, 'blade runner'),
+(3, 'le diable boiteux', '2012-04-14 23:22:13', 4, 6, 'le diable boiteux'),
+(4, 'spaceballs', '2012-04-14 23:31:52', 5, 5, 'spaceballs');
+
+INSERT INTO `participer` (`prj_id`, `uti_id`, `par_date`) VALUES
+(1, 1, '2012-04-09 13:13:34'),
+(2, 1, '2012-04-09 13:13:40'),
+(3, 2, '2012-04-09 22:49:18'),
+(4, 1, '2012-04-09 23:06:33'),
+(5, 1, '2012-04-09 23:25:18'),
+(6, 2, '2012-04-09 23:36:06'),
+(7, 1, '2012-04-09 23:41:37'),
+(8, 2, '2012-04-09 23:45:21'),
+(9, 1, '2012-04-14 23:22:13'),
+(10, 2, '2012-04-14 14:17:18');
+
+insert into `competence` (`cpt_libelle`) values ('PHP'), ('Ruby');
+
+INSERT INTO `demander` (`prj_id`, `cpt_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 2),
+(4, 1),
+(5, 2),
+(6, 2),
+(7, 1),
+(8, 2),
+(9, 1),
+(10, 1);
+
+insert into `categorie` (`cat_libelle`) values ('Site internet'), ('Application mobile');
+
+INSERT INTO `correspondre` (`prj_id`, `cat_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 2),
+(4, 1),
+(5, 2),
+(6, 2),
+(7, 1),
+(8, 2),
+(9, 1),
+(10, 1);
