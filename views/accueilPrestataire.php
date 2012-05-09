@@ -12,8 +12,10 @@
                 <?php
                 $i = 0;
                 foreach ($lstUtilisateurProjetObjs as $objProjet) {
-                    echo "<a href=\"#projetLst.php?idProjet=" . $objProjet->getId() . "\">" .
-                    $objProjet->getLibelle() . "</a><br />";
+                    ?>
+                    <a onclick="getControllerDo('projectLst','idProjet','<?php echo $objProjet->getId(); ?>');">
+                        <?php echo $objProjet->getLibelle(); ?></a><br />
+                    <?php
                     $i++;
                 }
                 ?>
@@ -24,7 +26,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#projetAdd.php">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getControllerDo('projet', 'view', 'addProjet');">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -32,7 +34,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a href="#recherche.php">Rechercher un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getControllerDo('projet', 'view', 'addProjet');">Rechercher un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -118,7 +120,7 @@
     <div class="header_02">Votre compte</div>
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
-            <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
+            <div class="header_03"><a onclick=""><div id="progressbar"></div></a></div>
         </div>
     </div>
 

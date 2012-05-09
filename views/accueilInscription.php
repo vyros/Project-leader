@@ -6,9 +6,11 @@
 ?>
 <div class="content_col_w420 fl">
 
-    <form id="accueil">
+    <form id="ai1">
 
+        <input type="hidden" name="controller" value="accueil"/>
         <input type="hidden" name="action" value="getUtilisateur"/>
+        
         <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
         <table align="center">
@@ -25,7 +27,7 @@
             <br><br>
 
             <tr>
-                <td><input type="button" onclick="getRequest('accueil');" value="Valider" /></td>
+                <td><input type="button" onclick="getFormulaire('ai1');" value="Valider" /></td>
             </tr>
 
         </table>
@@ -34,9 +36,11 @@
 
 <div class="content_col_w420 fr">
 
-    <form id="accueil" style="position: relative; left: 75px;">
+    <form id="ai2" style="position: relative; left: 75px;">
 
+        <input type="hidden" name="controller" value="accueil"/>
         <input type="hidden" name="action" value="addUtilisateur"/>
+        
         <div class="header_02">Inscription<br/></div>
 
         <table align="center">
@@ -72,7 +76,7 @@
             </tr>
             <br><br>
             <tr>
-                <td><input type="button" onclick="getRequest('accueil');" value="Valider" /></td>
+                <td><input type="button" onclick="getFormulaire('ai2');" value="Valider" /></td>
             </tr>
         </table>
     </form>

@@ -1,4 +1,10 @@
 <?php
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+?>
+<?php
 include_once("models/classSite.php");
 SITE::init();
 

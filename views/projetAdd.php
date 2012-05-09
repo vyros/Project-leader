@@ -1,11 +1,14 @@
 <?php
-include_once("models/classSite.php");
-SITE::init();
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 ?>
 <div class="content_col_w420 fl">
 
-    <form method="POST" action="controller.php">
+    <form id="pa1">
 
+        <input type="hidden" name="controller" value="projet"/>
         <input type="hidden" name="action" value="AddProjet"/>
         <input type="hidden" name="etat" value="1"/>
 
@@ -21,7 +24,6 @@ SITE::init();
                 <td><h6>Catégorie :&nbsp </h6></td>
                 <td><select name="categorie" id="categorie" ><option></option>
                         <?php
-                        $lstCategorieIds = CATEGORIE::getLstNIds();
                         foreach ($lstCategorieIds as $value) {
                             $objCategorie = new CATEGORIE($value);
                             echo "<option>" . $objCategorie->getLibelle() . "</option>";
@@ -39,20 +41,19 @@ SITE::init();
                         <script type="text/javascript">
                             $(document).ready(function() {
                                 $("#demo-input-local").tokenInput([
-<?php
-$lstCompetenceIds = COMPETENCE::getLstNIds();
-foreach ($lstCompetenceIds as $value) {
-    $objCompetence = new COMPETENCE($value);
-    ?>
-                {
-                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                },   
-    <?php
-}
-?>
-    ]);
-});
+                            <?php
+                            foreach ($lstCompetenceIds as $value) {
+                                $objCompetence = new COMPETENCE($value);
+                                ?>
+                                            {
+                                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                            },   
+                                <?php
+                            }
+                            ?>
+                                ]);
+                            });
                         </script>
                     </div>
                     <br><br></td>
@@ -75,7 +76,7 @@ foreach ($lstCompetenceIds as $value) {
             <br><br>
 
             <tr>
-                <td><input type="submit" value="Valider"/></td>
+                <td><input type="button" onclick="getFormulaire('pa1');" value="Valider" /></td>
             </tr>
         </table>
     </form>

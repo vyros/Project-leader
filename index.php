@@ -51,12 +51,12 @@ SITE::init();
                     $(document).ready(function() {
                         getEntete();
                         $.history.init(loadContent);
-                        $('#navigation a').not('.external-link').click(function(e) {
-                            var url = $(this).attr('href');
-                            url = url.replace(/^.*#/, '');
-                            $.history.load(url);
-                            return false;
-                        });
+//                        $('#navigation a').not('.external-link').click(function(e) {
+//                            var url = $(this).attr('href');
+//                            url = url.replace(/^.*#/, '');
+//                            $.history.load(url);
+//                            return false;
+//                        });
                     });
                 })(jQuery);
                 </script>

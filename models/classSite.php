@@ -56,9 +56,6 @@ class SITE {
         SITE::init(true);
         if (SITE::getUtilisateur()) {
             session_destroy();
-            echo ("<script language = \"JavaScript\">alert('Vous êtes déconnecté');");
-            echo ("location.href = 'index.php';");
-            echo ("</script>");
         }
     }
 

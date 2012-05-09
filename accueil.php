@@ -5,6 +5,7 @@ include_once("models/classSite.php");
 SITE::init();
 
 $action = (isset($_GET["action"])) ? $_GET["action"] : null;
+$view = (isset($_GET["view"])) ? $_GET["view"] : null;
 
 // Action requise
 if (!is_null($action) && $action == "getUtilisateur") {
@@ -25,12 +26,7 @@ if (!is_null($action) && $action == "getUtilisateur") {
         $message[erreur] = "Erreur de login et/ou de mot de passe !";
     }
     
-    // Intrusif
-//    echo ("<script language = \"JavaScript\">");
-//    echo ("getRequest('entete', 'entete');");
-//    echo ("</script>");
-    
-} elseif (!is_null($action) && $$action == "addUtilisateur") {
+} elseif (!is_null($action) && $action == "addUtilisateur") {
 
     $mail = (isset($_GET["mail"])) ? $_GET["mail"] : null;
     $log = (isset($_GET["log"])) ? $_GET["log"] : null;
@@ -39,12 +35,7 @@ if (!is_null($action) && $action == "getUtilisateur") {
     $mdp2 = (isset($_GET["mdp2"])) ? $_GET["mdp2"] : null;
 
     if ($mdp != $mdp2) {
-
         $message[erreur] = "Erreur !";
-        
-        // Intrusif
-//        echo ("<script language = \"JavaScript\">alert('erreur');");
-//        echo ("</script>");
     } else {
 
         /* @var $objUtilisateur UTILISATEUR */
@@ -52,20 +43,12 @@ if (!is_null($action) && $action == "getUtilisateur") {
         if ($objUtilisateur instanceof UTILISATEUR) {
 
             $message[succes] = "Enregistrement effectué avec succès !";
-            
-            // Intrusif
-//            echo ("<script language = \"JavaScript\">alert('Enregistrement effectué avec succès !');");
-//            echo ("location.href = 'index.php#accueil.php';");
-//            echo ("</script>");
         } else {
             $message[erreur] = "Erreur !";
         }
-        
-        // Intrusif
-//        echo ("<script language = \"JavaScript\">alert('Erreur d'enregistrement !');");
-//        echo ("location.href = 'index.php';");
-//        echo ("</script>");
     }
+} elseif (!is_null($action) && $action == "viewFormulaire") {
+    $viewFormulaire = true;
 }
 
 include 'views/message.php';
@@ -133,6 +116,10 @@ if (SITE::getUtilisateur() instanceof UTILISATEUR) {
 
 } elseif (isset ($objUtilisateur)) {
     include 'views/accueilUtilisateur.php';
+    
+} elseif (isset ($viewFormulaire)) {
+    include 'views/accueilInscription.php';
+    
 } else {
     include 'views/accueilVisiteur.php';
 }
