@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of CLIENT
+ * Description of Client
  *
  * @author jimmy
  */
-class CLIENT extends STATUT {
+class Client extends Statut {
 
     public function __construct() {
         parent::__construct(func_get_args());
@@ -29,7 +29,7 @@ class CLIENT extends STATUT {
             $requete .= ";";
         }
         
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
 }

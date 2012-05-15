@@ -4,6 +4,15 @@
  * and open the template in the editor.
  */
 ?>
+<!--<script type="text/javascript">
+    $('.jsLinkGetControllerView').click(function(){
+        var arg = $(this).attr('class');
+        var targ = arg.split('arg-');
+        if(targ.length == 4){
+            getControllerView(targ[1],targ[2],targ[3]);
+        }
+    });
+</script>-->
 <div class="content_col_w420 fl">
     <div class="header_02">Vos derniers projets</div>
     <div class="testimonial_box_wrapper">
@@ -13,7 +22,8 @@
                 $i = 0;
                 foreach ($lstUtilisateurProjetObjs as $objProjet) {
                     ?>
-                    <a onclick="getControllerDo('projetLst','idProjet','<?php echo $objProjet->getId(); ?>');">
+                    <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId(); ?>"-->
+                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
                         <?php echo $objProjet->getLibelle(); ?></a><br />
                     <?php
                     $i++;
@@ -26,7 +36,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerDo('projet', 'view', 'addProjet');">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -34,7 +44,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerDo('projet', 'view', 'addProjet');">Créer votre projet</a></div>
+            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -51,8 +61,8 @@
                 <?php
                 foreach ($lstUtilisateurObjs as $objUtilisateur) {
                     ?>
-                    <a onclick="getControllerDo('utilisateurLst','idUtilisateur','<?php echo $objUtilisateur->getId(); ?>');">
-                        <?php echo $objUtilisateur->getLibelle(); ?></a><br />
+                    <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
+                        <?php echo $objUtilisateur; ?></a><br />
                     <?php
                 }
                 ?>

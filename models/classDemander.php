@@ -1,6 +1,6 @@
 <?php
 
-class DEMANDER extends CLASSE {
+class Demander extends Classe {
 
     private $m_prj_id;
     private $m_cpt_id;
@@ -14,7 +14,7 @@ class DEMANDER extends CLASSE {
         $requete = " SELECT * FROM demander " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_prj_id = $p_id;
             $this->m_cpt_id = stripslashes($array[cpt_id]);
@@ -27,7 +27,7 @@ class DEMANDER extends CLASSE {
             $requete = "INSERT INTO demander (prj_id, cpt_id) " .
                     "VALUES ('" . $p_prj_id . "', '" . $t_cpt_id . "')";
 
-            SITE::getConnexion()->doSql($requete);
+            Site::getConnexion()->doSql($requete);
         }
     }
 
@@ -49,7 +49,7 @@ class DEMANDER extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     public function getIdProjet() {

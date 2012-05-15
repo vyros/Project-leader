@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of STATUT
+ * Description of Statut
  *
  * @author jimmy
  */
-abstract class STATUT {
+abstract class Statut {
 
     protected $m_libelle;
 

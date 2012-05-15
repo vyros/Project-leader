@@ -1,6 +1,6 @@
 <?php
 
-class UTILISATEUR extends CLASSE {
+class Utilisateur extends Classe {
 
     private $m_id;
     private $m_login;
@@ -33,7 +33,7 @@ class UTILISATEUR extends CLASSE {
         $requete = " SELECT * FROM utilisateur " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_login = stripslashes($array[uti_login]);
@@ -68,7 +68,7 @@ class UTILISATEUR extends CLASSE {
                 " WHERE uti_login = '" . $p_log . "' " .
                 " AND uti_mdp = '" . $p_mdp . "' LIMIT 1;";
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     /**
@@ -91,7 +91,7 @@ class UTILISATEUR extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
     
     
@@ -100,7 +100,7 @@ class UTILISATEUR extends CLASSE {
         $objArray = null;
         
         foreach ($lstArray as $value) {
-            $objArray[] = new PROJET($value);
+            $objArray[] = new Projet($value);
         }
         
         return $objArray;
@@ -128,32 +128,32 @@ class UTILISATEUR extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     
     /**
      * Ajoute un utilisateur.
      * 
-     * @return UTILISATEUR Retourne le nouvel objet en cas de succès, sinon retourne null.
+     * @return Utilisateur Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
     public function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
 
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
                 "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','','','','','','','','','" . date("c") . "')";
 
-        $idUtilisateur = SITE::getConnexion()->doSql($requete, "utilisateur");
+        $idUtilisateur = Site::getConnexion()->doSql($requete, "utilisateur");
         if ($idUtilisateur) {
-            return new UTILISATEUR($idUtilisateur);
+            return new Utilisateur($idUtilisateur);
         }
         return null;
     }
 
     private function chkStatut($p_statut) {
         if ($p_statut == "client") {
-            return new CLIENT($p_statut);
+            return new Client($p_statut);
         } elseif ($p_statut == "prestataire") {
-            return new PRESTATAIRE($p_statut);
+            return new Prestataire($p_statut);
         }
 
         return null;
@@ -206,7 +206,7 @@ class UTILISATEUR extends CLASSE {
     /**
      * Retourne le statut de l'utilisateur.
      * 
-     * @return UTILISATEUR 
+     * @return Utilisateur 
      */
     public function getStatut() {
         return $this->m_statut;

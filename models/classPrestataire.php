@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Description of PRESTATAIRE
+ * Description of Prestataire
  *
  * @author jimmy
  */
-class PRESTATAIRE extends STATUT {
+class Prestataire extends Statut {
 
     public function __construct() {
 
@@ -30,7 +30,7 @@ class PRESTATAIRE extends STATUT {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     public static function getLstNObjs($p_n = 0) {

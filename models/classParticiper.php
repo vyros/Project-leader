@@ -1,6 +1,6 @@
 <?php
 
-class PARTICIPER extends CLASSE {
+class Participer extends Classe {
 
     private $m_prj_id;
     private $m_uti_id;
@@ -14,7 +14,7 @@ class PARTICIPER extends CLASSE {
         $requete = " SELECT * FROM participer " .
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_uti_id = $p_id;
             $this->m_prj_id = stripslashes($array[prj_id]);
@@ -33,7 +33,7 @@ class PARTICIPER extends CLASSE {
         $requete = "INSERT INTO participer (prj_id, uti_id, par_date) " .
                 "VALUES ('" . $p_prj_id . "','" . $p_uti_id . "','" . date("c") . "')";
 
-        return SITE::getConnexion()->doSql($requete);
+        return Site::getConnexion()->doSql($requete);
     }
 
     public function getIdProjet() {

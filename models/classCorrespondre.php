@@ -1,6 +1,6 @@
 <?php
 
-class CORRESPONDRE extends CLASSE {
+class Correspondre extends Classe {
 
     private $m_prj_id;
     private $m_cat_id;
@@ -14,7 +14,7 @@ class CORRESPONDRE extends CLASSE {
         $requete = " SELECT * FROM correspondre " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_prj_id = $p_id;
             $this->m_cat_id = stripslashes($array[cat_id]);
@@ -26,7 +26,7 @@ class CORRESPONDRE extends CLASSE {
         $requete = "INSERT INTO correspondre (prj_id, cat_id) " .
                 "VALUES ('" . $p_prj_id . "','" . $p_cat_id . "')";
 
-        return SITE::getConnexion()->doSql($requete);
+        return Site::getConnexion()->doSql($requete);
     }
 
     public function getIdProjet() {

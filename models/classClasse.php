@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Description of CLASSE
+ * Description of Classe
  *
  * @author jimmy
  */
-abstract class CLASSE {
+abstract class Classe {
 
     public function __construct() {
-        $t_argv = SITE::getOneLevelArray(func_get_arg(0));
+        $t_argv = Site::getOneLevelArray(func_get_arg(0));
         $this->exists($t_argv[0]);
     }
 

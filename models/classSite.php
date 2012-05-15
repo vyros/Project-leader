@@ -5,46 +5,49 @@
  * 
  * @author jimmy
  */
-class SITE {
+class Site {
+
+    /**
+     *
+     * @var Site 
+     */
+    private static $instance = false;
+    
+    /**
+     *
+     * @var Connexion 
+     */
+    private static $connexion = false;
+
+    public function __construct() {
+        // Ici la connexion existe
+        self::getConnexion();
+    }
 
     /**
      * Initialisation du site, des classes et de la variable de session.
      * 
      * @param boolean $p_min Pour utilisation minimum, charge uniquement les classes
-     *  UTILISATEUR, CONNEXION et CLASSE.
+     *  Utilisateur, Connexion et Classe.
      */
-    static public function init($p_min = false) {
+    static public function init() {
 
-        setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
-
-        if ($p_min) {
-            include_once('models/classConnexion.php');
-            include_once('models/classClasse.php');
-            include_once('models/classUtilisateur.php');
-        } else {
-            
-            include_once("models/classClasse.php");
-            include_once("models/classStatut.php");
-            
-            if ($handle = opendir('models/')) {
-                while (false !== ($file = readdir($handle))) {
-                    $input[] = $file;
-                }
-                closedir($handle);
-
-                $clsInput = preg_grep('/^(class)+/', $input);
-                foreach ($clsInput as $value) {
-                    if ($value != "classSite.php" && $value != "classClasse.php" 
-                            && $value != "classStatut.php")
-                        include_once("models/$value");
-                }
-            }
-        }
-
-        session_start();
-        // la connexion existe
+        include_once 'models/classClasse.php';
+        include_once 'models/classStatut.php';
+        include_once 'models/classCategorie.php';
+        include_once 'models/classClient.php';
+        include_once 'models/classCompetence.php';
+        include_once 'models/classConnexion.php';
+        include_once 'models/classCorrespondre.php';
+        include_once 'models/classDemander.php';
+        include_once 'models/classParticiper.php';
+        include_once 'models/classPrestataire.php';
+        include_once 'models/classProjet.php';
+        include_once 'models/classUtilisateur.php';
         
-        self::getConnexion();
+        setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
+        session_start();
+        return self::getInstance();
     }
 
     /**
@@ -53,8 +56,8 @@ class SITE {
      */
     static public function kill() {
 
-        SITE::init(true);
-        if (SITE::getUtilisateur()) {
+        Site::init();
+        if (Site::getUtilisateur()) {
             session_destroy();
         }
     }
@@ -72,54 +75,63 @@ class SITE {
      * Test la connexion instanciée dans la variable de session. En créée une nouvelle
      *  si aucune n'existe ou si fermée.
      * 
-     * @return CONNEXION La connexion a utiliser.
+     * @return Connexion La connexion a utiliser.
      */
     static public function getConnexion() {
-        if (isset($_SESSION[connexion]) && $_SESSION[connexion] instanceof CONNEXION) {
-            if (!$_SESSION[connexion]->isConnected()) {
-                $_SESSION[connexion]->doConnection();
+        if (isset(self::$connexion) && self::$connexion instanceof Connexion) {
+            if (!self::$connexion->isConnected()) {
+                self::$connexion->doConnection();
             }
         } else {
-            $_SESSION[connexion] = new CONNEXION();
+            self::$connexion = new Connexion();
         }
 
-        return $_SESSION[connexion];
+        return self::$connexion;
     }
-    
+
     /**
      * Inclut le controleur demandé par la variable $_POST 
      */
     static public function getController($check = false) {
         if (isset($_POST[controller]) && !$check) {
             include "$_POST[controller].php";
-            
-        } elseif(isset ($_POST[controller])) {
+        } elseif (isset($_POST[controller])) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     static public function setController($p_controller) {
         $_POST[controller] = "$p_controller";
     }
-    
+
     static public function getInformation($p_libelle = null) {
-        if(!is_null($p_libelle)) {
-            if(isset($_SESSION[$p_libelle]))
+        if (!is_null($p_libelle)) {
+            if (isset($_SESSION[$p_libelle]))
                 return $_SESSION[$p_libelle];
         }
-        
+
         return null;
     }
-    
+
     static public function setInformation($p_libelle, $p_information) {
         $_SESSION[$p_libelle] = $p_information;
     }
+
     
+    // bug
+    public static function getInstance() {
+        if (!isset($_SESSION[site]) || !self::$instance instanceof Site) {
+            $_SESSION[site] = new Site();
+        }
+
+        return self::$instance;
+    }
+
     static public function getMessage() {
         if (isset($_POST[succes]) || isset($_POST[erreur])) {
-           ;
+            ;
         }
     }
 
@@ -132,7 +144,7 @@ class SITE {
             include "views/$_POST[view]";
         }
     }
-    
+
     static public function setView($p_view) {
         $_POST[view] = "$p_view.php";
     }
@@ -141,10 +153,10 @@ class SITE {
      * Vérifie qu'il existe un utilisateur instancié dans la variable de session,
      *  et le retourne le cas échéant.
      * 
-     * @return UTILISATEUR Retourne faux si aucun utilisateur instancié.
+     * @return Utilisateur Retourne faux si aucun utilisateur instancié.
      */
     static public function getUtilisateur() {
-        if (isset($_SESSION[utilisateur]) && $_SESSION[utilisateur] instanceof UTILISATEUR) {
+        if (isset($_SESSION[utilisateur]) && $_SESSION[utilisateur] instanceof Utilisateur) {
             return $_SESSION[utilisateur];
         }
 
@@ -154,13 +166,13 @@ class SITE {
     /**
      * Enregistre l'utilisateur en paramètre dans la variable de session.
      * 
-     * @param UTILISATEUR $p_objUtilisateur L'instance a enregistrer dans la variable
+     * @param Utilisateur $p_objUtilisateur L'instance a enregistrer dans la variable
      *  de session.
      * @return boolean Retourne vrai si l'utilisateur en paramètre est une instance
-     *  d'UTILISATEUR, sinon retourne faux.
+     *  d'Utilisateur, sinon retourne faux.
      */
     static public function setUtilisateur($p_objUtilisateur) {
-        if ($p_objUtilisateur instanceof UTILISATEUR) {
+        if ($p_objUtilisateur instanceof Utilisateur) {
             $_SESSION[utilisateur] = $p_objUtilisateur;
             return true;
         }
@@ -179,7 +191,7 @@ class SITE {
             $p_array = $t_array;
             unset($t_array);
         }
-        
+
         return $p_array;
     }
 

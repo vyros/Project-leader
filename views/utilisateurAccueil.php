@@ -1,7 +1,10 @@
 <?php
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Vue utilisateurAccueil
+ * 
+ * Est appelée par le contrôleur utilsateur.
+ * Lorsqu'un utilisateur s'est inscrit avec succès.
+ * Est un formulaire lui demander log/mdp pour le connecter au site.
  */
 ?>
 <div class="content_col_w420 fl">
@@ -9,7 +12,7 @@
     <form id="au1">
 
         <input type="hidden" name="controller" value="accueil"/>
-        <input type="hidden" name="action" value="getUtilisateur"/>
+        <input type="hidden" name="action" value="valider"/>
         
         <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 

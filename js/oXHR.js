@@ -3,21 +3,29 @@
 /*                                                                                    */
 /* ********************************************************************************** */
 
-function getController(controller) {
+// Write less, do more
+function getController(controller){
+    $.get(controller.toString() + ".php",function(data){
+        $('#content').html(data);
+    })
+}
 
-    var xhr = getXMLHttpRequest();
-    var ctr = controller.toString() + ".php";
+function getControllerAction(controller, action){
+    $.get(controller.toString() + ".php", {'action' : action}, function(data){
+        $('#content').html(data);
+    })
+}
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            jQuery(document).ready(function($) {             
-                document.getElementById('content').innerHTML = xhr.responseText;
-            });
-        }
-    };
+function getControllerView(controller, view){
+    $.get(controller.toString() + ".php", {'view' : view}, function(data){
+        $('#content').html(data);
+    })
+}
 
-    xhr.open("GET", ctr, true);
-    xhr.send(null);
+function getControllerView(controller, view, item){
+    $.get(controller.toString() + ".php", {'view' : view, 'id' : item}, function(data){
+        $('#content').html(data);
+    })
 }
 
 function getControllerDo(controller, action, value) {

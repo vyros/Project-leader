@@ -1,6 +1,6 @@
 <?php
 
-class CONNEXION {
+class Connexion {
 
     CONST SERVEUR = 'localhost';
     CONST UTILISATEUR = 'project-leader';

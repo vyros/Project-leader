@@ -1,6 +1,6 @@
 <?php
 
-class CATEGORIE extends CLASSE {
+class Categorie extends Classe {
 
     private $m_id;
     private $m_libelle;
@@ -14,7 +14,7 @@ class CATEGORIE extends CLASSE {
         $requete = " SELECT * FROM categorie " .
                 " WHERE cat_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[cat_libelle]);
@@ -38,7 +38,7 @@ class CATEGORIE extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     public static function getIdFromLibelle($p_libelle) {
@@ -46,7 +46,7 @@ class CATEGORIE extends CLASSE {
         $requete = "SELECT cat_id FROM categorie " .
                 "WHERE cat_libelle = '" . $p_libelle . "'";
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
+        $array = Site::getConnexion()->getFetchArray($requete);
         if ($array != null) {
             return $array[cat_id];
         }

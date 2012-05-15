@@ -4,23 +4,6 @@
  * and open the template in the editor.
  */
 ?>
-<?php
-include_once("models/classSite.php");
-SITE::init();
-
-$lstProjetIds = PROJET::getLstNIds(10);
-
-$idUtilisateur = null;
-if (SITE::getUtilisateur() && !isset($_GET['all'])) {
-    $idUtilisateur = SITE::getUtilisateur()->getId();
-    $lstProjetIds = SITE::getUtilisateur()->getLstNLastProjetIds(10);
-}
-
-if (isset($_GET['idProjet'])) {
-    unset($lstProjetIds);
-    $lstProjetIds[] = array(0 => $_GET['idProjet']);
-}
-?>
 <div class="content_col_w420 fl">
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
@@ -38,7 +21,7 @@ if (isset($_GET['idProjet'])) {
             <tbody>
                 <?php
                 foreach ($lstProjetIds as $idProjet) {
-                    $objProjet = new PROJET($idProjet);
+                    $objProjet = new Projet($idProjet);
                     ?>
                     <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                         <td id="libelle">
@@ -51,7 +34,7 @@ if (isset($_GET['idProjet'])) {
                             <?php
                             $lstCategorieIds = $objProjet->getCategorieIds();
                             foreach ($lstCategorieIds as $idCategorie) {
-                                $objCategorie = new CATEGORIE($idCategorie);
+                                $objCategorie = new Categorie($idCategorie);
                                 echo ('- ');
                                 echo $objCategorie->getLibelle();
                                 echo ('</br>');
@@ -69,7 +52,7 @@ if (isset($_GET['idProjet'])) {
                             <?php
                             $lstCompetenceIds = $objProjet->getCompetenceIds();
                             foreach ($lstCompetenceIds as $idCompetence) {
-                                $objCompetence = new COMPETENCE($idCompetence);
+                                $objCompetence = new Competence($idCompetence);
                                 echo ('- ');
                                 echo $objCompetence->getLibelle();
                                 echo ('</br>');

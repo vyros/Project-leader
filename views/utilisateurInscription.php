@@ -9,7 +9,7 @@
     <form id="ai1">
 
         <input type="hidden" name="controller" value="accueil"/>
-        <input type="hidden" name="action" value="getUtilisateur"/>
+        <input type="hidden" name="action" value="valider"/>
         
         <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
@@ -27,7 +27,7 @@
             <br><br>
 
             <tr>
-                <td><input type="button" onclick="getFormulaire('ai1');" value="Valider" /></td>
+                <td><input id="b1" type="button" onclick="getFormulaire('ai1');" value="Valider" /></td>
             </tr>
 
         </table>
@@ -38,8 +38,8 @@
 
     <form id="ai2" style="position: relative; left: 75px;">
 
-        <input type="hidden" name="controller" value="accueil"/>
-        <input type="hidden" name="action" value="addUtilisateur"/>
+        <input type="hidden" name="controller" value="utilisateur"/>
+        <input type="hidden" name="action" value="ajouter"/>
         
         <div class="header_02">Inscription<br/></div>
 

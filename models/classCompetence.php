@@ -1,6 +1,6 @@
 <?php
 
-class COMPETENCE extends CLASSE {
+class Competence extends Classe {
 
     /**
      *
@@ -23,7 +23,7 @@ class COMPETENCE extends CLASSE {
         $requete = " SELECT * FROM competence " .
                 " WHERE cpt_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[cpt_libelle]);
@@ -47,7 +47,7 @@ class COMPETENCE extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     /**
@@ -63,7 +63,7 @@ class COMPETENCE extends CLASSE {
                 "WHERE cpt_libelle = '" . $p_libelle . "'";
 
 
-        $array = SITE::getConnexion()->getFetchArray($requete);
+        $array = Site::getConnexion()->getFetchArray($requete);
         if ($array != null) {
             return $array[cpt_id];
         }

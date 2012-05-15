@@ -9,7 +9,7 @@
     <form id="pa1">
 
         <input type="hidden" name="controller" value="projet"/>
-        <input type="hidden" name="action" value="AddProjet"/>
+        <input type="hidden" name="action" value="ajouter"/>
         <input type="hidden" name="etat" value="1"/>
 
         <div class="header_02">Créer votre projet<br/></div>
@@ -25,7 +25,7 @@
                 <td><select name="categorie" id="categorie" ><option></option>
                         <?php
                         foreach ($lstCategorieIds as $value) {
-                            $objCategorie = new CATEGORIE($value);
+                            $objCategorie = new Categorie($value);
                             echo "<option>" . $objCategorie->getLibelle() . "</option>";
                         }
                         ?>
@@ -43,7 +43,7 @@
                                 $("#demo-input-local").tokenInput([
                             <?php
                             foreach ($lstCompetenceIds as $value) {
-                                $objCompetence = new COMPETENCE($value);
+                                $objCompetence = new Competence($value);
                                 ?>
                                             {
                                                 id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 

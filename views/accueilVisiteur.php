@@ -23,11 +23,11 @@
     <div class="header_02">Votre statut</div>
 
     <div class="service_box fl margin_right_10">
-        <a onclick="getControllerDo('accueil', 'action', 'viewFormulaire');"><img src="images/templatemo_service_1.jpg" alt="service" /></a>
+        <a onclick="getControllerView('utilisateur', 'inscription');"><img src="images/templatemo_service_1.jpg" alt="service" /></a>
     </div> 
 
     <div class="service_box fl">
-        <a onclick="getControllerDo('accueil', 'action', 'viewFormulaire');"><img src="images/templatemo_service_3.jpg" alt="service" /></a>
+        <a onclick="getControllerView('utilisateur', 'inscription');"><img src="images/templatemo_service_3.jpg" alt="service" /></a>
     </div>
 
     <div class="margin_bottom_10 border_bottom"></div>

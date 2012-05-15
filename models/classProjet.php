@@ -1,6 +1,6 @@
 <?php
 
-class PROJET extends CLASSE {
+class Projet extends Classe {
 
     private $m_id;
     private $m_eta_id;
@@ -19,7 +19,7 @@ class PROJET extends CLASSE {
         $requete = " SELECT * FROM projet " .
                 " WHERE prj_id = " . $p_id . " LIMIT 1;";
 
-        $array = SITE::getOneLevelArray(SITE::getConnexion()->getFetchArray($requete));
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_eta_id = stripslashes($array[eta_id]);
@@ -48,15 +48,15 @@ class PROJET extends CLASSE {
             $requete .= ";";
         }
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     public static function getLstNObjs($p_n = 0) {
-        $lstArray = self::getLstNLastProjetIds($p_n);
+        $lstArray = self::getLstNIds($p_n);
         $objArray = null;
 
         foreach ($lstArray as $value) {
-            $objArray[] = new PROJET($value);
+            $objArray[] = new Projet($value);
         }
 
         return $objArray;
@@ -65,16 +65,16 @@ class PROJET extends CLASSE {
     /**
      * Ajoute un projet.
      * 
-     * @return PROJET Retourne le nouvel objet en cas de succès, sinon retourne null.
+     * @return Projet Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
     static public function addProjet($p_etat, $p_libelle, $p_description, $p_budget, $p_echeance) {
 
         $requete = "INSERT INTO projet (eta_id, prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
                 "VALUES (" . $p_etat . ", '" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . date("c") . "')";
 
-        $idProjet = SITE::getConnexion()->doSql($requete, "projet");
+        $idProjet = Site::getConnexion()->doSql($requete, "projet");
         if ($idProjet) {
-            return new PROJET($idProjet);
+            return new Projet($idProjet);
         }
         return null;
     }
@@ -90,7 +90,7 @@ class PROJET extends CLASSE {
         $requete = "SELECT cat_id FROM correspondre " .
                 " WHERE prj_id = '" . $this->m_id . "';";
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     /**
@@ -104,7 +104,7 @@ class PROJET extends CLASSE {
         $objArray = null;
 
         foreach ($lstArray as $value) {
-            $objArray[] = new CATEGORIE($value);
+            $objArray[] = new Categorie($value);
         }
 
         return $objArray;
@@ -121,7 +121,7 @@ class PROJET extends CLASSE {
         $requete = "SELECT cpt_id FROM demander " .
                 " WHERE prj_id = '" . $this->m_id . "';";
 
-        return SITE::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     /**
@@ -135,7 +135,7 @@ class PROJET extends CLASSE {
         $objArray = null;
 
         foreach ($lstArray as $value) {
-            $objArray[] = new COMPETENCE($value);
+            $objArray[] = new Competence($value);
         }
 
         return $objArray;

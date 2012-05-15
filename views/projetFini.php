@@ -4,16 +4,6 @@
  * and open the template in the editor.
  */
 ?>
-<?php
-include_once("models/classSite.php");
-SITE::init();
-
-$idUtilisateur = null;
-if (SITE::getUtilisateur()) {
-    $idUtilisateur = SITE::getUtilisateur()->getId();
-    $lstProjetIds = SITE::getUtilisateur()->getLstNLastClosedProjetIds();
-}
-?>
 <div class="content_col_w420 fl">
     <div class="header_02">Vos projets menés à terme<br/></div>
     <div id="demo">
@@ -29,7 +19,7 @@ if (SITE::getUtilisateur()) {
             <tbody>
                 <?php
                 foreach ($lstProjetIds as $idProjet) {
-                    $objProjet = new PROJET($idProjet);
+                    $objProjet = new Projet($idProjet);
                     ?>
                     <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                         <td id="libelle">
@@ -42,7 +32,7 @@ if (SITE::getUtilisateur()) {
                             <?php
                             $lstCategorieIds = $objProjet->getCategorieIds();
                             foreach ($lstCategorieIds as $idCategorie) {
-                                $objCategorie = new CATEGORIE($idCategorie);
+                                $objCategorie = new Categorie($idCategorie);
                                 echo ('- ');
                                 echo $objCategorie->getLibelle();
                                 echo ('</br>');
