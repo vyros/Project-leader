@@ -26,7 +26,7 @@ if (!is_null($action) && $action == "ajouter") {
     if ($objProjet instanceof Projet) {
         $idUtilisateur = Site::getUtilisateur()->getId();
         $objParticiper = new Participer();
-
+        
         $objParticiper->addParticipation(Site::getUtilisateur()->getId(), $objProjet->getId());
         $objCorrespondre = new Correspondre();
         $objCorrespondre->addCorrespondance($objProjet->getId(), Categorie::getIdFromLibelle($categorie));

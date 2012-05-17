@@ -29,7 +29,7 @@ class Demander extends Classe {
         foreach ($p_tab_cpt as $t_cpt_id) {
             $requete = "INSERT INTO demander (prj_id, cpt_id) " .
                     "VALUES ('" . $p_prj_id . "', '" . $t_cpt_id . "')";
-
+            
             Site::getConnexion()->doSql($requete);
         }
     }
