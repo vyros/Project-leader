@@ -23,10 +23,13 @@ class Demander extends Classe {
 
     public function addDemande($p_prj_id, $p_tab_cpt) {
 
+        if(is_null($p_tab_cpt))
+            return null;
+        
         foreach ($p_tab_cpt as $t_cpt_id) {
             $requete = "INSERT INTO demander (prj_id, cpt_id) " .
                     "VALUES ('" . $p_prj_id . "', '" . $t_cpt_id . "')";
-
+            
             Site::getConnexion()->doSql($requete);
         }
     }

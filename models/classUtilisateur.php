@@ -99,6 +99,9 @@ class Utilisateur extends Classe {
         $lstArray = $this->getLstNLastProjetIds($p_n);
         $objArray = null;
         
+        if(is_null($objArray))
+            return null;
+        
         foreach ($lstArray as $value) {
             $objArray[] = new Projet($value);
         }

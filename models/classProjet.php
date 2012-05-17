@@ -55,6 +55,9 @@ class Projet extends Classe {
         $lstArray = self::getLstNIds($p_n);
         $objArray = null;
 
+        if (is_null($lstArray))
+            return null;
+
         foreach ($lstArray as $value) {
             $objArray[] = new Projet($value);
         }
@@ -103,6 +106,9 @@ class Projet extends Classe {
         $lstArray = $this->getCategorieIds();
         $objArray = null;
 
+        if (is_null($lstArray))
+            return null;
+
         foreach ($lstArray as $value) {
             $objArray[] = new Categorie($value);
         }
@@ -133,6 +139,9 @@ class Projet extends Classe {
     public function getCompetenceObjs() {
         $lstArray = $this->getCompetenceIds();
         $objArray = null;
+
+        if (is_null($lstArray))
+            return null;
 
         foreach ($lstArray as $value) {
             $objArray[] = new Competence($value);

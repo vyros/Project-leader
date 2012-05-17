@@ -38,6 +38,9 @@ class Prestataire extends Statut {
         $lstArray = self::getLstNIds($p_n);
         $objArray = null;
 
+        if (is_null($lstArray))
+            return null;
+
         foreach ($lstArray as $value) {
             $objArray[] = new Utilisateur($value);
         }

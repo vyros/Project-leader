@@ -20,66 +20,74 @@
             </thead>
             <tbody>
                 <?php
-                foreach ($lstProjetIds as $idProjet) {
-                    $objProjet = new Projet($idProjet);
-                    ?>
-                    <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
-                        <td id="libelle">
-                            <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
-                            <?php echo $objProjet->getLibelle(); ?>
-                        </td>
+                if (!is_null($lstProjetIds)) {
+                    foreach ($lstProjetIds as $idProjet) {
+                        $objProjet = new Projet($idProjet);
+                        ?>
+                        <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
+                            <td id="libelle">
+                                <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
+                                <?php echo $objProjet->getLibelle(); ?>
+                            </td>
 
-                        <td id="categorie">
-                            <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-                            <?php
-                            $lstCategorieIds = $objProjet->getCategorieIds();
-                            foreach ($lstCategorieIds as $idCategorie) {
-                                $objCategorie = new Categorie($idCategorie);
-                                echo ('- ');
-                                echo $objCategorie->getLibelle();
-                                echo ('</br>');
-                            }
-                            ?>											
-                        </td>
+                            <td id="categorie">
+                                <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                <?php
+                                $lstCategorieIds = $objProjet->getCategorieIds();
 
-                        <td id="budget">
-                            <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
-                            <?php echo $objProjet->getBudget(); ?>											
-                        </td>
+                                if (!is_null($lstCategorieIds)) {
+                                    foreach ($lstCategorieIds as $idCategorie) {
+                                        $objCategorie = new Categorie($idCategorie);
+                                        echo ('- ');
+                                        echo $objCategorie->getLibelle();
+                                        echo ('</br>');
+                                    }
+                                }
+                                ?>											
+                            </td>
 
-                        <td id="competence">
-                            <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                            <?php
-                            $lstCompetenceIds = $objProjet->getCompetenceIds();
-                            foreach ($lstCompetenceIds as $idCompetence) {
-                                $objCompetence = new Competence($idCompetence);
-                                echo ('- ');
-                                echo $objCompetence->getLibelle();
-                                echo ('</br>');
-                            }
-                            ?>									
-                        </td>
+                            <td id="budget">
+                                <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
+                                <?php echo $objProjet->getBudget(); ?>											
+                            </td>
 
-                        <td id="dateCreation">
-                            <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                            <?php echo $objProjet->getDateCreation(); ?>											
-                        </td>
+                            <td id="competence">
+                                <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                <?php
+                                $lstCompetenceIds = $objProjet->getCompetenceIds();
 
-                        <td id="description">
-                            <input type="hidden" name="description" value="<?php echo $objProjet->getDescription(); ?>">
-                            <?php echo $objProjet->getDescription(); ?>											
-                        </td>
-                        <?php
-                        if ($idUtilisateur !== null) {
-                            ?>
-                            <td id="action">
-                                <?php echo "boutons d'actions"; ?>							
+                                if (!is_null($lstCompetenceIds)) {
+                                    foreach ($lstCompetenceIds as $idCompetence) {
+                                        $objCompetence = new Competence($idCompetence);
+                                        echo ('- ');
+                                        echo $objCompetence->getLibelle();
+                                        echo ('</br>');
+                                    }
+                                }
+                                ?>									
+                            </td>
+
+                            <td id="dateCreation">
+                                <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
+                                <?php echo $objProjet->getDateCreation(); ?>											
+                            </td>
+
+                            <td id="description">
+                                <input type="hidden" name="description" value="<?php echo $objProjet->getDescription(); ?>">
+                                <?php echo $objProjet->getDescription(); ?>											
                             </td>
                             <?php
-                        }
-                        ?>
-                    </tr>
-                    <?php
+                            if ($idUtilisateur !== null) {
+                                ?>
+                                <td id="action">
+                                    <?php echo "boutons d'actions"; ?>							
+                                </td>
+                                <?php
+                            }
+                            ?>
+                        </tr>
+                        <?php
+                    }
                 }
                 ?>
             </tbody>

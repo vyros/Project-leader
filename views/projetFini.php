@@ -18,39 +18,44 @@
             </thead>
             <tbody>
                 <?php
-                foreach ($lstProjetIds as $idProjet) {
-                    $objProjet = new Projet($idProjet);
-                    ?>
-                    <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
-                        <td id="libelle">
-                            <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
-                            <?php echo $objProjet->getLibelle(); ?>
-                        </td>
+                if (!is_null($lstProjetIds)) {
+                    foreach ($lstProjetIds as $idProjet) {
+                        $objProjet = new Projet($idProjet);
+                        ?>
+                        <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
+                            <td id="libelle">
+                                <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
+                                <?php echo $objProjet->getLibelle(); ?>
+                            </td>
 
-                        <td id="categorie">
-                            <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-                            <?php
-                            $lstCategorieIds = $objProjet->getCategorieIds();
-                            foreach ($lstCategorieIds as $idCategorie) {
-                                $objCategorie = new Categorie($idCategorie);
-                                echo ('- ');
-                                echo $objCategorie->getLibelle();
-                                echo ('</br>');
-                            }
-                            ?>											
-                        </td>
+                            <td id="categorie">
+                                <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                <?php
+                                $lstCategorieIds = $objProjet->getCategorieIds();
 
-                        <td id="dateCreation">
-                            <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                            <?php echo $objProjet->getDateCreation(); ?>											
-                        </td>
+                                if (!is_null($lstCategorieIds)) {
+                                    foreach ($lstCategorieIds as $idCategorie) {
+                                        $objCategorie = new Categorie($idCategorie);
+                                        echo ('- ');
+                                        echo $objCategorie->getLibelle();
+                                        echo ('</br>');
+                                    }
+                                }
+                                ?>											
+                            </td>
 
-                        <td id="description">
-                            <input type="hidden" name="description" value="<?php echo $objProjet->getDescription(); ?>">
-                            <?php echo $objProjet->getDescription(); ?>											
-                        </td>
-                    </tr>
-                    <?php
+                            <td id="dateCreation">
+                                <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
+                                <?php echo $objProjet->getDateCreation(); ?>											
+                            </td>
+
+                            <td id="description">
+                                <input type="hidden" name="description" value="<?php echo $objProjet->getDescription(); ?>">
+                                <?php echo $objProjet->getDescription(); ?>											
+                            </td>
+                        </tr>
+                        <?php
+                    }
                 }
                 ?>
             </tbody>
