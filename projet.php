@@ -15,7 +15,7 @@ if (!is_null($action) && $action == "ajouter") {
     $etatId = (isset($_GET["etat"])) ? $_GET["etat"] : null;
     $libelle = (isset($_GET["libelle"])) ? $_GET["libelle"] : null;
     $categorie = (isset($_GET["categorie"])) ? $_GET["categorie"] : null;
-    $tabIdCompetence = explode(',', $_POST["blah"]);
+    $tabIdCompetence = explode(',', $_GET["blah"]);
     $description = (isset($_GET["description"])) ? $_GET["description"] : null;
     $budget = (isset($_GET["budget"])) ? $_GET["budget"] : null;
     $echeance = (isset($_GET["echeance"])) ? $_GET["echeance"] : null;
@@ -25,11 +25,13 @@ if (!is_null($action) && $action == "ajouter") {
 
     if ($objProjet instanceof Projet) {
         $idUtilisateur = Site::getUtilisateur()->getId();
+        
         $objParticiper = new Participer();
-
         $objParticiper->addParticipation(Site::getUtilisateur()->getId(), $objProjet->getId());
+        
         $objCorrespondre = new Correspondre();
-        $objCorrespondre->addCorrespondance($objProjet->getId(), Categorie::getIdFromLibelle($categorie));
+        $objCorrespondre->addCorrespondance($objProjet->getId(), $categorie);
+        
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 

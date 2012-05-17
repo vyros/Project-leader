@@ -26,7 +26,7 @@
                         <?php
                         foreach ($lstCategorieIds as $value) {
                             $objCategorie = new Categorie($value);
-                            echo "<option>" . $objCategorie->getLibelle() . "</option>";
+                            echo "<option value=\"".$objCategorie->getId()."\">" . $objCategorie->getLibelle() . "</option>";
                         }
                         ?>
                     </select>
