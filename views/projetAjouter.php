@@ -27,7 +27,7 @@
                         if (!is_null($lstCategorieIds)) {
                             foreach ($lstCategorieIds as $value) {
                                 $objCategorie = new Categorie($value);
-                                echo "<option>" . $objCategorie->getLibelle() . "</option>";
+                                echo "<option value=\"" . $objCategorie->getId() . "\">" . $objCategorie->getLibelle() . "</option>";
                             }
                         }
                         ?>
@@ -48,10 +48,10 @@ if (!is_null($lstCompetenceIds)) {
     foreach ($lstCompetenceIds as $value) {
         $objCompetence = new Competence($value);
         ?>
-                        {
-                            id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                            name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                        },   
+                            {
+                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                            },   
         <?php
     }
 }
