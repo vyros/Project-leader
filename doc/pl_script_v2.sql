@@ -17,6 +17,8 @@ drop table if exists cv;
 
 drop table if exists demander;
 
+drop table if exists etat;
+
 drop table if exists participer;
 
 drop table if exists posseder;
