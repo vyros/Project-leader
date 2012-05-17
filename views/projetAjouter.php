@@ -24,9 +24,11 @@
                 <td><h6>Catégorie :&nbsp </h6></td>
                 <td><select name="categorie" id="categorie" ><option></option>
                         <?php
-                        foreach ($lstCategorieIds as $value) {
-                            $objCategorie = new Categorie($value);
-                            echo "<option>" . $objCategorie->getLibelle() . "</option>";
+                        if (!is_null($lstCategorieIds)) {
+                            foreach ($lstCategorieIds as $value) {
+                                $objCategorie = new Categorie($value);
+                                echo "<option>" . $objCategorie->getLibelle() . "</option>";
+                            }
                         }
                         ?>
                     </select>
@@ -41,19 +43,21 @@
                         <script type="text/javascript">
                             $(document).ready(function() {
                                 $("#demo-input-local").tokenInput([
-                            <?php
-                            foreach ($lstCompetenceIds as $value) {
-                                $objCompetence = new Competence($value);
-                                ?>
-                                            {
-                                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                            },   
-                                <?php
-                            }
-                            ?>
-                                ]);
-                            });
+<?php
+if (!is_null($lstCompetenceIds)) {
+    foreach ($lstCompetenceIds as $value) {
+        $objCompetence = new Competence($value);
+        ?>
+                        {
+                            id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                            name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                        },   
+        <?php
+    }
+}
+?>
+        ]);
+    });
                         </script>
                     </div>
                     <br><br></td>

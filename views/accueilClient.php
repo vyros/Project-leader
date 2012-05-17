@@ -20,13 +20,15 @@
             <p>
                 <?php
                 $i = 0;
-                foreach ($lstUtilisateurProjetObjs as $objProjet) {
-                    ?>
-                    <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId(); ?>"-->
-                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                        <?php echo $objProjet->getLibelle(); ?></a><br />
-                    <?php
-                    $i++;
+                if (!is_null($lstUtilisateurProjetObjs)) {
+                    foreach ($lstUtilisateurProjetObjs as $objProjet) {
+                        ?>
+                                    <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId();   ?>"-->
+                        <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            <?php echo $objProjet->getLibelle(); ?></a><br />
+                        <?php
+                        $i++;
+                    }
                 }
                 ?>
             </p>
@@ -59,11 +61,13 @@
         <div class="testimonial_box">
             <p>
                 <?php
-                foreach ($lstUtilisateurObjs as $objUtilisateur) {
-                    ?>
-                    <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
-                        <?php echo $objUtilisateur; ?></a><br />
-                    <?php
+                if (!is_null($lstUtilisateurObjs)) {
+                    foreach ($lstUtilisateurObjs as $objUtilisateur) {
+                        ?>
+                        <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
+                            <?php echo $objUtilisateur; ?></a><br />
+                        <?php
+                    }
                 }
                 ?>
             </p>

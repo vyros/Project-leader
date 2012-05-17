@@ -11,12 +11,14 @@
             <p>
                 <?php
                 $i = 0;
-                foreach ($lstUtilisateurProjetObjs as $objProjet) {
-                    ?>
-                    <a onclick="getControllerView('projet','liste','<?php echo $objProjet->getId(); ?>');">
-                        <?php echo $objProjet->getLibelle(); ?></a><br />
-                    <?php
-                    $i++;
+                if (!is_null($lstUtilisateurProjetObjs)) {
+                    foreach ($lstUtilisateurProjetObjs as $objProjet) {
+                        ?>
+                        <a onclick="getControllerView('projet','liste','<?php echo $objProjet->getId(); ?>');">
+                            <?php echo $objProjet->getLibelle(); ?></a><br />
+                        <?php
+                        $i++;
+                    }
                 }
                 ?>
             </p>
@@ -63,49 +65,57 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($lstProjetObjs as $objProjet) {
-                        ?>
-                        <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
-                            <td id="libelle">
-                                <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
-                                <?php echo $objProjet->getLibelle(); ?>
-                            </td>
+                    if (!is_null($lstProjetObjs)) {
+                        foreach ($lstProjetObjs as $objProjet) {
+                            ?>
+                            <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
+                                <td id="libelle">
+                                    <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
+                                    <?php echo $objProjet->getLibelle(); ?>
+                                </td>
 
-                            <td id="categorie">
-                                <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-                                <?php
-                                $lstCategorieObjs = $objProjet->getCategorieObjs();
-                                foreach ($lstCategorieObjs as $objCategorie) {
-                                    echo ('- ');
-                                    echo $objCategorie->getLibelle();
-                                    echo ('</br>');
-                                }
-                                ?>											
-                            </td>
+                                <td id="categorie">
+                                    <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                    <?php
+                                    $lstCategorieObjs = $objProjet->getCategorieObjs();
 
-                            <td id="budget">
-                                <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
-                                <?php echo $objProjet->getBudget(); ?>											
-                            </td>
+                                    if (!is_null($lstCategorieObjs)) {
+                                        foreach ($lstCategorieObjs as $objCategorie) {
+                                            echo ('- ');
+                                            echo $objCategorie->getLibelle();
+                                            echo ('</br>');
+                                        }
+                                    }
+                                    ?>											
+                                </td>
 
-                            <td id="competence">
-                                <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                                <?php
-                                $lstCompetenceObjs = $objProjet->getCompetenceObjs();
-                                foreach ($lstCompetenceObjs as $objCompetence) {
-                                    echo ('- ');
-                                    echo $objCompetence->getLibelle();
-                                    echo ('</br>');
-                                }
-                                ?>									
-                            </td>
+                                <td id="budget">
+                                    <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
+                                    <?php echo $objProjet->getBudget(); ?>											
+                                </td>
 
-                            <td id="dateCreation">
-                                <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                <?php echo $objProjet->getDateCreation(); ?>											
-                            </td>
-                        </tr>
-                        <?php
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                    <?php
+                                    $lstCompetenceObjs = $objProjet->getCompetenceObjs();
+
+                                    if (!is_null($lstCompetenceObjs)) {
+                                        foreach ($lstCompetenceObjs as $objCompetence) {
+                                            echo ('- ');
+                                            echo $objCompetence->getLibelle();
+                                            echo ('</br>');
+                                        }
+                                    }
+                                    ?>									
+                                </td>
+
+                                <td id="dateCreation">
+                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
+                                    <?php echo $objProjet->getDateCreation(); ?>											
+                                </td>
+                            </tr>
+                            <?php
+                        }
                     }
                     ?>
                 </tbody>
