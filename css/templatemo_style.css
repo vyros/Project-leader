@@ -107,10 +107,11 @@ img {
 	width: 100%;
 	margin: 0 auto;
 	background: url(../images/templatemo_header_bg.jpg) repeat-x;
+        height: 105px;
 }
 
 #templatemo_header {
-	width: 940px;
+	width: 995px;
 	height: 75px;
 	padding: 15px 20px 0 20px;
 	margin: 0 auto;
@@ -118,9 +119,11 @@ img {
 
 #templatemo_header #logo {
 	float: left;
-	width: 300px;
-	height: 48px;
-	background: url(../images/templatemo_logo.jpg) left top no-repeat;
+	width: 423px;
+	height: 113px;
+	background: url(../images/logo_1201_1.png) left no-repeat;
+        right: 85px;
+        position: relative;
 }
 
 /* menu */
