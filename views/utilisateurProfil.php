@@ -9,6 +9,7 @@
 
     <?php
     // Le page profil possede pas beaucoup de difference entre les 2 statut client et presta, juste 2 - 3 modifs
+    // 
     // Par contre, 2 possibles affichages, si c'est le profil de l'utilisateur connecté, il pourra modifier
     // directement ses informations profil et valider. Chaque getXXX devra etre des setXXX (à verif)
     // Si ce n'est pas le profil de l'utilisateur connecté, le profil s'affiche en "read-only"

@@ -125,6 +125,13 @@ img {
         right: 85px;
         position: relative;
 }
+.logoAccueil {
+	width: 435px;
+	height: 270px;
+        position: relative;
+        bottom: 35px;
+
+}
 
 /* menu */
 
