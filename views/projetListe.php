@@ -5,6 +5,79 @@
  */
 ?>
 <div class="content_col_w420 fl">
+    <?php
+
+   
+    if($lstProjetIds[1] == "")
+    {
+        $idProjet = $lstProjetIds[0][0];
+        $objProjet = new Projet($idProjet);
+        //print_r($lstProjetIds);
+    ?>
+    
+    <div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle();?></div>
+    
+    <div id="contenuProjet" class="infoProjet">
+    Description du projet :
+    <?php
+        echo $objProjet->getDescription();
+    ?>
+    </div>
+    <br/>
+    <br/>
+    <div id="budget" class="infoProjet">
+    Budget :
+    <?php
+	echo $objProjet->getBudget();
+    ?>
+    </div>
+    <br/>
+    <br/>
+    <div id="delai" class="infoProjet">
+    Délai fixé :
+    <?php
+	echo $objProjet->getEcheance();
+    ?>
+    </div>
+<br/>
+<br/>
+    <div id="dateCreation" class="infoProjet">
+    Date de création :
+    <?php
+	echo $objProjet->getDateCreation();
+    ?>
+    </div>
+<br/>
+<br/>
+    <div id="statut" class="infoProjet">
+    Statut:
+    <?php
+        $idEtat = $objProjet->getEtatId();
+        
+        // Catch : Etat != classEtat !!!
+        $monEtat = new Etat($idEtat);
+        echo $monEtat->getLibelle();
+    ?>
+    </div>
+    <div id="participant" class="infoProjet">
+    Participant :
+    <?php
+        $lstParticipants = PARTICIPER::voirParticipation($idProjet);
+        if (!is_null($lstParticipants)) {
+            foreach ($lstParticipants as $idUti) {
+                $objUti = new Utilisateur($idUti);
+                echo ('- ');
+                echo $objUti->getLogin();
+                echo ('</br>');
+            }
+        }
+    ?>
+    </div>
+
+    <?php
+    }else
+    {
+    ?>
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -80,7 +153,9 @@
                             if ($idUtilisateur !== null) {
                                 ?>
                                 <td id="action">
-                                    <?php echo "boutons d'actions"; ?>							
+                                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            lien fiche </a>
+                                    							
                                 </td>
                                 <?php
                             }
@@ -89,6 +164,7 @@
                         <?php
                     }
                 }
+    }
                 ?>
             </tbody>
         </table>

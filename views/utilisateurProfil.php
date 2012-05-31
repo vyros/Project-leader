@@ -3,6 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+//var_dump($objUtilisateur);
 ?>
 <div class="content_col_w420 fl">
 
@@ -11,7 +12,7 @@
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-        <div class="header_02">Éditer vos informations<br/></div>
+        <div class="header_02">Profil<br/></div>
 
         <table align="center">
             <tr>
