@@ -9,7 +9,7 @@ ul#css3menu1 li{
 ul#css3menu1 li:hover{
 	z-index:1;}
 ul#css3menu1{
-	padding:6px 6px 6px 0;font-size:0;z-index:999;position:relative;top:18px;left:230px;display:inline-block;zoom:1;
+	padding:6px 6px 6px 0;font-size:0;z-index:999;position:absolute;top:50px;right:175px;display:inline-block;zoom:1;
 	*display:inline;}
 ul#css3menu1>li{
 	margin:0 0 0 6px;}
