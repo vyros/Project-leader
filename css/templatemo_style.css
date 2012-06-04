@@ -104,14 +104,14 @@ img {
 }
 
 #templatemo_header_wrapper {
-        height:105px;
 	width: 100%;
 	margin: 0 auto;
 	background: url(../images/templatemo_header_bg.jpg) repeat-x;
+        height: 105px;
 }
 
 #templatemo_header {
-	width: 940px;
+	width: 995px;
 	height: 75px;
 	padding: 15px 20px 0 20px;
 	margin: 0 auto;
@@ -119,64 +119,13 @@ img {
 
 #templatemo_header #logo {
 	float: left;
-        width: 423px;
-        height: 114px;
-        background: url(../images/logo_1201_1.png) left no-repeat;
+	width: 423px;
+	height: 113px;
+	background: url(../images/logo_1201_1.png) left no-repeat;
         right: 85px;
         position: relative;
 }
-.imgAcc{
-    
-    position:relative;
-    right:645px;
-    bottom:225px;
-    height:270px;
-    
-}
 
-.logoAccueil{
-    
-    position:relative;
-    right:100px;
-}
-
-#ongletsProfil
-{
-    font : bold 11px Batang, arial, serif;
-    list-style-type : none;
-    padding-bottom : 24px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
-    border-bottom : 1px solid #9EA0A1;
-    margin-left : 0;
-}
-
-#ongletsProfil li
-{
-    float : left;
-    height : 21px; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
-    background-color: #F4F9FD;
-    margin : 2px 2px 0 2px !important;  /* Pour les navigateurs autre que IE */
-    margin : 1px 2px 0 2px;  /* Pour IE  */
-    border : 1px solid #9EA0A1;
-}
-
-#ongletsProfil li.active
-{
-    border-bottom: 1px solid #fff;
-    background-color: #fff;
-}
-
-#ongletsProfil a
-{
-    display : block;
-    color : #666;
-    text-decoration : none;
-    padding : 4px;
-}
-
-#ongletsProfil a:hover
-{
-    background : #fff;
-}
 /* menu */
 
 #templatemo_header #templatemo_menu {
