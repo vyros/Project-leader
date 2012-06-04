@@ -61,7 +61,17 @@ class Categorie extends Classe {
     public function getLibelle() {
         return $this->m_libelle;
     }
-
+    
+    public static function getListCategoriesFilsByCode($p_codePere){
+        
+        $requete = "SELECT C.cat_libelle FROM categorie AS C , appartenir AS A " .
+                "WHERE C.cat_id = A.cat_id_fils " .
+                "AND cat_id_pere = '" . $p_codePere . "'";
+        
+        $array = Site::getConnexion()->getFetchArray($requete);
+        if ($array != null){  
+            return $array;
+        }
+    }
 }
-
 ?>
