@@ -8,13 +8,15 @@
     <?php
 
     // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
-    // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement
+    // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
     
     if($lstProjetIds[1] == "")
     {
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
         //print_r($lstProjetIds);
+        $idUti = Site::getUtilisateur()->getId();
+        
     ?>
     
     <div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle();?></div>
@@ -36,7 +38,7 @@
     <br/>
     <br/>
     <div id="delai" class="infoProjet">
-    Délai fixé :
+    DÃ©lai fixÃ© :
     <?php
 	echo $objProjet->getEcheance();
     ?>
@@ -44,7 +46,7 @@
 <br/>
 <br/>
     <div id="dateCreation" class="infoProjet">
-    Date de création :
+    Date de crÃ©ation :
     <?php
 	echo $objProjet->getDateCreation();
     ?>
@@ -83,11 +85,11 @@
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
             <thead>
                 <tr>
-                    <th class="sorting_asc">Intitulé</th>
-                    <th class="sorting_asc">Catégorie</th>
+                    <th class="sorting_asc">IntitulÃƒÂ©</th>
+                    <th class="sorting_asc">CatÃƒÂ©gorie</th>
                     <th class="sorting_asc">Budget</th>
-                    <th class="sorting_asc">Compétence requise</th>
-                    <th class="sorting_asc">Date de création</th>
+                    <th class="sorting_asc">CompÃƒÂ©tence requise</th>
+                    <th class="sorting_asc">Date de crÃƒÂ©ation</th>
                     <th class="sorting_asc">Description</th>
                 </tr>
             </thead>
