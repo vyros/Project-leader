@@ -119,26 +119,27 @@ img {
 
 #templatemo_header #logo {
 	float: left;
-	width: 423px;
+        width: 423px;
         height: 114px;
-	background: url(../images/logo_1201_1.png) left no-repeat;
+        background: url(../images/logo_1201_1.png) left no-repeat;
         right: 85px;
         position: relative;
 }
-
 .imgAcc{
-
+    
     position:relative;
     right:645px;
-    bottom:225px;
+    bottom:-15px;
     height:270px;
     
 }
 
 .logoAccueil{
     
-    position:relative;
-    right:100px;
+    bottom: 125px;
+    left: 64px;
+    position: relative;
+    width: 440px;
 }
 
 #ongletsProfil
