@@ -7,12 +7,16 @@
 <div class="content_col_w420 fl">
     <?php
 
+    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
+    // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
    
     if($lstProjetIds[1] == "")
     {
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
         //print_r($lstProjetIds);
+        $idUti = Site::getUtilisateur()->getId();
+        
     ?>
     
     <div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle();?></div>
@@ -53,8 +57,6 @@
     Statut:
     <?php
         $idEtat = $objProjet->getEtatId();
-        
-        // Catch : Etat != classEtat !!!
         $monEtat = new Etat($idEtat);
         echo $monEtat->getLibelle();
     ?>
