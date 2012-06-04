@@ -36,11 +36,10 @@ class Participer extends Classe {
         return Site::getConnexion()->doSql($requete);
     }
     
-    
     public static function voirParticipation($p_prj_id)
     {
         $requete = "SELECT uti_id FROM participer " .
-                " WHERE prj_id = '" . $p_prj_id . "';";
+                " WHERE prj_id = " . $p_prj_id . ";";
         
         return Site::getConnexion()->getFetchArray($requete);
         

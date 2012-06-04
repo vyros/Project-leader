@@ -3,8 +3,8 @@
 class Connexion {
 
     CONST SERVEUR = 'localhost';
-    CONST UTILISATEUR = 'root';
-    CONST PASSWORD = '';
+    CONST UTILISATEUR = 'project-leader';
+    CONST PASSWORD = 'L9psTTUGyZUArLE6';
     CONST SEL_PASSWORD = '';
     CONST BASE = 'project-leader';
 
