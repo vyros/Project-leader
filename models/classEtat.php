@@ -10,7 +10,7 @@
  *
  * @author nicolas.gard
  */
-class classEtat extends Classe{
+class Etat extends Classe{
 
     private $m_id;
     private $m_libelle;

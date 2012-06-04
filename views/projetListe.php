@@ -85,11 +85,11 @@
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
             <thead>
                 <tr>
-                    <th class="sorting_asc">IntitulÃƒÂ©</th>
-                    <th class="sorting_asc">CatÃƒÂ©gorie</th>
+                    <th class="sorting_asc">Intitulé</th>
+                    <th class="sorting_asc">Catégorie</th>
                     <th class="sorting_asc">Budget</th>
-                    <th class="sorting_asc">CompÃƒÂ©tence requise</th>
-                    <th class="sorting_asc">Date de crÃƒÂ©ation</th>
+                    <th class="sorting_asc">Compétence requise</th>
+                    <th class="sorting_asc">Date de création</th>
                     <th class="sorting_asc">Description</th>
                 </tr>
             </thead>
