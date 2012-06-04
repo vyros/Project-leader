@@ -11,8 +11,9 @@ Site::init();
     <div>
         <?php
         $array = Categorie::getListCategoriesFilsByCode(1);
-        foreach ($array as &$value) {
-            echo $value[cat_libelle]; ?> </br> <?php
+        foreach ($array as &$value) { ?>
+            <input type="checkbox" name=<?php $value[cat_libelle] ?> value= <?php $value[cat_libelle] ?> >
+            </br> <?php
         }
         ?>
     </div>
@@ -23,7 +24,12 @@ Site::init();
         Mobile
     </div>
     <div>
-        
+         <?php
+        $array = Categorie::getListCategoriesFilsByCode(2);
+        foreach ($array as &$value) {
+            echo $value[cat_libelle]; ?> </br> <?php
+        }
+        ?>
     </div>
 </div>
 
@@ -32,7 +38,12 @@ Site::init();
         Base de données
     </div>
     <div>
-        
+         <?php
+        $array = Categorie::getListCategoriesFilsByCode(3);
+        foreach ($array as &$value) {
+            echo $value[cat_libelle]; ?> </br> <?php
+        }
+        ?>
     </div>
 </div>
 
@@ -41,6 +52,11 @@ Site::init();
         Design
     </div>
     <div>
-        
+         <?php
+        $array = Categorie::getListCategoriesFilsByCode(4);
+        foreach ($array as &$value) {
+            echo $value[cat_libelle]; ?> </br> <?php
+        }
+        ?>
     </div>
 </div>
