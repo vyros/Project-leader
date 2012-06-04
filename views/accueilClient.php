@@ -14,7 +14,8 @@
     });
 </script>-->
 <div class="content_col_w420 fl">
-    <div class="header_02">Vos derniers projets</div>
+    <img class="imgIconProjet" src="images/icone_projet.png"/> 
+    <div class="header_02"> Vos derniers projets</div>
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
             <p>
@@ -55,7 +56,7 @@
 
     <div class="margin_bottom_10 border_bottom"></div>
     <div class="margin_bottom_30"></div>
-
+    <img class="imgIconPresta" src="images/icone_presta.png"/> 
     <div class="header_02">Liste de prestataires</div>
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
@@ -78,6 +79,7 @@
 
 
 <div class="content_col_w420 fr">
+    <img class="imgIconCompte" src="images/icone_compte.png"/> 
     <div class="header_02">Votre compte</div>
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
