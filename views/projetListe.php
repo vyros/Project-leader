@@ -38,7 +38,7 @@
     <br/>
     <br/>
     <div id="delai" class="infoProjet">
-    DÃ©lai fixÃ© :
+    Délai fixé :
     <?php
 	echo $objProjet->getEcheance();
     ?>
@@ -46,7 +46,7 @@
 <br/>
 <br/>
     <div id="dateCreation" class="infoProjet">
-    Date de crÃ©ation :
+    Date de création :
     <?php
 	echo $objProjet->getDateCreation();
     ?>
