@@ -9,8 +9,8 @@ ul#css3menu1 li{
 ul#css3menu1 li:hover{
 	z-index:1;}
 ul#css3menu1{
-	padding:6px 6px 6px 0;font-size:0;z-index:999;position:relative;top:18px;left:230px;display:inline-block;zoom:1;
-	*display:inline;}
+	padding:6px 6px 6px 0;font-size:0;z-index:999;position:absolute;top:50px;right:175px;display:inline-block;zoom:1;
+	display:inline;}
 ul#css3menu1>li{
 	margin:0 0 0 6px;}
 * html ul#css3menu1 li a{
@@ -20,7 +20,7 @@ ul#css3menu1 ul>li{
 ul#css3menu1 a:active, ul#css3menu1 a:focus{
 	outline-style:none;}
 ul#css3menu1 a{
-	display:block;vertical-align:middle;text-align:left;text-decoration:none;font:12px Arial;color:#E7E5E5;cursor:pointer;padding:8px 20px;background-color:;background-repeat:repeat;border-width:0;border-style:solid;border-color:transparent;}
+	display:block;vertical-align:middle;text-align:left;text-decoration:none;font:12px Arial;color:#E7E5E5;cursor:pointer;padding:8px 20px;background-repeat:repeat;border-width:0;border-style:solid;border-color:transparent;}
 ul#css3menu1 ul li{
 	float:none;margin:0;}
 ul#css3menu1 ul a{

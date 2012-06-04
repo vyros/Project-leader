@@ -10,7 +10,7 @@
  *
  * @author nicolas.gard
  */
-class Etat extends Classe {
+class Etat extends Classe{
 
     private $m_id;
     private $m_libelle;
@@ -29,7 +29,7 @@ class Etat extends Classe {
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[eta_libelle]);
-            $this->$m_date = stripslashes($array[eta_date]);
+            $this->m_date = stripslashes($array[eta_date]);
         }
     }
     

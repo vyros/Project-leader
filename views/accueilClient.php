@@ -89,3 +89,4 @@
     <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
 </div>
+<img class="imgAcc" src="images/demilogo2.png"/>
