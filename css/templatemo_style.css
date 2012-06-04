@@ -94,6 +94,8 @@ img {
     margin: 0 0 15px 0;
     font-size: 26px;
     color: #333333;
+    position:relative;
+    left:60px;
 }
 
 .header_03 {
@@ -126,6 +128,13 @@ img {
     position: relative;
 }
 
+.libellEntete {
+    font : bold 15px Batang, arial, serif;
+
+}
+
+/* img accueil */
+
 .imgAcc {
     height: 270px;
     left: 0;
@@ -134,12 +143,37 @@ img {
     top: 291px;
 }
 
+
+.imgIconProjet {
+
+    bottom: 342px;
+    position: absolute;
+    width: 45px;
+ 
+}
+.imgIconCompte {
+
+    position: absolute;
+    width: 45px;
+    bottom: 105px;
+ 
+}
+.imgIconPresta {
+
+    position: absolute;
+    width: 45px;
+    bottom: 90px;
+ 
+}
+
 .logoAccueil {
     bottom: 85px;
     left: 540px;
     position: relative;
     width: 440px;
 }
+
+/* profil */
 
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;

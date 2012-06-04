@@ -11,9 +11,10 @@ if (Site::getUtilisateur()) {
     ?>
     <!--div style="position: relative; left: 82px; top: 57px;"--> 
     <div> 
-        Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> ! 
+        <p class="libellEntete">Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> ! 
         <a onclick="getControllerView('utilisateur', 'profil');" class="button style2"><span>Mon profil</span></a> /
         <a onclick="getControllerAction('utilisateur', 'deconnexion');" class="button style2"><span>Se déconnecter</span></a>
+        </p>
     </div>
 <?php } else { ?>
     <form id="en1">

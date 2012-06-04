@@ -44,7 +44,6 @@ class Site {
         include_once 'models/classPrestataire.php';
         include_once 'models/classProjet.php';
         include_once 'models/classUtilisateur.php';
-        include_once 'models/classEtat.php';
         
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
