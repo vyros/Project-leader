@@ -20,7 +20,7 @@
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-        <div class="header_02">Éditer vos informations<br/></div>
+        <div class="header_02">Profil<br/></div>
 
         <table align="center">
             <td>
