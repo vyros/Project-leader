@@ -125,18 +125,16 @@ img {
     right: 85px;
     position: relative;
 }
-.imgAcc{
 
+.imgAcc {
     height: 270px;
     left: 0;
     position: absolute;
     right: 564px;
     top: 291px;
-    
 }
 
-.logoAccueil{
-    
+.logoAccueil {
     bottom: 85px;
     left: 540px;
     position: relative;
