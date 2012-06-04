@@ -129,15 +129,17 @@ img {
     
     position:relative;
     right:645px;
-    bottom:225px;
+    bottom:-15px;
     height:270px;
     
 }
 
 .logoAccueil{
     
-    position:relative;
-    right:100px;
+    bottom: 125px;
+    left: 64px;
+    position: relative;
+    width: 440px;
 }
 
 #ongletsProfil
