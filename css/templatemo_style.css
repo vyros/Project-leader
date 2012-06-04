@@ -125,17 +125,20 @@ img {
     right: 85px;
     position: relative;
 }
+.imgAcc{
 
-.imgAcc {
-    position:relative;
-    right:645px;
-    bottom:-15px;
-    height:270px;
+    height: 270px;
+    left: 0;
+    position: absolute;
+    right: 564px;
+    top: 291px;
+    
 }
 
-.logoAccueil {
-    bottom: 125px;
-    left: 64px;
+.logoAccueil{
+    
+    bottom: 85px;
+    left: 540px;
     position: relative;
     width: 440px;
 }
@@ -201,10 +204,10 @@ img {
 }
 
 #templatemo_banner #banner_content {
-    float: right;
+    bottom: 97px;
+    left: 540px;
+    position: relative;
     width: 435px;
-    padding: 40px 0 0 0;
-    margin-right: 80px;
 }
 
 #banner_content #banner_title {
@@ -255,7 +258,9 @@ img {
 }
 
 .content_col_w420 {
-    width: 440px;
+	position: relative;
+        top: 17px;
+        width: 440px;
 }
 
 .service_box {
