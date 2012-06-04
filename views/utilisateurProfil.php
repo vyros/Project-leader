@@ -3,6 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+//var_dump($objUtilisateur);
 ?>
 <div class="content_col_w420 fl">
 

@@ -8,7 +8,7 @@ $action = (isset($_GET["action"])) ? $_GET["action"] : null;
 $view = (isset($_GET["view"])) ? $_GET["view"] : null;
 
 /**
- * Actions 
+ * Actions Tête de cul !
  */
 if (!is_null($action) && $action == "ajouter") {
 
