@@ -9,7 +9,7 @@ Site::init();
         <div style="color:red">
             Développement Web / Software
         </div>
-        <div style="height:250px">
+        <div>
             <?php
             $array = Categorie::getListCategoriesFilsByCode(1); 
             $i = 0; 
@@ -21,54 +21,87 @@ Site::init();
                    $i = 0;
                }
                $i++; ?>                  
-               <input style="" type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?>
-               <?php }               
-            ?>
+               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <?php } ?>
+               </br>
         </div>
     </div>
-
+    </br>
     <div>
+        </br>
         <div style="color:red">
             Mobile
         </div>
-       <div style="height:250px">
+      <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(2);
-             foreach ($array as &$value) { ?>
-                <input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?><br />
-                </br> <?php
-            }
-            ?>
+            $array = Categorie::getListCategoriesFilsByCode(2); 
+            $i = 0; 
+            /* Sur 4 colonnes */
+            foreach ($array as &$value) {  
+               if ($i == 4)
+               {
+                   ?></br><?php
+                   $i = 0;
+               }
+               $i++; ?>                  
+               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <?php } ?>             
+               </br>
         </div>
     </div>
-
+    </br>
     <div>
+        </br>
         <div style="color:red">
             Base de données
         </div>
-        <div style="height:250px">
+        <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(3);
-             foreach ($array as &$value) { ?>
-                <input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?><br />
-                </br> <?php
-            }
-            ?>
+            $array = Categorie::getListCategoriesFilsByCode(3); 
+            $i = 0; 
+            /* Sur 4 colonnes */
+            foreach ($array as &$value) {  
+               if ($i == 4)
+               {
+                   ?></br><?php
+                   $i = 0;
+               }
+               $i++; ?>                  
+               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <?php } ?>            
+               </br>
         </div>
     </div>
-
+    </br>
     <div>
+        </br>
         <div style="color:red">
             Design
         </div>
-        <div style="height:250px">
+        <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(4);
-             foreach ($array as &$value) { ?>
-                <input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?><br />
-                </br> <?php
-            }
-            ?>
+            $array = Categorie::getListCategoriesFilsByCode(4); 
+            $i = 0; 
+            /* Sur 4 colonnes */
+            foreach ($array as &$value) {  
+               if ($i == 4)
+               {
+                   ?></br><?php
+                   $i = 0;
+               }
+               $i++; ?>                  
+               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <?php } ?>         
+            </br>
         </div>
     </div>
+    </br>
+    </br>
+    <div>
+        <input type="submit" value="Recherche" />
+    </div>
 </form>
+</br>
+<table>
+    
+</table>
