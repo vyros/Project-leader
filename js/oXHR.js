@@ -61,7 +61,7 @@ function getControllerFile(form) {
 }
 
 function getData(form) {
-    
+    //alert(recuperesChamps('rech')[0]);
     var result = "";
     var nodes = document.getElementById(form).elements;
     
@@ -138,4 +138,80 @@ function getXMLHttpRequest() {
     }
 	
     return xhr;
+}
+function recuperesChamps(name){
+	var resultat;
+	if($("*[name="+name+"]").length){
+		switch($("*[name="+name+"]").get(0).tagName){
+			case "SELECT" :
+				resultat = recuperesSelect(name);
+				break;
+			case "INPUT" :
+				if($("*[name="+name+"]").attr("type") == 'radio' )
+				{
+					resultat = recuperesRadio(name) ;
+				}
+
+				if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length > 1)
+				{
+					resultat = recuperesCheckBox(name);	
+				}
+				
+				if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length == 1)
+				{
+					resultat = recuperesRadio(name) ;
+					if(typeof(resultat) == 'undefined')
+						resultat = 0;
+				}
+				
+				if($("*[name="+name+"]").attr("type") == 'text' )
+				{
+					resultat = recuperesTextBox(name);	
+				}
+				
+				break;
+			case "TEXTAREA" :
+				resultat = recuperesTextArea(name);
+				break;
+			default :
+				alert ('ERREUR -> balise non reconnu :' + $("*[name="+name+"]").get(0).tagName);
+				break;
+		}
+		if(typeof(resultat) != 'undefined')
+			return resultat;
+		else
+			return '';
+	}
+	else
+	{
+		alert('ERREUR -> champs : '+ name +' non trouvé');
+	}
+}
+function recuperesSelect(name){
+	return($("select[name="+name+"] option:selected").val());
+}
+function recuperesTextBox(name){
+	return($("input[name="+name+"]").val());
+}
+function recuperesTextArea(name){
+	return($("textarea[name="+name+"]").val());
+}
+function recuperesRadio(name){
+	return($("input[name="+name+"]:checked").val());
+}
+function recuperesCheckBox(name){
+	var i = 0;
+	var tmp = '{';
+	$("input:checked[name="+name+"]").each(function(){
+		tmp += " "+i+": '"+$(this).val()+"',"
+		i++;
+	});
+	if(tmp.length > 1)
+		tmp = tmp.slice(0, -1);
+	tmp += "}";
+	var objetJson = eval('(' + tmp + ')');
+	if(i == 0){
+		return '';
+	}
+	return objetJson;
 }
