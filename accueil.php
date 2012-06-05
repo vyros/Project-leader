@@ -4,8 +4,8 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
-$action = (isset($_GET["action"])) ? $_GET["action"] : null;
-$view = (isset($_GET["view"])) ? $_GET["view"] : null;
+$action = (isset($_POST["action"])) ? $_POST["action"] : null;
+$view = (isset($_POST["view"])) ? $_POST["view"] : null;
 
 /**
  * Actions 
@@ -13,8 +13,8 @@ $view = (isset($_GET["view"])) ? $_GET["view"] : null;
 if (!is_null($action) && $action == "valider") {
 
     //RECUPERER DONNEE
-    $log = (isset($_GET["log"])) ? $_GET["log"] : null;
-    $mdp = (isset($_GET["mdp"])) ? $_GET["mdp"] : null;
+    $log = (isset($_POST["log"])) ? $_POST["log"] : null;
+    $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
 
     /**
      * Le controleur définit le message suite à l'action 

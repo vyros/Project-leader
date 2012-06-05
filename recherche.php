@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -10,13 +11,15 @@ $view = (isset($_GET["view"])) ? $_GET["view"] : null;
 /**
  * Actions 
  */
-if (!is_null($action) && $action == "Recherche") {
-    
+if (!is_null($action) && $action == "liste") {
+    echo '<pre>';
+    print_r($_GET);
+    echo '</pre>';
 } else {
-
-    
-    $lstCategorieFils = Categorie::getListCategoriesFilsByCode(1);
-
+    $lstCategorieFilsDev = Categorie::getListCategoriesFilsByCode(1);
+    $lstCategorieFilsMobile = Categorie::getListCategoriesFilsByCode(2);
+    $lstCategorieFilsBDD = Categorie::getListCategoriesFilsByCode(3);
+    $lstCategorieFilsDesign = Categorie::getListCategoriesFilsByCode(4);
     include 'views/recherchePrestataire.php';
 }
 ?>
