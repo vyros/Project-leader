@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 ?>
-<form id="rp1">
+<form id="rp1" method="post">
 
     <input type="hidden" name="controller" value="recherche"/>
     <input type="hidden" name="action" value="liste"/>
@@ -25,7 +25,7 @@
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" value="tamere" name="rech" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                     <?php
                 }
             }
@@ -51,7 +51,7 @@
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                 <?php }
             } ?>             
             </br>
@@ -75,7 +75,7 @@
         }
         $i++;
         ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
     <?php }
 } ?>            
             </br>
@@ -99,7 +99,7 @@
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
     <?php }
 } ?>         
             </br>
