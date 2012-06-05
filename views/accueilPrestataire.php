@@ -110,8 +110,8 @@
                                 </td>
 
                                 <td id="dateCreation">
-                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                    <?php echo $objProjet->getDateCreation(); ?>											
+                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDate(); ?>">
+                                    <?php echo $objProjet->getDate(); ?>											
                                 </td>
                             </tr>
                             <?php
