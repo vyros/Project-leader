@@ -8,7 +8,7 @@
 
     <input type="hidden" name="controller" value="recherche"/>
     <input type="hidden" name="action" value="liste"/>
-    
+
     <div>
         <div style="color:red">
             Développement Web / Software
@@ -17,16 +17,16 @@
             <?php
             $i = 0;
             /* Sur 4 colonnes */
-            if (!is_null($lstCategorieFils)) {
-                foreach ($lstCategorieFils as &$value) {
+            if (!is_null($lstCategorieFilsDev)) {
+                foreach ($lstCategorieFilsDev as &$value) {
                     if ($i == 4) {
                         ?></br><?php
-                        $i = 0;
-                    }
-                    $i++;
+            $i = 0;
+        }
+        $i++;
                     ?>                  
                     <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
-                <?php
+                    <?php
                 }
             }
             ?>
@@ -41,18 +41,19 @@
         </div>
         <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(2);
             $i = 0;
             /* Sur 4 colonnes */
-            foreach ($array as &$value) {
-                if ($i == 4) {
-                    ?></br><?php
+            if (!is_null($lstCategorieFilsMobile)) {
+                foreach ($lstCategorieFilsMobile as &$value) {
+                    if ($i == 4) {
+                        ?></br><?php
             $i = 0;
         }
         $i++;
-        ?>                  
-                <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
-<?php } ?>             
+                    ?>                  
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+                <?php }
+            } ?>             
             </br>
         </div>
     </div>
@@ -64,18 +65,19 @@
         </div>
         <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(3);
             $i = 0;
             /* Sur 4 colonnes */
-            foreach ($array as &$value) {
-                if ($i == 4) {
-                    ?></br><?php
+            if (!is_null($lstCategorieFilsBDD)) {
+                foreach ($lstCategorieFilsBDD as &$value) {
+                    if ($i == 4) {
+                        ?></br><?php
             $i = 0;
         }
         $i++;
         ?>                  
-                <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
-<?php } ?>            
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+    <?php }
+} ?>            
             </br>
         </div>
     </div>
@@ -87,18 +89,19 @@
         </div>
         <div>
             <?php
-            $array = Categorie::getListCategoriesFilsByCode(4);
             $i = 0;
             /* Sur 4 colonnes */
-            foreach ($array as &$value) {
-                if ($i == 4) {
-                    ?></br><?php
+            if (!is_null($lstCategorieFilsDesign)) {
+                foreach ($lstCategorieFilsDesign as &$value) {
+                    if ($i == 4) {
+                        ?></br><?php
             $i = 0;
         }
         $i++;
-        ?>                  
-                <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
-<?php } ?>         
+                    ?>                  
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+    <?php }
+} ?>         
             </br>
         </div>
     </div>
@@ -106,7 +109,6 @@
     </br>
     <div>
         <input type="button" onclick="getFormulaire('rp1');" value="Valider" />
-<!--        <input type="submit" value="Recherche" />-->
     </div>
 </form>
 </br>
