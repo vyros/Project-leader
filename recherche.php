@@ -11,7 +11,7 @@ $view = (isset($_GET["view"])) ? $_GET["view"] : null;
  * Actions 
  */
 if (!is_null($action) && $action == "Valider") {
-    echo "toto";
+    
 } else {   
     $lstCategorieFilsDev = Categorie::getListCategoriesFilsByCode(1);
     $lstCategorieFilsMobile = Categorie::getListCategoriesFilsByCode(2);

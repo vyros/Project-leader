@@ -18,14 +18,14 @@
             $i = 0;
             /* Sur 4 colonnes */
             if (!is_null($lstCategorieFilsDev)) {
-                foreach ($lstCategorieFilsDev as &$value) {
+                foreach ($lstCategorieFilsDev as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
             $i = 0;
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                     <?php
                 }
             }
@@ -44,14 +44,14 @@
             $i = 0;
             /* Sur 4 colonnes */
             if (!is_null($lstCategorieFilsMobile)) {
-                foreach ($lstCategorieFilsMobile as &$value) {
+                foreach ($lstCategorieFilsMobile as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
             $i = 0;
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                 <?php }
             } ?>             
             </br>
@@ -68,14 +68,14 @@
             $i = 0;
             /* Sur 4 colonnes */
             if (!is_null($lstCategorieFilsBDD)) {
-                foreach ($lstCategorieFilsBDD as &$value) {
+                foreach ($lstCategorieFilsBDD as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
             $i = 0;
         }
         $i++;
         ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
     <?php }
 } ?>            
             </br>
@@ -92,14 +92,14 @@
             $i = 0;
             /* Sur 4 colonnes */
             if (!is_null($lstCategorieFilsDesign)) {
-                foreach ($lstCategorieFilsDesign as &$value) {
+                foreach ($lstCategorieFilsDesign as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
             $i = 0;
         }
         $i++;
                     ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
+                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
     <?php }
 } ?>         
             </br>
