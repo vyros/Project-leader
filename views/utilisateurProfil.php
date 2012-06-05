@@ -1,80 +1,73 @@
 <?php
 /*
- * Par contre, 2 possibles affichages, si c'est le profil de l'utilisateur connecté, il pourra modifier
- * directement ses informations profil et valider. Chaque getXXX devra etre des setXXX (à verif)
- * Si ce n'est pas le profil de l'utilisateur connecté, le profil s'affiche en "read-only"
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
+//var_dump($objUtilisateur);
 ?>
 <div class="content_col_w420 fl">
-    <div class="header_02">Éditer vos informations<br/></div>
 
+    <?php
+    // Le page profil possede pas beaucoup de difference entre les 2 statut client et presta, juste 2 - 3 modifs
+    // 
+    // Par contre, 2 possibles affichages, si c'est le profil de l'utilisateur connecté, il pourra modifier
+    // directement ses informations profil et valider. Chaque getXXX devra etre des setXXX (à verif)
+    // Si ce n'est pas le profil de l'utilisateur connecté, le profil s'affiche en "read-only"
+    
+    ?>
     <form id="up1">
 
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-        <img src="images/ex_avatar.png"/>
-        <br/>
-        <br/>
-        <label for="nom">Nom : </label>  <br />
-        <input id="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br />
+        <div class="header_02">Éditer vos informations<br/></div>
 
-        <label for="prenom">Prénom : </label><br />
-        <input id="prenom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getPrenom(); ?>"/><br />
+        <table align="center">
+            <td>
+                <div>
+                    <img src="images/ex_avatar.png"/>
+                    <br/>
+                    <br/>
+                    <div class="infoProfil">Nom : <?php echo "log";?><br/></div>
+                    <div class="infoProfil">Prénom : <?php echo "";?><br/></div>
+                    <div class="infoProfil">Age : <?php echo "";?><br/></div>
+                    <div class="infoProfil">Localisé à : <?php echo "";?><br/></div>
+                    <div class="infoProfil">Lien Téléchargement CV : <?php echo "";?><br/></div>
+                    <div class="infoProfil">Date inscription : <?php echo "";?><br/></div>
 
-        <label for="ddn">Date de naissance : </label><br />
-        <input id="ddn" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDdn(); ?>"/><br />
+                </div>
+            </td>
 
-        <label for="ville">Localisé(e) à : </label><br />
-        <input id="ville" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getVille(); ?>"/><br />
-
-        <label for="cv">Lien Téléchargement du CV : </label><br />
-        <input id="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br />
-
-        <label for="ddi">Date d'inscription : </label><br />
-        <input id="ddi" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDate(); ?>"/><br />
-
-        <input type="button" onclick="getFormulaire('up1');" value="Valider" />
+            <td>
+                <div style="position: relative; height: 230px; left: 10px; width:740px;">
+                    <div class="header_02"><?php echo $objUtilisateur->getLogin();?></div>
+                    <div class="">Statut :</div>
+                    <div class="">Présentation :<textarea></textarea></div>
+                    
+                    <div class="margin_bottom_20 border_bottom"></div>
+                    <div class="margin_bottom_30"></div>
+                    
+                    <div class="">Compétences :<textarea></textarea></div>
+                    
+                    <div class="margin_bottom_20 border_bottom"></div>
+                    <div class="margin_bottom_30"></div>
+                    
+                    <div id="menuProfil">
+                        <ul id="ongletsProfil">
+                            <li class="active"><a href=""> Projets réalisés </a></li>
+                            <li><a href=""> Projets en cours </a></li>
+                            <li><a href=""> Commentaire </a></li>
+                        </ul>
+                        <div id="contenuOnglet">
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </td>
+            <tr>
+                <td><input type="button" onclick="getFormulaire('up1');" value="Valider" /></td>
+            </tr>
+        </table>
     </form>
-
-</div>
-
-<!--        <div style="position: relative; height: 230px; left: 10px; width:740px;">-->
-<div class="content_col_w420 fr">
-    <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
-
-    <form id="up2">
-
-        <input type="hidden" name="controller" value="utilisateur"/>
-        <input type="hidden" name="action" value="profil"/>
-
-
-        <label for="statut">Statut : </label><br />
-        <input id="statut" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getStatut(); ?>"/><br />
-
-        <label for="presentation">Présentation : </label><br />
-        <input id="presentation" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br />
-
-        <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
-
-        <label for="competence">Compétences : </label><br />
-        <input id="competence" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br />
-
-        <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
-
-        <div id="menuProfil">
-            <ul id="ongletsProfil">
-                <li class="active"><a href=""> Projets réalisés </a></li>
-                <li><a href=""> Projets en cours </a></li>
-                <li><a href=""> Commentaire </a></li>
-            </ul>
-            <div id="contenuOnglet">
-
-            </div>
-        </div>
-
-        <input type="button" onclick="getFormulaire('up1');" value="Valider" />
-    </form>
-</div>
+</div><!-- end of a section -->

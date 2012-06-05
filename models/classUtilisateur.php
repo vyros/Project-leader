@@ -215,7 +215,7 @@ class Utilisateur extends Classe {
         return $this->m_statut;
     }
 
-    public function getDate() {
+    public function getDateCreation() {
         return $this->m_date;
     }
 
