@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 ?>
-<form>
+<form id="Recherche">
     <div>
         <div style="color:red">
             Développement Web / Software
@@ -22,7 +22,7 @@
                    $i = 0;
                }
                $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
                <?php } ?>
                </br>
         </div>
@@ -45,7 +45,7 @@
                    $i = 0;
                }
                $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
                <?php } ?>             
                </br>
         </div>
@@ -68,7 +68,7 @@
                    $i = 0;
                }
                $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
                <?php } ?>            
                </br>
         </div>
@@ -91,7 +91,7 @@
                    $i = 0;
                }
                $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
+               <div style="width:200px;float:left"><input type="checkbox" name="rech[]" value=<?php echo $value[cat_id] ?> /><?php echo $value[cat_libelle] ?></div>
                <?php } ?>         
             </br>
         </div>

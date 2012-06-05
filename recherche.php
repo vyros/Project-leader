@@ -10,8 +10,9 @@ $view = (isset($_GET["view"])) ? $_GET["view"] : null;
 /**
  * Actions 
  */
+
 if (!is_null($action) && $action == "Recherche") {
-    
+   
 }
 else
 {
