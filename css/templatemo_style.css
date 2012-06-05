@@ -149,21 +149,21 @@ img {
     bottom: 342px;
     position: absolute;
     width: 45px;
- 
+
 }
 .imgIconCompte {
 
     position: absolute;
     width: 45px;
     bottom: 105px;
- 
+
 }
 .imgIconPresta {
 
     position: absolute;
     width: 45px;
     bottom: 90px;
- 
+
 }
 
 .logoAccueil {
@@ -290,9 +290,9 @@ img {
 }
 
 .content_col_w420 {
-	position: relative;
-        top: 17px;
-        width: 440px;
+    position: relative;
+    top: 17px;
+    width: 440px;
 }
 
 .service_box {
