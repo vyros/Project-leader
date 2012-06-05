@@ -82,11 +82,20 @@ if (!is_null($view) && $view == "accueil") {
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_GET["id"])) ? $_GET["id"] : null;
-    if ($idUtilisateur !== null) {
-        $objUtilisateur = new Utilisateur($idUtilisateur);
-    } else {
-        $message[erreur] = "Utilisateur inexistant !";
+    $objUtilisateur = null;
+    
+    if(!is_null(Site::getUtilisateur())) {
+        $objUtilisateur = &Site::getUtilisateur();
     }
-    include 'views/utilisateurProfil.php';
+    
+    if(!is_null($idUtilisateur)) {
+        $objUtilisateur = new Utilisateur($idUtilisateur);
+    }
+    
+    if(is_null($objUtilisateur)) {
+        $message[erreur] = "Utilisateur inexistant !";
+    } else {
+        include 'views/utilisateurProfil.php';
+    }
 }
 ?>
