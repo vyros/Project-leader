@@ -3,105 +3,18 @@ header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-?>
-<form>
-    <div>
-        <div style="color:red">
-            Développement Web / Software
-        </div>
-        <div>
-            <?php
-            $array = Categorie::getListCategoriesFilsByCode(1); 
-            $i = 0; 
-            /* Sur 4 colonnes */
-            foreach ($array as &$value) {  
-               if ($i == 4)
-               {
-                   ?></br><?php
-                   $i = 0;
-               }
-               $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
-               <?php } ?>
-               </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Mobile
-        </div>
-      <div>
-            <?php
-            $array = Categorie::getListCategoriesFilsByCode(2); 
-            $i = 0; 
-            /* Sur 4 colonnes */
-            foreach ($array as &$value) {  
-               if ($i == 4)
-               {
-                   ?></br><?php
-                   $i = 0;
-               }
-               $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
-               <?php } ?>             
-               </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Base de données
-        </div>
-        <div>
-            <?php
-            $array = Categorie::getListCategoriesFilsByCode(3); 
-            $i = 0; 
-            /* Sur 4 colonnes */
-            foreach ($array as &$value) {  
-               if ($i == 4)
-               {
-                   ?></br><?php
-                   $i = 0;
-               }
-               $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
-               <?php } ?>            
-               </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Design
-        </div>
-        <div>
-            <?php
-            $array = Categorie::getListCategoriesFilsByCode(4); 
-            $i = 0; 
-            /* Sur 4 colonnes */
-            foreach ($array as &$value) {  
-               if ($i == 4)
-               {
-                   ?></br><?php
-                   $i = 0;
-               }
-               $i++; ?>                  
-               <div style="width:200px;float:left"><input type="checkbox" name=<?php echo $value[cat_libelle] ?> value=<?php echo $value[cat_libelle] ?> /><?php echo $value[cat_libelle] ?></div>
-               <?php } ?>         
-            </br>
-        </div>
-    </div>
-    </br>
-    </br>
-    <div>
-        <input type="submit" value="Recherche" />
-    </div>
-</form>
-</br>
-<table>
+
+$action = (isset($_GET["action"])) ? $_GET["action"] : null;
+$view = (isset($_GET["view"])) ? $_GET["view"] : null;
+
+/**
+ * Actions 
+ */
+if (!is_null($action) && $action == "Recherche") {
     
-</table>
+}
+else
+{
+    include 'views/recherchePrestataire.php';    
+}
+?>
