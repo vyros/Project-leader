@@ -46,7 +46,7 @@ Site::init();
                 }
                         
                 $(document).ready(function() {
-                    getEntete();
+                    getHeader();
                     $.history.init(loadContent);
                     //                        $('#navigation a').not('.external-link').click(function(e) {
                     //                            var url = $(this).attr('href');

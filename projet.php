@@ -4,21 +4,21 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
-$action = (isset($_GET["action"])) ? $_GET["action"] : null;
-$view = (isset($_GET["view"])) ? $_GET["view"] : null;
+$action = (isset($_POST["action"])) ? $_POST["action"] : null;
+$view = (isset($_POST["view"])) ? $_POST["view"] : null;
 
 /**
  * Actions Tête de cul !
  */
 if (!is_null($action) && $action == "ajouter") {
 
-    $etatId = (isset($_GET["etat"])) ? $_GET["etat"] : null;
-    $libelle = (isset($_GET["libelle"])) ? $_GET["libelle"] : null;
-    $categorie = (isset($_GET["categorie"])) ? $_GET["categorie"] : null;
-    $tabIdCompetence = explode(',', $_GET["blah"]);
-    $description = (isset($_GET["description"])) ? $_GET["description"] : null;
-    $budget = (isset($_GET["budget"])) ? $_GET["budget"] : null;
-    $echeance = (isset($_GET["echeance"])) ? $_GET["echeance"] : null;
+    $etatId = (isset($_POST["etat"])) ? $_POST["etat"] : null;
+    $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+    $categorie = (isset($_POST["categorie"])) ? $_POST["categorie"] : null;
+    $tabIdCompetence = explode(',', $_POST["blah"]);
+    $description = (isset($_POST["description"])) ? $_POST["description"] : null;
+    $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
+    $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
 
     /* @var $objProjet Projet */
     $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
@@ -65,11 +65,11 @@ if (!is_null($view) && $view == "ajouter") {
 
 } elseif (!is_null($view) && $view == "liste") {
     
-    $idProjet = (isset($_GET["id"])) ? $_GET["id"] : null;
+    $idProjet = (isset($_POST["id"])) ? $_POST["id"] : null;
     $lstProjetIds = Projet::getLstNIds(10);
 
     $idUtilisateur = null;
-    if (Site::getUtilisateur() && !isset($_GET['all'])) {
+    if (Site::getUtilisateur() && !isset($_POST['all'])) {
         $idUtilisateur = Site::getUtilisateur()->getId();
         $lstProjetIds = Site::getUtilisateur()->getLstNLastProjetIds(10);
     }

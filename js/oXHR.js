@@ -5,29 +5,29 @@
 
 // Write less, do more
 function getController(controller){
-    $.get(controller.toString() + ".php",function(data){
+    $.post(controller.toString() + ".php",function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerAction(controller, action){
-    $.get(controller.toString() + ".php", {
+function getController(controller, action){
+    $.post(controller.toString() + ".php", {
         'action' : action
     }, function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerView(controller, view){
-    $.get(controller.toString() + ".php", {
+function getView(controller, view){
+    $.post(controller.toString() + ".php", {
         'view' : view
     }, function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerView(controller, view, item){
-    $.get(controller.toString() + ".php", {
+function getView(controller, view, item){
+    $.post(controller.toString() + ".php", {
         'view' : view, 
         'id' : item
     }, function(data){
@@ -35,32 +35,18 @@ function getControllerView(controller, view, item){
     })
 }
 
-function getControllerDo(controller, action, value) {
-    var xhr = getXMLHttpRequest();
-    var rqt = controller.toString() + '.php?' + action.toString() + '=' + value.toString();
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            jQuery(document).ready(function($) {
-                document.getElementById('content').innerHTML = xhr.responseText;
-            });
-        }
-    };
-
-    xhr.open("GET", rqt, true);
-    xhr.send(null);
-}
-
+// Private
 function getControllerFile(form) {
     return $('#'+form+' input[name=controller]').val() + '.php';
 }
 
+// Private
 function getData(form) {
     var objJSon = {};
 
     $('#'+form+' input, #'+form+' select, #'+form+' textarea').each(function(){
         if($(this).attr('name') && $(this).attr('name') != 'controller') {
-            eval('objJSon.'+$(this).attr('name')+' = recuperesChamps("'+$(this).attr('name')+'")');
+            eval('objJSon.'+$(this).attr('name')+' = getField("'+$(this).attr('name')+'")');
    
         }
     });
@@ -68,7 +54,13 @@ function getData(form) {
     return objJSon;
 }
 
-function getEntete() {
+function getHeader() {
+    
+//     $(document).ready(function($){
+//         $.post('entete.php', function(data){
+//             document.getElementById('entete').html(data);
+//         })
+//    });
     
     var xhr = getXMLHttpRequest();
 
@@ -80,17 +72,14 @@ function getEntete() {
         }
     };
 
-    xhr.open("GET", 'entete.php', true);
+    xhr.open("POST", 'entete.php', true);
     xhr.send(null);
 }
 
-function getFormulaire(form) {
+function getFormulary(form) {
     var ctr = getControllerFile(form.toString());
      
     $.post(ctr, getData(form), function(data){
-        if(ctr.toString() == 'accueil.php')                   
-            getEntete();
-   
         $('#content').html(data);
     });
 }
@@ -116,48 +105,50 @@ function getXMLHttpRequest() {
     return xhr;
 }
 
-function recuperesChamps(name){
-    var resultat;
+// Private
+function getField(name){
+    var result;
     
     if($("*[name="+name+"]").length){
         switch($("*[name="+name+"]").get(0).tagName){
             case "SELECT" :
-                resultat = recuperesSelect(name);
+                result = getSelect(name);
                 break;
                 
             case "INPUT" :
                 if($("*[name="+name+"]").attr("type") == 'radio' ) {
-                    resultat = recuperesRadio(name) ;
+                    result = getRadio(name) ;
                 }
 
                 if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length > 1) {
-                    resultat = recuperesCheckBox(name);	
+                    result = getCheckBox(name);	
                 }
 				
                 if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length == 1) {
-                    resultat = recuperesRadio(name) ;
-                    if(typeof(resultat) == 'undefined')
-                        resultat = 0;
+                    result = getRadio(name) ;
+                    if(typeof(result) == 'undefined')
+                        result = 0;
                 }
 				
                 if($("*[name="+name+"]").attr("type") == 'text'  
                     || $("*[name="+name+"]").attr("type") == 'password'
                     || $("*[name="+name+"]").attr("type") == 'hidden') {
-                    resultat = recuperesTextBox(name);	
+                    result = getTextBox(name);	
                 }
 				
                 break;
                 
             case "TEXTAREA" :
-                resultat = recuperesTextArea(name);
+                result = getTextArea(name);
                 break;
                 
             default :
                 alert ('ERREUR -> balise non reconnu :' + $("*[name="+name+"]").get(0).tagName);
                 break;
         }
-        if(typeof(resultat) != 'undefined')
-            return resultat;
+        
+        if(typeof(result) != 'undefined')
+            return result;
         else
             return '';
     } else {
@@ -165,23 +156,23 @@ function recuperesChamps(name){
     }
 }
 
-function recuperesSelect(name){
+function getSelect(name) {
     return($("select[name="+name+"] option:selected").val());
 }
 
-function recuperesTextBox(name){
+function getTextBox(name) {
     return($("input[name="+name+"]").val());
 }
 
-function recuperesTextArea(name){
+function getTextArea(name) {
     return($("textarea[name="+name+"]").val());
 }
 
-function recuperesRadio(name){
+function getRadio(name) {
     return($("input[name="+name+"]:checked").val());
 }
 
-function recuperesCheckBox(name){
+function getCheckBox(name) {
     var i = 0;
     var tmp = '{';
     

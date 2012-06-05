@@ -80,7 +80,7 @@ if (!is_null($lstCompetenceIds)) {
             <br><br>
 
             <tr>
-                <td><input type="button" onclick="getFormulaire('pa1');" value="Valider" /></td>
+                <td><input type="button" onclick="getFormulary('pa1');" value="Valider" /></td>
             </tr>
         </table>
     </form>

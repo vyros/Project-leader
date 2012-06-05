@@ -47,9 +47,9 @@
                 foreach ($lstCategorieFilsMobile as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
-            $i = 0;
-        }
-        $i++;
+                        $i = 0;
+                    }
+                    $i++;
                     ?>                  
                     <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                 <?php }
@@ -71,13 +71,13 @@
                 foreach ($lstCategorieFilsBDD as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
-            $i = 0;
-        }
-        $i++;
-        ?>                  
+                        $i = 0;
+                    }
+                    $i++;
+                    ?>                  
                     <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-    <?php }
-} ?>            
+                <?php }
+            } ?>            
             </br>
         </div>
     </div>
@@ -95,20 +95,20 @@
                 foreach ($lstCategorieFilsDesign as &$lstFils) {
                     if ($i == 4) {
                         ?></br><?php
-            $i = 0;
-        }
-        $i++;
+                        $i = 0;
+                    }
+                    $i++;
                     ?>                  
                     <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-    <?php }
-} ?>         
+                <?php }
+            } ?>         
             </br>
         </div>
     </div>
     </br>
     </br>
     <div>
-        <input type="button" onclick="getFormulaire('rp1');" value="Valider" />
+        <input type="button" onclick="getFormulary('rp1');" value="Valider" />
     </div>
 </form>
 </br>

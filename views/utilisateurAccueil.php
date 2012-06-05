@@ -30,7 +30,7 @@
             <br><br>
 
             <tr>
-                <td><input type="button" onclick="getFormulaire('au1');" value="Valider" /></td>
+                <td><input type="button" onclick="getFormulary('au1');" value="Valider" /></td>
             </tr>
         </table>
     </form>

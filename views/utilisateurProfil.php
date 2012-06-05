@@ -34,7 +34,7 @@
         <label for="ddi">Date d'inscription : </label><br />
         <input id="ddi" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDate(); ?>"/><br />
 
-        <input type="button" onclick="getFormulaire('up1');" value="Valider" />
+        <input type="button" onclick="getFormulary('up1');" value="Valider" />
     </form>
 
 </div>
@@ -75,6 +75,6 @@
             </div>
         </div>
 
-        <input type="button" onclick="getFormulaire('up1');" value="Valider" />
+        <input type="button" onclick="getFormulary('up1');" value="Valider" />
     </form>
 </div>

@@ -25,7 +25,7 @@
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
                                     <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId();   ?>"-->
-                        <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                        <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
                             <?php echo $objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
@@ -39,7 +39,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -47,7 +47,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Créer votre projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -65,7 +65,7 @@
                 if (!is_null($lstUtilisateurObjs)) {
                     foreach ($lstUtilisateurObjs as $objUtilisateur) {
                         ?>
-                        <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
+                        <a onclick="getView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
                             <?php echo $objUtilisateur; ?></a><br />
                         <?php
                     }

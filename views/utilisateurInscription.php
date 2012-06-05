@@ -27,7 +27,7 @@
             <br><br>
 
             <tr>
-                <td><input id="b1" type="button" onclick="getFormulaire('ai1');" value="Valider" /></td>
+                <td><input id="b1" type="button" onclick="getFormulary('ai1');" value="Valider" /></td>
             </tr>
 
         </table>
@@ -76,7 +76,7 @@
             </tr>
             <br><br>
             <tr>
-                <td><input type="button" onclick="getFormulaire('ai2');" value="Valider" /></td>
+                <td><input type="button" onclick="getFormulary('ai2');" value="Valider" /></td>
             </tr>
         </table>
     </form>

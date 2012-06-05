@@ -155,7 +155,7 @@
                             if ($idUtilisateur !== null) {
                                 ?>
                                 <td id="action">
-                                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                                    <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
                             lien fiche </a>
                                     							
                                 </td>
