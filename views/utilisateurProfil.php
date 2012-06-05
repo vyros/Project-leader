@@ -19,7 +19,7 @@
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-        <div class="header_02">Éditer vos informations<br/></div>
+        <div class="header_02"><?php echo $objUtilisateur->getLogin();?></div>
 
         <table align="center">
             <td>
@@ -39,7 +39,7 @@
 
             <td>
                 <div style="position: relative; height: 230px; left: 10px; width:740px;">
-                    <div class="header_02"><?php echo $objUtilisateur->getLogin();?></div>
+                    
                     <div class="">Statut :</div>
                     <div class="">Présentation :<textarea></textarea></div>
                     

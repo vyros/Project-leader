@@ -166,6 +166,14 @@ img {
 
 }
 
+.imgIconMsg {
+
+    position: absolute;
+    width: 45px;
+    bottom: 64px;
+    
+}
+
 .logoAccueil {
     bottom: 85px;
     left: 540px;
