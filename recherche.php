@@ -10,12 +10,13 @@ $view = (isset($_GET["view"])) ? $_GET["view"] : null;
 /**
  * Actions 
  */
-
 if (!is_null($action) && $action == "Recherche") {
-   
-}
-else
-{
-    include 'views/recherchePrestataire.php';    
+    
+} else {
+
+    
+    $lstCategorieFils = Categorie::getListCategoriesFilsByCode(1);
+
+    include 'views/recherchePrestataire.php';
 }
 ?>
