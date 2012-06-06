@@ -69,8 +69,10 @@
             foreach ($lstParticipants as $idUti) {
                 $objUti = new Utilisateur($idUti);
                 echo ('- ');
-                echo $objUti->getLogin();
-                echo ('</br>');
+                ?>
+                <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUti->getId(); ?>');">
+                     <?php echo $objUti->getLogin(); ?></a><br />
+                <?php
             }
         }
     ?>
@@ -90,6 +92,17 @@
                     <th class="sorting_asc">Compétence requise</th>
                     <th class="sorting_asc">Date de création</th>
                     <th class="sorting_asc">Description</th>
+                    <?php
+                    if ($idUtilisateur !== null) {
+                        ?>
+                        <th class="sorting_asc">Accès</th>
+                        <?php
+                    }
+                    else
+                    {
+                        
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -155,10 +168,13 @@
                                 ?>
                                 <td id="action">
                                     <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                            lien fiche </a>
+                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
                                     							
                                 </td>
                                 <?php
+                            }else
+                            {
+                                
                             }
                             ?>
                         </tr>
@@ -170,4 +186,6 @@
             </tbody>
         </table>
     </div>
+    <div class="margin_bottom_20"></div>
+    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

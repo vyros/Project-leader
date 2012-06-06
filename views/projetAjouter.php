@@ -64,4 +64,6 @@
         <input type="button" onclick="getFormulary('pa1');" value="Valider" />
         
     </form>
+    <div class="margin_bottom_20"></div>
+    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

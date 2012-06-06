@@ -5,6 +5,10 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
+echo '<script type="text/javascript">';
+echo '      getHeader();';
+echo '</script>';
+
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
 
