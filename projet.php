@@ -35,7 +35,7 @@ if (!is_null($action) && $action == "ajouter") {
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
-        $message[succes] = "Enregistrement effectué avec succès !";
+        $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
     } else {
         $message[erreur] = "Erreur !";
     }
@@ -46,6 +46,48 @@ include 'views/message.php';
 /**
  * Vues 
  */
+if (!is_null($view)){
+    ?>
+     <script type="text/javascript">
+        var varTable;
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            /* Add a click handler to the rows - this could be used as a callback */
+            $("#example tbody").click(function(event) {
+                $(varTable.fnSettings().aoData).each(function () {
+                    $(this.nTr).removeClass('row_selected');
+                });
+                $(event.target.parentNode).addClass('row_selected');
+            });
+         
+            /* Add a click handler for the delete row */
+            $('#delete').click( function() {
+                var anSelected = fnGetSelected( varTable );
+                varTable.fnDeleteRow( anSelected[0] );
+            } );
+         
+            /* Init the table */
+            varTable = $('#example').dataTable( );
+        } );
+
+        function fnGetSelected( oTableLocal ) {
+            var aReturn = new Array();
+            var aTrs = oTableLocal.fnGetNodes();
+         
+            for ( var i=0 ; i<aTrs.length ; i++ )
+            {
+                if ( $(aTrs[i]).hasClass('row_selected') )
+                {
+                    aReturn.push( aTrs[i] );
+                }
+            }
+            return aReturn;
+        }
+    </script>
+    <?php
+}
 if (!is_null($view) && $view == "ajouter") {
 
     $lstCategorieIds = Categorie::getLstNIds();
