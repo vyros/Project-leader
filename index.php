@@ -30,20 +30,20 @@ Site::init();
 
         <script>
             (function($){
-                var origContent = "";
+//                var origContent = "";
 
-                function loadContent(hash) {
-                    var contentName = "";
-                    if(hash != "") {
-                        if(origContent == "") {
-                            origContent = $('#content').html();
-                        }
-                        $('#content').load(hash +"",
-                        function(){ prettyPrint(); });
-                    } else if(origContent != "") {
-                        $('#content').html(origContent);
-                    }
-                }
+//                function loadContent(hash) {
+//                    var contentName = "";
+//                    if(hash != "") {
+//                        if(origContent == "") {
+//                            origContent = $('#content').html();
+//                        }
+//                        $('#content').load(hash +"",
+//                        function(){ prettyPrint(); });
+//                    } else if(origContent != "") {
+//                        $('#content').html(origContent);
+//                    }
+//                }
                         
                 $(document).ready(function() {
                     getHeader();

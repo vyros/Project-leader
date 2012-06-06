@@ -25,13 +25,13 @@ if (!is_null($action) && $action == "ajouter") {
 
     if ($objProjet instanceof Projet) {
         $idUtilisateur = Site::getUtilisateur()->getId();
-        
+
         $objParticiper = new Participer();
         $objParticiper->addParticipation(Site::getUtilisateur()->getId(), $objProjet->getId());
-        
+
         $objCorrespondre = new Correspondre();
         $objCorrespondre->addCorrespondance($objProjet->getId(), $categorie);
-        
+
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
@@ -46,25 +46,29 @@ include 'views/message.php';
 /**
  * Vues 
  */
+if (!is_null($view)) {
+    ?>
+    <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+    <?php
+}
+
 if (!is_null($view) && $view == "ajouter") {
 
     $lstCategorieIds = Categorie::getLstNIds();
     $lstCompetenceIds = Competence::getLstNIds();
 
     include 'views/projetAjouter.php';
-    
 } elseif (!is_null($view) && $view == "fini") {
-    
+
     $idUtilisateur = null;
     if (Site::getUtilisateur()) {
         $idUtilisateur = Site::getUtilisateur()->getId();
         $lstProjetIds = Site::getUtilisateur()->getLstNLastClosedProjetIds();
     }
-    
-    include 'views/projetFini.php';
 
+    include 'views/projetFini.php';
 } elseif (!is_null($view) && $view == "liste") {
-    
+
     $idProjet = (isset($_POST["id"])) ? $_POST["id"] : null;
     $lstProjetIds = Projet::getLstNIds(10);
 

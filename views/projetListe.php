@@ -77,8 +77,7 @@
     </div>
 
     <?php
-    }else
-    {
+    } else {
     ?>
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
