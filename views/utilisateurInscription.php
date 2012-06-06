@@ -13,24 +13,13 @@
         
         <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
-        <table align="center">
-            <tr>
-                <td><h6>Login :&nbsp </h6></td>
-                <td><input type='text' name='log' size='25' maxlength='100' value=""/><br><br></td>
-            </tr>
-
-            <tr>
-                <td><h6>Pass :&nbsp </h6></td>
-                <td><input type='password' name='mdp' size='25' maxlength='100' value=""/><br><br></td>
-            </tr>
-
-            <br><br>
-
-            <tr>
-                <td><input id="b1" type="button" onclick="getFormulary('ai1');" value="Valider" /></td>
-            </tr>
-
-        </table>
+        <label for="log1">Login : </label><br />
+        <input id="log1" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
+        
+        <label for="mdp1">Mot de passe : </label><br />
+        <input id="mdp1" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+        
+        <input type="button" onclick="getFormulary('ai1');" value="Valider" />
     </form>
 </div>
 
@@ -43,41 +32,25 @@
         
         <div class="header_02">Inscription<br/></div>
 
-        <table align="center">
-            <tr>
-                <td><h6>Pr&eacute;ciser votre statut (Client / Prestataire) :&nbsp</h6></td>
-                <td>
-                    <select type="text" name="statut">
-                        <option selected>-- Selectionnez un statut --</option>
-                        <option value="client">Client</option>
-                        <option value="prestataire">Prestataire</option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td><h6>E-mail :&nbsp </h6></td>
-                <td><input type='text' name='mail' size='25' maxlength='100' value=""/></td>
-            </tr>
-
-            <tr>
-                <td><h6>Login :&nbsp </h6></td>
-                <td><input type='text' name='log' size='25' maxlength='100' value=""/></td>
-            </tr>
-
-            <tr>
-                <td><h6>Pass :&nbsp </h6></td>
-                <td><input type='password' name='mdp' size='25' maxlength='100' value=""/></td>
-            </tr>
-
-            <tr>
-                <td><h6>Confirmation Pass :&nbsp </h6></td>
-                <td><input type='password' name='mdp2' size='25' maxlength='100' value=""/></td>
-            </tr>
-            <br><br>
-            <tr>
-                <td><input type="button" onclick="getFormulary('ai2');" value="Valider" /></td>
-            </tr>
-        </table>
+        <label for="statut">Pr&eacute;ciser votre statut (Client / Prestataire) : </label><br />
+        <select id="statut" type="text" name="statut">
+            <option selected>-- Selectionnez un statut --</option>
+            <option value="client">Client</option>
+            <option value="prestataire">Prestataire</option>
+        </select><br /><br />
+        
+        <label for="mail">E-mail : </label><br />
+        <input id="mail" type='text' name='mail' size='25' maxlength='100' value=""/><br /><br />
+        
+        <label for="log2">Login : </label><br />
+        <input id="log2" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
+        
+        <label for="mdp3">Mot de passe : </label><br />
+        <input id="mdp3" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+        
+        <label for="mdp4">Confirmation : </label><br />
+        <input id="mdp4" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+        
+        <input type="button" onclick="getFormulary('ai2');" value="Valider" />
     </form>
 </div>

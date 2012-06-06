@@ -6,6 +6,7 @@
  */
 ?>
 <div class="content_col_w420 fl">
+    
     <div class="header_02">Éditer vos informations<br/></div>
 
     <form id="up1">
@@ -13,26 +14,25 @@
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-        <img src="images/ex_avatar.png"/>
-        <br/>
-        <br/>
+        <img src="images/ex_avatar.png"/><br /><br />
+        
         <label for="nom">Nom : </label>  <br />
-        <input id="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br />
+        <input id="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br /><br />
 
         <label for="prenom">Prénom : </label><br />
-        <input id="prenom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getPrenom(); ?>"/><br />
+        <input id="prenom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getPrenom(); ?>"/><br /><br />
 
         <label for="ddn">Date de naissance : </label><br />
-        <input id="ddn" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDdn(); ?>"/><br />
+        <input id="ddn" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDdn(); ?>"/><br /><br />
 
         <label for="ville">Localisé(e) à : </label><br />
-        <input id="ville" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getVille(); ?>"/><br />
+        <input id="ville" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getVille(); ?>"/><br /><br />
 
         <label for="cv">Lien Téléchargement du CV : </label><br />
-        <input id="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br />
+        <input id="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br /><br />
 
         <label for="ddi">Date d'inscription : </label><br />
-        <input id="ddi" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDate(); ?>"/><br />
+        <input id="ddi" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDate(); ?>"/><br /><br />
 
         <input type="button" onclick="getFormulary('up1');" value="Valider" />
     </form>
@@ -48,18 +48,17 @@
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
-
         <label for="statut">Statut : </label><br />
-        <input id="statut" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getStatut(); ?>"/><br />
+        <input id="statut" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getStatut(); ?>"/><br /><br />
 
         <label for="presentation">Présentation : </label><br />
-        <input id="presentation" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br />
+        <input id="presentation" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br /><br />
 
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
 
         <label for="competence">Compétences : </label><br />
-        <input id="competence" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br />
+        <input id="competence" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br /><br />
 
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
