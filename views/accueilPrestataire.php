@@ -14,7 +14,7 @@
                 if (!is_null($lstUtilisateurProjetObjs)) {
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
-                        <a onclick="getControllerView('projet','liste','<?php echo $objProjet->getId(); ?>');">
+                        <a onclick="getView('projet','liste','<?php echo $objProjet->getId(); ?>');">
                             <?php echo $objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
@@ -28,7 +28,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -36,7 +36,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getControllerView('projet', 'ajouter');">Rechercher un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Rechercher un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -110,8 +110,8 @@
                                 </td>
 
                                 <td id="dateCreation">
-                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                    <?php echo $objProjet->getDateCreation(); ?>											
+                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDate(); ?>">
+                                    <?php echo $objProjet->getDate(); ?>											
                                 </td>
                             </tr>
                             <?php

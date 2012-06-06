@@ -5,84 +5,62 @@
 
 // Write less, do more
 function getController(controller){
-    $.get(controller.toString() + ".php",function(data){
+    $.post(controller.toString() + ".php",function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerAction(controller, action){
-    $.get(controller.toString() + ".php", {'action' : action}, function(data){
+function getController(controller, action){
+    $.post(controller.toString() + ".php", {
+        'action' : action
+    }, function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerView(controller, view){
-    $.get(controller.toString() + ".php", {'view' : view}, function(data){
+function getView(controller, view){
+    $.post(controller.toString() + ".php", {
+        'view' : view
+    }, function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerView(controller, view, item){
-    $.get(controller.toString() + ".php", {'view' : view, 'id' : item}, function(data){
+function getView(controller, view, item){
+    $.post(controller.toString() + ".php", {
+        'view' : view, 
+        'id' : item
+    }, function(data){
         $('#content').html(data);
     })
 }
 
-function getControllerDo(controller, action, value) {
-
-    var xhr = getXMLHttpRequest();
-    var rqt = controller.toString() + '.php?' + action.toString() + '=' + value.toString();
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            jQuery(document).ready(function($) {
-                document.getElementById('content').innerHTML = xhr.responseText;
-            });
-        }
-    };
-
-    xhr.open("GET", rqt, true);
-    xhr.send(null);
-}
-
+// Private
 function getControllerFile(form) {
-    
-    var result = "";
-    var nodes = document.getElementById(form).elements;
-    
-    for(i = 0; i < nodes.length; i++) {
-        if(nodes[i].name != "controller")
-            continue;
-        
-        result = nodes[i].value + ".php";
-    }
-    
-    return result;
+    return $('#'+form+' input[name=controller]').val() + '.php';
 }
 
+// Private
 function getData(form) {
-    
-    var result = "";
-    var nodes = document.getElementById(form).elements;
-    
-    for(i = 0; i < nodes.length; i++) {
-        if(nodes[i].name == "" || nodes[i].name == "controller")
-            continue;
-        
-        if(i == 1) {
-            result = result + "?";
-        } else {
-            result = result + "&";
+    var objJSon = {};
+
+    $('#'+form+' input, #'+form+' select, #'+form+' textarea').each(function(){
+        if($(this).attr('name') && $(this).attr('name') != 'controller') {
+            eval('objJSon.'+$(this).attr('name')+' = getField("'+$(this).attr('name')+'")');
+   
         }
-        
-        result = result + nodes[i].name + "=" 
-        + nodes[i].value;
-    }
-    
-    return result;
+    });
+
+    return objJSon;
 }
 
-function getEntete() {
+function getHeader() {
+    
+//     $(document).ready(function($){
+//         $.post('entete.php', function(data){
+//             document.getElementById('entete').html(data);
+//         })
+//    });
     
     var xhr = getXMLHttpRequest();
 
@@ -94,29 +72,16 @@ function getEntete() {
         }
     };
 
-    xhr.open("GET", 'entete.php', true);
+    xhr.open("POST", 'entete.php', true);
     xhr.send(null);
 }
 
-function getFormulaire(form) {
-
-    var xhr = getXMLHttpRequest();
+function getFormulary(form) {
     var ctr = getControllerFile(form.toString());
-    var rqt = ctr.toString() + getData(form.toString());
-    
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            jQuery(document).ready(function($) {
-                if(ctr.toString() == 'accueil.php')
-                    getEntete();
-                
-                document.getElementById('content').innerHTML = xhr.responseText;
-            });
-        }
-    };
-
-    xhr.open("GET", rqt, true);
-    xhr.send(null);
+     
+    $.post(ctr, getData(form), function(data){
+        $('#content').html(data);
+    });
 }
 
 function getXMLHttpRequest() {
@@ -138,4 +103,92 @@ function getXMLHttpRequest() {
     }
 	
     return xhr;
+}
+
+// Private
+function getField(name){
+    var result;
+    
+    if($("*[name="+name+"]").length){
+        switch($("*[name="+name+"]").get(0).tagName){
+            case "SELECT" :
+                result = getSelect(name);
+                break;
+                
+            case "INPUT" :
+                if($("*[name="+name+"]").attr("type") == 'radio' ) {
+                    result = getRadio(name) ;
+                }
+
+                if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length > 1) {
+                    result = getCheckBox(name);	
+                }
+				
+                if($("*[name="+name+"]").attr("type") == 'checkbox' && $("*[name="+name+"]").length == 1) {
+                    result = getRadio(name) ;
+                    if(typeof(result) == 'undefined')
+                        result = 0;
+                }
+				
+                if($("*[name="+name+"]").attr("type") == 'text'  
+                    || $("*[name="+name+"]").attr("type") == 'password'
+                    || $("*[name="+name+"]").attr("type") == 'hidden') {
+                    result = getTextBox(name);	
+                }
+				
+                break;
+                
+            case "TEXTAREA" :
+                result = getTextArea(name);
+                break;
+                
+            default :
+                alert ('ERREUR -> balise non reconnu :' + $("*[name="+name+"]").get(0).tagName);
+                break;
+        }
+        
+        if(typeof(result) != 'undefined')
+            return result;
+        else
+            return '';
+    } else {
+        alert('ERREUR -> champs : '+ name +' non trouvé');
+    }
+}
+
+function getSelect(name) {
+    return($("select[name="+name+"] option:selected").val());
+}
+
+function getTextBox(name) {
+    return($("input[name="+name+"]").val());
+}
+
+function getTextArea(name) {
+    return($("textarea[name="+name+"]").val());
+}
+
+function getRadio(name) {
+    return($("input[name="+name+"]:checked").val());
+}
+
+function getCheckBox(name) {
+    var i = 0;
+    var tmp = '{';
+    
+    $("input:checked[name="+name+"]").each(function(){
+        tmp += " "+i+": '"+$(this).val()+"',"
+        i++;
+    });
+    
+    if(tmp.length > 1)
+        tmp = tmp.slice(0, -1);
+    tmp += "}";
+    
+    var objetJson = eval('(' + tmp + ')');
+    
+    if(i == 0) {
+        return '';
+    }
+    return objetJson;
 }

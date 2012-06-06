@@ -204,11 +204,11 @@ table.display tr.even.gradeC {
 }
 
 table.display tr.odd.gradeX {
-	background-color: #EEE8AA;
+	background-color: #ffdddd;
 }
 
 table.display tr.even.gradeX {
-	background-color: #EEE8AA;
+	background-color: #ffeeee;
 }
 
 table.display tr.odd.gradeU {
@@ -413,7 +413,7 @@ tr.even.gradeC td.sorting_3 {
 }
 
 tr.odd.gradeX td.sorting_1 {
-	background-color: #EEE8AA;
+	background-color: #ffc4c4;
 }
 
 tr.odd.gradeX td.sorting_2 {
@@ -425,7 +425,7 @@ tr.odd.gradeX td.sorting_3 {
 }
 
 tr.even.gradeX td.sorting_1 {
-	background-color: #EEE8AA;
+	background-color: #ffd5d5;
 }
 
 tr.even.gradeX td.sorting_2 {
@@ -525,7 +525,7 @@ table.display tr.gradeC {
 }
 
 table.display tr.gradeX {
-	background-color: #87CEEB;
+	background-color: #ffdddd;
 }
 
 table.display tr.gradeU {

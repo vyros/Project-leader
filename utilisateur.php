@@ -4,19 +4,19 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
-$action = (isset($_GET["action"])) ? $_GET["action"] : null;
-$view = (isset($_GET["view"])) ? $_GET["view"] : null;
+$action = (isset($_POST["action"])) ? $_POST["action"] : null;
+$view = (isset($_POST["view"])) ? $_POST["view"] : null;
 
 /**
  * Actions 
  */
 if (!is_null($action) && $action == "ajouter") {
 
-    $mail = (isset($_GET["mail"])) ? $_GET["mail"] : null;
-    $log = (isset($_GET["log"])) ? $_GET["log"] : null;
-    $statut = (isset($_GET["statut"])) ? $_GET["statut"] : null;
-    $mdp = (isset($_GET["mdp"])) ? $_GET["mdp"] : null;
-    $mdp2 = (isset($_GET["mdp2"])) ? $_GET["mdp2"] : null;
+    $mail = (isset($_POST["mail"])) ? $_POST["mail"] : null;
+    $log = (isset($_POST["log"])) ? $_POST["log"] : null;
+    $statut = (isset($_POST["statut"])) ? $_POST["statut"] : null;
+    $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
+    $mdp2 = (isset($_POST["mdp2"])) ? $_POST["mdp2"] : null;
 
     if ($mdp != $mdp2) {
         $message[erreur] = "Erreur !";
@@ -43,8 +43,8 @@ if (!is_null($action) && $action == "ajouter") {
 } elseif (!is_null($action) && $action == "valider") {
 
     // Data
-    $log = (isset($_GET["log"])) ? $_GET["log"] : null;
-    $mdp = (isset($_GET["mdp"])) ? $_GET["mdp"] : null;
+    $log = (isset($_POST["log"])) ? $_POST["log"] : null;
+    $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
 
     /**
      * Le controleur définit le message suite à l'action 
@@ -81,12 +81,21 @@ if (!is_null($view) && $view == "accueil") {
     
 } elseif (!is_null($view) && $view == "profil") {
     // Data
-    $idUtilisateur = (isset($_GET["id"])) ? $_GET["id"] : null;
-    if ($idUtilisateur !== null) {
-        $objUtilisateur = new Utilisateur($idUtilisateur);
-    } else {
-        $message[erreur] = "Utilisateur inexistant !";
+    $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
+    $objUtilisateur = null;
+    
+    if(!is_null(Site::getUtilisateur())) {
+        $objUtilisateur = &Site::getUtilisateur();
     }
-    include 'views/utilisateurProfil.php';
+    
+    if(!is_null($idUtilisateur)) {
+        $objUtilisateur = new Utilisateur($idUtilisateur);
+    }
+    
+    if(is_null($objUtilisateur)) {
+        $message[erreur] = "Utilisateur inexistant !";
+    } else {
+        include 'views/utilisateurProfil.php';
+    }
 }
 ?>

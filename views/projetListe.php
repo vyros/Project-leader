@@ -7,7 +7,7 @@
 <div class="content_col_w420 fl">
     <?php
 
-    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connectÃ©
+    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
     // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
     
     if($lstProjetIds[1] == "")
@@ -38,7 +38,7 @@
     <br/>
     <br/>
     <div id="delai" class="infoProjet">
-    DÃ©lai fixÃ© :
+    Délai fixé :
     <?php
 	echo $objProjet->getEcheance();
     ?>
@@ -46,7 +46,7 @@
 <br/>
 <br/>
     <div id="dateCreation" class="infoProjet">
-    Date de crÃ©ation :
+    Date de création :
     <?php
 	echo $objProjet->getDateCreation();
     ?>
@@ -69,21 +69,16 @@
             foreach ($lstParticipants as $idUti) {
                 $objUti = new Utilisateur($idUti);
                 echo ('- ');
-                ?>
-                <a onclick="getControllerView('utilisateur', 'profil', '<?php echo $objUti->getId(); ?>');">
-                     <?php echo $objUti->getLogin(); ?></a><br />
-                <?php
+                echo $objUti->getLogin();
+                echo ('</br>');
             }
         }
     ?>
-    
+    </div>
 
     <?php
-    }else
-    {
+    } else {
     ?>
- </div>
-
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -95,7 +90,6 @@
                     <th class="sorting_asc">Compétence requise</th>
                     <th class="sorting_asc">Date de création</th>
                     <th class="sorting_asc">Description</th>
-                    <th class="sorting_asc">Accès</th>
                 </tr>
             </thead>
             <tbody>
@@ -160,8 +154,8 @@
                             if ($idUtilisateur !== null) {
                                 ?>
                                 <td id="action">
-                                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
+                                    <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            lien fiche </a>
                                     							
                                 </td>
                                 <?php
@@ -176,6 +170,4 @@
             </tbody>
         </table>
     </div>
-    <div class="margin_bottom_20"></div>
-    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

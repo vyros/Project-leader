@@ -46,6 +46,10 @@ class Site {
         include_once 'models/classUtilisateur.php';
         include_once 'models/classEtat.php';
         
+        echo '<script type="text/javascript">';
+        echo '      getHeader();';
+        echo '</script>';
+        
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         return self::getInstance();
