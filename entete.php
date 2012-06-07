@@ -4,6 +4,10 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
+echo '<script type="text/javascript">';
+echo '      getHeader();';
+echo '</script>';
+
 /**
  * Formule
  */
