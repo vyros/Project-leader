@@ -141,7 +141,6 @@ img {
 }
 
 /* img accueil */
-
 .imgAcc {
     height: 270px;
     left: 0;
@@ -150,35 +149,28 @@ img {
     top: 310px;
 }
 
-
 .imgIconProjet {
-
-    bottom: 364px;
-    position: absolute;
+    position: relative;
+    top: 40px;
     width: 45px;
- 
 }
+
 .imgIconCompte {
-
-    position: absolute;
+    position: relative;
+    top: 40px;
     width: 45px;
-    bottom: 105px;
- 
 }
-.imgIconPresta {
 
-    position: absolute;
+.imgIconPresta {
+    position: relative;
+    top: 40px;
     width: 45px;
-    bottom: 90px;
- 
 }
 
 .imgIconMsg {
-
-    position: absolute;
+    position: relative;
+    top: 40px;
     width: 45px;
-    bottom: 64px;
-    
 }
 
 .logoAccueil {
@@ -189,7 +181,6 @@ img {
 }
 
 /* profil */
-
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;
     list-style-type : none;
@@ -239,7 +230,6 @@ img {
     position: relative;
     bottom: -11px;
 }
-
 
 /* end of menu */
 
@@ -314,8 +304,11 @@ img {
 
 .content_col_w420 {
 	position: relative;
-        top: 17px;
-        width: 440px;
+        width: 420px;
+}
+
+.sub_content_col {
+	position: relative;
 }
 
 .service_box {
