@@ -39,7 +39,7 @@ if (!is_null($action) && $action == "ajouter") {
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
-        $message[succes] = "Enregistrement effectué avec succès !";
+        $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
     } else {
         $message[erreur] = "Erreur !";
     }
@@ -87,5 +87,32 @@ if (!is_null($view) && $view == "ajouter") {
         $lstProjetIds[] = array(0 => $idProjet);
     }
 
-    include 'views/projetListe.php';
+
+    if($lstProjetIds[1] == "")
+    {
+        $idProjet = $lstProjetIds[0][0];
+        $objProjet = new Projet($idProjet);
+        
+        //requete qui a pour result l'id CLIENT du projet selectionner
+        $tabClientProjet = PARTICIPER::voirParticipationCli($idProjet);
+               
+        $i=0;
+        while ($row = mysql_fetch_array($tabClientProjet))
+	{
+            $idClientProjet[$i] = "$row[uti_id]";
+        }
+                 
+        if ($idClientProjet[0] == $idUtilisateur)
+        {
+          include 'views/projetFichePerso.php';
+        }
+        else
+        {
+          include 'views/projetFiche.php';
+        }  
+    }
+    else
+    {
+        include 'views/projetListe.php';
+    }
 }
