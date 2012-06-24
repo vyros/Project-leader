@@ -60,7 +60,10 @@
         
         <label for="echeance">Echeance (en jours) : </label><br />
         <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" /><br /><br />
-
+            
+        <label for="doc">Document attaché : </label><br />
+        <input id="doc" type='file' name='echeance' size='25' maxlength='10' value="" /><br /><br />
+        
         <input type="button" onclick="getFormulary('pa1');" value="Valider" />
         
     </form>

@@ -9,7 +9,7 @@
 
     // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
     // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
-    
+    // bout de code séparer et mis dans une autre vue pour respect MVC
     
        
 

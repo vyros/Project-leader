@@ -7,7 +7,7 @@
 ?>
 <div class="content_col_w420 fl">
     
-    <div class="header_02">Éditer vos informations<br/></div>
+    <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?><br/></div>
 
     <form id="up1">
 
@@ -40,11 +40,10 @@
 </div>
 
 <!--        <div style="position: relative; height: 230px; left: 10px; width:740px;">-->
-<div class="content_col_w420 fr">
-    <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
 
+ <div id="partProfil">
     <form id="up2">
-
+       
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
@@ -75,5 +74,8 @@
         </div>
 
         <input type="button" onclick="getFormulary('up1');" value="Valider" />
+        
     </form>
 </div>
+<div class="margin_bottom_20"></div>
+<div class="margin_bottom_20"></div>

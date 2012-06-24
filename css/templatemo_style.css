@@ -223,6 +223,13 @@ img {
     background : #fff;
 }
 
+#partProfil {
+    position: relative;
+    top: 60px;
+    width: 440px;
+    float: right;
+    right: 225px;
+}
 .imgLienFiche {
     position: relative;
     text-decoration : none;
