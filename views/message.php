@@ -1,6 +1,6 @@
 <?php
 $message = (isset($message[succes])) ? $message[succes] : null;
-if(!isset($message[succes]) && isset($message[erreur]))
+if (!isset($message[succes]) && isset($message[erreur]))
     $message = $message[erreur];
 
 if (!is_null($message)) {
@@ -17,6 +17,10 @@ if (!is_null($message)) {
                 </p>
             </div>
         </div>
+
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
+
     </div><!-- end of a section -->
     <?php
 }
