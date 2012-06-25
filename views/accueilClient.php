@@ -25,7 +25,6 @@
                     if (!is_null($lstUtilisateurProjetObjs)) {
                         foreach ($lstUtilisateurProjetObjs as $objProjet) {
                             ?>
-                                                <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId();    ?>"-->
                             <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
                                 <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
