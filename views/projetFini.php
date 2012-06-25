@@ -5,6 +5,7 @@
  */
 ?>
 <div class="content_col_w420 fl">
+    <img class="imgIconListeProjetFini" src="images/icone_lstPjtFini.png"/> 
     <div class="header_02">Vos projets menés à terme<br/></div>
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">

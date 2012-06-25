@@ -30,7 +30,7 @@ if (!is_null($action) && $action == "ajouter") {
         $objUtilisateur = Utilisateur::addUtilisateur($log, $mail, $mdp, $statut);
         if ($objUtilisateur instanceof Utilisateur) {
 
-            $message[succes] = "Enregistrement effectué avec succès !";
+            $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
             $view = "accueil";
         } else {
             $message[erreur] = "Erreur !";
@@ -51,12 +51,12 @@ if (!is_null($action) && $action == "ajouter") {
     $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
 
     /**
-     * Le controleur définit le message suite à l'action 
+     * Le controleur dÃ©finit le message suite Ã  l'action 
      */
     $idUtilisateur = Utilisateur::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
         Site::setUtilisateur(new Utilisateur($idUtilisateur));
-        $message[succes] = "Connexion réussie !";
+        $message[succes] = "Connexion rÃ©ussie !";
         
     } else {
         $message[erreur] = "Erreur de login et/ou de mot de passe !";
@@ -74,7 +74,7 @@ include 'views/message.php';
  */
 if (!is_null($view) && $view == "accueil") {
     
-    // Déprécié
+    // DÃ©prÃ©ciÃ©
     include 'views/utilisateurAccueil.php';
     
 } elseif (!is_null($view) && $view == "deconnexion") {

@@ -7,14 +7,15 @@
 <div class="content_col_w420 fl">
     <?php
 
-    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
+    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connectÃ©
     // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
-    // bout de code séparer et mis dans une autre vue pour respect MVC
+    // bout de code sÃ©parer et mis dans une autre vue pour respect MVC
     
        
 
     
     ?>
+    <img class="imgIconProjetListe" src="images/icone_projet.png"/> 
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -29,7 +30,7 @@
                     <?php
                     if ($idUtilisateur !== null) {
                         ?>
-                        <th class="sorting_asc">Accès</th>
+                        <th class="sorting_asc">Accés</th>
                         <?php
                     }
                     else

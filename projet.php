@@ -39,12 +39,24 @@ if (!is_null($action) && $action == "ajouter") {
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
-        $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
+        $message[succes] = "Enregistrement effectuÃƒÂ© avec succÃƒÂ¨s !";
     } else {
         $message[erreur] = "Erreur !";
     }
 }
 
+if (!is_null($action) && $action == "editer") {
+    
+//    $description = (isset($_POST["etat"])) ? $_POST["etat"] : null;
+//    $budget = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+//    $delai = (isset($_POST["categorie"])) ? $_POST["categorie"] : null;
+//    $statut = explode(',', $_POST["blah"]);
+
+
+    /* @var $objProjet Projet */
+//    $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
+
+}
 include 'views/message.php';
 
 /**

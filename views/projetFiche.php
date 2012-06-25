@@ -25,6 +25,40 @@
     
     <br/>
     <br/>
+    <div id="categorie" class="categorie">
+    Catégorie :
+    <?php
+       $lstCategorieIds = $objProjet->getCategorieIds();
+
+       if (!is_null($lstCategorieIds)) {
+          foreach ($lstCategorieIds as $idCategorie) {
+             $objCategorie = new Categorie($idCategorie);
+             echo ('- ');
+             echo $objCategorie->getLibelle();
+             echo ('</br>');
+          }
+       }
+    ?>
+    </div>
+    <br/>
+    <br/>
+    <div id="competence" class="competence">
+    Compétence(s) requise(s) :
+    <?php
+      $lstCompetenceIds = $objProjet->getCompetenceIds();
+
+      if (!is_null($lstCompetenceIds)) {
+         foreach ($lstCompetenceIds as $idCompetence) {
+             $objCompetence = new Competence($idCompetence);
+             echo ('- ');
+             echo $objCompetence->getLibelle();
+             echo ('</br>');
+         }
+      }
+    ?>
+    </div>
+    <br/>
+    <br/>
     <div id="budget" class="infoProjet">
     Budget :
     <?php
@@ -34,7 +68,7 @@
     <br/>
     <br/>
     <div id="delai" class="infoProjet">
-    DÃ©lai fixÃ© :
+    Délai fixé :
     <?php
 	echo $objProjet->getEcheance();
     ?>
@@ -42,7 +76,7 @@
 <br/>
 <br/>
     <div id="dateCreation" class="infoProjet">
-    Date de crÃ©ation :
+    Date de création :
     <?php
 	echo $objProjet->getDateCreation();
     ?>

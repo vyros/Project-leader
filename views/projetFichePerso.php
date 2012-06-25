@@ -12,16 +12,58 @@
         $idUti = Site::getUtilisateur()->getId();
         
     ?>
-    
+    <img class="imgIconFicheProjet" src="images/icone_fichePjt.png"/> 
     <div class="header_02">Titre DE MON projet : <?php echo $objProjet->getLibelle();?></div>
     <div class="margin_bottom_20"></div>
     <div class="margin_bottom_20"></div>
     
+<form id="pf1">    
+    
+    <input type="hidden" name="controller" value="projet"/>
+    <input type="hidden" name="action" value="editer"/>
     
     <label for="infoPrj">Description du projet : </label>
     <input id="description" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getDescription(); ?>" />
     <div class="margin_bottom_20"></div>
- 
+    
+    <label for="infoPrj">Catégorie : </label>
+    <?php
+       $lstCategorieIds = $objProjet->getCategorieIds();
+
+       if (!is_null($lstCategorieIds)) {
+          foreach ($lstCategorieIds as $idCategorie) {
+             $objCategorie = new Categorie($idCategorie);
+             echo ('- ');
+             ?>
+            <input id="categorie" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objCategorie->getLibelle(); ?>" /> 
+             <?php
+             echo ('</br>');
+          }
+       }
+    ?>
+    
+    
+    <div class="margin_bottom_20"></div>
+    
+    <label for="infoPrj">Compétence : </label>
+    <?php
+      $lstCompetenceIds = $objProjet->getCompetenceIds();
+
+      if (!is_null($lstCompetenceIds)) {
+         foreach ($lstCompetenceIds as $idCompetence) {
+             $objCompetence = new Competence($idCompetence);
+             echo ('- ');
+             ?>
+            <input id="competence" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objCompetence->getLibelle(); ?>" />
+             <?php
+             echo ('</br>');
+         }
+      }
+    ?>
+    
+    
+    <div class="margin_bottom_20"></div>
+    
     <label for="infoPrj">Budget : </label>
     <input id="budget" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getBudget(); ?>" />
     
@@ -66,3 +108,6 @@
     
     <div class="margin_bottom_20"></div>
     
+    <input type="button" onclick="getFormulary('up1');" value="Valider" />
+    
+</form>

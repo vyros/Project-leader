@@ -11,8 +11,10 @@
         <input type="hidden" name="controller" value="projet"/>
         <input type="hidden" name="action" value="ajouter"/>
         <input type="hidden" name="etat" value="1"/>
-
+        
+        <img class="imgIconCrea" src="images/icone_crea.png"/> 
         <div class="header_02">Créer votre projet<br/></div>
+        <div class="margin_bottom_20"></div>
 
         <label for="libelle">Intitulé : </label><br />
         <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
