@@ -4,38 +4,42 @@ header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();
 
-$action = (isset($_GET["action"])) ? $_GET["action"] : null;
-$view = (isset($_GET["view"])) ? $_GET["view"] : null;
+echo '<script type="text/javascript">';
+echo '      getHeader();';
+echo '</script>';
+
+$action = (isset($_POST["action"])) ? $_POST["action"] : null;
+$view = (isset($_POST["view"])) ? $_POST["view"] : null;
 
 /**
- * Actions Tête de cul !
+ * Actions 
  */
 if (!is_null($action) && $action == "ajouter") {
 
-    $etatId = (isset($_GET["etat"])) ? $_GET["etat"] : null;
-    $libelle = (isset($_GET["libelle"])) ? $_GET["libelle"] : null;
-    $categorie = (isset($_GET["categorie"])) ? $_GET["categorie"] : null;
-    $tabIdCompetence = explode(',', $_GET["blah"]);
-    $description = (isset($_GET["description"])) ? $_GET["description"] : null;
-    $budget = (isset($_GET["budget"])) ? $_GET["budget"] : null;
-    $echeance = (isset($_GET["echeance"])) ? $_GET["echeance"] : null;
+    $etatId = (isset($_POST["etat"])) ? $_POST["etat"] : null;
+    $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+    $categorie = (isset($_POST["categorie"])) ? $_POST["categorie"] : null;
+    $tabIdCompetence = explode(',', $_POST["blah"]);
+    $description = (isset($_POST["description"])) ? $_POST["description"] : null;
+    $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
+    $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
 
     /* @var $objProjet Projet */
     $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
 
     if ($objProjet instanceof Projet) {
         $idUtilisateur = Site::getUtilisateur()->getId();
-        
+
         $objParticiper = new Participer();
         $objParticiper->addParticipation(Site::getUtilisateur()->getId(), $objProjet->getId());
-        
+
         $objCorrespondre = new Correspondre();
         $objCorrespondre->addCorrespondance($objProjet->getId(), $categorie);
-        
+
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
-        $message[succes] = "Enregistrement effectué avec succès !";
+        $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
     } else {
         $message[erreur] = "Erreur !";
     }
@@ -46,30 +50,34 @@ include 'views/message.php';
 /**
  * Vues 
  */
+if (!is_null($view)) {
+    ?>
+    <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+    <?php
+}
+
 if (!is_null($view) && $view == "ajouter") {
 
     $lstCategorieIds = Categorie::getLstNIds();
     $lstCompetenceIds = Competence::getLstNIds();
 
     include 'views/projetAjouter.php';
-    
 } elseif (!is_null($view) && $view == "fini") {
-    
+
     $idUtilisateur = null;
     if (Site::getUtilisateur()) {
         $idUtilisateur = Site::getUtilisateur()->getId();
         $lstProjetIds = Site::getUtilisateur()->getLstNLastClosedProjetIds();
     }
-    
-    include 'views/projetFini.php';
 
+    include 'views/projetFini.php';
 } elseif (!is_null($view) && $view == "liste") {
-    
-    $idProjet = (isset($_GET["id"])) ? $_GET["id"] : null;
+
+    $idProjet = (isset($_POST["id"])) ? $_POST["id"] : null;
     $lstProjetIds = Projet::getLstNIds(10);
 
     $idUtilisateur = null;
-    if (Site::getUtilisateur() && !isset($_GET['all'])) {
+    if (Site::getUtilisateur() && !isset($_POST['all'])) {
         $idUtilisateur = Site::getUtilisateur()->getId();
         $lstProjetIds = Site::getUtilisateur()->getLstNLastProjetIds(10);
     }
@@ -79,5 +87,32 @@ if (!is_null($view) && $view == "ajouter") {
         $lstProjetIds[] = array(0 => $idProjet);
     }
 
-    include 'views/projetListe.php';
+
+    if($lstProjetIds[1] == "")
+    {
+        $idProjet = $lstProjetIds[0][0];
+        $objProjet = new Projet($idProjet);
+        
+        //requete qui a pour result l'id CLIENT du projet selectionner
+        $tabClientProjet = PARTICIPER::voirParticipationCli($idProjet);
+               
+        $i=0;
+        while ($row = mysql_fetch_array($tabClientProjet))
+	{
+            $idClientProjet[$i] = "$row[uti_id]";
+        }
+                 
+        if ($idClientProjet[0] == $idUtilisateur)
+        {
+          include 'views/projetFichePerso.php';
+        }
+        else
+        {
+          include 'views/projetFiche.php';
+        }  
+    }
+    else
+    {
+        include 'views/projetListe.php';
+    }
 }

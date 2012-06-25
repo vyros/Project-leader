@@ -8,6 +8,6 @@
 ?>
 <script language="javascript" type="text/javascript">
     $(document).ready(function() {
-        getEntete();
+        getHeader();
     });
 </script>

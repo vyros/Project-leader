@@ -9,76 +9,11 @@
 
     // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
     // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
+    // bout de code séparer et mis dans une autre vue pour respect MVC
     
-    if($lstProjetIds[1] == "")
-    {
-        $idProjet = $lstProjetIds[0][0];
-        $objProjet = new Projet($idProjet);
-        //print_r($lstProjetIds);
-        $idUti = Site::getUtilisateur()->getId();
-        
-    ?>
-    
-    <div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle();?></div>
-    
-    <div id="contenuProjet" class="infoProjet">
-    Description du projet :
-    <?php
-        echo $objProjet->getDescription();
-    ?>
-    </div>
-    <br/>
-    <br/>
-    <div id="budget" class="infoProjet">
-    Budget :
-    <?php
-	echo $objProjet->getBudget();
-    ?>
-    </div>
-    <br/>
-    <br/>
-    <div id="delai" class="infoProjet">
-    Délai fixé :
-    <?php
-	echo $objProjet->getEcheance();
-    ?>
-    </div>
-<br/>
-<br/>
-    <div id="dateCreation" class="infoProjet">
-    Date de création :
-    <?php
-	echo $objProjet->getDateCreation();
-    ?>
-    </div>
-<br/>
-<br/>
-    <div id="statut" class="infoProjet">
-    Statut:
-    <?php
-        $idEtat = $objProjet->getEtatId();
-        $monEtat = new Etat($idEtat);
-        echo $monEtat->getLibelle();
-    ?>
-    </div>
-    <div id="participant" class="infoProjet">
-    Participant :
-    <?php
-        $lstParticipants = PARTICIPER::voirParticipation($idProjet);
-        if (!is_null($lstParticipants)) {
-            foreach ($lstParticipants as $idUti) {
-                $objUti = new Utilisateur($idUti);
-                echo ('- ');
-                echo $objUti->getLogin();
-                echo ('</br>');
-            }
-        }
-    ?>
-    </div>
+       
 
-    <?php
-    }else
-    {
+    
     ?>
     <div class="header_02">Vos derniers projets</div>
     <div id="demo">
@@ -91,6 +26,17 @@
                     <th class="sorting_asc">Compétence requise</th>
                     <th class="sorting_asc">Date de création</th>
                     <th class="sorting_asc">Description</th>
+                    <?php
+                    if ($idUtilisateur !== null) {
+                        ?>
+                        <th class="sorting_asc">Accès</th>
+                        <?php
+                    }
+                    else
+                    {
+                        
+                    }
+                    ?>
                 </tr>
             </thead>
             <tbody>
@@ -155,20 +101,25 @@
                             if ($idUtilisateur !== null) {
                                 ?>
                                 <td id="action">
-                                    <a onclick="getControllerView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                            lien fiche </a>
+                                    <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
                                     							
                                 </td>
                                 <?php
+                            }else
+                            {
+                                
                             }
                             ?>
                         </tr>
                         <?php
                     }
                 }
-    }
+    
                 ?>
             </tbody>
         </table>
     </div>
+    <div class="margin_bottom_20"></div>
+    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

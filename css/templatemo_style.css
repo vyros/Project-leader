@@ -7,7 +7,7 @@ body {
     padding: 0;
     line-height: 1.5em;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     color: #333;
     background: #ffffff;
 }
@@ -98,6 +98,13 @@ img {
     left:60px;
 }
 
+.header_022 {
+    padding: 0 0 15px 0;
+    margin: 0 0 15px 0;
+    font-size: 26px;
+    position: relative;
+}
+
 .header_03 {
     padding: 0 0 5px 0;
     font-size: 13px;
@@ -140,13 +147,13 @@ img {
     left: 0;
     position: absolute;
     right: 564px;
-    top: 291px;
+    top: 310px;
 }
 
 
 .imgIconProjet {
 
-    bottom: 342px;
+    bottom: 364px;
     position: absolute;
     width: 45px;
  
@@ -166,6 +173,14 @@ img {
  
 }
 
+.imgIconMsg {
+
+    position: absolute;
+    width: 45px;
+    bottom: 64px;
+    
+}
+
 .logoAccueil {
     bottom: 85px;
     left: 540px;
@@ -178,7 +193,7 @@ img {
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;
     list-style-type : none;
-    padding-bottom : 24px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    padding-bottom : 24px; /* Ã  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
     border-bottom : 1px solid #9EA0A1;
     margin-left : 0;
 }
@@ -207,6 +222,21 @@ img {
 #ongletsProfil a:hover {
     background : #fff;
 }
+
+#partProfil {
+    position: relative;
+    top: 60px;
+    width: 440px;
+    float: right;
+    right: 225px;
+}
+.imgLienFiche {
+    position: relative;
+    text-decoration : none;
+    padding : 4px;
+    width:40px;
+}
+
 /* menu */
 
 #templatemo_header #templatemo_menu {

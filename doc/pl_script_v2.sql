@@ -5,7 +5,7 @@
 
 /* CREATE database project-leader CHARACTER SET utf8 COLLATE utf8_general_ci; */
 
-drop table if exists appertenir;
+drop table if exists appartenir;
 
 drop table if exists categorie;
 
@@ -26,9 +26,9 @@ drop table if exists projet;
 drop table if exists utilisateur;
 
 /*==============================================================*/
-/* Table : appertenir                                           */
+/* Table : appartenir                                           */
 /*==============================================================*/
-create table appertenir
+create table appartenir
 (
    cat_id_pere          int(8) not null,
    cat_id_fils          int(8) not null,
@@ -158,10 +158,10 @@ create table utilisateur
    primary key (uti_id)
 );
 
-alter table appertenir add constraint fk_appertenir foreign key (cat_id_pere)
+alter table appartenir add constraint fk_appartenir foreign key (cat_id_pere)
       references categorie (cat_id) on delete restrict on update restrict;
 
-alter table appertenir add constraint fk_appertenir2 foreign key (cat_id_fils)
+alter table appartenir add constraint fk_appartenir2 foreign key (cat_id_fils)
       references categorie (cat_id) on delete restrict on update restrict;
 
 alter table correspondre add constraint fk_correspondre foreign key (prj_id)

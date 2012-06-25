@@ -14,74 +14,59 @@
 
         <div class="header_02">Créer votre projet<br/></div>
 
-        <table align="center">
-            <tr>
-                <td><h6>Intitulé :&nbsp </h6></td>
-                <td><input type='text' name='libelle' size='25' maxlength='100' value=""/><br><br></td>
-            </tr>
+        <label for="libelle">Intitulé : </label><br />
+        <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
 
-            <tr>
-                <td><h6>Catégorie :&nbsp </h6></td>
-                <td><select name="categorie" id="categorie" ><option></option>
-                        <?php
-                        if (!is_null($lstCategorieIds)) {
-                            foreach ($lstCategorieIds as $value) {
-                                $objCategorie = new Categorie($value);
-                                echo "<option value=\"" . $objCategorie->getId() . "\">" . $objCategorie->getLibelle() . "</option>";
-                            }
-                        }
+        <label for="categorie">Catégorie : </label><br />
+        <select name="categorie" id="categorie">
+            <option selected>-- Selectionnez une catégorie --</option>
+            <?php
+            if (!is_null($lstCategorieIds)) {
+                foreach ($lstCategorieIds as $value) {
+                    $objCategorie = new Categorie($value);
+                    echo "<option value=\"" . $objCategorie->getId() . "\">" . $objCategorie->getLibelle() . "</option>";
+                }
+            }
+            ?>
+        </select><br /><br />
+
+        <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
+        <input type="text" id="demo-input-local" name="blah" /><br /><br />
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $("#demo-input-local").tokenInput([
+                <?php
+                if (!is_null($lstCompetenceIds)) {
+                    foreach ($lstCompetenceIds as $value) {
+                        $objCompetence = new Competence($value);
                         ?>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td><h6>Compétences demandées :&nbsp </h6></td>
-                <td>
-                    <div>
-                        <input type="text" id="demo-input-local" name="blah" />
-                        <script type="text/javascript">
-                            $(document).ready(function() {
-                                $("#demo-input-local").tokenInput([
-<?php
-if (!is_null($lstCompetenceIds)) {
-    foreach ($lstCompetenceIds as $value) {
-        $objCompetence = new Competence($value);
-        ?>
                             {
                                 id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
                                 name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                             },   
-        <?php
-    }
-}
-?>
-        ]);
-    });
-                        </script>
-                    </div>
-                    <br><br></td>
-            </tr>
-
-            <tr>
-                <td><h6>Description :&nbsp </h6></td>
-                <td><textarea style="font-weight:700; color:blue;" name="description"></textarea></td>
-            </tr>
-
-            <tr>
-                <td><h6>Budget :&nbsp </h6></td>
-                <td><input type='text' name='budget' size='25' maxlength='10' value=""/><br><br></td>
-            </tr>
-
-            <tr>
-                <td><h6>Echeance (en jours) :&nbsp </h6></td>
-                <td><input type='text' name='echeance' size='25' maxlength='10' value=""/><br><br></td>
-            </tr>
-            <br><br>
-
-            <tr>
-                <td><input type="button" onclick="getFormulaire('pa1');" value="Valider" /></td>
-            </tr>
-        </table>
+                        <?php
+                    }
+                }
+            ?>
+            ]);
+        });
+        </script>
+        
+        <label for="description">Description : </label><br />
+        <textarea id="description" style="font-weight:700; color:blue;" name="description"></textarea><br /><br />
+        
+        <label for="budget">Budget : </label><br />
+        <input id="budget" type='text' name='budget' size='25' maxlength='10' value="" /><br /><br />
+        
+        <label for="echeance">Echeance (en jours) : </label><br />
+        <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" /><br /><br />
+            
+        <label for="doc">Document attaché : </label><br />
+        <input id="doc" type='file' name='echeance' size='25' maxlength='10' value="" /><br /><br />
+        
+        <input type="button" onclick="getFormulary('pa1');" value="Valider" />
+        
     </form>
+    <div class="margin_bottom_20"></div>
+    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

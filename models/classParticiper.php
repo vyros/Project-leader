@@ -26,7 +26,7 @@ class Participer extends Classe {
      * 
      * @param int $p_uti_id Id de l'utilisateur.
      * @param int $p_prj_id Id du projet.
-     * @return boolean Retourne vrai si succès, sinon retourne non.
+     * @return boolean Retourne vrai si succÃ¨s, sinon retourne non.
      */
     public function addParticipation($p_uti_id, $p_prj_id) {
 
@@ -42,6 +42,14 @@ class Participer extends Classe {
                 " WHERE prj_id = " . $p_prj_id . ";";
         
         return Site::getConnexion()->getFetchArray($requete);
+        
+    }
+    public static function voirParticipationCli($p_prj_id)
+    {
+        $requete = "SELECT u.uti_id FROM utilisateur u, participer " .
+                " WHERE prj_id = " . $p_prj_id . " AND u.uti_statut = 'client' LIMIT 1;";
+        
+        return Site::getConnexion()->getFetchRessource($requete);
         
     }
 

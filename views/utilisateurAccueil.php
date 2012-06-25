@@ -13,25 +13,16 @@
 
         <input type="hidden" name="controller" value="accueil"/>
         <input type="hidden" name="action" value="valider"/>
-        
+
         <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
 
-        <table align="center">
-            <tr>
-                <td><h6>Login :&nbsp </h6></td>
-                <td><input type='text' name='log' size='25' maxlength='100' value=""/><br><br></td>
-            </tr>
+        <label for="log1">Login : </label><br />
+        <input id="log1" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
 
-            <tr>
-                <td><h6>Pass :&nbsp </h6></td>
-                <td><input type='password' name='mdp' size='25' maxlength='100' value=""/><br><br></td>
-            </tr>
+        <label for="mdp1">Mot de passe : </label><br />
+        <input id="mdp1" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
 
-            <br><br>
-
-            <tr>
-                <td><input type="button" onclick="getFormulaire('au1');" value="Valider" /></td>
-            </tr>
-        </table>
+        <input type="button" onclick="getFormulary('au1');" value="Valider" />
     </form>
+    
 </div><!-- end of a section -->
