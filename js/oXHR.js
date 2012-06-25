@@ -77,11 +77,13 @@ function getHeader() {
 }
 
 function getFormulary(form) {
+    
     var ctr = getControllerFile(form.toString());
-     
+
     $.post(ctr, getData(form), function(data){
         $('#content').html(data);
     });
+    
 }
 
 function getXMLHttpRequest() {

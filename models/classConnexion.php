@@ -84,6 +84,7 @@ class Connexion {
      * @return array Retourne null si aucun resultat.
      */
     public function getFetchArray($requete, $type = MYSQL_BOTH) {
+
         $array = null;
         $resultat = mysql_query($requete);
 
