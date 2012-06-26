@@ -4,35 +4,63 @@
 /* ********************************************************************************** */
 
 // Write less, do more
-function getController(controller){
-    $.post(controller.toString() + ".php",function(data){
-        $('#content').html(data);
-    })
+function getController(params){
+    
+    var properties = $.extend(  
+    {  
+        'controller' : '',  
+        'action' : '' 
+    }, params || {} );  
+  
+    if (properties.controller == ''){  
+        console.log('Erreur, un contrôleur est necessaire !');
+    } else {
+        if(properties.action != ''){
+            $.post(properties.controller.toString() + ".php", {
+                'action' : properties.action
+            }, function(data) {
+                $('#content').html(data);
+            })
+        } else {
+            $.post(properties.controller.toString() + ".php", function(data) {
+                $('#content').html(data);
+            })
+        }
+    }
 }
 
-function getController(controller, action){
-    $.post(controller.toString() + ".php", {
-        'action' : action
-    }, function(data){
-        $('#content').html(data);
-    })
-}
-
-function getView(controller, view){
-    $.post(controller.toString() + ".php", {
-        'view' : view
-    }, function(data){
-        $('#content').html(data);
-    })
-}
-
-function getView(controller, view, item){
-    $.post(controller.toString() + ".php", {
-        'view' : view, 
-        'id' : item
-    }, function(data){
-        $('#content').html(data);
-    })
+function getView(params){
+    
+    var properties = $.extend(  
+    {  
+        'controller' : '',  
+        'view' : '',
+        'id' : ''
+    }, params || {} );  
+  
+    if (properties.controller == ''){  
+        console.log('Erreur, un contrôleur est necessaire !');
+        
+    } else {
+        if(properties.view == ''){
+            console.log('Erreur, une vue est necessaire !');
+            
+        } else if(properties.id == '') {
+            $.post(properties.controller.toString() + ".php", {
+                'view' : properties.view
+            }, function(data) {
+                $('#content').html(data);
+            })
+            
+        } else {
+             $.post(properties.controller.toString() + ".php", {
+                'view' : properties.view,
+                'id' : properties.id
+            }, function(data) {
+                $('#content').html(data);
+            })
+        }
+    }
 }
 
 // Private
@@ -56,11 +84,11 @@ function getData(form) {
 
 function getHeader() {
     
-//     $(document).ready(function($){
-//         $.post('entete.php', function(data){
-//             document.getElementById('entete').html(data);
-//         })
-//    });
+    //     $(document).ready(function($){
+    //         $.post('entete.php', function(data){
+    //             document.getElementById('entete').html(data);
+    //         })
+    //    });
     
     var xhr = getXMLHttpRequest();
 
@@ -106,11 +134,11 @@ function getXMLHttpRequest() {
 }
 
 // Private
-function getField(name){
+function getField(name) {
     var result;
     
-    if($("*[name="+name+"]").length){
-        switch($("*[name="+name+"]").get(0).tagName){
+    if($("*[name="+name+"]").length) {
+        switch($("*[name="+name+"]").get(0).tagName) {
             case "SELECT" :
                 result = getSelect(name);
                 break;

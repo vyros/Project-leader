@@ -6,13 +6,10 @@
 ?>
 <div class="content_col_w420 fl">
     <?php
-
+    
     // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
     // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
     // bout de code séparer et mis dans une autre vue pour respect MVC
-    
-       
-
     
     ?>
     <div class="header_02">Vos derniers projets</div>

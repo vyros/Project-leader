@@ -16,9 +16,12 @@ Site::init();
         <link rel="stylesheet" type="text/css" href="css/demo_page.css" media="all" />
         <link rel="stylesheet" type="text/css" href="css/demo_table.css" media="all" />
         <link rel="stylesheet" type="text/css" href="css/token-input/token-input.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.custom.css" />
         <link rel="stylesheet" type="text/css" href="css/css3menu1/style.css" /><style>._css3m{display:none}</style>
 
         <script language="javascript" type="text/javascript" src="js/jquery.js"></script>
+        <script language="javascript" type="text/javascript" src="js/jquery-ui.min.js"></script>
+        <script language="javascript" type="text/javascript" src="js/jquery-ui.datepicker-fr.js"></script>
         <script language="javascript" type="text/javascript" src="js/jquery.history.js"></script>
         <script language="javascript" type="text/javascript" src="js/jquery.dataTables.js"></script>
         <script language="javascript" type="text/javascript" src="js/jquery.tokeninput.js"></script>
@@ -30,30 +33,9 @@ Site::init();
 
         <script>
             (function($){
-//                var origContent = "";
-
-//                function loadContent(hash) {
-//                    var contentName = "";
-//                    if(hash != "") {
-//                        if(origContent == "") {
-//                            origContent = $('#content').html();
-//                        }
-//                        $('#content').load(hash +"",
-//                        function(){ prettyPrint(); });
-//                    } else if(origContent != "") {
-//                        $('#content').html(origContent);
-//                    }
-//                }
-                        
                 $(document).ready(function() {
                     getHeader();
                     $.history.init(loadContent);
-                    //                        $('#navigation a').not('.external-link').click(function(e) {
-                    //                            var url = $(this).attr('href');
-                    //                            url = url.replace(/^.*#/, '');
-                    //                            $.history.load(url);
-                    //                            return false;
-                    //                        });
                 });
             })(jQuery);
         </script>

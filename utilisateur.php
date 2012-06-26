@@ -6,6 +6,9 @@ Site::init();
 
 echo '<script type="text/javascript">';
 echo '      getHeader();';
+echo '      $(function() {';
+echo '          $( "#datepicker" ).datepicker();';
+echo '      });';
 echo '</script>';
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
@@ -42,8 +45,35 @@ if (!is_null($action) && $action == "ajouter") {
     $view = "deconnexion";
     
 } elseif (!is_null($action) && $action == "profil") {
+
+    $id = (isset($_POST["id"])) ? $_POST["id"] : null;
+    $nom = (isset($_POST["nom"])) ? $_POST["nom"] : null;
+    $prenom = (isset($_POST["prenom"])) ? $_POST["prenom"] : null;
+    $ddn = (isset($_POST["ddn"])) ? $_POST["ddn"] : null;
+    $ville = (isset($_POST["ville"])) ? $_POST["ville"] : null;
+    $cv = (isset($_POST["cv"])) ? $_POST["cv"] : null;
+    $tel = (isset($_POST["tel"])) ? $_POST["tel"] : null;
+
+    if (Site::getUtilisateur()->getId() != $id) {
+        $objUtilisateur = new Utilisateur($id);
+    } else {
+        $objUtilisateur = &Site::getUtilisateur();
+    }
+
+    $objUtilisateur->setNom($nom);
+    $objUtilisateur->setPrenom($prenom);
+    $objUtilisateur->setDdn($ddn);
+    $objUtilisateur->setVille($ville);
+    $objUtilisateur->setCv($cv);
+    $objUtilisateur->setTel($tel);
+
+    if (is_null($objUtilisateur->editUtilisateur())) {
+        $message[erreur] = "Erreur lors de la modification !";
+    } else {
+        $message[succes] = "Modification réussie !";
+    }
+
     $view = "profil";
-    
 } elseif (!is_null($action) && $action == "valider") {
 
     // Data
@@ -57,7 +87,6 @@ if (!is_null($action) && $action == "ajouter") {
     if ($idUtilisateur !== null) {
         Site::setUtilisateur(new Utilisateur($idUtilisateur));
         $message[succes] = "Connexion réussie !";
-        
     } else {
         $message[erreur] = "Erreur de login et/ou de mot de passe !";
     }
@@ -73,30 +102,27 @@ include 'views/message.php';
  * Vues 
  */
 if (!is_null($view) && $view == "accueil") {
-    
+
     // Déprécié
     include 'views/utilisateurAccueil.php';
-    
 } elseif (!is_null($view) && $view == "deconnexion") {
     include 'views/utilisateurDeconnexion.php';
-    
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
-    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
-    
-    if(!is_null(Site::getUtilisateur())) {
+
+    if (!is_null(Site::getUtilisateur())) {
         $objUtilisateur = &Site::getUtilisateur();
     }
-    
-    if(!is_null($idUtilisateur)) {
+
+    if (!is_null($idUtilisateur)) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
     }
-    
-    if(is_null($objUtilisateur)) {
+
+    if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
     } else {
         include 'views/utilisateurProfil.php';

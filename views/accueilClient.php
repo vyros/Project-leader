@@ -13,6 +13,16 @@
         }
     });
 </script>-->
+<style>
+    .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
+</style>
+<script>
+    $(function() {
+        $( "#progressbar" ).progressbar({
+            value: <?php echo Site::getUtilisateur()->getRatio(); ?>
+        });
+    });
+</script>
 <div class="content_col_w420 fl">
     <div class="sub_content_col">
         <img class="imgIconProjet" src="images/icone_projet.png"/> 
