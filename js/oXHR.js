@@ -51,9 +51,9 @@ function getView(params){
             }, function(data) {
                 $('#content').html(data);
             })
-            
+
         } else {
-             $.post(properties.controller.toString() + ".php", {
+            $.post(properties.controller.toString() + ".php", {
                 'view' : properties.view,
                 'id' : properties.id
             }, function(data) {

@@ -102,7 +102,7 @@ include 'views/message.php';
  * Vues 
  */
 if (!is_null($view) && $view == "accueil") {
-
+    
     // Déprécié
     include 'views/utilisateurAccueil.php';
 } elseif (!is_null($view) && $view == "deconnexion") {
@@ -113,15 +113,15 @@ if (!is_null($view) && $view == "accueil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
-
+    
     if (!is_null(Site::getUtilisateur())) {
         $objUtilisateur = &Site::getUtilisateur();
     }
-
+    
     if (!is_null($idUtilisateur)) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
     }
-
+    
     if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
     } else {

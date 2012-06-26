@@ -155,6 +155,30 @@ img {
     width: 45px;
 }
 
+.imgIconProjetListe {
+    bottom: 720px;
+    position: absolute;
+    width: 45px;
+}
+
+.imgIconFicheProjet {
+    bottom: 720px;
+    position: absolute;
+    width: 45px;
+} 
+
+.imgIconListeProjetFini {
+    bottom: 136px;
+    position: absolute;
+    width: 45px;
+}
+
+.imgIconCrea {
+    bottom: 583px;
+    position: absolute;
+    width: 45px;
+}
+
 .imgIconCompte {
     position: relative;
     top: 40px;
@@ -184,7 +208,7 @@ img {
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;
     list-style-type : none;
-    padding-bottom : 24px; /* Ã  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    padding-bottom : 24px; /* à  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
     border-bottom : 1px solid #9EA0A1;
     margin-left : 0;
 }
@@ -212,6 +236,14 @@ img {
 
 #ongletsProfil a:hover {
     background : #fff;
+}
+
+#partProfil {
+    position: relative;
+    top: 60px;
+    width: 440px;
+    float: right;
+    right: 225px;
 }
 
 .imgLienFiche {
