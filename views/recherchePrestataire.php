@@ -11,9 +11,9 @@
 
     <div>
         <div style="color:red">
-            Développement Web / Software
+            <a id="TitreDev">D&eacute;veloppement Web / Software</a>
         </div>
-        <div>
+        <div id="divDev">
             <?php
             $i = 0;
             /* Sur 4 colonnes */
@@ -37,9 +37,9 @@
     <div>
         </br>
         <div style="color:red">
-            Mobile
+            <a id="TitreMobile">Mobile</a>
         </div>
-        <div>
+        <div id="divMobile">
             <?php
             $i = 0;
             /* Sur 4 colonnes */
@@ -61,9 +61,9 @@
     <div>
         </br>
         <div style="color:red">
-            Base de données
+            <a id="TitreBDD">Base de donn&eacute;es</a>
         </div>
-        <div>
+        <div id="divBDD">
             <?php
             $i = 0;
             /* Sur 4 colonnes */
@@ -85,9 +85,9 @@
     <div>
         </br>
         <div style="color:red">
-            Design
+            <a id="TitreDesign">Design</a>
         </div>
-        <div>
+        <div id="divDesign">
             <?php
             $i = 0;
             /* Sur 4 colonnes */
@@ -112,20 +112,20 @@
     </div>
 </form>
 </br>   
-<div id="demo" id="tabRes" style="display: none">
+<div id="demo">
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
         <thead>
             <tr>
-                <th class="sorting_asc">Intitulé</th>
-                <th class="sorting_asc">Catégorie</th>
+                <th class="sorting_asc">Intitul&eacute;</th>
+                <th class="sorting_asc">Cat&eacute;gorie</th>
                 <th class="sorting_asc">Budget</th>
-                <th class="sorting_asc">Compétence requise</th>
-                <th class="sorting_asc">Date de création</th>
+                <th class="sorting_asc">Comp&eacute;tence requise</th>
+                <th class="sorting_asc">Date de cr&eacute;ation</th>
                 <th class="sorting_asc">Description</th>
                 <?php
                 if ($idUtilisateur !== null) {
                     ?>
-                    <th class="sorting_asc">Accès</th>
+                    <th class="sorting_asc">Acc&eacute;s</th>
                     <?php
                 }
                 ?>
@@ -181,8 +181,9 @@
                         </td>
                             
                         <td id="dateCreation">
-                            <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                            <?php echo $objProjet->getDateCreation(); ?>											
+                            <?php $date = new DateTime($objProjet->getDateCreation()); ?>
+                            <input type="hidden" name="dateCreation" value="<?php echo $date->format('d-m-Y'); ?>">
+                            <?php echo $date->format('d-m-Y'); ?>											
                         </td>
                             
                         <td id="description">
@@ -194,8 +195,7 @@
                             ?>
                             <td id="action">
                                 <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                                    <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
-                                        
+                                    <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>                                       
                             </td>
                             <?php
                         } else {

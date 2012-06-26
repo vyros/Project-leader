@@ -6,6 +6,11 @@ Site::init();
 
 echo '<script type="text/javascript">';
 echo '      getHeader();';
+echo "      $('#TitreDev').click(function () { anime('divDev')});";
+echo "      $('#TitreMobile').click(function () { anime('divMobile')});";
+echo "      $('#TitreBDD').click(function () { anime('divBDD')});";
+echo "      $('#TitreDesign').click(function () { anime('divDesign')});";  
+echo "      $('#demo').hide();";  
 echo '</script>';
 echo '<script language="javascript" type="text/javascript" src="js/tabler.js"></script>';
 
@@ -16,8 +21,9 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
  * Actions 
  */
 if (!is_null($action) && $action == "liste") {
-    if (!is_null($_POST[rech])) {
-        print_r($_POST[rech]);
+       
+    if (isset($_POST[rech]) && $_POST[rech]!= null) {
+      
         //recupere les id des competences
         $lstCatId = $_POST[rech];
         $iter = 0;
@@ -37,12 +43,15 @@ if (!is_null($action) && $action == "liste") {
         //on a des checkbox cochés
         if (!is_null($req)) {
 
-            //recupere les id des projets associés       
+            //recupere les id des projets associÃƒÂ©s       
             $requete = " SELECT prj_id FROM correspondre " .
                     " WHERE " . $req;
 
             $listProjets = Site::getConnexion()->getFetchArray($requete);
             $idUtilisateur = Site::getUtilisateur()->getId();
+            echo '<script type="text/javascript">';
+            echo "      $('#demo').show();";
+            echo '</script>';           
         }
     }
 }

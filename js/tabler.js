@@ -20,7 +20,7 @@ $(document).ready(function() {
     } );
          
     /* Init the table */
-    varTable = $('#example').dataTable( );
+    varTable = $('#example').dataTable();
 } );
 
 function fnGetSelected( oTableLocal ) {

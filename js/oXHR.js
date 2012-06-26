@@ -1,5 +1,5 @@
 /* ** cartouche ********************************************************************* */
-/* Script complet de gestion d'une requête de type XMLHttpRequest                     */
+/* Script complet de gestion d'une requÃªte de type XMLHttpRequest                     */
 /*                                                                                    */
 /* ********************************************************************************** */
 
@@ -154,7 +154,7 @@ function getField(name){
         else
             return '';
     } else {
-        alert('ERREUR -> champs : '+ name +' non trouvé');
+        alert('ERREUR -> champs : '+ name +' non trouvÃ©');
     }
 }
 
@@ -193,4 +193,15 @@ function getCheckBox(name) {
         return '';
     }
     return objetJson;
+}
+
+function anime(id){
+ 
+ if ($('#'+id).is(':visible')) {
+        $('#'+id).hide("slow");
+    }
+    else
+    {
+        $('#'+id).show("slow");
+    } 
 }
