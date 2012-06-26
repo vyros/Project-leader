@@ -141,6 +141,7 @@ img {
 }
 
 /* img accueil */
+
 .imgAcc {
     height: 270px;
     left: 0;
@@ -149,52 +150,64 @@ img {
     top: 310px;
 }
 
+
 .imgIconProjet {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
 
+    bottom: 364px;
+    position: absolute;
+    width: 45px;
+ 
+}
 .imgIconProjetListe {
-    bottom: 720px;
-    position: absolute;
-    width: 45px;
-}
 
-.imgIconFicheProjet {
     bottom: 720px;
     position: absolute;
     width: 45px;
+ 
+}
+.imgIconFicheProjet {
+
+    bottom: 720px;
+    position: absolute;
+    width: 45px;
+ 
 } 
 
 .imgIconListeProjetFini {
+
     bottom: 136px;
     position: absolute;
     width: 45px;
-}
-
+ 
+} 
 .imgIconCrea {
+
     bottom: 583px;
     position: absolute;
     width: 45px;
+ 
 }
-
 .imgIconCompte {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
 
-.imgIconPresta {
-    position: relative;
-    top: 40px;
+    position: absolute;
     width: 45px;
+    bottom: 105px;
+ 
+}
+.imgIconPresta {
+
+    position: absolute;
+    width: 45px;
+    bottom: 90px;
+ 
 }
 
 .imgIconMsg {
-    position: relative;
-    top: 40px;
+
+    position: absolute;
     width: 45px;
+    bottom: 64px;
+    
 }
 
 .logoAccueil {
@@ -205,17 +218,18 @@ img {
 }
 
 /* profil */
+
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;
     list-style-type : none;
-    padding-bottom : 24px; /* à  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    padding-bottom : 24px; /* ÃƒÂ  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
     border-bottom : 1px solid #9EA0A1;
     margin-left : 0;
 }
 
 #ongletsProfil li {
     float : left;
-    height : 21px; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
+    height : 21px; /* Ã  modifier suivant la taille de la police pour centrer le texte dans l'onglet */
     background-color: #F4F9FD;
     margin : 2px 2px 0 2px !important;  /* Pour les navigateurs autre que IE */
     margin : 1px 2px 0 2px;  /* Pour IE  */
@@ -245,7 +259,6 @@ img {
     float: right;
     right: 225px;
 }
-
 .imgLienFiche {
     position: relative;
     text-decoration : none;
@@ -262,6 +275,7 @@ img {
     position: relative;
     bottom: -11px;
 }
+
 
 /* end of menu */
 
@@ -335,17 +349,9 @@ img {
 }
 
 .content_col_w420 {
-    position: relative;
-    width: 420px;
-}
-
-.content_col_w840 {
-    position: relative;
-    width: 840px;
-}
-
-.sub_content_col {
-    position: relative;
+	position: relative;
+        top: 17px;
+        width: 440px;
 }
 
 .service_box {

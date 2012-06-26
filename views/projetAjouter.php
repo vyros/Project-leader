@@ -14,6 +14,7 @@
         
         <img class="imgIconCrea" src="images/icone_crea.png"/> 
         <div class="header_02">Créer votre projet<br/></div>
+        <div class="margin_bottom_20"></div>
 
         <label for="libelle">Intitulé : </label><br />
         <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
@@ -68,8 +69,6 @@
         <input type="button" onclick="getFormulary('pa1');" value="Valider" />
         
     </form>
-    
-    <div class="margin_bottom_20 border_bottom"></div>
-    <div class="margin_bottom_30"></div>
-    
+    <div class="margin_bottom_20"></div>
+    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

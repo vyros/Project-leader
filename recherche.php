@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -18,7 +19,6 @@ if (!is_null($action) && $action == "liste") {
     echo '<pre>';
     print_r($_POST);
     echo '</pre>';
-    
 } else {
     $lstCategorieFilsDev = Categorie::getListCategoriesFilsByCode(1);
     $lstCategorieFilsMobile = Categorie::getListCategoriesFilsByCode(2);

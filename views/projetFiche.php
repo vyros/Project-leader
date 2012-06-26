@@ -1,15 +1,19 @@
 <?php
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
         //print_r($lstProjetIds);
         $idUti = Site::getUtilisateur()->getId();
+        
     ?>
     
-<div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle(); ?></div>
+    <div class="header_02">Titre du projet : <?php echo $objProjet->getLibelle();?></div>
     <div class="margin_bottom_20"></div>
     <div class="margin_bottom_20"></div>
     <div id="contenuProjet" class="infoProjet">
@@ -95,10 +99,10 @@
         $lstParticipants = PARTICIPER::voirParticipation($idProjet);
         if (!is_null($lstParticipants)) {
             foreach ($lstParticipants as $idUti) {
-                $objUtilisateur = new Utilisateur($idUti);
+                $objUtilisateur  = new Utilisateur($idUti);
                 echo ('- ');
                 ?>
-            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                <a onclick="getView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
                      <?php echo $objUtilisateur->getLogin(); ?></a><br />
                 <?php
             }
