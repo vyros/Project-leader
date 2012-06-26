@@ -16,7 +16,10 @@
 </script>
 <div class="content_col_w420 fl">
 
-    <div class="header_02">Vos derniers projets</div>
+    <div class="header_wrapper">
+        <img src="images/icone_projet.png"/> 
+        <div class="header_02">Vos derniers projets</div>
+    </div>
 
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
@@ -57,11 +60,16 @@
 
     <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
-    
+
 </div><!-- end of a section -->
 
 <div class="content_col_w420 fr">
-    <div class="header_02">Votre compte</div>
+
+    <div class="header_wrapper">
+        <img src="images/icone_compte.png"/> 
+        <div class="header_02">Votre compte</div>
+    </div>
+
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
             <div class="header_03"><a onclick=""><div id="progressbar"></div></a></div>
@@ -70,10 +78,16 @@
 
     <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+    
 </div>
 
 <div class="content_col_w840 fl">
-    <div class="header_02">Liste de projets</div>
+
+    <div class="header_wrapper">
+        <img src="images/icone_projet.png"/> 
+        <div class="header_02">Liste de projets</div>
+    </div>
+
     <div id="demo">
         <table id="listeProjet">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -148,4 +162,5 @@
 
     <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+    
 </div>

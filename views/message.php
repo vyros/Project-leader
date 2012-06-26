@@ -6,8 +6,12 @@ if (!isset($message[succes]) && isset($message[erreur]))
 if (!is_null($message)) {
     ?>
     <div class="content_col_w420 fr">
-        <img class="imgIconMsg" src="images/icone_msg.png"/> 
-        <div class="header_02">Message</div>
+
+        <div class="header_wrapper">
+            <img src="images/icone_msg.png"/> 
+            <div class="header_02">Message</div>
+        </div>
+
         <div class="testimonial_box_wrapper">
             <div class="testimonial_box">
                 <p>

@@ -12,8 +12,11 @@
     });
 </script>
 <div class="content_col_w420 fl">
-    
-    <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?><br/></div>
+
+    <div class="header_wrapper">
+        <img src="images/ex_avatar.png"/>
+        <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
+    </div>
 
     <form id="up1">
 
@@ -21,8 +24,6 @@
         <input type="hidden" name="action" value="profil"/>
         <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>"/>
 
-        <img src="images/ex_avatar.png"/><br /><br />
-        
         <label for="nom">Nom : </label>  <br />
         <input id="nom" name="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br /><br />
 
@@ -44,18 +45,26 @@
         <?php
         if ($objUtilisateur->getId() == Site::getUtilisateur()->getId()) {
             ?>
-        <input type="button" onclick="getFormulary('up1');" value="Valider" />
+            <input type="button" onclick="getFormulary('up1');" value="Valider" />
             <?php
         }
         ?>
     </form>
 
+    <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+
 </div>
 
 <div class="content_col_w420 fr">
+
+    <div class="header_wrapper">
+        <img src="images/ex_avatar.png"/>
+        <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
+    </div>
+
     <form id="up2">
-       
+
         <input type="hidden" name="controller" value="utilisateur"/>
         <input type="hidden" name="action" value="profil"/>
 
@@ -80,8 +89,10 @@
         </div>
 
         <input type="button" onclick="getFormulary('up2');" value="Valider" />
-        
+
     </form>
 
+    <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+
 </div>

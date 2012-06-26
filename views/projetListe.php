@@ -3,17 +3,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+// faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
+// Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
+// bout de code séparer et mis dans une autre vue pour respect MVC
 ?>
 <div class="content_col_w420 fl">
-    <?php
 
-    // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
-    // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
-    // bout de code séparer et mis dans une autre vue pour respect MVC
+    <div class="header_wrapper">
+        <img src="images/icone_projet.png"/> 
+        <div class="header_02">Vos derniers projets</div>
+    </div>
     
-    ?>
-    <img class="imgIconProjetListe" src="images/icone_projet.png"/> 
-    <div class="header_02">Vos derniers projets</div>
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
             <thead>
@@ -98,8 +98,8 @@
                                 ?>
                                 <td id="action">
                                     <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
-                                    							
+                                        <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
+
                                 </td>
                                 <?php
                             } else {
@@ -110,7 +110,6 @@
                         <?php
                     }
                 }
-    
                 ?>
             </tbody>
         </table>

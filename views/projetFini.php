@@ -5,8 +5,12 @@
  */
 ?>
 <div class="content_col_w420 fl">
-    <img class="imgIconListeProjetFini" src="images/icone_lstPjtFini.png"/> 
-    <div class="header_02">Vos projets menés à terme<br/></div>
+
+    <div class="header_wrapper">
+        <img src="images/icone_lstPjtFini.png"/> 
+        <div class="header_02">Vos projets menés à terme<br/></div>
+    </div>
+
     <div id="demo">
         <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
             <thead>
@@ -62,4 +66,8 @@
             </tbody>
         </table>
     </div>
+    
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+    
 </div><!-- end of a section -->

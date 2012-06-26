@@ -141,6 +141,12 @@ img {
 }
 
 /* img accueil */
+.header_wrapper img {
+    position: relative;
+    top: 25px;
+    width: 45px;
+}
+
 .imgAcc {
     height: 270px;
     left: 0;
@@ -148,7 +154,7 @@ img {
     right: 564px;
     top: 310px;
 }
-
+/*
 .imgIconProjet {
     position: relative;
     top: 40px;
@@ -196,7 +202,7 @@ img {
     top: 40px;
     width: 45px;
 }
-
+*/
 .logoAccueil {
     bottom: 85px;
     left: 540px;
