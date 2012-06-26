@@ -56,7 +56,7 @@
                 echo ('- ');
                 ?>
     
-                <a onclick="getView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
+                <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
                      <?php echo $objUtilisateur->getLogin(); ?></a><br />
                 <?php
             }

@@ -96,7 +96,7 @@
                             if ($idUtilisateur !== null) {
                                 ?>
                                 <td id="action">
-                                    <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                                    <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                             <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
                                     							
                                 </td>

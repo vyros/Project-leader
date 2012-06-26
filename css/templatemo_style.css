@@ -160,7 +160,7 @@ img {
     top: 40px;
     width: 45px;
 }
- 
+
 .imgIconPresta {
     position: relative;
     top: 40px;
@@ -303,12 +303,17 @@ img {
 }
 
 .content_col_w420 {
-	position: relative;
-        width: 420px;
+    position: relative;
+    width: 420px;
+}
+
+.content_col_w840 {
+    position: relative;
+    width: 840px;
 }
 
 .sub_content_col {
-	position: relative;
+    position: relative;
 }
 
 .service_box {

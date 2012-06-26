@@ -26,7 +26,7 @@
                 if (!is_null($lstUtilisateurProjetObjs)) {
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
-                        <a onclick="getView('projet','liste','<?php echo $objProjet->getId(); ?>');">
+                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                             <?php echo $objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
@@ -40,7 +40,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter', null);">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -48,7 +48,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter', null);">Rechercher un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView({'controller' : 'recherche'});">Rechercher un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -72,7 +72,7 @@
     <div class="margin_bottom_30"></div>
 </div>
 
-<div class="content_col_w420">
+<div class="content_col_w840 fl">
     <div class="header_02">Liste de projets</div>
     <div id="demo">
         <table id="listeProjet">
