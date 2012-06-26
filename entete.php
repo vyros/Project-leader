@@ -16,8 +16,8 @@ if (Site::getUtilisateur()) {
     <!--div style="position: relative; left: 82px; top: 57px;"--> 
     <div> 
         <p class="libellEntete">Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> ! 
-        <a onclick="getView('utilisateur', 'profil');" class="button style2"><span>Mon profil</span></a> /
-        <a onclick="getController('utilisateur', 'deconnexion');" class="button style2"><span>Se déconnecter</span></a>
+        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil'});" class="button style2"><span>Mon profil</span></a> /
+        <a onclick="getController({'controller' : 'utilisateur', 'action' : 'deconnexion'});" class="button style2"><span>Se déconnecter</span></a>
         </p>
     </div>
 <?php } else { ?>
@@ -48,27 +48,27 @@ if (Site::getUtilisateur()) {
         ?>
         <!-- Start css3menu.com BODY section -->
         <ul id="css3menu1" class="topmenu">
-            <li class="topmenu"><a onclick="getController('accueil');" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'accueil'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
             <li class="topmenu"><a style="height:24px;line-height:24px;"><span><img src="css/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                 <ul>
-                    <li class="subfirst"><a onclick="getView('projet','ajouter');">Créer votre projet</a></li>
-                    <li><a onclick="getView('projet','liste');">Mes projets</a></li>
-                    <li class="sublast"><a onclick="getView('projet','fini');">Projets finis</a></li>
+                    <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer votre projet</a></li>
+                    <li><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Mes projets</a></li>
+                    <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
                 </ul></li>
-            <li class="topmenu"><a onclick="getController('recherche');" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
         </ul>
 
     <?php } else if (Site::getUtilisateur()->getStatut() == "prestataire") { ?>
 
         <!-- Start css3menu.com BODY section -->
         <ul id="css3menu1" class="topmenu">
-            <li class="topmenu"><a onclick="getView('accueil');" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'accueil'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
             <li class="topmenu"><a style="height:24px;line-height:24px;"><span><img src="css/css3menu1/256base-open-over.png" alt="Espace Projet"/>Espace Projet</span></a>
                 <ul>
-                    <li class="subfirst"><a onclick="getView('projet','liste');">Mes projets</a></li>
-                    <li class="sublast"><a onclick="getView('projet','fini');">Projets finis</a></li>
+                    <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Mes projets</a></li>
+                    <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
                 </ul></li>
-            <li class="topmenu"><a onclick="getController('recherche');" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
         </ul>
         <?php
     }
@@ -76,8 +76,8 @@ if (Site::getUtilisateur()) {
     ?>
     <!-- Start css3menu.com BODY section -->
     <ul id="css3menu1" class="topmenu">
-        <li class="topmenu"><a onclick="getView('accueil');" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
-        <li class="topmenu"><a onclick="getView('projet', 'liste');" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
+        <li class="topmenu"><a onclick="getController({'controller' : 'accueil'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/256base-home-over.png" alt="Accueil"/>Accueil</a></li>
+        <li class="topmenu"><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Projet"/>Projet</a></li>
     </ul>
     <?php
 }

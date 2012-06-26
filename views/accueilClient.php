@@ -13,7 +13,18 @@
         }
     });
 </script>-->
+<style>
+    .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
+</style>
+<script>
+    $(function() {
+        $( "#progressbar" ).progressbar({
+            value: <?php echo Site::getUtilisateur()->getRatio(); ?>
+        });
+    });
+</script>
 <div class="content_col_w420 fl">
+    <div class="sub_content_col">
     <img class="imgIconProjet" src="images/icone_projet.png"/> 
     <div class="header_02"> Vos derniers projets</div>
     <div class="testimonial_box_wrapper">
@@ -24,8 +35,7 @@
                 if (!is_null($lstUtilisateurProjetObjs)) {
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
-                                    <!--a class="jsLinkGetControllerView arg-projet arg-liste arg-<?php //echo $objProjet->getId();   ?>"-->
-                        <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                             <?php echo $objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
@@ -39,7 +49,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer un projet</a></div>
+                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -47,7 +57,7 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer votre projet</a></div>
+                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer votre projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -56,6 +66,10 @@
 
     <div class="margin_bottom_10 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+
+    </div><!-- end of a section -->
+
+    <div class="sub_content_col">
     <img class="imgIconPresta" src="images/icone_presta.png"/> 
     <div class="header_02">Liste de prestataires</div>
     <div class="testimonial_box_wrapper">
@@ -65,7 +79,7 @@
                 if (!is_null($lstUtilisateurObjs)) {
                     foreach ($lstUtilisateurObjs as $objUtilisateur) {
                         ?>
-                        <a onclick="getView('utilisateur', 'profil', '<?php echo $objUtilisateur->getId(); ?>');">
+                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
                             <?php echo $objUtilisateur; ?></a><br />
                         <?php
                     }
@@ -74,9 +88,12 @@
             </p>
         </div>
     </div>
-    <div class="margin_bottom_20"></div>
-</div><!-- end of a section -->
 
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
+
+</div><!-- end of a section -->
+</div>
 
 <div class="content_col_w420 fr">
     <img class="imgIconCompte" src="images/icone_compte.png"/> 
@@ -90,5 +107,6 @@
 
     <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>

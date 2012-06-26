@@ -4,8 +4,20 @@
  * and open the template in the editor.
  */
 ?>
+<style>
+    .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
+</style>
+<script>
+    $(function() {
+        $( "#progressbar" ).progressbar({
+            value: <?php echo Site::getUtilisateur()->getRatio(); ?>
+        });
+    });
+</script>
 <div class="content_col_w420 fl">
+
     <div class="header_02">Vos derniers projets</div>
+
     <div class="testimonial_box_wrapper">
         <div class="testimonial_box">
             <p>
@@ -14,7 +26,7 @@
                 if (!is_null($lstUtilisateurProjetObjs)) {
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
-                        <a onclick="getView('projet','liste','<?php echo $objProjet->getId(); ?>');">
+                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                             <?php echo $objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
@@ -28,7 +40,7 @@
     if ($i != 0) {
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Créer un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
@@ -36,21 +48,32 @@
         echo "Aucun projet en cours";
         ?>
         <div class="section_w140 fr">
-            <div class="rc_btn_02"><a onclick="getView('projet', 'ajouter');">Rechercher un projet</a></div>
+            <div class="rc_btn_02"><a onclick="getView({'controller' : 'recherche'});">Rechercher un projet</a></div>
             <div class="cleaner"></div>            
         </div>
         <?php
     }
     ?>
 
-    <div class="margin_bottom_10 border_bottom"></div>
+    <div class="margin_bottom_20 border_bottom"></div>
     <div class="margin_bottom_30"></div>
+    
+</div><!-- end of a section -->
+
+<div class="content_col_w420 fr">
+    <div class="header_02">Votre compte</div>
+    <div class="testimonial_box_wrapper">
+        <div class="testimonial_box">
+            <div class="header_03"><a onclick=""><div id="progressbar"></div></a></div>
+        </div>
+    </div>
+
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+</div>
+
+<div class="content_col_w840 fl">
     <div class="header_02">Liste de projets</div>
-    <?php
-// tester si dans les tables  posseder (relier à competence et cv) il existe l'idUti
-// Si oui, afficher une liste des projets en rapport avec les compétences et/ou spécialité de l'uti
-// Sinon, listes des 10 derniers projets postés
-    ?>
     <div id="demo">
         <table id="listeProjet">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
@@ -121,17 +144,6 @@
                 </tbody>
             </table>
         </table>
-    </div>
-    <div class="margin_bottom_20"></div>
-</div><!-- end of a section -->
-
-
-<div class="content_col_w420 fr">
-    <div class="header_02">Votre compte</div>
-    <div class="testimonial_box_wrapper">
-        <div class="testimonial_box">
-            <div class="header_03"><a onclick=""><div id="progressbar"></div></a></div>
-        </div>
     </div>
 
     <div class="margin_bottom_20 border_bottom"></div>
