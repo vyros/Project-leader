@@ -147,29 +147,86 @@ img {
     left: 0;
     position: absolute;
     right: 564px;
-    top: 310px;
+    top: 380px;
 }
+
+
+/* div de la bulle */
+.conteneur_bulle
+{
+        width: 142px;
+        top: 203px;
+        
+        height: 37px;
+        left: 10px;
+        padding: 55px 0;
+        position: absolute;
+        text-align: center;
+        
+        border: 1px solid #696;
+        padding: 60px 0;
+        text-align: center;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        -webkit-box-shadow: #666 0px 2px 3px;
+        -moz-box-shadow: #666 0px 2px 3px;
+        box-shadow: #666 0px 2px 3px;
+        background: #99FEFF;
+        background: -webkit-gradient(linear, 0 0, 0 bottom, from(#99FEFF), to(#33A3EE));
+        background: -webkit-linear-gradient(#99FEFF, #33A3EE);
+        background: -moz-linear-gradient(#99FEFF, #33A3EE);
+        background: -ms-linear-gradient(#99FEFF, #33A3EE);
+        background: -o-linear-gradient(#99FEFF, #33A3EE);
+        background: linear-gradient(#99FEFF, #33A3EE);
+        -pie-background: linear-gradient(#99FEFF, #33A3EE);
+
+}
+
+.conteneur_bulle:after {
+    border-color: transparent #33A3EE;
+    border-style: solid;
+    border-width: 0 0 30px 20px;
+    bottom: -30px;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 110px;
+
+}
+
+/* div du message */
+.messageBulle
+{
+
+	position: relative;
+        height: 93px;
+        bottom: 50px;
+}
+
+
 
 
 .imgIconProjet {
 
-    bottom: 364px;
+    top: -15px;
     position: absolute;
     width: 45px;
  
 }
 .imgIconProjetListe {
 
-    bottom: 720px;
+    top: -17px;
     position: absolute;
     width: 45px;
  
 }
 .imgIconFicheProjet {
 
-    bottom: 720px;
+    bottom: 400px;
     position: absolute;
-    width: 45px;
+    width: 65px;
+    left: 188px;
  
 } 
 
@@ -198,7 +255,15 @@ img {
 
     position: absolute;
     width: 45px;
-    bottom: 90px;
+    bottom: 163px;
+ 
+}
+
+.imgIconListePjtPresta {
+
+    position: absolute;
+    width: 45px;
+    bottom: 132px;
  
 }
 

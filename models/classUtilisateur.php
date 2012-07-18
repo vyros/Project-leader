@@ -217,8 +217,12 @@ class Utilisateur extends Classe {
 
     public function getDate() {
         return $this->m_date;
+    } 
+    
+    public function getNbrePjt() {
+        return "lol";
     }
-
+    
     public function __toString() {
         return "$this->m_login depuis $this->m_date";
     }

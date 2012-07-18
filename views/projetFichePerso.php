@@ -13,7 +13,7 @@
         
     ?>
     <img class="imgIconFicheProjet" src="images/icone_fichePjt.png"/> 
-    <div class="header_02">Titre DE MON projet : <?php echo $objProjet->getLibelle();?></div>
+    <div class="header_02">Titre de mon projet : <?php echo $objProjet->getLibelle();?></div>
     <div class="margin_bottom_20"></div>
     <div class="margin_bottom_20"></div>
     
@@ -23,7 +23,10 @@
     <input type="hidden" name="action" value="editer"/>
     
     <label for="infoPrj">Description du projet : </label>
-    <input id="description" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getDescription(); ?>" />
+    <textarea style="">
+        <?php echo $objProjet->getDescription(); ?>
+    </textarea> 
+   
     <div class="margin_bottom_20"></div>
     
     <label for="infoPrj">Catégorie : </label>
