@@ -1,9 +1,11 @@
 <?php
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+echo '<script type="text/javascript">';
+echo "      $('#demo').show();";
+echo '</script>';
 ?>
 <div class="content_col_w840">
 
@@ -13,7 +15,7 @@
             <img src="images/icone_projet.png"/> 
             <div class="header_02">Résultat(s)</div>
         </div>
-        
+
         <div id="demo">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                 <thead>

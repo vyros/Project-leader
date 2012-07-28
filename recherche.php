@@ -1,5 +1,4 @@
 <?php
-
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -10,8 +9,8 @@ echo '      getHeader();';
 echo "      $('#TitreDev').click(function () { anime('divDev')});";
 echo "      $('#TitreMobile').click(function () { anime('divMobile')});";
 echo "      $('#TitreBDD').click(function () { anime('divBDD')});";
-echo "      $('#TitreDesign').click(function () { anime('divDesign')});";
-echo "      $('#demo').hide();";
+echo "      $('#TitreDesign').click(function () { anime('divDesign')});";  
+echo "      $('#demo').hide();";  
 echo '</script>';
 echo '<script language="javascript" type="text/javascript" src="js/tabler.js"></script>';
 
@@ -22,9 +21,9 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
  * Actions 
  */
 if (!is_null($action) && $action == "liste") {
-
-    if (isset($_POST[rech]) && $_POST[rech] != null) {
-
+       
+    if (isset($_POST[rech]) && $_POST[rech]!= null) {
+      
         //recupere les id des competences
         $lstCatId = $_POST[rech];
         $iter = 0;
@@ -50,8 +49,9 @@ if (!is_null($action) && $action == "liste") {
 
             $listProjets = Site::getConnexion()->getFetchArray($requete);
             $idUtilisateur = Site::getUtilisateur()->getId();
-            
-            $view = "resultat";
+            echo '<script type="text/javascript">';
+            echo "      $('#demo').show();";
+            echo '</script>';           
         }
     }
 }
@@ -62,13 +62,4 @@ $lstCategorieFilsBDD = Categorie::getListCategoriesFilsByCode(3);
 $lstCategorieFilsDesign = Categorie::getListCategoriesFilsByCode(4);
 
 include 'views/recherchePrestataire.php';
-
-if (!is_null($action) && $action == "resultat") {
-
-    include 'views/rechercheResultat.php';
-
-    echo '<script type="text/javascript">';
-    echo "      $('#demo').show();";
-    echo '</script>';
-}
 ?>
