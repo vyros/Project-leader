@@ -137,60 +137,10 @@ img {
 
 .libellEntete {
     font : bold 15px Batang, arial, serif;
+
 }
 
 /* img accueil */
-.header_wrapper img {
-    position: relative;
-    top: 25px;
-    width: 45px;
-}
-
-/* div de la bulle */
-.conteneur_bulle {
-    width: 142px;
-    top: 203px;
-    height: 37px;
-    left: 10px;
-    padding: 55px 0;
-    position: absolute;
-    text-align: center;
-    border: 1px solid #696;
-    padding: 60px 0;
-    text-align: center;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    -webkit-box-shadow: #666 0px 2px 3px;
-    -moz-box-shadow: #666 0px 2px 3px;
-    box-shadow: #666 0px 2px 3px;
-    background: #99FEFF;
-    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#99FEFF), to(#33A3EE));
-    background: -webkit-linear-gradient(#99FEFF, #33A3EE);
-    background: -moz-linear-gradient(#99FEFF, #33A3EE);
-    background: -ms-linear-gradient(#99FEFF, #33A3EE);
-    background: -o-linear-gradient(#99FEFF, #33A3EE);
-    background: linear-gradient(#99FEFF, #33A3EE);
-    -pie-background: linear-gradient(#99FEFF, #33A3EE);
-}
-
-.conteneur_bulle:after {
-    border-color: transparent #33A3EE;
-    border-style: solid;
-    border-width: 0 0 30px 20px;
-    bottom: -30px;
-    content: "";
-    display: block;
-    position: absolute;
-    right: 110px;
-}
-
-/* div du message */
-.messageBulle {
-    position: relative;
-    height: 93px;
-    bottom: 50px;
-}
 
 .imgAcc {
     height: 270px;
@@ -198,6 +148,37 @@ img {
     position: absolute;
     right: 564px;
     top: 310px;
+}
+
+
+.imgIconProjet {
+
+    bottom: 364px;
+    position: absolute;
+    width: 45px;
+ 
+}
+.imgIconCompte {
+
+    position: absolute;
+    width: 45px;
+    bottom: 105px;
+ 
+}
+.imgIconPresta {
+
+    position: absolute;
+    width: 45px;
+    bottom: 90px;
+ 
+}
+
+.imgIconMsg {
+
+    position: absolute;
+    width: 45px;
+    bottom: 64px;
+    
 }
 
 .logoAccueil {
@@ -208,10 +189,11 @@ img {
 }
 
 /* profil */
+
 #ongletsProfil {
     font : bold 11px Batang, arial, serif;
     list-style-type : none;
-    padding-bottom : 24px; /* à  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+    padding-bottom : 24px; /* Ã  modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
     border-bottom : 1px solid #9EA0A1;
     margin-left : 0;
 }
@@ -248,7 +230,6 @@ img {
     float: right;
     right: 225px;
 }
-
 .imgLienFiche {
     position: relative;
     text-decoration : none;
@@ -265,6 +246,7 @@ img {
     position: relative;
     bottom: -11px;
 }
+
 
 /* end of menu */
 
@@ -319,9 +301,11 @@ img {
 #templatemo_content_top p {
     color: #000000;
 }
+
 /* end of content top */
 
 /* content */
+
 #templatemo_content_wrapper {
     clear: both;
     width: 100%;
@@ -337,16 +321,8 @@ img {
 
 .content_col_w420 {
 	position: relative;
-    width: 420px;
-}
-
-.content_col_w840 {
-    position: relative;
-    width: 840px;
-}
-
-.sub_content_col {
-    position: relative;
+        top: 17px;
+        width: 440px;
 }
 
 .service_box {
@@ -436,9 +412,11 @@ img {
 .other_project_list li a:hover {
     color: #990000;
 }
+
 /* end of content */
 
 /* footer */
+
 #templatemo_footer_wrapper {
     clear: both;
     width: 100%;
