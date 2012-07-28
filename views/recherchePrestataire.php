@@ -4,114 +4,132 @@
  * and open the template in the editor.
  */
 ?>
-<form id="rp1">
+<div class="content_col_w840">
 
-    <input type="hidden" name="controller" value="recherche"/>
-    <input type="hidden" name="action" value="liste"/>
+    <div class="sub_content_col">
 
-    <div>
-        <div style="color:red">
-            Développement Web / Software
+        <div class="header_wrapper">
+            <img src="images/icone_projet.png"/> 
+            <div class="header_02">Choisissez les options du projet recherché</div>
         </div>
-        <div>
-            <?php
-            $i = 0;
-            /* Sur 4 colonnes */
-            if (!is_null($lstCategorieFilsDev)) {
-                foreach ($lstCategorieFilsDev as &$lstFils) {
-                    if ($i == 4) {
-                        ?></br><?php
-                        $i = 0;
-                    }
-                    $i++;
-                    ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+
+        <form id="rp1">
+
+            <input type="hidden" name="controller" value="recherche"/>
+            <input type="hidden" name="action" value="liste"/>
+
+            <div>
+                <div style="color:red">
+                    <a id="TitreDev">D&eacute;veloppement Web / Software</a>
+                </div>
+                <div id="divDev">
                     <?php
+                    $i = 0;
+                    /* Sur 4 colonnes */
+                    if (!is_null($lstCategorieFilsDev)) {
+                        foreach ($lstCategorieFilsDev as &$lstFils) {
+                            if ($i == 4) {
+                                ?></br><?php
+                    $i = 0;
                 }
-            }
-            ?>
-            </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Mobile
-        </div>
-        <div>
-            <?php
-            $i = 0;
-            /* Sur 4 colonnes */
-            if (!is_null($lstCategorieFilsMobile)) {
-                foreach ($lstCategorieFilsMobile as &$lstFils) {
-                    if ($i == 4) {
-                        ?></br><?php
-                        $i = 0;
+                $i++;
+                            ?>                  
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
+                        }
                     }
-                    $i++;
-                    ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                <?php }
-            } ?>             
+                    ?>
+                    </br>
+                </div>
+            </div>
             </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Base de données
-        </div>
-        <div>
-            <?php
-            $i = 0;
-            /* Sur 4 colonnes */
-            if (!is_null($lstCategorieFilsBDD)) {
-                foreach ($lstCategorieFilsBDD as &$lstFils) {
-                    if ($i == 4) {
-                        ?></br><?php
-                        $i = 0;
+            <div>
+                </br>
+                <div style="color:red">
+                    <a id="TitreMobile">Mobile</a>
+                </div>
+                <div id="divMobile">
+                    <?php
+                    $i = 0;
+                    /* Sur 4 colonnes */
+                    if (!is_null($lstCategorieFilsMobile)) {
+                        foreach ($lstCategorieFilsMobile as &$lstFils) {
+                            if ($i == 4) {
+                                ?></br><?php
+                    $i = 0;
+                }
+                $i++;
+                            ?>                  
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
+                        }
                     }
-                    $i++;
-                    ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                <?php }
-            } ?>            
+                    ?>             
+                    </br>
+                </div>
+            </div>
             </br>
-        </div>
-    </div>
-    </br>
-    <div>
-        </br>
-        <div style="color:red">
-            Design
-        </div>
-        <div>
-            <?php
-            $i = 0;
-            /* Sur 4 colonnes */
-            if (!is_null($lstCategorieFilsDesign)) {
-                foreach ($lstCategorieFilsDesign as &$lstFils) {
-                    if ($i == 4) {
-                        ?></br><?php
-                        $i = 0;
+            <div>
+                </br>
+                <div style="color:red">
+                    <a id="TitreBDD">Base de donn&eacute;es</a>
+                </div>
+                <div id="divBDD">
+                    <?php
+                    $i = 0;
+                    /* Sur 4 colonnes */
+                    if (!is_null($lstCategorieFilsBDD)) {
+                        foreach ($lstCategorieFilsBDD as &$lstFils) {
+                            if ($i == 4) {
+                                ?></br><?php
+                    $i = 0;
+                }
+                $i++;
+                            ?>                  
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
+                        }
                     }
-                    $i++;
-                    ?>                  
-                    <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                <?php }
-            } ?>         
+                    ?>            
+                    </br>
+                </div>
+            </div>
             </br>
-        </div>
-    </div>
-    </br>
-    </br>
-    <div>
-        <input type="button" onclick="getFormulary('rp1');" value="Valider" />
-    </div>
-</form>
-</br>
-<table>
+            <div>
+                </br>
+                <div style="color:red">
+                    <a id="TitreDesign">Design</a>
+                </div>
+                <div id="divDesign">
+                    <?php
+                    $i = 0;
+                    /* Sur 4 colonnes */
+                    if (!is_null($lstCategorieFilsDesign)) {
+                        foreach ($lstCategorieFilsDesign as &$lstFils) {
+                            if ($i == 4) {
+                                ?></br><?php
+                    $i = 0;
+                }
+                $i++;
+                            ?>                  
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
+                        }
+                    }
+                    ?>         
+                    </br>
+                </div>
+            </div>
+            </br>
+            </br>
+            <div>
+                <input type="button" onclick="getFormulary('rp1');" value="Valider" />
+            </div>
+        </form>
 
-</table>
+    </div>
+
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+</div>

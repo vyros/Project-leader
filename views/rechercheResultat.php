@@ -1,46 +1,42 @@
 <?php
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-// faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
-// Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
-// bout de code séparer et mis dans une autre vue pour respect MVC
 ?>
-<div class="content_col_w420 fl">
+<div class="content_col_w840">
 
     <div class="sub_content_col">
 
         <div class="header_wrapper">
             <img src="images/icone_projet.png"/> 
-            <div class="header_02">Vos derniers projets</div>
+            <div class="header_02">Résultat(s)</div>
         </div>
-
+        
         <div id="demo">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                 <thead>
                     <tr>
-                        <th class="sorting_asc">Intitulé</th>
-                        <th class="sorting_asc">Catégorie</th>
+                        <th class="sorting_asc">Intitul&eacute;</th>
+                        <th class="sorting_asc">Cat&eacute;gorie</th>
                         <th class="sorting_asc">Budget</th>
-                        <th class="sorting_asc">Compétence requise</th>
-                        <th class="sorting_asc">Date de création</th>
+                        <th class="sorting_asc">Comp&eacute;tence requise</th>
+                        <th class="sorting_asc">Date de cr&eacute;ation</th>
                         <th class="sorting_asc">Description</th>
                         <?php
                         if ($idUtilisateur !== null) {
                             ?>
-                            <th class="sorting_asc">Accès</th>
+                            <th class="sorting_asc">Acc&eacute;s</th>
                             <?php
-                        } else {
-                            
                         }
                         ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstProjetIds)) {
-                        foreach ($lstProjetIds as $idProjet) {
+                    if (!is_null($listProjets)) {
+                        foreach ($listProjets as $idProjet) {
                             $objProjet = new Projet($idProjet);
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
@@ -57,7 +53,7 @@
                                     if (!is_null($lstCategorieIds)) {
                                         foreach ($lstCategorieIds as $idCategorie) {
                                             $objCategorie = new Categorie($idCategorie);
-                                            echo ('- ');
+                                            //echo ('- ');
                                             echo $objCategorie->getLibelle();
                                             echo ('</br>');
                                         }
@@ -78,7 +74,7 @@
                                     if (!is_null($lstCompetenceIds)) {
                                         foreach ($lstCompetenceIds as $idCompetence) {
                                             $objCompetence = new Competence($idCompetence);
-                                            echo ('- ');
+                                            //echo ('- ');
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
                                         }
@@ -87,8 +83,9 @@
                                 </td>
 
                                 <td id="dateCreation">
-                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                    <?php echo $objProjet->getDateCreation(); ?>											
+                                    <?php $date = new DateTime($objProjet->getDateCreation()); ?>
+                                    <input type="hidden" name="dateCreation" value="<?php echo $date->format('d-m-Y'); ?>">
+                                    <?php echo $date->format('d-m-Y'); ?>											
                                 </td>
 
                                 <td id="description">
@@ -99,9 +96,8 @@
                                 if ($idUtilisateur !== null) {
                                     ?>
                                     <td id="action">
-                                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
-
+                                        <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>                                       
                                     </td>
                                     <?php
                                 } else {
@@ -117,9 +113,9 @@
             </table>
         </div>
 
-        <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
-
     </div>
 
-</div><!-- end of a section -->
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+</div>

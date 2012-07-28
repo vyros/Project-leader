@@ -20,7 +20,7 @@ class Correspondre extends Classe {
             $this->m_cat_id = stripslashes($array[cat_id]);
         }
     }
-
+    
     public function addCorrespondance($p_prj_id, $p_cat_id) {
 
         $requete = "INSERT INTO correspondre (prj_id, cat_id) " .

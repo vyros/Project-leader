@@ -14,6 +14,8 @@ class Utilisateur extends Classe {
     private $m_ville;
     private $m_tel;
     private $m_presentation;
+    private $m_date;
+    private $m_ddc;
     
     /**
      *
@@ -21,8 +23,11 @@ class Utilisateur extends Classe {
      */
     private $m_statut;
     
-    private $m_date;
-    private $m_ddc;
+    /**
+     *
+     * @var array 
+     */
+    private $m_cv_array;
 
     public function __construct() {
         parent::__construct(func_get_args());
@@ -47,10 +52,17 @@ class Utilisateur extends Classe {
             $this->m_ville = stripslashes($array[uti_ville]);
             $this->m_tel = stripslashes($array[uti_tel]);
             $this->m_presentation = stripslashes($array[uti_presentation]);
-            # Le statut
-            $this->m_statut = $this->chkStatut(stripslashes($array[uti_statut]));
             $this->m_date = stripslashes($array[uti_date]);
             $this->m_ddc = stripslashes($array[uti_ddc]);
+
+            # Le statut
+            $this->m_statut = $this->chkStatut(stripslashes($array[uti_statut]));
+
+            # Les CVs
+            $requete = " SELECT cv_id FROM cv " .
+                    " WHERE uti_id = " . $p_id . ";";
+
+            $this->m_cv_array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         }
     }
 
@@ -94,12 +106,11 @@ class Utilisateur extends Classe {
         return Site::getConnexion()->getFetchArray($requete);
     }
     
-    
     public function getLstNLastProjetObjs($p_n = 0) {
         $lstArray = $this->getLstNLastProjetIds($p_n);
         $objArray = null;
         
-        if(is_null($lstArray))
+        if (is_null($lstArray))
             return null;
         
         foreach ($lstArray as $value) {
@@ -109,7 +120,6 @@ class Utilisateur extends Classe {
         return $objArray;
     }
 
-    
     /**
      * Obtenir les N derniers projets de l'utilisateur. 
      * Tous les enregistrements sont retournés par défaut.
@@ -134,7 +144,23 @@ class Utilisateur extends Classe {
         return Site::getConnexion()->getFetchArray($requete);
     }
 
+    /**
+     *
+     * @return type 
+     */
+    public function getNombreProjets() {
+        $res = $this->getLstNLastProjetIds();
+        $i = 0;
     
+        if (is_null($res)) {
+            foreach ($res as $idProjet) {
+                $i++;
+            }
+        }
+
+        return $i;
+    }
+
     /**
      * Ajoute un utilisateur.
      * 
@@ -152,6 +178,25 @@ class Utilisateur extends Classe {
         return null;
     }
 
+    /**
+     * Editer un utilisateur.
+     * 
+     * @return Utilisateur Retourne l'objet utilisateur en cas de succès, sinon retourne null.
+     */
+    public function editUtilisateur() {
+
+        $requete = " UPDATE utilisateur SET uti_nom = '" . $this->getNom() . "'," .
+                " uti_prenom = '" . $this->getPrenom() . "', uti_ddn = '" . $this->getDdn() . "'," .
+                " uti_adresse = '" . $this->getAdresse() . "', uti_cp = '" . $this->getCp() . "'," .
+                " uti_ville = '" . $this->getVille() . "', uti_tel = '" . $this->getTel() . "'," .
+                " uti_presentation = '" . $this->getPresentation() . "' WHERE uti_id = " . $this->getId() . ";";
+
+        if (Site::getConnexion()->doSql($requete)) {
+            return $this;
+        }
+        return null;
+    }
+
     private function chkStatut($p_statut) {
         if ($p_statut == "client") {
             return new Client($p_statut);
@@ -162,12 +207,36 @@ class Utilisateur extends Classe {
         return null;
     }
 
+    public function getAdresse() {
+        return $this->m_adresse;
+    }
+
+    public function getCp() {
+        return $this->m_cp;
+    }
+
+    public function getCv() {
+        return $this->m_cv_array;
+    }
+
+    public function getDate() {
+        return $this->m_date;
+    }
+
+    public function getDdn() {
+        return $this->m_ddn;
+    }
+
     public function getId($p_log = null, $p_mdp = null) {
         return $this->m_id;
     }
 
     public function getLogin() {
         return $this->m_login;
+    }
+
+    public function getMail() {
+        return $this->m_mail;
     }
 
     public function getMdp() {
@@ -182,28 +251,25 @@ class Utilisateur extends Classe {
         return $this->m_prenom;
     }
 
-    public function getDdn() {
-        return $this->m_ddn;
+    public function getPresentation() {
+        return $this->m_presentation;
     }
 
-    public function getAdresse() {
-        return $this->m_adresse;
-    }
+    public function getRatio() {
 
-    public function getCp() {
-        return $this->m_cp;
-    }
+        $result = 1;
 
-    public function getVille() {
-        return $this->m_ville;
-    }
+        $result = ($this->getNom() !== "") ? $result + 1 : $result;
+        $result = ($this->getPrenom() !== "") ? $result + 1 : $result;
+        $result = ($this->getDdn() !== "0000-00-00") ? $result + 1 : $result;
+        $result = ($this->getAdresse() !== "") ? $result + 1 : $result;
+        $result = ($this->getCp() !== "") ? $result + 1 : $result;
+        $result = ($this->getVille() !== "") ? $result + 1 : $result;
+        $result = ($this->getTel() !== "") ? $result + 1 : $result;
+        $result = ($this->getCv() !== "") ? $result + 1 : $result;
+        $result = ($this->getPresentation() !== "") ? $result + 1 : $result;
 
-    public function getTel() {
-        return $this->m_tel;
-    }
-
-    public function getMail() {
-        return $this->m_mail;
+        return $result * 10;
     }
 
     /**
@@ -215,16 +281,52 @@ class Utilisateur extends Classe {
         return $this->m_statut;
     }
 
-    public function getDate() {
-        return $this->m_date;
-    } 
-    
-    public function getNbrePjt() {
-        return "lol";
+    public function getTel() {
+        return $this->m_tel;
     }
-    
+
+    public function getVille() {
+        return $this->m_ville;
+    }
+
     public function __toString() {
         return "$this->m_login depuis $this->m_date";
+    }
+
+    public function setAdresse($p_value) {
+        $this->m_adresse = $p_value;
+}
+
+    public function setCp($p_value) {
+        $this->m_cp = $p_value;
+    }
+
+    public function setCv($p_value) {
+        $this->m_cv = $p_value;
+    }
+
+    public function setDdc($p_value) {
+        $this->m_ddc = $p_value;
+    }
+
+    public function setDdn($p_value) {
+        $this->m_ddn = $p_value;
+    }
+
+    public function setNom($p_value) {
+        $this->m_nom = $p_value;
+    }
+
+    public function setPrenom($p_value) {
+        $this->m_prenom = $p_value;
+    }
+
+    public function setTel($p_value) {
+        $this->m_tel = $p_value;
+    }
+
+    public function setVille($p_value) {
+        $this->m_ville = $p_value;
     }
 
 }
