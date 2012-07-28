@@ -3,8 +3,8 @@
 class Connexion {
 
     CONST SERVEUR = 'localhost';
-    CONST UTILISATEUR = 'root';
-    CONST PASSWORD = '';
+    CONST UTILISATEUR = 'project-leader';
+    CONST PASSWORD = 'L9psTTUGyZUArLE6';
     CONST SEL_PASSWORD = '';
     CONST BASE = 'project-leader';
 
@@ -84,7 +84,6 @@ class Connexion {
      * @return array Retourne null si aucun resultat.
      */
     public function getFetchArray($requete, $type = MYSQL_BOTH) {
-
         $array = null;
         $resultat = mysql_query($requete);
 

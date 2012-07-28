@@ -8,8 +8,6 @@
     <div id="templatemo_banner">
         <img class="logoAccueil" src="images/logo_300_modifSansFond.png"/>
         <div id="banner_content">
-            
-            
             <div id="banner_text">
                 <p>This is a free CSS website template from <a href="http://www.templatemo.com" target="_parent">TemplateMo.com</a>. You may download, modify and apply this template design for your websites. Credit goes to <a href="http://www.smashingmagazine.com" target="_blank">Smashing Magazine</a> for the icon. Thank you for visiting.</p>
                 <p>&nbsp;</p>
@@ -22,17 +20,25 @@
 </div><!-- end of banner wrapper -->
 
 <div class="content_col_w420 fl">
-    <div class="header_02">Votre statut</div>
 
-    <div class="service_box fl margin_right_10">
-        <a onclick="getView('utilisateur', 'inscription');"><img src="images/templatemo_service_1.jpg" alt="service" /></a>
-    </div> 
+    <div class="sub_content_col">
 
-    <div class="service_box fl">
-        <a onclick="getView('utilisateur', 'inscription');"><img src="images/templatemo_service_3.jpg" alt="service" /></a>
+        <div class="header_wrapper">
+            <img src="images/icone_projet.png"/> 
+            <div class="header_02">Votre statut</div>
+        </div>
+
+        <div class="service_box fl margin_right_10">
+            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});"><img src="images/templatemo_service_1.jpg" alt="service" /></a>
+        </div> 
+
+        <div class="service_box fl">
+            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});"><img src="images/templatemo_service_3.jpg" alt="service" /></a>
+        </div>
+
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
+
     </div>
 
-    <div class="margin_bottom_10 border_bottom"></div>
-    <div class="margin_bottom_30"></div>
-    <div class="margin_bottom_20"></div>
 </div><!-- end of a section -->

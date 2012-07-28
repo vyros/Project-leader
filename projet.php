@@ -39,10 +39,21 @@ if (!is_null($action) && $action == "ajouter") {
         $objDemander = new Demander();
         $objDemander->addDemande($objProjet->getId(), $tabIdCompetence);
 
-        $message[succes] = "Enregistrement effectuÃ© avec succÃ¨s !";
+        $message[succes] = "Enregistrement effectué avec succès !";
     } else {
         $message[erreur] = "Erreur !";
     }
+} elseif (!is_null($action) && $action == "editer") {
+
+//    $description = (isset($_POST["etat"])) ? $_POST["etat"] : null;
+//    $budget = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+//    $delai = (isset($_POST["categorie"])) ? $_POST["categorie"] : null;
+//    $statut = explode(',', $_POST["blah"]);
+
+
+    /* @var $objProjet Projet */
+//    $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
+
 }
 
 include 'views/message.php';
@@ -87,9 +98,7 @@ if (!is_null($view) && $view == "ajouter") {
         $lstProjetIds[] = array(0 => $idProjet);
     }
 
-
-    if($lstProjetIds[1] == "")
-    {
+    if ($lstProjetIds[1] == "") {
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
         
@@ -97,22 +106,16 @@ if (!is_null($view) && $view == "ajouter") {
         $tabClientProjet = PARTICIPER::voirParticipationCli($idProjet);
                
         $i=0;
-        while ($row = mysql_fetch_array($tabClientProjet))
-	{
+        while ($row = mysql_fetch_array($tabClientProjet)) {
             $idClientProjet[$i] = "$row[uti_id]";
         }
                  
-        if ($idClientProjet[0] == $idUtilisateur)
-        {
+        if ($idClientProjet[0] == $idUtilisateur) {
           include 'views/projetFichePerso.php';
-        }
-        else
-        {
+        } else {
           include 'views/projetFiche.php';
         }  
-    }
-    else
-    {
+    } else {
         include 'views/projetListe.php';
     }
 }
