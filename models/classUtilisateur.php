@@ -16,13 +16,13 @@ class Utilisateur extends Classe {
     private $m_presentation;
     private $m_date;
     private $m_ddc;
-
+    
     /**
      *
      * @var STATUT 
      */
     private $m_statut;
-
+    
     /**
      *
      * @var array 
@@ -105,18 +105,18 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getFetchArray($requete);
     }
-
+    
     public function getLstNLastProjetObjs($p_n = 0) {
         $lstArray = $this->getLstNLastProjetIds($p_n);
         $objArray = null;
-
+        
         if (is_null($lstArray))
             return null;
-
+        
         foreach ($lstArray as $value) {
             $objArray[] = new Projet($value);
         }
-
+        
         return $objArray;
     }
 
@@ -129,7 +129,7 @@ class Utilisateur extends Classe {
      *  retourne null si aucun.
      */
     public function getLstNLastClosedProjetIds($p_n = 0) {
-
+        
         $requete = " SELECT pa.prj_id FROM participer as pa " .
                 " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
                 " WHERE pa.uti_id = " . $this->m_id . " " .
@@ -151,7 +151,7 @@ class Utilisateur extends Classe {
     public function getNombreProjets() {
         $res = $this->getLstNLastProjetIds();
         $i = 0;
-
+    
         if (is_null($res)) {
             foreach ($res as $idProjet) {
                 $i++;
@@ -295,7 +295,7 @@ class Utilisateur extends Classe {
 
     public function setAdresse($p_value) {
         $this->m_adresse = $p_value;
-    }
+}
 
     public function setCp($p_value) {
         $this->m_cp = $p_value;

@@ -32,45 +32,45 @@
             <div class="header_02">Vos derniers projets</div>
         </div>
 
-        <div class="testimonial_box_wrapper">
-            <div class="testimonial_box">
-                <p>
-                    <?php
-                    $i = 0;
-                    if (!is_null($lstUtilisateurProjetObjs)) {
-                        foreach ($lstUtilisateurProjetObjs as $objProjet) {
-                            ?>
+    <div class="testimonial_box_wrapper">
+        <div class="testimonial_box">
+            <p>
+                <?php
+                $i = 0;
+                if (!is_null($lstUtilisateurProjetObjs)) {
+                    foreach ($lstUtilisateurProjetObjs as $objProjet) {
+                        ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                <?php echo $objProjet->getLibelle(); ?></a><br />
-                            <?php
-                            $i++;
-                        }
+                            <?php echo $objProjet->getLibelle(); ?></a><br />
+                        <?php
+                        $i++;
                     }
-                    ?>
-                </p>
-            </div>
+                }
+                ?>
+            </p>
+        </div>
+    </div>
+    <?php
+    if ($i != 0) {
+        ?>
+        <div class="section_w140 fr">
+                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
+            <div class="cleaner"></div>            
         </div>
         <?php
-        if ($i != 0) {
-            ?>
-            <div class="section_w140 fr">
-                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
-                <div class="cleaner"></div>            
-            </div>
-            <?php
-        } else {
-            echo "Aucun projet en cours";
-            ?>
-            <div class="section_w140 fr">
-                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer votre projet</a></div>
-                <div class="cleaner"></div>            
-            </div>
-            <?php
-        }
+    } else {
+        echo "Aucun projet en cours";
         ?>
+        <div class="section_w140 fr">
+                <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer votre projet</a></div>
+            <div class="cleaner"></div>            
+        </div>
+        <?php
+    }
+    ?>
 
         <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
+    <div class="margin_bottom_30"></div>
 
     </div>
 
@@ -78,7 +78,7 @@
 
         <div class="header_wrapper">
             <img src="images/icone_presta.png"/> 
-            <div class="header_02">Liste de prestataires</div>
+    <div class="header_02">Liste de prestataires</div>
         </div>
 
         <div id="demo">
@@ -94,10 +94,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        if (!is_null($lstUtilisateurObjs)) {
-                            foreach ($lstUtilisateurObjs as $objUtilisateur) {
-                                ?>
+                <?php
+                if (!is_null($lstUtilisateurObjs)) {
+                    foreach ($lstUtilisateurObjs as $objUtilisateur) {
+                        ?>
                                 <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
                                     <td id="pseudo">
@@ -107,7 +107,7 @@
 
                                     <td id="competence">
                                         <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                                        <?php
+                        <?php
                                         echo 'test';
                                         ?>											
                                     </td>
@@ -130,9 +130,9 @@
                                     </td>
                                 </tr>
                                 <?php
-                            }
-                        }
-                        ?>
+                    }
+                }
+                ?>
                     </tbody>
                 </table>
             </table>
@@ -141,7 +141,7 @@
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
 
-    </div><!-- end of a section -->
+</div><!-- end of a section -->
 
 </div>
 
@@ -151,20 +151,20 @@
 
         <div class="header_wrapper">
             <img src="images/icone_compte.png"/> 
-            <div class="header_02">Votre compte</div>
+    <div class="header_02">Votre compte</div>
         </div>
 
-        <div class="testimonial_box_wrapper">
-            <div class="testimonial_box">
-                <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
+    <div class="testimonial_box_wrapper">
+        <div class="testimonial_box">
+            <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
 
-            </div>
         </div>
-
-        <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
-
     </div>
+
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+</div>
 
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>

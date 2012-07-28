@@ -4,13 +4,13 @@
  * and open the template in the editor.
  */
 ?>
-<div class="content_col_w420 fl">
+<div class="content_col_w840">
 
     <div class="sub_content_col">
 
         <div class="header_wrapper">
             <img src="images/icone_projet.png"/> 
-            <div class="header_02">Vos derniers projets</div>
+            <div class="header_02">Choisissez les options du projet recherché</div>
         </div>
 
         <form id="rp1">
@@ -20,9 +20,9 @@
 
             <div>
                 <div style="color:red">
-                    Développement Web / Software
+                    <a id="TitreDev">D&eacute;veloppement Web / Software</a>
                 </div>
-                <div>
+                <div id="divDev">
                     <?php
                     $i = 0;
                     /* Sur 4 colonnes */
@@ -34,7 +34,7 @@
                 }
                 $i++;
                             ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
                             <?php
                         }
                     }
@@ -46,9 +46,9 @@
             <div>
                 </br>
                 <div style="color:red">
-                    Mobile
+                    <a id="TitreMobile">Mobile</a>
                 </div>
-                <div>
+                <div id="divMobile">
                     <?php
                     $i = 0;
                     /* Sur 4 colonnes */
@@ -60,8 +60,8 @@
                 }
                 $i++;
                             ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                        <?php
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
                         }
                     }
                     ?>             
@@ -72,9 +72,9 @@
             <div>
                 </br>
                 <div style="color:red">
-                    Base de données
+                    <a id="TitreBDD">Base de donn&eacute;es</a>
                 </div>
-                <div>
+                <div id="divBDD">
                     <?php
                     $i = 0;
                     /* Sur 4 colonnes */
@@ -85,9 +85,9 @@
                     $i = 0;
                 }
                 $i++;
-                ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                        <?php
+                            ?>                  
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
                         }
                     }
                     ?>            
@@ -98,9 +98,9 @@
             <div>
                 </br>
                 <div style="color:red">
-                    Design
+                    <a id="TitreDesign">Design</a>
                 </div>
-                <div>
+                <div id="divDesign">
                     <?php
                     $i = 0;
                     /* Sur 4 colonnes */
@@ -112,8 +112,8 @@
                 }
                 $i++;
                             ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech[]" id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                        <?php
+                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
+                            <?php
                         }
                     }
                     ?>         
@@ -127,9 +127,9 @@
             </div>
         </form>
 
-        <div class="margin_bottom_20 border_bottom"></div>
-        <div class="margin_bottom_30"></div>
-
     </div>
 
-</div><!-- end of a section -->
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+</div>
