@@ -72,7 +72,7 @@
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
 
-    </div><!-- end of a section -->
+    </div>
 
     <div class="sub_content_col">
 
@@ -81,45 +81,96 @@
             <div class="header_02">Liste de prestataires</div>
         </div>
 
-        <div class="testimonial_box_wrapper">
-            <div class="testimonial_box">
-                <p>
-                    <?php
-                    if (!is_null($lstUtilisateurObjs)) {
-                        foreach ($lstUtilisateurObjs as $objUtilisateur) {
-                            ?>
-                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
-                                <?php echo $objUtilisateur; ?></a><br />
-                            <?php
+        <div id="demo">
+            <table id="listeProjet">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+                    <thead>
+                        <tr>
+                            <th class="sorting_asc">Pseudo</th>
+                            <th class="sorting_asc">Compétence</th>
+                            <th class="sorting_asc">Nombre de projet à ce jour</th>
+                            <th class="sorting_asc">Date d'inscription</th>
+                            <th class="sorting_asc">Accès profil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (!is_null($lstUtilisateurObjs)) {
+                            foreach ($lstUtilisateurObjs as $objUtilisateur) {
+                                ?>
+                                <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+
+                                    <td id="pseudo">
+                                        <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 
+                                        <?php echo $objUtilisateur->getLogin(); ?>
+                                    </td>
+
+                                    <td id="competence">
+                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                        <?php
+                                        echo 'test';
+                                        ?>											
+                                    </td>
+
+                                    <td id="nbreProjet">
+                                        <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>">
+                                        <?php echo $objUtilisateur->getNombreProjets(); ?>											
+                                    </td>
+
+                                    <td id="dateInscri">
+                                        <input type="hidden" name="dateInscri" value="<?php echo '???'; ?>">
+                                        <?php
+                                        echo $objUtilisateur->getDate();
+                                        ?>									
+                                    </td>
+
+                                    <td id="access">
+                                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                    </td>
+                                </tr>
+                                <?php
+                            }
                         }
-                    }
-                    ?>
-                </p>
-            </div>
+                        ?>
+                    </tbody>
+                </table>
+            </table>
         </div>
 
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
 
     </div><!-- end of a section -->
+
 </div>
 
 <div class="content_col_w420 fr">
 
-    <div class="header_wrapper">
-        <img src="images/icone_compte.png"/> 
-        <div class="header_02">Votre compte</div>
-    </div>
+    <div class="sub_content_col">
 
-    <div class="testimonial_box_wrapper">
-        <div class="testimonial_box">
-            <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
-
+        <div class="header_wrapper">
+            <img src="images/icone_compte.png"/> 
+            <div class="header_02">Votre compte</div>
         </div>
-    </div>
 
-    <div class="margin_bottom_20 border_bottom"></div>
-    <div class="margin_bottom_30"></div>
+        <div class="testimonial_box_wrapper">
+            <div class="testimonial_box">
+                <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
+
+            </div>
+        </div>
+
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
+
+    </div>
 
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>
+
+<div class="conteneur_bulle">
+    <div class="messageBulle">
+        <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> !</span>
+    </div>
+</div>	

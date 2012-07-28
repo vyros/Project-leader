@@ -98,8 +98,7 @@ if (!is_null($view) && $view == "ajouter") {
         $lstProjetIds[] = array(0 => $idProjet);
     }
 
-
-    if($lstProjetIds[1] == "") {
+    if ($lstProjetIds[1] == "") {
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
         

@@ -145,6 +145,23 @@ class Utilisateur extends Classe {
     }
 
     /**
+     *
+     * @return type 
+     */
+    public function getNombreProjets() {
+        $res = $this->getLstNLastProjetIds();
+        $i = 0;
+
+        if (is_null($res)) {
+            foreach ($res as $idProjet) {
+                $i++;
+            }
+        }
+
+        return $i;
+    }
+
+    /**
      * Ajoute un utilisateur.
      * 
      * @return Utilisateur Retourne le nouvel objet en cas de succès, sinon retourne null.
@@ -311,6 +328,7 @@ class Utilisateur extends Classe {
     public function setVille($p_value) {
         $this->m_ville = $p_value;
     }
+
 }
 
 ?>

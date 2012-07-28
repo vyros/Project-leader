@@ -137,7 +137,6 @@ img {
 
 .libellEntete {
     font : bold 15px Batang, arial, serif;
-
 }
 
 /* img accueil */
@@ -147,6 +146,52 @@ img {
     width: 45px;
 }
 
+/* div de la bulle */
+.conteneur_bulle {
+    width: 142px;
+    top: 203px;
+    height: 37px;
+    left: 10px;
+    padding: 55px 0;
+    position: absolute;
+    text-align: center;
+    border: 1px solid #696;
+    padding: 60px 0;
+    text-align: center;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: #666 0px 2px 3px;
+    -moz-box-shadow: #666 0px 2px 3px;
+    box-shadow: #666 0px 2px 3px;
+    background: #99FEFF;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from(#99FEFF), to(#33A3EE));
+    background: -webkit-linear-gradient(#99FEFF, #33A3EE);
+    background: -moz-linear-gradient(#99FEFF, #33A3EE);
+    background: -ms-linear-gradient(#99FEFF, #33A3EE);
+    background: -o-linear-gradient(#99FEFF, #33A3EE);
+    background: linear-gradient(#99FEFF, #33A3EE);
+    -pie-background: linear-gradient(#99FEFF, #33A3EE);
+}
+
+.conteneur_bulle:after {
+    border-color: transparent #33A3EE;
+    border-style: solid;
+    border-width: 0 0 30px 20px;
+    bottom: -30px;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 110px;
+}
+
+/* div du message */
+.messageBulle {
+    position: relative;
+    height: 93px;
+    bottom: 50px;
+}
+
 .imgAcc {
     height: 270px;
     left: 0;
@@ -154,55 +199,7 @@ img {
     right: 564px;
     top: 310px;
 }
-/*
-.imgIconProjet {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
- 
-.imgIconProjetListe {
-    bottom: 720px;
-    position: absolute;
-    width: 45px;
-}
- 
-.imgIconFicheProjet {
-    bottom: 720px;
-    position: absolute;
-    width: 45px;
-} 
 
-.imgIconListeProjetFini {
-    bottom: 136px;
-    position: absolute;
-    width: 45px;
-}
- 
-.imgIconCrea {
-    bottom: 583px;
-    position: absolute;
-    width: 45px;
-}
- 
-.imgIconCompte {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
- 
-.imgIconPresta {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
-
-.imgIconMsg {
-    position: relative;
-    top: 40px;
-    width: 45px;
-}
-*/
 .logoAccueil {
     bottom: 85px;
     left: 540px;
@@ -322,11 +319,9 @@ img {
 #templatemo_content_top p {
     color: #000000;
 }
-
 /* end of content top */
 
 /* content */
-
 #templatemo_content_wrapper {
     clear: both;
     width: 100%;
@@ -441,11 +436,9 @@ img {
 .other_project_list li a:hover {
     color: #990000;
 }
-
 /* end of content */
 
 /* footer */
-
 #templatemo_footer_wrapper {
     clear: both;
     width: 100%;
