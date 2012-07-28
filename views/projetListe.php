@@ -126,8 +126,4 @@
 </div><!-- end of a section -->
 <img class="imgAcc" src="images/demilogo2.png"/>
 
-        <div class="conteneur_bulle">
-		<div class="messageBulle">
-			<span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> !</span>
-		</div>
-	</div>	
+	

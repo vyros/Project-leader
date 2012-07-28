@@ -15,6 +15,7 @@
                     <th class="sorting_asc">Catégorie</th>
                     <th class="sorting_asc">Date de création</th>
                     <th class="sorting_asc">Description</th>
+                    <th class="sorting_asc">Accès</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +55,21 @@
                                 <input type="hidden" name="description" value="<?php echo $objProjet->getDescription(); ?>">
                                 <?php echo $objProjet->getDescription(); ?>											
                             </td>
+                            
+                                <?php
+                            if ($idUtilisateur !== null) {
+                                ?>
+                                <td id="action">
+                                    <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
+                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
+                                    							
+                                </td>
+                                <?php
+                            }else
+                            {
+                                
+                            }
+                            ?>
                         </tr>
                         <?php
                     }

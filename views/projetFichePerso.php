@@ -23,7 +23,7 @@
     <input type="hidden" name="action" value="editer"/>
     
     <label for="infoPrj">Description du projet : </label>
-    <textarea style="">
+    <textarea style="vertical-align: top;">
         <?php echo $objProjet->getDescription(); ?>
     </textarea> 
    
