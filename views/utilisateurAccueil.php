@@ -18,8 +18,9 @@
 
         <form id="au1">
 
-            <input type="hidden" name="controller" value="accueil"/>
             <input type="hidden" name="action" value="valider"/>
+            <input type="hidden" name="controller" value="utilisateur"/>
+            <input type="hidden" name="view" value="accueil"/>
 
             <label for="log1">Login : </label><br />
             <input id="log1" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />

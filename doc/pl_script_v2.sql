@@ -143,8 +143,10 @@ create table utilisateur
    uti_id               int(8) not null auto_increment,
    uti_login            varchar(100),
    uti_statut           varchar(100),
-   uti_mail				varchar(100),
-   uti_mdp              varchar(256),
+   uti_mail		varchar(100),
+   uti_mdp              varchar(40),
+   uti_actif            boolean,
+   uti_token            varchar(40),
    uti_nom              varchar(100),
    uti_prenom           varchar(100),
    uti_ddn              date,
@@ -153,8 +155,8 @@ create table utilisateur
    uti_ville            varchar(100),
    uti_tel              varchar(20),
    uti_presentation     varchar(256),
-   uti_date				datetime,
-   uti_ddc				datetime,
+   uti_date		datetime,
+   uti_ddc		datetime,
    primary key (uti_id)
 );
 

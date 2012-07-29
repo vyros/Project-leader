@@ -22,8 +22,8 @@
 
         <form id="up1">
 
-            <input type="hidden" name="controller" value="utilisateur"/>
             <input type="hidden" name="action" value="profil"/>
+            <input type="hidden" name="controller" value="utilisateur"/>
             <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>"/>
 
             <label for="nom">Nom : </label>  <br />
@@ -71,8 +71,8 @@
 
         <form id="up2">
 
-            <input type="hidden" name="controller" value="utilisateur"/>
             <input type="hidden" name="action" value="profil"/>
+            <input type="hidden" name="controller" value="utilisateur"/>
 
             <label for="statut">Statut : </label><br />
             <input id="statut" name="" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getStatut(); ?>"/><br /><br />

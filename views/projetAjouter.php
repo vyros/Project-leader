@@ -10,8 +10,8 @@
 
         <form id="pa1">
 
-            <input type="hidden" name="controller" value="projet"/>
             <input type="hidden" name="action" value="ajouter"/>
+            <input type="hidden" name="controller" value="projet"/>
             <input type="hidden" name="etat" value="1"/>
 
             <div class="header_wrapper">

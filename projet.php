@@ -1,12 +1,16 @@
 <?php
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-
-echo '<script type="text/javascript">';
-echo '      getHeader();';
-echo '</script>';
+?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getHeader();
+    });
+</script>
+<?php
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
@@ -53,7 +57,6 @@ if (!is_null($action) && $action == "ajouter") {
 
     /* @var $objProjet Projet */
 //    $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
-
 }
 
 include 'views/message.php';
@@ -65,6 +68,7 @@ if (!is_null($view)) {
     ?>
     <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
     <?php
+
 }
 
 if (!is_null($view) && $view == "ajouter") {
@@ -101,20 +105,20 @@ if (!is_null($view) && $view == "ajouter") {
     if ($lstProjetIds[1] == "") {
         $idProjet = $lstProjetIds[0][0];
         $objProjet = new Projet($idProjet);
-        
+
         //requete qui a pour result l'id CLIENT du projet selectionner
         $tabClientProjet = PARTICIPER::voirParticipationCli($idProjet);
-               
-        $i=0;
+
+        $i = 0;
         while ($row = mysql_fetch_array($tabClientProjet)) {
             $idClientProjet[$i] = "$row[uti_id]";
         }
-                 
+
         if ($idClientProjet[0] == $idUtilisateur) {
-          include 'views/projetFichePerso.php';
+            include 'views/projetFichePerso.php';
         } else {
-          include 'views/projetFiche.php';
-        }  
+            include 'views/projetFiche.php';
+        }
     } else {
         include 'views/projetListe.php';
     }

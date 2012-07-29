@@ -7,7 +7,7 @@ Site::init();
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        
+
         <title>Project-leader</title>
         <meta name="keywords"    content="web design template, free css html layout" />
         <meta name="description" content="web design template, free css html layout provided by templatemo.com for any website purpose" />
@@ -32,12 +32,9 @@ Site::init();
         </script>
 
         <script>
-            (function($){
-                $(document).ready(function() {
-                    getHeader();
-                    $.history.init(loadContent);
-                });
-            })(jQuery);
+            $(document).ready(function(){
+                getHeader();
+            });
         </script>
 
     </head>
@@ -113,3 +110,12 @@ Site::init();
         <!-- Free CSS Templates @ www.TemplateMo.com -->
     </body>
 </html>
+<?php
+if (isset($_GET['activer']) && isset($_GET['id']) && isset($_GET['token'])) {
+    ?>
+    <script language="javascript" type="text/javascript">
+        getActivation({'id' : '<?php echo $_GET['id']; ?>', 'token' : '<?php echo $_GET['token']; ?>'});
+    </script>
+    <?php
+}
+?>

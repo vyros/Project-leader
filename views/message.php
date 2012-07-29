@@ -1,7 +1,10 @@
 <?php
-$message = (isset($message[succes])) ? $message[succes] : null;
-if (!isset($message[succes]) && isset($message[erreur]))
-    $message = $message[erreur];
+if (isset($message['succes']) && $message['succes'])
+    $message = $message['succes'];
+elseif ((isset($message['erreur']) && $message['erreur']))
+    $message = $message['erreur'];
+else
+    unset($message);
 
 if (!is_null($message)) {
     ?>

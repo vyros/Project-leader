@@ -15,8 +15,8 @@
 
         <form id="rp1">
 
-            <input type="hidden" name="controller" value="recherche"/>
             <input type="hidden" name="action" value="liste"/>
+            <input type="hidden" name="controller" value="recherche"/>
 
             <div>
                 <div style="color:red">

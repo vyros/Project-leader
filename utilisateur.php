@@ -1,15 +1,17 @@
 <?php
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-
-echo '<script type="text/javascript">';
-echo '      getHeader();';
-echo '      $(function() {';
-echo '          $( "#datepicker" ).datepicker();';
-echo '      });';
-echo '</script>';
+?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getHeader();
+        $( "#datepicker" ).datepicker();
+    });
+</script>
+<?php
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
@@ -17,7 +19,25 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
 /**
  * Actions 
  */
-if (!is_null($action) && $action == "ajouter") {
+if (!is_null($action) && $action == "activer") {
+
+    $objTmp = new Utilisateur($_POST[id]);
+
+    if ($objTmp instanceof Utilisateur) {
+        $token = $_POST[token];
+
+        // a rendre mieux !!!
+        if ($token == $objTmp->getToken()) {
+            $objTmp->setActif(true);
+            $objTmp->editUtilisateur();
+
+            $message[succes] = "Activation effectuée avec succès, vous pouvez à présent vous connecter !";
+            $view = "accueil";
+        } else {
+            $message[erreur] = "Erreur !";
+        }
+    }
+} elseif (!is_null($action) && $action == "ajouter") {
 
     $mail = (isset($_POST["mail"])) ? $_POST["mail"] : null;
     $log = (isset($_POST["log"])) ? $_POST["log"] : null;
@@ -33,8 +53,9 @@ if (!is_null($action) && $action == "ajouter") {
         $objUtilisateur = Utilisateur::addUtilisateur($log, $mail, $mdp, $statut);
         if ($objUtilisateur instanceof Utilisateur) {
 
-            $message[succes] = "Enregistrement effectué avec succès !";
-            $view = "accueil";
+            include 'emails/emValidation.php';
+            $message[succes] = "Enregistrement effectué avec succès, un email de confirmation vient de vous être envoyé !";
+            //$view = "accueil";
         } else {
             $message[erreur] = "Erreur !";
             $view = "inscription";
@@ -43,7 +64,6 @@ if (!is_null($action) && $action == "ajouter") {
 } elseif (!is_null($action) && $action == "deconnexion") {
     Site::kill();
     $view = "deconnexion";
-    
 } elseif (!is_null($action) && $action == "profil") {
 
     $id = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -85,12 +105,23 @@ if (!is_null($action) && $action == "ajouter") {
      */
     $idUtilisateur = Utilisateur::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
-        Site::setUtilisateur(new Utilisateur($idUtilisateur));
-        $message[succes] = "Connexion réussie !";
+        switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {
+            case 1:
+                $message[succes] = "Connexion réussie !";
+                break;
+            case -1:
+                $message[erreur] = "Erreur, ce compte est inactif !";
+                break;
+            case -2:
+                $message[erreur] = "Erreur de login et/ou de mot de passe !";
+                break;
+            default:
+                $message[erreur] = "Erreur inconnue !";
+                break;
+        }
     } else {
         $message[erreur] = "Erreur de login et/ou de mot de passe !";
     }
-    $view = "inscription";
 }
 
 /**
@@ -102,9 +133,33 @@ include 'views/message.php';
  * Vues 
  */
 if (!is_null($view) && $view == "accueil") {
-    
-    // Déprécié
-    include 'views/utilisateurAccueil.php';
+
+    if (Site::getUtilisateur() instanceof Utilisateur) {
+        ?>
+        <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+        <?php
+
+        /**
+         * L'accueil d'un utilisateur montre ses N derniers projets 
+         */
+        $lstUtilisateurProjetObjs = Site::getUtilisateur()->getLstNLastProjetObjs(5);
+
+        if (Site::getUtilisateur()->getStatut() instanceof Client) {
+            /**
+             * L'accueill d'un client montre une liste de N prestataires 
+             */
+            $lstUtilisateurObjs = Prestataire::getLstNObjs(10);
+            include 'views/accueilClient.php';
+        } else {
+            /**
+             * L'accueill d'un prestataire montre une liste de N projets 
+             */
+            $lstProjetObjs = Projet::getLstNObjs(10);
+            include 'views/accueilPrestataire.php';
+        }
+    } else {
+        include 'views/accueilVisiteur.php';
+    }
 } elseif (!is_null($view) && $view == "deconnexion") {
     include 'views/utilisateurDeconnexion.php';
 } elseif (!is_null($view) && $view == "inscription") {
@@ -113,15 +168,15 @@ if (!is_null($view) && $view == "accueil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
-    
+
     if (!is_null(Site::getUtilisateur())) {
         $objUtilisateur = &Site::getUtilisateur();
     }
-    
+
     if (!is_null($idUtilisateur)) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
     }
-    
+
     if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
     } else {

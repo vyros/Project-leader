@@ -20,8 +20,8 @@ $idUti = Site::getUtilisateur()->getId();
 
         <form id="pf1">    
 
-            <input type="hidden" name="controller" value="projet"/>
             <input type="hidden" name="action" value="editer"/>
+            <input type="hidden" name="controller" value="projet"/>
 
             <label for="infoPrj">Description du projet : </label></br>
             <input id="description" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getDescription(); ?>" />

@@ -9,20 +9,21 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img class="imgIconCompte" src="images/icone_compte.png"/> 
+            <img src="images/icone_compte.png"/> 
             <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
         </div>
 
         <form id="ai1">
 
-            <input type="hidden" name="controller" value="accueil"/>
             <input type="hidden" name="action" value="valider"/>
+            <input type="hidden" name="controller" value="utilisateur"/>
+            <input type="hidden" name="view" value="inscription"/>
 
-            <label for="log1">Login : </label><br />
-            <input id="log1" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
+            <label for="log">Login : </label><br />
+            <input id="log" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="mdp1">Mot de passe : </label><br />
-            <input id="mdp1" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+            <label for="mdp">Mot de passe : </label><br />
+            <input id="mdp" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
 
             <input type="button" onclick="getFormulary('ai1');" value="Valider" />
         </form>
@@ -45,8 +46,8 @@
 
         <form id="ai2" style="position: relative; left: 75px;">
 
-            <input type="hidden" name="controller" value="utilisateur"/>
             <input type="hidden" name="action" value="ajouter"/>
+            <input type="hidden" name="controller" value="utilisateur"/>
 
             <label for="statut">Pr&eacute;ciser votre statut (Client / Prestataire) : </label><br />
             <select id="statut" type="text" name="statut">
@@ -58,14 +59,14 @@
             <label for="mail">E-mail : </label><br />
             <input id="mail" type='text' name='mail' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="log2">Login : </label><br />
-            <input id="log2" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
+            <label for="log">Login : </label><br />
+            <input id="log" type='text' name='log' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="mdp3">Mot de passe : </label><br />
-            <input id="mdp3" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+            <label for="mdp">Mot de passe : </label><br />
+            <input id="mdp" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="mdp4">Confirmation : </label><br />
-            <input id="mdp4" type='password' name='mdp' size='25' maxlength='100' value=""/><br /><br />
+            <label for="mdp2">Confirmation : </label><br />
+            <input id="mdp2" type='password' name='mdp2' size='25' maxlength='100' value=""/><br /><br />
 
             <input type="button" onclick="getFormulary('ai2');" value="Valider" />
         </form>

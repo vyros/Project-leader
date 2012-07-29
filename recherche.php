@@ -1,18 +1,22 @@
 <?php
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-
-echo '<script type="text/javascript">';
-echo '      getHeader();';
-echo "      $('#TitreDev').click(function () { anime('divDev')});";
-echo "      $('#TitreMobile').click(function () { anime('divMobile')});";
-echo "      $('#TitreBDD').click(function () { anime('divBDD')});";
-echo "      $('#TitreDesign').click(function () { anime('divDesign')});";  
-echo "      $('#demo').hide();";  
-echo '</script>';
-echo '<script language="javascript" type="text/javascript" src="js/tabler.js"></script>';
+?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getHeader();
+    });
+    $('#TitreDev').click(function () { anime('divDev')});
+    $('#TitreMobile').click(function () { anime('divMobile')});
+    $('#TitreBDD').click(function () { anime('divBDD')});
+    $('#TitreDesign').click(function () { anime('divDesign')});
+    $('#demo').hide();
+</script>
+<script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+<?php
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
@@ -21,9 +25,9 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
  * Actions 
  */
 if (!is_null($action) && $action == "liste") {
-       
-    if (isset($_POST[rech]) && $_POST[rech]!= null) {
-      
+
+    if (isset($_POST[rech]) && $_POST[rech] != null) {
+
         //recupere les id des competences
         $lstCatId = $_POST[rech];
         $iter = 0;
@@ -51,7 +55,7 @@ if (!is_null($action) && $action == "liste") {
             $idUtilisateur = Site::getUtilisateur()->getId();
             echo '<script type="text/javascript">';
             echo "      $('#demo').show();";
-            echo '</script>';           
+            echo '</script>';
         }
     }
 }

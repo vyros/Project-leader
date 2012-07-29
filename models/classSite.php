@@ -12,7 +12,7 @@ class Site {
      * @var Site 
      */
     private static $instance = false;
-    
+
     /**
      *
      * @var Connexion 
@@ -45,7 +45,7 @@ class Site {
         include_once 'models/classProjet.php';
         include_once 'models/classUtilisateur.php';
         include_once 'models/classEtat.php';
-        
+
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         return self::getInstance();
@@ -120,7 +120,6 @@ class Site {
         $_SESSION[$p_libelle] = $p_information;
     }
 
-    
     // bug
     public static function getInstance() {
         if (!isset($_SESSION[site]) || !self::$instance instanceof Site) {
@@ -169,15 +168,20 @@ class Site {
      * 
      * @param Utilisateur $p_objUtilisateur L'instance a enregistrer dans la variable
      *  de session.
-     * @return boolean Retourne vrai si l'utilisateur en paramètre est une instance
+     * @return int Retourne vrai si l'utilisateur en paramètre est une instance
      *  d'Utilisateur, sinon retourne faux.
      */
     static public function setUtilisateur($p_objUtilisateur) {
         if ($p_objUtilisateur instanceof Utilisateur) {
-            $_SESSION[utilisateur] = $p_objUtilisateur;
-            return true;
+            if ($p_objUtilisateur->getActif() == 1) {
+                $_SESSION[utilisateur] = $p_objUtilisateur;
+                return 1;
+            }
+            // Compte inactif
+            return -1;
         }
-        return false;
+        // Erreur login/mdp
+        return -2;
     }
 
     /**
