@@ -4,13 +4,8 @@ header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-?>
-<!--<script type="text/javascript">
-    $(document).ready(function(){
-        getHeader();
-    });
-</script>-->
-<?php
+//Site::minit();
+
 /**
  * Formule
  */

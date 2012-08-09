@@ -30,13 +30,6 @@ Site::init();
         <script language="javascript" type="text/javascript">
             var varTable;
         </script>
-
-        <script>
-            $(document).ready(function(){
-                getHeader();
-            });
-        </script>
-
     </head>
     <body>
         <div id="ajax-links">
@@ -119,3 +112,9 @@ if (isset($_GET['activer']) && isset($_GET['id']) && isset($_GET['token'])) {
     <?php
 }
 ?>
+<script>
+    $(document).ready(function(){
+        getHeader();
+        getView({'controller' : 'utilisateur', 'view' : 'accueil'});
+    });
+</script>

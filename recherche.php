@@ -4,19 +4,6 @@ header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        getHeader();
-    });
-    $('#TitreDev').click(function () { anime('divDev')});
-    $('#TitreMobile').click(function () { anime('divMobile')});
-    $('#TitreBDD').click(function () { anime('divBDD')});
-    $('#TitreDesign').click(function () { anime('divDesign')});
-    $('#demo').hide();
-</script>
-<script language="javascript" type="text/javascript" src="js/tabler.js"></script>
-<?php
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
@@ -67,3 +54,14 @@ $lstCategorieFilsDesign = Categorie::getListCategoriesFilsByCode(4);
 
 include 'views/recherchePrestataire.php';
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getHeader();
+    });
+    $('#TitreDev').click(function () { anime('divDev')});
+    $('#TitreMobile').click(function () { anime('divMobile')});
+    $('#TitreBDD').click(function () { anime('divBDD')});
+    $('#TitreDesign').click(function () { anime('divDesign')});
+    $('#demo').hide();
+</script>
+<script language="javascript" type="text/javascript" src="js/tabler.js"></script>

@@ -4,14 +4,6 @@ header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        getHeader();
-        $( "#datepicker" ).datepicker();
-    });
-</script>
-<?php
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
@@ -62,8 +54,11 @@ if (!is_null($action) && $action == "activer") {
         }
     }
 } elseif (!is_null($action) && $action == "deconnexion") {
+    
     Site::kill();
-    $view = "deconnexion";
+    $view = "accueil";
+    //$view = "deconnexion";
+    
 } elseif (!is_null($action) && $action == "profil") {
 
     $id = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -94,6 +89,7 @@ if (!is_null($action) && $action == "activer") {
     }
 
     $view = "profil";
+    
 } elseif (!is_null($action) && $action == "valider") {
 
     // Data
@@ -105,6 +101,7 @@ if (!is_null($action) && $action == "activer") {
      */
     $idUtilisateur = Utilisateur::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
+        
         switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {
             case 1:
                 $message[succes] = "Connexion réussie !";
@@ -150,6 +147,7 @@ if (!is_null($view) && $view == "accueil") {
              */
             $lstUtilisateurObjs = Prestataire::getLstNObjs(10);
             include 'views/accueilClient.php';
+            
         } else {
             /**
              * L'accueill d'un prestataire montre une liste de N projets 
@@ -162,8 +160,10 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "deconnexion") {
     include 'views/utilisateurDeconnexion.php';
+    
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
+    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -184,3 +184,9 @@ if (!is_null($view) && $view == "accueil") {
     }
 }
 ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        getHeader();
+        $( "#datepicker" ).datepicker();
+    });
+</script>
