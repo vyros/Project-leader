@@ -5,12 +5,6 @@
  * Si ce n'est pas le profil de l'utilisateur connecté, le profil s'affiche en "read-only"
  */
 ?>
-<script>
-    $(function() {
-        $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
-        $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-    });
-</script>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -85,9 +79,9 @@
 
             <div id="menuProfil">
                 <ul id="ongletsProfil">
-                    <li class="active"><a href=""> Projets réalisés </a></li>
-                    <li><a href=""> Projets en cours </a></li>
-                    <li><a href=""> Commentaire </a></li>
+                    <li name="realises" class="active"><a href=""> Projets réalisés </a></li>
+                    <li name="cours"><a href=""> Projets en cours </a></li>
+                    <li name="commentaires"><a href=""> Commentaire </a></li>
                 </ul>
                 <div id="contenuOnglet">
 
@@ -104,3 +98,10 @@
     </div>
 
 </div>
+<script type="text/javascript">
+    $(function() {
+//        getHeader();
+        $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
+        $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
+    });
+</script>

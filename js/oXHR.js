@@ -53,6 +53,50 @@ function getController(params){
     }
 }
 
+function getContenuOnglet(params) {
+    
+    alert('okk');
+    
+    var properties = $.extend(  
+    {
+        'id' : ''
+    }, params || {} );
+    
+    $.post("utilisateur.php", {
+        'action' : 'onglet',
+        'contenu' : "cours",
+        'id' : properties.id
+    }, function(data) {
+        $('#contenuOnglet').html(data);
+    })
+
+/*
+    var properties = $.extend(  
+    {  
+        'controller' : 'utilisateur',  
+        'action' : 'onglet',
+        'contenu' : '',
+        'id' : ''
+    }, params || {} );
+    
+    properties.contenu = $('#ongletsProfil .active').val().toString();
+    
+    //    $('#ongletsProfil').children().each(function(){
+    //        if($(this).attr('class') == 'active') {
+    //            properties.contenu = $(this).attr('name');
+    //        }
+    //    });
+    
+    $.post(properties.controller.toString() + ".php", {
+        'action' : properties.action,
+        'contenu' : properties.contenu,
+        'id' : properties.id
+    }, function(data) {
+        $('#contenuOnglet').html(data);
+    })
+    */
+}
+
 // Private
 function getControllerFile(form) {
     return $('#'+form+' input[name=controller]').val() + '.php';

@@ -1,5 +1,4 @@
 <?php
-
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -54,11 +53,45 @@ if (!is_null($action) && $action == "activer") {
         }
     }
 } elseif (!is_null($action) && $action == "deconnexion") {
-    
+
     Site::kill();
     $view = "accueil";
     //$view = "deconnexion";
-    
+} elseif (!is_null($action) && $action == "onglet") {
+
+    $contenu = (isset($_POST["contenu"])) ? $_POST["contenu"] : null;
+    $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
+    $objUtilisateur = null;
+
+    if (!is_null($idUtilisateur)) {
+        $objUtilisateur = new Utilisateur($idUtilisateur);
+    }
+
+    if (is_null($objUtilisateur)) {
+        $message[erreur] = "Utilisateur inexistant !";
+    } else {
+        if (!is_null($contenu)) {
+            switch ($contenu) {
+                case 'closed':
+                    $lstObjets = Utilisateur::getLstProjetObjsFromArrayIds($objUtilisateur->getLstNLastClosedProjetIds(5));
+                    break;
+
+                case 'opened':
+                    $lstObjets = Utilisateur::getLstObjsFromFunction($objUtilisateur->getLstNLastOpenedProjetIds(5));
+                    break;
+
+                case 'comments':
+                    $lstObjets = Utilisateur::getLstObjsFromFunction($objUtilisateur->getLstNLastCommentIds(5));
+                    echo 'commentaires';
+                    break;
+
+                default:
+                    break;
+            }
+            
+            include 'views/utilisateurOnglet.php';
+        }
+    }
 } elseif (!is_null($action) && $action == "profil") {
 
     $id = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -89,7 +122,6 @@ if (!is_null($action) && $action == "activer") {
     }
 
     $view = "profil";
-    
 } elseif (!is_null($action) && $action == "valider") {
 
     // Data
@@ -101,7 +133,7 @@ if (!is_null($action) && $action == "activer") {
      */
     $idUtilisateur = Utilisateur::getAccessToId($log, $mdp);
     if ($idUtilisateur !== null) {
-        
+
         switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {
             case 1:
                 $message[succes] = "Connexion réussie !";
@@ -127,15 +159,26 @@ if (!is_null($action) && $action == "activer") {
 include 'views/message.php';
 
 /**
- * Vues 
+ * Vues
+ * 
+ * Chargement du header lorsqu'une vue est définie
  */
+if (!is_null($view)) {
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            getHeader();
+        });
+    </script>
+    <?php
+}
+
 if (!is_null($view) && $view == "accueil") {
 
     if (Site::getUtilisateur() instanceof Utilisateur) {
         ?>
         <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
         <?php
-
         /**
          * L'accueil d'un utilisateur montre ses N derniers projets 
          */
@@ -147,7 +190,6 @@ if (!is_null($view) && $view == "accueil") {
              */
             $lstUtilisateurObjs = Prestataire::getLstNObjs(10);
             include 'views/accueilClient.php';
-            
         } else {
             /**
              * L'accueill d'un prestataire montre une liste de N projets 
@@ -160,10 +202,8 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "deconnexion") {
     include 'views/utilisateurDeconnexion.php';
-    
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
-    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -181,12 +221,22 @@ if (!is_null($view) && $view == "accueil") {
         $message[erreur] = "Utilisateur inexistant !";
     } else {
         include 'views/utilisateurProfil.php';
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                                
+                //                getContenuOnglet({'id' : '<?php echo $objUtilisateur->getId(); ?>'});
+                                
+                $.post("utilisateur.php", {
+                    'action' : 'onglet',
+                    'contenu' : 'closed',
+                    'id' : '<?php echo $objUtilisateur->getId(); ?>'
+                }, function(data) {
+                    $('#contenuOnglet').html(data);
+                })
+            });
+        </script>
+        <?php
     }
 }
 ?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        getHeader();
-        $( "#datepicker" ).datepicker();
-    });
-</script>

@@ -61,7 +61,6 @@ if (!is_null($view)) {
     ?>
     <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
     <?php
-
 }
 
 if (!is_null($view) && $view == "ajouter") {

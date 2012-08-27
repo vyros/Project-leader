@@ -89,6 +89,20 @@ class Utilisateur extends Classe {
         return Site::getConnexion()->getFetchArray($requete);
     }
 
+    public static function getLstProjetObjsFromArrayIds($p_array) {
+        
+        $objArray = null;
+
+        if (is_null($p_array))
+            return null;
+
+        foreach ($p_array as $value) {
+            $objArray[] = new Projet($value);
+        }
+
+        return $objArray;
+    }
+
     /**
      * Obtenir les N derniers projets de l'utilisateur. 
      * Tous les enregistrements sont retournés par défaut.
@@ -177,7 +191,7 @@ class Utilisateur extends Classe {
         $mdpH = sha1($p_mdp);
         $actif = 0;
         $token = Utilisateur::getNewToken($p_mail);
-        
+
         $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_mdpH, uti_actif, uti_token, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
                 "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','" . $mdpH . "'," . $actif . ",'" . $token . "','','','','','','','','','" . date("c") . "')";
 
@@ -185,7 +199,7 @@ class Utilisateur extends Classe {
         if ($idUtilisateur) {
             return new Utilisateur($idUtilisateur);
         }
-        
+
         return null;
     }
 
@@ -218,12 +232,12 @@ class Utilisateur extends Classe {
 
         return null;
     }
-    
+
     public function chkToken($p_token) {
-        if($p_token == $this->getToken()) {
+        if ($p_token == $this->getToken()) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -355,7 +369,7 @@ class Utilisateur extends Classe {
     public function setDdn($p_value) {
         $this->m_ddn = $p_value;
     }
-    
+
     public function setNewToken() {
         $this->m_token = Utilisateur::getNewToken($this->m_mail);
     }
