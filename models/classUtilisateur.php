@@ -6,7 +6,7 @@ class Utilisateur extends Classe {
     private $m_login;
     private $m_mail;
     private $m_mdp;
-    private $m_mdpH;
+    private $m_hdp;
     private $m_actif;
     private $m_token;
     private $m_nom;
@@ -32,8 +32,84 @@ class Utilisateur extends Classe {
      */
     private $m_cv_array;
 
+    /**
+     *
+     * @var array 
+     */
+    private $m_cpt_array;
+
     public function __construct() {
         parent::__construct(func_get_args());
+    }
+
+    /**
+     * Ajoute un utilisateur.
+     * 
+     * @return Utilisateur Retourne le nouvel objet en cas de succès, sinon retourne null.
+     */
+    public static function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
+
+        $mdpH = sha1($p_mdp);
+        $actif = 0;
+        $token = Utilisateur::getNewToken($p_mail);
+
+        $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_hdp, uti_actif, uti_token, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
+                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','" . $mdpH . "'," . $actif . ",'" . $token . "','','','','','','','','','" . date("c") . "')";
+
+        $idUtilisateur = Site::getConnexion()->doSql($requete, "utilisateur");
+        if ($idUtilisateur) {
+            return new Utilisateur($idUtilisateur);
+        }
+
+        return null;
+    }
+
+    private function chkStatut($p_statut) {
+        if ($p_statut == "client") {
+            return new Client($p_statut);
+        } elseif ($p_statut == "prestataire") {
+            return new Prestataire($p_statut);
+        }
+
+        return null;
+    }
+
+    public function chkToken($p_token) {
+        if ($p_token == $this->getToken()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Editer un utilisateur.
+     * 
+     * @return Utilisateur Retourne l'objet utilisateur en cas de succès, sinon retourne null.
+     */
+    public function editUtilisateur() {
+
+        $requete = " UPDATE utilisateur SET uti_nom = '" . $this->getNom() . "'," .
+                " uti_actif = " . $this->getActif() . ", uti_token = '" . $this->getToken() . "'," .
+                " uti_prenom = '" . $this->getPrenom() . "', uti_ddn = '" . $this->getDdn() . "'," .
+                " uti_adresse = '" . $this->getAdresse() . "', uti_cp = '" . $this->getCp() . "'," .
+                " uti_ville = '" . $this->getVille() . "', uti_tel = '" . $this->getTel() . "'," .
+                " uti_presentation = '" . $this->getPresentation() . "' WHERE uti_id = " . $this->getId() . ";";
+
+        $tabAjouter = array_diff($this->m_cpt_array, $this->getCompetenceIds());
+        $tabSupprimer = array_diff($this->getCompetenceIds(), $this->m_cpt_array);
+        
+        if (Site::getConnexion()->doSql($requete)) {
+            
+            if(is_null($tabAjouter))
+                $tabAjouter = $this->m_cpt_array;
+            
+            Posseder::addCompetences($this->m_id, $tabAjouter);
+            Posseder::removeCompetences($this->m_id, $tabSupprimer);
+            
+            return $this;
+        }
+        return null;
     }
 
     public function exists($p_id) {
@@ -42,12 +118,14 @@ class Utilisateur extends Classe {
                 " WHERE uti_id = " . $p_id . " LIMIT 1;";
 
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
+        $arrayTest = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
+        
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_login = stripslashes($array[uti_login]);
             $this->m_mail = stripslashes($array[uti_mail]);
             $this->m_mdp = stripslashes($array[uti_mdp]);
-            $this->m_mdpH = stripslashes($array[uti_mdpH]);
+            $this->m_hdp = stripslashes($array[uti_hdp]);
             $this->m_actif = stripslashes($array[uti_actif]);
             $this->m_token = stripslashes($array[uti_token]);
             $this->m_nom = stripslashes($array[uti_nom]);
@@ -64,14 +142,15 @@ class Utilisateur extends Classe {
             # Le statut
             $this->m_statut = $this->chkStatut(stripslashes($array[uti_statut]));
 
-            # Les CVs
-            $requete = " SELECT cv_id FROM cv " .
-                    " WHERE uti_id = " . $p_id . ";";
+            # Les competences
+            $this->m_cpt_array = $this->getCompetenceIds();
+            sort($this->m_cpt_array);
 
-            $this->m_cv_array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
+            # Les CVs
+            $this->m_cv_array = $this->getCvIds();
         }
     }
-
+    
     /**
      * Fonction static d'authentification d'un couple login|mdp.
      * 
@@ -88,19 +167,83 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getFetchArray($requete);
     }
+    
+    public function getActif() {
+        return $this->m_actif;
+    }
 
-    public static function getLstProjetObjsFromArrayIds($p_array) {
-        
-        $objArray = null;
+    public function getAdresse() {
+        return $this->m_adresse;
+    }
 
-        if (is_null($p_array))
-            return null;
+    public function getCompetences() {
+        return $this->m_cpt_array;
+    }
+    
+    public function getCompetenceIds() {
+        return Posseder::getCompetencesIdsFromUserId($this->m_id);
+    }
+    
+    public function getCp() {
+        return $this->m_cp;
+    }
 
-        foreach ($p_array as $value) {
-            $objArray[] = new Projet($value);
+    public function getCvs() {
+        return $this->m_cv_array;
+    }
+
+    public function getCvIds($p_n = 0) {
+
+        $requete = " SELECT cv_id FROM cv " .
+                " WHERE uti_id = " . $this->m_id;
+
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
         }
 
-        return $objArray;
+        return Site::getOneLevelIntArray(Site::getConnexion()->getFetchArray($requete));
+    }
+
+    public function getDate() {
+        return $this->m_date;
+    }
+
+    public function getDdn() {
+        return $this->m_ddn;
+    }
+
+    public function getId($p_log = null, $p_mdp = null) {
+        return $this->m_id;
+    }
+ 
+    public function getLogin() {
+        return $this->m_login;
+    } 
+    
+    /**
+     * Obtenir les N derniers projets de l'utilisateur. 
+     * Tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public function getLstNLastClosedProjetIds($p_n = 0) {
+
+        $requete = " SELECT pa.prj_id FROM participer as pa " .
+                " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
+                " WHERE pa.uti_id = " . $this->m_id . " " .
+                " AND pr.eta_id = 3 ORDER BY pa.par_date DESC ";
+
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return Site::getConnexion()->getFetchArray($requete);
     }
 
     /**
@@ -140,137 +283,18 @@ class Utilisateur extends Classe {
         return $objArray;
     }
 
-    /**
-     * Obtenir les N derniers projets de l'utilisateur. 
-     * Tous les enregistrements sont retournés par défaut.
-     * 
-     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
-     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
-     *  retourne null si aucun.
-     */
-    public function getLstNLastClosedProjetIds($p_n = 0) {
+    public static function getLstProjetObjsFromArrayIds($p_array) {
 
-        $requete = " SELECT pa.prj_id FROM participer as pa " .
-                " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
-                " WHERE pa.uti_id = " . $this->m_id . " " .
-                " AND pr.eta_id = 3 ORDER BY pa.par_date DESC ";
+        $objArray = null;
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
+        if (is_null($p_array))
+            return null;
+
+        foreach ($p_array as $value) {
+            $objArray[] = new Projet($value);
         }
 
-        return Site::getConnexion()->getFetchArray($requete);
-    }
-
-    /**
-     *
-     * @return type 
-     */
-    public function getNombreProjets() {
-        $res = $this->getLstNLastProjetIds();
-        $i = 0;
-
-        if (is_null($res)) {
-            foreach ($res as $idProjet) {
-                $i++;
-            }
-        }
-
-        return $i;
-    }
-
-    /**
-     * Ajoute un utilisateur.
-     * 
-     * @return Utilisateur Retourne le nouvel objet en cas de succès, sinon retourne null.
-     */
-    public static function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
-
-        $mdpH = sha1($p_mdp);
-        $actif = 0;
-        $token = Utilisateur::getNewToken($p_mail);
-
-        $requete = "INSERT INTO utilisateur (uti_login, uti_statut, uti_mail, uti_mdp, uti_mdpH, uti_actif, uti_token, uti_nom, uti_prenom, uti_ddn, uti_adresse, uti_cp, uti_ville, uti_tel, uti_presentation, uti_date) " .
-                "VALUES ('" . $p_log . "','" . $p_statut . "','" . $p_mail . "','" . $p_mdp . "','" . $mdpH . "'," . $actif . ",'" . $token . "','','','','','','','','','" . date("c") . "')";
-
-        $idUtilisateur = Site::getConnexion()->doSql($requete, "utilisateur");
-        if ($idUtilisateur) {
-            return new Utilisateur($idUtilisateur);
-        }
-
-        return null;
-    }
-
-    /**
-     * Editer un utilisateur.
-     * 
-     * @return Utilisateur Retourne l'objet utilisateur en cas de succès, sinon retourne null.
-     */
-    public function editUtilisateur() {
-
-        $requete = " UPDATE utilisateur SET uti_nom = '" . $this->getNom() . "'," .
-                " uti_actif = " . $this->getActif() . ", uti_token = '" . $this->getToken() . "'," .
-                " uti_prenom = '" . $this->getPrenom() . "', uti_ddn = '" . $this->getDdn() . "'," .
-                " uti_adresse = '" . $this->getAdresse() . "', uti_cp = '" . $this->getCp() . "'," .
-                " uti_ville = '" . $this->getVille() . "', uti_tel = '" . $this->getTel() . "'," .
-                " uti_presentation = '" . $this->getPresentation() . "' WHERE uti_id = " . $this->getId() . ";";
-
-        if (Site::getConnexion()->doSql($requete)) {
-            return $this;
-        }
-        return null;
-    }
-
-    private function chkStatut($p_statut) {
-        if ($p_statut == "client") {
-            return new Client($p_statut);
-        } elseif ($p_statut == "prestataire") {
-            return new Prestataire($p_statut);
-        }
-
-        return null;
-    }
-
-    public function chkToken($p_token) {
-        if ($p_token == $this->getToken()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function getActif() {
-        return $this->m_actif;
-    }
-
-    public function getAdresse() {
-        return $this->m_adresse;
-    }
-
-    public function getCp() {
-        return $this->m_cp;
-    }
-
-    public function getCv() {
-        return $this->m_cv_array;
-    }
-
-    public function getDate() {
-        return $this->m_date;
-    }
-
-    public function getDdn() {
-        return $this->m_ddn;
-    }
-
-    public function getId($p_log = null, $p_mdp = null) {
-        return $this->m_id;
-    }
-
-    public function getLogin() {
-        return $this->m_login;
+        return $objArray;
     }
 
     public function getMail() {
@@ -293,6 +317,23 @@ class Utilisateur extends Classe {
         return $this->m_nom;
     }
 
+    /**
+     *
+     * @return type 
+     */
+    public function getNombreProjets() {
+        $res = $this->getLstNLastProjetIds();
+        $i = 0;
+
+        if (is_null($res)) {
+            foreach ($res as $idProjet) {
+                $i++;
+            }
+        }
+
+        return $i;
+    }
+    
     public function getPrenom() {
         return $this->m_prenom;
     }
@@ -312,7 +353,7 @@ class Utilisateur extends Classe {
         $result = ($this->getCp() !== "") ? $result + 1 : $result;
         $result = ($this->getVille() !== "") ? $result + 1 : $result;
         $result = ($this->getTel() !== "") ? $result + 1 : $result;
-        $result = ($this->getCv() !== "") ? $result + 1 : $result;
+        $result = ($this->getCvs() !== "") ? $result + 1 : $result;
         $result = ($this->getPresentation() !== "") ? $result + 1 : $result;
 
         return $result * 10;
@@ -354,12 +395,17 @@ class Utilisateur extends Classe {
         $this->m_adresse = $p_value;
     }
 
+    public function setCompetenses($p_value) {
+        sort($p_value);
+        $this->m_cpt_array = $p_value;
+    }
+
     public function setCp($p_value) {
         $this->m_cp = $p_value;
     }
 
-    public function setCv($p_value) {
-        $this->m_cv = $p_value;
+    public function setCvs($p_value) {
+        $this->m_cv_array = $p_value;
     }
 
     public function setDdc($p_value) {

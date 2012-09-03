@@ -41,6 +41,7 @@ class Site {
         include_once 'models/classCorrespondre.php';
         include_once 'models/classDemander.php';
         include_once 'models/classParticiper.php';
+        include_once 'models/classPosseder.php';
         include_once 'models/classPrestataire.php';
         include_once 'models/classProjet.php';
         include_once 'models/classUtilisateur.php';
@@ -50,6 +51,7 @@ class Site {
         session_start();
         return self::getInstance();
     }
+    
     static public function minit() {
 
         /**
@@ -212,7 +214,7 @@ class Site {
 
     /**
      *
-     * @param array $p_array Un tableau à plusieurs niveuax.
+     * @param array $p_array Un tableau à plusieurs niveaux.
      * @return array Un tableau à un niveau. 
      */
     static public function getOneLevelArray($p_array) {
@@ -225,7 +227,48 @@ class Site {
 
         return $p_array;
     }
+    
+    /**
+     *
+     * @param array $p_array Un tableau à plusieurs niveaux.
+     * @return array Un tableau à un niveau. 
+     */
+    static public function getOneLevelAssArray($p_array) {
+        
+        $t_array = null;
+        while (is_array($p_array[0])) {
+            $t_array = $p_array[0];
+            
+            sort($t_array, 'SORT_REGULAR');
 
+        }
+
+        return $t_array;
+    }
+    
+    /**
+     *
+     * @param array $p_array Un tableau à plusieurs niveaux.
+     * @return array Un tableau à un niveau. 
+     */
+    static public function getOneLevelIntArray($p_array) {
+        
+        //TODO
+        $t_array = null;
+        while (is_array($p_array[0])) {
+            $t_array[] = $p_array[0][0];
+            
+            if(isset($p_array[1])) {
+                for($i = 0; $i < count($p_array); $i++) {
+                    $p_array[$i] = $p_array[$i + 1];
+                }
+                unset($p_array[--$i]);
+            } else {
+                unset($p_array);
+            }
+        }
+        return $t_array;
+    }
 }
 
 ?>

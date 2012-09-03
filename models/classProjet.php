@@ -91,7 +91,7 @@ class Projet extends Classe {
     public function getCategorieIds() {
 
         $requete = "SELECT cat_id FROM correspondre " .
-                " WHERE prj_id = '" . $this->m_id . "';";
+                " WHERE prj_id = " . $this->m_id . ";";
 
         return Site::getConnexion()->getFetchArray($requete);
     }
@@ -125,7 +125,7 @@ class Projet extends Classe {
     public function getCompetenceIds() {
 
         $requete = "SELECT cpt_id FROM demander " .
-                " WHERE prj_id = '" . $this->m_id . "';";
+                " WHERE prj_id = " . $this->m_id . ";";
 
         return Site::getConnexion()->getFetchArray($requete);
     }

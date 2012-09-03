@@ -101,6 +101,7 @@ if (!is_null($action) && $action == "activer") {
     $ville = (isset($_POST["ville"])) ? $_POST["ville"] : null;
     $cv = (isset($_POST["cv"])) ? $_POST["cv"] : null;
     $tel = (isset($_POST["tel"])) ? $_POST["tel"] : null;
+    $lstCompetenceIds = (isset($_POST["blah"])) ? explode(',', $_POST["blah"]) : null;
 
     if (Site::getUtilisateur()->getId() != $id) {
         $objUtilisateur = new Utilisateur($id);
@@ -112,9 +113,10 @@ if (!is_null($action) && $action == "activer") {
     $objUtilisateur->setPrenom($prenom);
     $objUtilisateur->setDdn($ddn);
     $objUtilisateur->setVille($ville);
-    $objUtilisateur->setCv($cv);
+    $objUtilisateur->setCvs($cv);
     $objUtilisateur->setTel($tel);
-
+    $objUtilisateur->setCompetenses($lstCompetenceIds);
+    
     if (is_null($objUtilisateur->editUtilisateur())) {
         $message[erreur] = "Erreur lors de la modification !";
     } else {
@@ -202,8 +204,10 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "deconnexion") {
     include 'views/utilisateurDeconnexion.php';
+    
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
+    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -220,12 +224,15 @@ if (!is_null($view) && $view == "accueil") {
     if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
     } else {
+        $lstCompetenceIds = Competence::getLstNIds();
+        $lstUserCompetenceIds = $objUtilisateur->getCompetenceIds();
+        
         include 'views/utilisateurProfil.php';
         ?>
         <script type="text/javascript">
             $(document).ready(function(){
-                                
-                //                getContenuOnglet({'id' : '<?php echo $objUtilisateur->getId(); ?>'});
+                // Bug via la fonction                
+                //getContenuOnglet({'id' : '<?php //echo $objUtilisateur->getId(); ?>'});
                                 
                 $.post("utilisateur.php", {
                     'action' : 'onglet',

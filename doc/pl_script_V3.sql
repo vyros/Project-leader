@@ -380,6 +380,9 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `uti_statut` varchar(100) DEFAULT NULL,
   `uti_mail` varchar(100) DEFAULT NULL,
   `uti_mdp` varchar(256) DEFAULT NULL,
+  `uti_hdp` varchar(40) NOT NULL,
+  `uti_actif` tinyint(1) NOT NULL DEFAULT '0',
+  `uti_token` varchar(40) NOT NULL,
   `uti_nom` varchar(100) DEFAULT NULL,
   `uti_prenom` varchar(100) DEFAULT NULL,
   `uti_ddn` date DEFAULT NULL,
@@ -397,9 +400,9 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 -- Contenu de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`uti_id`, `uti_login`, `uti_statut`, `uti_mail`, `uti_mdp`, `uti_nom`, `uti_prenom`, `uti_ddn`, `uti_adresse`, `uti_cp`, `uti_ville`, `uti_tel`, `uti_presentation`, `uti_date`, `uti_ddc`) VALUES
-(1, 'vyros', 'client', 'vyros', 'vyros', '', '', '0000-00-00', '', '', '', '', '', '2012-04-09 13:12:21', NULL),
-(2, 'varius', 'prestataire', 'varius', 'varius', '', '', '0000-00-00', '', '', '', '', '', '2012-04-09 18:57:13', NULL);
+INSERT INTO `utilisateur` (`uti_id`, `uti_login`, `uti_statut`, `uti_mail`, `uti_mdp`, `uti_hdp`, `uti_actif`, `uti_token`, `uti_nom`, `uti_prenom`, `uti_ddn`, `uti_adresse`, `uti_cp`, `uti_ville`, `uti_tel`, `uti_presentation`, `uti_date`, `uti_ddc`) VALUES
+(1, 'vyros', 'client', 'vyros', 'vyros', '3764d7b86ac120706e8325a59f66c6d5b4d98057', 1, '3764d7b86ac120706e8325a59f66c6d5b4d98057', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Bruges', '0630056136', '', '2012-04-09 13:12:21', NULL),
+(2, 'varius', 'prestataire', 'varius', 'varius', '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 1, '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Pessac', '', '', '2012-04-09 18:57:13', NULL);
 
 --
 -- Contraintes pour les tables exportées

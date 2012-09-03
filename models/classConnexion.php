@@ -17,7 +17,7 @@ class Connexion {
     public function __destruct() {
         mysql_close($this->m_connection);
     }
-    
+
     public function __wakeup() {
         $this->m_connection = $this->doConnection();
     }
@@ -84,14 +84,13 @@ class Connexion {
      * @return array Retourne null si aucun resultat.
      */
     public function getFetchArray($requete, $type = MYSQL_BOTH) {
-        $array = null;
+
         $resultat = mysql_query($requete);
 
-        $i = 0;
-        while ($obj = mysql_fetch_array($resultat, $type)) {
+        for ($array = null, $i = 0, $obj = mysql_fetch_array($resultat, $type); 
+            $obj != false; $obj = mysql_fetch_array($resultat, $type), $i++)
             $array[$i] = $obj;
-            $i++;
-        }
+
         mysql_free_result($resultat);
 
         return $array;
@@ -104,8 +103,7 @@ class Connexion {
      * @return ressource Retourne la ressource, si aucun resultat retourne faux.
      */
     public function getFetchRessource($requete) {
-        $resultat = mysql_query($requete);
-        return $resultat;
+        return mysql_query($requete);
     }
 
 }

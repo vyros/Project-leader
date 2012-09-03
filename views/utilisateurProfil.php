@@ -39,6 +39,48 @@
             <input id="cv" name="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br /><br />
 
             <?php
+            if ($objUtilisateur->getStatut() instanceof Prestataire) {
+                ?>
+
+                <label for="demo-input-local">Compétence(s) : </label><br />
+                <input type="text" id="demo-input-local" name="blah" /><br /><br />
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $("#demo-input-local").tokenInput([
+    <?php
+    if (!is_null($lstCompetenceIds)) {
+        foreach ($lstCompetenceIds as $value) {
+            $objCompetence = new Competence($value);
+            ?>
+                                {
+                                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                },
+            <?php
+        }
+    }
+    ?>
+            ],
+            { prePopulate: [
+    <?php
+    if (!is_null($lstUserCompetenceIds)) {
+        foreach ($lstUserCompetenceIds as $value) {
+            $objCompetence = new Competence($value);
+            ?>
+                                    {
+                                        id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                        name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                    },
+            <?php
+        }
+    }
+    ?>
+                ]});
+        });
+                </script>
+                <?php
+            }
+
             if ($objUtilisateur->getId() == Site::getUtilisateur()->getId()) {
                 ?>
                 <input type="button" onclick="getFormulary('up1');" value="Valider" />
@@ -51,17 +93,16 @@
         <div class="margin_bottom_30"></div>
 
     </div>
-
 </div>
 
 <div class="content_col_w420 fr">
 
     <div class="sub_content_col">
 
-        <div class="header_wrapper">
+        <!--div class="header_wrapper">
             <img src="images/ex_avatar.png"/>
-            <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
-        </div>
+            <div class="header_02"><?php //echo $objUtilisateur->getLogin(); ?></div>
+        </div-->
 
         <form id="up2">
 
@@ -100,7 +141,6 @@
 </div>
 <script type="text/javascript">
     $(function() {
-//        getHeader();
         $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
         $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
     });
