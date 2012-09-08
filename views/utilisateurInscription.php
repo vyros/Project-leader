@@ -9,7 +9,7 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_compte.png"/> 
+            <img src="images/icone_connexion.png"/> 
             <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
         </div>
 
@@ -40,7 +40,7 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_compte.png"/> 
+            <img src="images/icone_inscription.png"/> 
             <div class="header_02">Inscription<br/></div>
         </div>
 

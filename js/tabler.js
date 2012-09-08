@@ -3,7 +3,9 @@
  * and open the template in the editor.
  */
 var varTable;
-        
+var varTable2;   
+var varTableTest;
+
 $(document).ready(function() {
     /* Add a click handler to the rows - this could be used as a callback */
     $("#example tbody").click(function(event) {
@@ -38,7 +40,67 @@ $(document).ready(function() {
             "sLast":     "Dernier"
             }
     }});
-} );
+
+    varTableTest = $('#example2').dataTable({"oLanguage": {
+            "sProcessing":     "Traitement en cours...",
+            "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+            "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+            "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+            "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+            "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Rechercher&nbsp;:",
+            "sLoadingRecords": "Téléchargement...",
+            "sUrl":            "",
+            "oPaginate": {
+                "sFirst":    "Premier",
+                "sPrevious": "Pr&eacute;c&eacute;dent",
+                "sNext":     "Suivant",
+                "sLast":     "Dernier"
+                }
+        }});
+    
+
+    varTable2 = $('#tableauDetail').dataTable( {
+                    "oLanguage": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLoadingRecords": "Téléchargement...",
+                    "sUrl":            "",
+                    "oPaginate": {
+                        "sFirst":    "Premier",
+                        "sPrevious": "Pr&eacute;c&eacute;dent",
+                        "sNext":     "Suivant",
+                        "sLast":     "Dernier"
+                        }
+                    },
+                    "aoColumnDefs": 
+                        [
+                            { "bSearchable": false, "bVisible": false, "aTargets": [ 5 ] }
+                        ] 
+             });
+                
+                 $('#tableauDetail tbody tr').live( 'mouseover', function () {
+                     
+                    var nTr = $(this)[0];
+                    
+                    
+                    varTable2.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
+                    
+                } );
+                $('#tableauDetail tbody tr').live( 'mouseout', function () {
+                     
+                    var nTr = $(this)[0];
+                    varTable2.fnClose( nTr );
+                } );
+                
+});
 
 function fnGetSelected( oTableLocal ) {
     var aReturn = new Array();
@@ -52,4 +114,14 @@ function fnGetSelected( oTableLocal ) {
         }
     }
     return aReturn;
+}
+
+function fnFormatDetails ( nTr )
+{
+    var aData = varTable2.fnGetData( nTr );
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+    sOut += '<tr><td>Présentation:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '</table>';
+     
+    return sOut;
 }

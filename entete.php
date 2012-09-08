@@ -54,7 +54,12 @@ if (Site::getUtilisateur()) {
                     <li><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Mes projets</a></li>
                     <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
                 </ul></li>
-            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a>
+                <ul>
+                    <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'favori'});">Mes favoris</a></li>
+                </ul>
+            </li>
+            <li class="topmenu"><a onclick="getView({'controller' : 'notification', 'view' : 'messagerie'});" style="height:24px;line-height:24px;"><img src="images/icone_messagerie.png" alt="Messagerie"/></a></li>
         </ul>
 
     <?php } else if (Site::getUtilisateur()->getStatut() == "prestataire") { ?>
@@ -67,7 +72,12 @@ if (Site::getUtilisateur()) {
                     <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Mes projets</a></li>
                     <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
                 </ul></li>
-            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a></li>
+            <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a>
+                <ul>
+                    <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'favori'});">Mes favoris</a></li>
+                </ul>
+            </li>
+            <li class="topmenu"><a onclick="getView({'controller' : 'notification', 'view' : 'messagerie'});" style="height:24px;line-height:24px;"><img src="images/icone_messagerie.png" alt="Messagerie"/></a></li>
         </ul>
         <?php
     }

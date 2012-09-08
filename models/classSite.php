@@ -46,7 +46,9 @@ class Site {
         include_once 'models/classProjet.php';
         include_once 'models/classUtilisateur.php';
         include_once 'models/classEtat.php';
-
+        include_once 'models/classNotification.php';
+        include_once 'models/classEffectuer.php';
+        
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         return self::getInstance();

@@ -41,7 +41,7 @@
                     foreach ($lstUtilisateurProjetObjs as $objProjet) {
                         ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                            <?php echo $objProjet->getLibelle(); ?></a><br />
+                            <?php echo "- ".$objProjet->getLibelle(); ?></a><br />
                         <?php
                         $i++;
                     }
@@ -82,8 +82,8 @@
         </div>
 
         <div id="demo">
-            <table id="listeProjet">
-                <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+            <table id="listePresta">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauDetail">
                     <thead>
                         <tr>
                             <th class="sorting_asc">Pseudo</th>
@@ -91,6 +91,7 @@
                             <th class="sorting_asc">Nombre de projet à ce jour</th>
                             <th class="sorting_asc">Date d'inscription</th>
                             <th class="sorting_asc">Accès profil</th>
+                            <th>test</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,7 +129,17 @@
                                         <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
                                             <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
                                     </td>
-                                </tr>
+                                    
+                                    <td id="detail" class="details" colspan="6">
+                                        <?php
+                                        echo $objUtilisateur->getPresentation();
+                                                
+                                        ?>
+                                    </td>
+                                    
+                                 </tr>   
+                                 
+                               
                                 <?php
                     }
                 }
@@ -169,8 +180,16 @@
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>
 
-<div class="conteneur_bulle">
-    <div class="messageBulle">
-        <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> !</span>
-    </div>
-</div>	
+       <div class="conteneur_bulle">
+            <div class="messageBulle">
+                <?php
+                if (isset($message)){
+                    include_once('views/message.php');
+                }else {
+                ?>
+                <span>Bonjour <?php echo Site::getUtilisateur()->getLogin();?>, vous avez 0 notification(s).</span>
+                <?php
+                }
+                ?>
+            </div>
+        </div>

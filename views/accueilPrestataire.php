@@ -32,7 +32,7 @@
                         foreach ($lstUtilisateurProjetObjs as $objProjet) {
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                <?php echo $objProjet->getLibelle(); ?></a><br />
+                                <?php echo "- ".$objProjet->getLibelle(); ?></a><br />
                             <?php
                             $i++;
                         }
@@ -95,20 +95,21 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_projet.png"/> 
+            <img src="images/icone_listePjt.png"/> 
             <div class="header_02">Liste de projets</div>
         </div>
 
         <div id="demo">
             <table id="listeProjet">
-                <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauDetail">
                     <thead>
                         <tr>
                             <th class="sorting_asc">Intitulé</th>
                             <th class="sorting_asc">Catégorie</th>
-                            <th class="sorting_asc">Budget</th>
                             <th class="sorting_asc">Compétence requise</th>
                             <th class="sorting_asc">Date de création</th>
+                            <th class="sorting_asc">Accès fiche</th>
+                            <th>test</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,7 +124,7 @@
                                     </td>
 
                                     <td id="categorie">
-                                        <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                        <input type="hidden" name="categorie" value="">
                                         <?php
                                         $lstCategorieObjs = $objProjet->getCategorieObjs();
 
@@ -137,13 +138,8 @@
                                         ?>											
                                     </td>
 
-                                    <td id="budget">
-                                        <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
-                                        <?php echo $objProjet->getBudget(); ?>											
-                                    </td>
-
                                     <td id="competence">
-                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                        <input type="hidden" name="competence" value="">
                                         <?php
                                         $lstCompetenceObjs = $objProjet->getCompetenceObjs();
 
@@ -161,6 +157,18 @@
                                         <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
                                         <?php echo $objProjet->getDateCreation(); ?>											
                                     </td>
+                                    
+                                    <td id="access">
+                                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
+                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                    </td>
+                                    
+                                    <td id="detail" class="details" colspan="6">
+                                        <?php
+                                            echo $objProjet->getDescription();
+                                        ?>
+                                    </td>
+                                    
                                 </tr>
                                 <?php
                             }
@@ -179,8 +187,16 @@
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>
 
-<div class="conteneur_bulle">
-    <div class="messageBulle">
-        <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> !</span>
-    </div>
-</div>
+       <div class="conteneur_bulle">
+            <div class="messageBulle">
+                <?php
+                if (isset($message)){
+                    include_once('views/message.php');
+                }else {
+                ?>
+                <span>Bonjour <?php echo Site::getUtilisateur()->getLogin();?>, vous avez 0 notification(s).</span>
+                <?php
+                }
+                ?>
+            </div>
+        </div>

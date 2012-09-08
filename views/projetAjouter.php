@@ -37,6 +37,7 @@
 
             <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local" name="blah" /><br /><br />
+            
             <script type="text/javascript">
                 $(document).ready(function() {
                     $("#demo-input-local").tokenInput([
@@ -79,3 +80,17 @@ if (!is_null($lstCompetenceIds)) {
     </div>
 
 </div><!-- end of a section -->
+<div class="content_col_w420 fr">
+
+    <div class="sub_content_col">
+        <img style="width:350px; position: relative; left:60px; top:70px;" class="" src="images/logo_seul.png"/>
+    
+        <div class="conteneur_bulleAcc">
+            <div class="messageBulle">
+                <span>Sur cette page, vous avez la possibilité de créer votre projet. Les caratéristiques du projet pourront être modifiés si besoin directement sur la fiche.</span>
+            </div>
+        </div>
+    
+    </div>
+    
+</div>

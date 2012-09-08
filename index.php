@@ -29,6 +29,7 @@ Site::init();
 
         <script language="javascript" type="text/javascript">
             var varTable;
+            var varTable2;
         </script>
     </head>
     <body>

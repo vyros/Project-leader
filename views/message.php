@@ -7,8 +7,18 @@ else
     unset($message);
 
 if (!is_null($message)) {
+    if($view == "accueil") {
     ?>
-    <div class="content_col_w420 fr">
+        <span> <?php echo $message;?> Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?> !</span>
+    <?php
+    }else if ($view == "liste"){
+    ?>
+        <span> <?php echo $message;?></span>
+    <?php
+    }
+    ?>
+ 
+<!--    <div class="content_col_w420 fr">
 
         <div class="sub_content_col">
 
@@ -21,7 +31,7 @@ if (!is_null($message)) {
                 <div class="testimonial_box">
                     <p>
                         <?php
-                        echo $message;
+                        
                         ?>
                     </p>
                 </div>
@@ -32,7 +42,7 @@ if (!is_null($message)) {
 
         </div>
 
-    </div><!-- end of a section -->
+    </div> end of a section -->
     <?php
 }
 ?>

@@ -144,7 +144,8 @@ class Utilisateur extends Classe {
 
             # Les competences
             $this->m_cpt_array = $this->getCompetenceIds();
-            sort($this->m_cpt_array);
+            if(!is_null($this->m_cpt_array))
+                sort($this->m_cpt_array);
 
             # Les CVs
             $this->m_cv_array = $this->getCvIds();
@@ -280,7 +281,7 @@ class Utilisateur extends Classe {
             $objArray[] = new Projet($value);
         }
 
-        return $objArray;
+         return $objArray;
     }
 
     public static function getLstProjetObjsFromArrayIds($p_array) {

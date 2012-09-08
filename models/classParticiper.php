@@ -36,18 +36,23 @@ class Participer extends Classe {
         return Site::getConnexion()->doSql($requete);
     }
     
-    public static function voirParticipation($p_prj_id) {
-        $requete = "SELECT uti_id FROM participer " .
-                " WHERE prj_id = " . $p_prj_id . ";";
+    public static function voirParticipationPresta($p_prj_id) {
+        $requete = " SELECT u.uti_id FROM utilisateur u, participer p " .
+                   " WHERE u.uti_statut = 'prestataire' ".
+                   " AND u.uti_id = p.uti_id " .
+                   " AND p.prj_id = " . $p_prj_id .";";
+//         echo $requete;        
         
         return Site::getConnexion()->getFetchArray($requete);
         
     }
     
     public static function voirParticipationCli($p_prj_id) {
-        $requete = "SELECT u.uti_id FROM utilisateur u, participer " .
-                " WHERE prj_id = " . $p_prj_id . " AND u.uti_statut = 'client' LIMIT 1;";
-        
+        $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
+                   " WHERE u.uti_statut = 'client' ".
+                   " AND u.uti_id = p.uti_id " .
+                   " AND p.prj_id = " . $p_prj_id ." LIMIT 1;";
+//        echo $requete;   
         return Site::getConnexion()->getFetchRessource($requete);
         
     }

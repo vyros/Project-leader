@@ -158,7 +158,7 @@ if (!is_null($action) && $action == "activer") {
 /**
  * Message 
  */
-include 'views/message.php';
+//include 'views/message.php';
 
 /**
  * Vues
@@ -181,6 +181,7 @@ if (!is_null($view) && $view == "accueil") {
         ?>
         <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
         <?php
+
         /**
          * L'accueil d'un utilisateur montre ses N derniers projets 
          */

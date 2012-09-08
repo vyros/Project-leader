@@ -81,6 +81,20 @@ class Projet extends Classe {
         }
         return null;
     }
+    
+    static public function editProjet() {
+
+         $requete = " UPDATE projet SET prj_nom = '" . $this->getLibelle() . "'," .
+                " prj_description = " . $this->getActif() . ", prj_budget = '" . $this->getBudget() . "'," .
+                " prj_echeance = '" . $this->getEcheance() . "', etat_id = '" . $this->getEtatId() . "'," .
+                " WHERE pjr_id = " . $this->getId() . ";";
+
+        $idProjet = Site::getConnexion()->doSql($requete, "projet");
+        if ($idProjet) {
+            return new Projet($idProjet);
+        }
+        return null;
+    }
 
     /**
      * Retourne la categorie associée au projet.
@@ -150,6 +164,19 @@ class Projet extends Classe {
         return $objArray;
     }
 
+    public static function getProjetSimilaire($idCategorie){
+        
+        $requete = " SELECT p.prj_id FROM categorie cat, demander d, correspondre c, projet p " .
+                   " WHERE cat.cat_id = '".$idCategorie."' " .
+                   " AND cat.cat_id = c.cat_id " .
+                   " AND p.prj_id = c.prj_id " ;
+        
+        echo $requete;
+        
+        return Site::getConnexion()->getFetchArray($requete);
+        
+    }
+
     public function getId() {
         return $this->m_id;
     }
@@ -181,7 +208,22 @@ class Projet extends Classe {
     public function __toString() {
         return "id : $this->m_id ; libelle : $this->m_libelle";
     }
-
+    
+    public function setDescription($p_value) {
+        $this->m_description = $p_value;
+    }
+    
+    public function setBudget($p_value) {
+        $this->m_budget = $p_value;
+    }
+    
+    public function setEcheance($p_value) {
+        $this->m_echeance = $p_value;
+    }
+    
+    public function setStatut($p_value) {
+        $this->m_eta_id = $p_value;
+    }
 }
 
 ?>

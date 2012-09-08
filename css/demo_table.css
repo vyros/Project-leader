@@ -134,6 +134,7 @@ table.display thead th {
 	font-weight: bold;
 	cursor: pointer;
 	* cursor: hand;
+    text-align: left;
 }
 
 table.display tfoot th {

@@ -149,7 +149,7 @@ img {
 /* div de la bulle */
 .conteneur_bulle {
     width: 142px;
-    top: 203px;
+    top: 140px;
     height: 37px;
     left: 10px;
     padding: 55px 0;
@@ -178,11 +178,36 @@ img {
     border-color: transparent #33A3EE;
     border-style: solid;
     border-width: 0 0 30px 20px;
-    bottom: -30px;
+    bottom: -23px;
     content: "";
     display: block;
     position: absolute;
     right: 110px;
+}
+
+.conteneur_bulleAcc:after {
+    -moz-transform: rotate(-274deg);
+    border-color: transparent #33A3EE;
+    border-style: solid;
+    border-width: 0 0 30px 20px;
+    bottom: -22px;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 20px;
+}
+.conteneur_bulleAcc {
+    background: -moz-linear-gradient(#99FEFF, #33A3EE) repeat scroll 0 0 transparent;
+    border: 1px solid #669966;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 2px 3px #666666;
+    height: 37px;
+    right: 265px;
+    padding: 60px 0;
+    position: absolute;
+    text-align: center;
+    top: -53px;
+    width: 305px;
 }
 
 /* div du message */
@@ -201,10 +226,10 @@ img {
 }
 
 .logoAccueil {
-    bottom: 85px;
-    left: 540px;
+    bottom: -20px;
+    left: 25px;
     position: relative;
-    width: 440px;
+    width: 430px;
 }
 
 /* profil */
@@ -255,6 +280,80 @@ img {
     padding : 4px;
     width:40px;
 }
+
+
+/* partie commentaire */
+
+
+a {
+    text-decoration:none;
+    color:#d02b55;
+}
+
+a:hover {
+    text-decoration:underline;
+    color:#d02b55;
+}
+
+*{margin:0;padding:0;}
+
+ol.timeline {
+    list-style:none;font-size:1.2em;
+}
+
+ol.timeline li { 
+    display:none;
+    position:relative;padding:.7em 0 .6em 0;
+}
+
+
+
+#main {
+    width:500px; margin-top:20px; margin-left:100px;
+    font-family:"Trebuchet MS";
+}
+
+#flash {
+    margin-left:100px;
+}
+
+.comment_box {
+    background-color:#D3E7F5; border-bottom:#ffffff solid 1px; padding-top:3px
+}
+
+.box {
+    height:85px;
+    border-bottom:#dedede dashed 1px;
+    margin-bottom:20px;
+}
+
+textarea {
+    color:#000000;
+    font-size:14px;
+    border:#666666 solid 2px;
+    height:124px;
+    margin-bottom:10px;
+    width:200px;
+}
+
+.titles {
+    font-size:13px;
+    padding-left:10px;
+}
+
+.star {
+    color:#FF0000; font-size:16px; font-weight:bold;
+    padding-left:5px;
+}
+.com_img {
+    float: left; width: 80px; height: 80px; margin-right: 20px;
+}
+
+.com_name {
+    font-size: 16px; color: rgb(102, 51, 153); font-weight: bold;
+}
+        
+/* end of comment */
 
 /* menu */
 

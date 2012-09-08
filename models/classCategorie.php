@@ -73,5 +73,7 @@ class Categorie extends Classe {
             return $array;
         }
     }
+    
+
 }
 ?>

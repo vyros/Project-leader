@@ -123,3 +123,20 @@
     </div>
 
 </div><!-- end of a section -->
+<img class="imgAcc" src="images/demilogo2.png"/>
+
+<div class="conteneur_bulle">
+    <div class="messageBulle">
+        <?php
+        if ($idUtilisateur !== null) {
+        ?>
+            <span>Voici votre liste de projets sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
+        <?php
+        } else {
+        ?>    
+            <span>Voici une liste de projets posté sur le site. Pour voir la description complète des projets, vous devez être inscrit ou vous connecter ! <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});">Cliquez ici</a></span>
+        <?php    
+        } 
+        ?>
+    </div>
+</div>	

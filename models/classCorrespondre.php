@@ -28,7 +28,20 @@ class Correspondre extends Classe {
 
         return Site::getConnexion()->doSql($requete);
     }
-
+    
+    public function modifCorrespondance($p_prj_id, $p_tab_categ) {
+        
+        if(is_null($p_tab_categ))
+            return null;
+        
+        foreach ($p_tab_categ as $p_categ_id) {
+            $requete = " UPDATE correspondre SET cat_id = ". $p_categ_id." WHERE prj_id = ".$p_prj_id;
+            echo $requete;
+//            Site::getConnexion()->doSql($requete);
+        }
+        
+        
+    }
     public function getIdProjet() {
         return $this->m_prj_id;
     }

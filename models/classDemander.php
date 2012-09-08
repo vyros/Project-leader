@@ -33,7 +33,21 @@ class Demander extends Classe {
             Site::getConnexion()->doSql($requete);
         }
     }
-
+    
+    public function modifDemande($p_prj_id, $p_tab_cpt) {
+        
+        if(is_null($p_tab_cpt))
+            return null;
+        
+        foreach ($p_tab_cpt as $p_cpt_id) {
+            $requete = "UPDATE demander SET cpt_id = '". $p_cpt_id."' WHERE prj_id = '".$p_prj_id."' ";
+            echo $requete;
+//            Site::getConnexion()->doSql($requete);
+         
+        }
+        
+    }
+    
     /**
      * Obtenir N elements. tous les enregistrements sont retournés par défaut.
      * 

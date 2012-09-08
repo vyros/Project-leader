@@ -343,3 +343,10 @@ function getView(params){
         }
     }
 }
+
+function visibilite(message,champ)
+{
+  if(document.getElementById)
+    document.getElementById(champ).innerHTML = message;
+} 
+

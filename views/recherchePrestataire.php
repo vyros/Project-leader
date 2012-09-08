@@ -9,7 +9,7 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_projet.png"/> 
+            <img src="images/icone_recherche.png"/> 
             <div class="header_02">Choisissez les options du projet recherché</div>
         </div>
 
@@ -139,7 +139,7 @@
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_projet.png"/> 
+            <img src="images/icone_result_recherche.png"/> 
             <div class="header_02">Résultat(s)</div>
         </div>
         
