@@ -54,28 +54,6 @@ class Site {
         return self::getInstance();
     }
 
-    static public function minit() {
-
-        /**
-          include_once 'models/classClasse.php';
-          include_once 'models/classStatut.php';
-          include_once 'models/classCategorie.php';
-          include_once 'models/classClient.php';
-          include_once 'models/classCompetence.php';
-          include_once 'models/classConnexion.php';
-          include_once 'models/classCorrespondre.php';
-          include_once 'models/classDemander.php';
-          include_once 'models/classParticiper.php';
-          include_once 'models/classPrestataire.php';
-          include_once 'models/classProjet.php';
-          include_once 'models/classUtilisateur.php';
-          include_once 'models/classEtat.php';
-         */
-        //setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
-        session_start();
-        //return self::getInstance();
-    }
-
     /**
      * Déconnexion.
      * 
@@ -300,5 +278,4 @@ class Site {
         return $t_array;
     }
 }
-
 ?>

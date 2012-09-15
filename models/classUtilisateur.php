@@ -88,8 +88,7 @@ class Utilisateur extends Classe {
                 " WHERE uti_id = " . Connexion::getSafeString($p_id) . " LIMIT 1;";
 
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
-           $arraytmp = Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC);
-        
+        //$arraytmp = Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC);
         
         if ($array != null) {
             foreach ($array as $key => $value) {
@@ -173,6 +172,22 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getFetchArray($requete);
     }
+    
+    public function getLstNLastOpenedProjetIds($p_n = 0) {
+
+        $requete = " SELECT pa.prj_id FROM participer as pa " .
+                " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
+                " WHERE pa.uti_id = " . $this->getSafePrivate("id") .
+                " AND pr.eta_id = 2 ORDER BY pa.par_date DESC ";
+
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return Site::getConnexion()->getFetchArray($requete);
+    }
 
     /**
      * Obtenir les N derniers projets de l'utilisateur. 
@@ -183,6 +198,21 @@ class Utilisateur extends Classe {
      *  retourne null si aucun.
      */
     public function getLstNLastProjetIds($p_n = 0) {
+
+        $requete = " SELECT prj_id FROM participer " .
+                " WHERE uti_id = " . $this->getSafePrivate("id") .
+                " ORDER BY par_date DESC ";
+
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
+
+        return Site::getConnexion()->getFetchArray($requete);
+    }
+    
+    public function getLstNLastCommentIds($p_n = 0) {
 
         $requete = " SELECT prj_id FROM participer " .
                 " WHERE uti_id = " . $this->getSafePrivate("id") .
@@ -446,7 +476,5 @@ class Utilisateur extends Classe {
     public function setVille($p_value) {
         return $this->setPrivate("ville", $p_value);
     }
-
 }
-
 ?>

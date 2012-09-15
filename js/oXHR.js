@@ -1,5 +1,4 @@
 /* ** cartouche ********************************************************************* */
-/* Script complet de gestion d'une requête de type XMLHttpRequest                     */
 /*                                                                                    */
 /* ********************************************************************************** */
 
@@ -53,10 +52,8 @@ function getController(params) {
     }
 }
 
-function getContenuOnglet(params) {
-    
-    alert('okk');
-    
+function getOngletActif(params) {
+
     var properties = $.extend(  
     {
         'id' : ''
@@ -64,37 +61,25 @@ function getContenuOnglet(params) {
     
     $.post("utilisateur.php", {
         'action' : 'onglet',
-        'contenu' : "cours",
-        'id' : properties.id
+        'id' : properties.id,
+        'contenu' : $("#ongletsProfil .active").attr("id")
     }, function(data) {
         $('#contenuOnglet').html(data);
     })
+}
 
-/*
+function setOngletActif(params) {
+
     var properties = $.extend(  
-    {  
-        'controller' : 'utilisateur',  
-        'action' : 'onglet',
-        'contenu' : '',
-        'id' : ''
+    {
+        'id' : '',
+        'contenu' : ''
     }, params || {} );
     
-    properties.contenu = $('#ongletsProfil .active').val().toString();
+    $("#ongletsProfil .active").removeClass("active");
+    $("#"+properties.contenu).attr("class", "active");
     
-    //    $('#ongletsProfil').children().each(function(){
-    //        if($(this).attr('class') == 'active') {
-    //            properties.contenu = $(this).attr('name');
-    //        }
-    //    });
-    
-    $.post(properties.controller.toString() + ".php", {
-        'action' : properties.action,
-        'contenu' : properties.contenu,
-        'id' : properties.id
-    }, function(data) {
-        $('#contenuOnglet').html(data);
-    })
-    */
+    getOngletActif({'id' : properties.id});
 }
 
 // Private
@@ -344,7 +329,7 @@ function getView(params){
     }
 }
 
-function visibilite(message,champ) {
+function visibilite(message, champ) {
     if(document.getElementById)
         document.getElementById(champ).innerHTML = message;
 } 

@@ -56,7 +56,6 @@ if (!is_null($action) && $action == "activer") {
 
     Site::kill();
     $view = "accueil";
-    
 } elseif (!is_null($action) && $action == "onglet") {
 
     $contenu = (isset($_POST["contenu"])) ? $_POST["contenu"] : null;
@@ -65,7 +64,6 @@ if (!is_null($action) && $action == "activer") {
 
     if (!is_null($idUtilisateur) && $idUtilisateur != Site::getUtilisateur()->getId()) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
-        
     } elseif (!is_null($idUtilisateur) && $idUtilisateur == Site::getUtilisateur()->getId()) {
         $objUtilisateur = &Site::getUtilisateur();
     }
@@ -74,18 +72,34 @@ if (!is_null($action) && $action == "activer") {
         $message[erreur] = "Utilisateur inexistant !";
     } else {
         if (!is_null($contenu)) {
+
+            $lstObjets = null;
             switch ($contenu) {
                 case 'closed':
-                    $lstObjets = Utilisateur::getLstProjetObjsFromArrayIds($objUtilisateur->getLstNLastClosedProjetIds(5));
+                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastClosedProjetIds(5));
+                    if (!is_null($t_array)) {
+                        foreach ($t_array as $value) {
+                            $lstObjets[] = new Projet($value);
+                        }
+                    }
                     break;
 
                 case 'opened':
-                    $lstObjets = Utilisateur::getLstObjsFromFunction($objUtilisateur->getLstNLastOpenedProjetIds(5));
+                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastOpenedProjetIds(5));
+                    if (!is_null($t_array)) {
+                        foreach ($t_array as $value) {
+                            $lstObjets[] = new Projet($value);
+                        }
+                    }
                     break;
 
                 case 'comments':
-                    $lstObjets = Utilisateur::getLstObjsFromFunction($objUtilisateur->getLstNLastCommentIds(5));
-                    echo 'commentaires';
+                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastCommentIds(5));
+                    if (!is_null($t_array)) {
+                        foreach ($t_array as $value) {
+                            $lstObjets[] = new Projet($value);
+                        }
+                    }
                     break;
 
                 default:
@@ -204,7 +218,6 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
-    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -212,7 +225,6 @@ if (!is_null($view) && $view == "accueil") {
 
     if (!is_null(Site::getUtilisateur()) && is_null($idUtilisateur)) {
         $objUtilisateur = &Site::getUtilisateur();
-        
     } elseif (!is_null($idUtilisateur)) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
     }
@@ -220,51 +232,26 @@ if (!is_null($view) && $view == "accueil") {
     if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
         include 'views/accueilVisiteur.php';
-        
     } else {
         $lstCompetenceIds = Competence::getLstNIds();
         $lstUserCompetenceIds = $objUtilisateur->getCompetenceIds();
 
         include 'views/utilisateurProfil.php';
         ?>
+        <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
         <script type="text/javascript">
-            $(document).ready(function(){
-                // Bug via la fonction                
-                //getContenuOnglet({'id' : '<?php //echo $objUtilisateur->getId();        ?>'});
-                        
-                // Chargement des onglets
-                $.post("utilisateur.php", {
-                    'action' : 'onglet',
-                    'contenu' : 'closed',
-                    'id' : '<?php echo $objUtilisateur->getId(); ?>'
-                }, function(data) {
-                    $('#contenuOnglet').html(data);
-                })
+            $(document).ready(function(){             
+                getOngletActif({'id' : '<?php echo $objUtilisateur->getId(); ?>'});
 
                 // Calendrier
                 $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
                 $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-                        
+                                                
                 // Liste
                 $("#demo-input-local").tokenInput([
         <?php
         if (!is_null($lstCompetenceIds)) {
             foreach ($lstCompetenceIds as $value) {
-                $objCompetence = new Competence($value);
-                ?>
-                                {
-                                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                },
-                <?php
-            }
-        }
-        ?>
-            ],
-            { prePopulate: [
-        <?php
-        if (!is_null($lstUserCompetenceIds)) {
-            foreach ($lstUserCompetenceIds as $value) {
                 $objCompetence = new Competence($value);
                 ?>
                                     {
@@ -275,8 +262,23 @@ if (!is_null($view) && $view == "accueil") {
             }
         }
         ?>
-                ]});
-        });
+                ],
+                { prePopulate: [
+        <?php
+        if (!is_null($lstUserCompetenceIds)) {
+            foreach ($lstUserCompetenceIds as $value) {
+                $objCompetence = new Competence($value);
+                ?>
+                                        {
+                                            id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                            name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                        },
+                <?php
+            }
+        }
+        ?>
+                    ]});
+            });
         </script>
         <?php
     }

@@ -82,9 +82,9 @@
 
         <div id="menuProfil">
             <ul id="ongletsProfil">
-                <li name="realises" class="active"><a href=""> Projets réalisés </a></li>
-                <li name="cours"><a href=""> Projets en cours </a></li>
-                <li name="commentaires"><a href=""> Commentaire </a></li>
+                <li id="closed" class="active"><a onclick="setOngletActif({'id' : '<?php echo $objUtilisateur->getId(); ?>', 'contenu' : 'closed'});"> Projets réalisés </a></li>
+                <li id="opened"><a onclick="setOngletActif({'id' : '<?php echo $objUtilisateur->getId(); ?>', 'contenu' : 'opened'});"> Projets en cours </a></li>
+                <li id="comments"><a onclick="setOngletActif({'id' : '<?php echo $objUtilisateur->getId(); ?>', 'contenu' : 'comments'});"> Commentaires </a></li>
             </ul>
             <div id="contenuOnglet">
                 <p>Chargement...</p>
