@@ -23,37 +23,48 @@
             <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
 
             <label for="categorie">Catégorie : </label><br />
-            <select name="categorie" id="categorie">
-                <option selected>-- Selectionnez une catégorie --</option>
-                <?php
-                if (!is_null($lstCategorieIds)) {
-                    foreach ($lstCategorieIds as $value) {
-                        $objCategorie = new Categorie($value);
-                        echo "<option value=\"" . $objCategorie->getId() . "\">" . $objCategorie->getLibelle() . "</option>";
-                    }
-                }
-                ?>
-            </select><br /><br />
-
-            <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
-            <input type="text" id="demo-input-local" name="blah" /><br /><br />
+            <input type="text" id="demo-input-local" name="blahCat" /><br /><br />
             
             <script type="text/javascript">
                 $(document).ready(function() {
                     $("#demo-input-local").tokenInput([
-<?php
-if (!is_null($lstCompetenceIds)) {
-    foreach ($lstCompetenceIds as $value) {
-        $objCompetence = new Competence($value);
-        ?>
-                                {
-                                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                },   
-        <?php
-    }
-}
-?>
+                    <?php
+                    if (!is_null($lstCategorieIds)) {
+                        foreach ($lstCategorieIds as $value) {
+                            $objCategorie = new Categorie($value);
+                            ?>
+                            {
+                                id: <?php echo str_replace('"', '', json_encode($objCategorie->getId())); ?>, 
+                                name: "<?php echo str_replace('"', '', json_encode($objCategorie->getLibelle())); ?>"
+                            },   
+                            <?php
+                        }
+                    }
+                    ?>
+                ]);
+                });
+            </script>
+            <br /><br />
+
+            <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
+            <input type="text" id="demo-input-local2" name="blahComp" /><br /><br />
+            
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#demo-input-local2").tokenInput([
+                    <?php
+                    if (!is_null($lstCompetenceIds)) {
+                        foreach ($lstCompetenceIds as $value) {
+                            $objCompetence = new Competence($value);
+                            ?>
+                            {
+                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                            },   
+                            <?php
+                        }
+                    }
+                    ?>
             ]);
         });
             </script>

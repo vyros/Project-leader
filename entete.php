@@ -4,7 +4,6 @@ header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
 Site::init();
-//Site::minit();
 
 /**
  * Formule

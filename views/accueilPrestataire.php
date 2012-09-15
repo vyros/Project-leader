@@ -4,16 +4,6 @@
  * and open the template in the editor.
  */
 ?>
-<style>
-    .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
-</style>
-<script>
-    $(function() {
-        $( "#progressbar" ).progressbar({
-            value: <?php echo Site::getUtilisateur()->getRatio(); ?>
-        });
-    });
-</script>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -32,7 +22,7 @@
                         foreach ($lstUtilisateurProjetObjs as $objProjet) {
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                <?php echo "- ".$objProjet->getLibelle(); ?></a><br />
+                                <?php echo "- " . $objProjet->getLibelle(); ?></a><br />
                             <?php
                             $i++;
                         }
@@ -153,22 +143,22 @@
                                         ?>									
                                     </td>
 
-                                    <td id="dateCreation">
-                                        <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                        <?php echo $objProjet->getDateCreation(); ?>											
+                                    <td id="date">
+                                        <input type="hidden" name="date" value="<?php echo $objProjet->getDate(); ?>">
+                                        <?php echo $objProjet->getDate(); ?>											
                                     </td>
-                                    
+
                                     <td id="access">
                                         <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                                             <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
                                     </td>
-                                    
+
                                     <td id="detail" class="details" colspan="6">
                                         <?php
-                                            echo $objProjet->getDescription();
+                                        echo $objProjet->getDescription();
                                         ?>
                                     </td>
-                                    
+
                                 </tr>
                                 <?php
                             }
@@ -187,16 +177,16 @@
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>
 
-       <div class="conteneur_bulle">
-            <div class="messageBulle">
-                <?php
-                if (isset($message)){
-                    include_once('views/message.php');
-                }else {
-                ?>
-                <span>Bonjour <?php echo Site::getUtilisateur()->getLogin();?>, vous avez 0 notification(s).</span>
-                <?php
-                }
-                ?>
-            </div>
-        </div>
+<div class="conteneur_bulle">
+    <div class="messageBulle">
+        <?php
+        if (isset($message)) {
+            include_once('views/message.php');
+        } else {
+            ?>
+            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez 0 notification(s).</span>
+            <?php
+        }
+        ?>
+    </div>
+</div>

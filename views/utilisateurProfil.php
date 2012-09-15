@@ -11,7 +11,17 @@
 
         <div class="header_wrapper">
             <img src="images/ex_avatar.png"/>
-            <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?></div>
+            <?php
+            if ($objUtilisateur->getStatut() == "prestataire") {
+                ?>
+                <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?> : prestataire de compétences</div>
+                <?php
+            } else {
+                ?>
+                <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?> : porteur de projets</div>
+                <?php
+            }
+            ?>
         </div>
 
         <form id="up1">
@@ -29,6 +39,10 @@
             <label for="datepicker">Date de naissance : </label><br />
             <input id="datepicker" name="datepicker" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getDdn(); ?>"/><br /><br />
 
+            <label for="presentation">Présentation : </label><br />
+            <!--input id="presentation" name="presentation" class="infoProfil" type="text" value=""/-->
+            <textarea id="presentation" name="presentation" class="infoProfil"><?php echo $objUtilisateur->getPresentation(); ?></textarea><br /><br />
+
             <label for="ville">Localisé(e) à : </label><br />
             <input id="ville" name="ville" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getVille(); ?>"/><br /><br />
 
@@ -39,45 +53,11 @@
             <input id="cv" name="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br /><br />
 
             <?php
-            if ($objUtilisateur->getStatut() instanceof Prestataire) {
+            if ($objUtilisateur->getStatut() == "prestataire") {
                 ?>
 
                 <label for="demo-input-local">Compétence(s) : </label><br />
                 <input type="text" id="demo-input-local" name="blah" /><br /><br />
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $("#demo-input-local").tokenInput([
-    <?php
-    if (!is_null($lstCompetenceIds)) {
-        foreach ($lstCompetenceIds as $value) {
-            $objCompetence = new Competence($value);
-            ?>
-                                {
-                                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                },
-            <?php
-        }
-    }
-    ?>
-            ],
-            { prePopulate: [
-    <?php
-    if (!is_null($lstUserCompetenceIds)) {
-        foreach ($lstUserCompetenceIds as $value) {
-            $objCompetence = new Competence($value);
-            ?>
-                                    {
-                                        id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                        name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                    },
-            <?php
-        }
-    }
-    ?>
-                ]});
-        });
-                </script>
                 <?php
             }
 
@@ -100,39 +80,16 @@
 
     <div class="sub_content_col">
 
-        <!--div class="header_wrapper">
-            <img src="images/ex_avatar.png"/>
-            <div class="header_02"><?php //echo $objUtilisateur->getLogin(); ?></div>
-        </div-->
-
-        <form id="up2">
-
-            <input type="hidden" name="action" value="profil"/>
-            <input type="hidden" name="controller" value="utilisateur"/>
-
-            <label for="statut">Statut : </label><br />
-            <input id="statut" name="" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getStatut(); ?>"/><br /><br />
-
-            <label for="presentation">Présentation : </label><br />
-            <input id="presentation" name="" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br /><br />
-
-            <label for="competence">Compétences : </label><br />
-            <input id="competence" name="" class="infoProfil" type="text" value="<?php echo 'tmp'; ?>"/><br /><br />
-
-            <div id="menuProfil">
-                <ul id="ongletsProfil">
-                    <li name="realises" class="active"><a href=""> Projets réalisés </a></li>
-                    <li name="cours"><a href=""> Projets en cours </a></li>
-                    <li name="commentaires"><a href=""> Commentaire </a></li>
-                </ul>
-                <div id="contenuOnglet">
-
-                </div>
+        <div id="menuProfil">
+            <ul id="ongletsProfil">
+                <li name="realises" class="active"><a href=""> Projets réalisés </a></li>
+                <li name="cours"><a href=""> Projets en cours </a></li>
+                <li name="commentaires"><a href=""> Commentaire </a></li>
+            </ul>
+            <div id="contenuOnglet">
+                <p>Chargement...</p>
             </div>
-
-            <input type="button" onclick="getFormulary('up2');" value="Valider" />
-
-        </form>
+        </div>
 
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
@@ -140,9 +97,24 @@
     </div>
 
 </div>
-<script type="text/javascript">
-    $(function() {
-        $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
-        $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-    });
-</script>
+<img class="imgAcc" src="images/demilogo2.png"/>
+
+<div class="conteneur_bulle">
+    <div class="messageBulle">
+        <?php
+        if (isset($message)) {
+            include_once('views/message.php');
+        } else {
+            if (Site::getUtilisateur()->getLogin() == $objUtilisateur->getLogin()) {
+                ?>
+                <span>Voici votre profil, vous avez la possibilité de modifier vos informations (...)</span>
+                <?php
+            } else {
+                ?>
+                <span>Voici le profil de <?php echo $objUtilisateur->getNom(); ?>, vous avez 0 notification(s).</span>
+                <?php
+            }
+        }
+        ?>
+    </div>
+</div>

@@ -115,7 +115,6 @@ if (isset($_GET['activer']) && isset($_GET['id']) && isset($_GET['token'])) {
 ?>
 <script>
     $(document).ready(function(){
-        getHeader();
         getView({'controller' : 'utilisateur', 'view' : 'accueil'});
     });
 </script>

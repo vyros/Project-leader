@@ -9,7 +9,9 @@ class Projet extends Classe {
     private $m_budget;
     private $m_echeance;
     private $m_date;
-
+    private $m_cat_array;
+    private $m_cpt_array;
+    
     public function __construct() {
         parent::__construct(func_get_args());
     }
@@ -28,6 +30,14 @@ class Projet extends Classe {
             $this->m_budget = stripslashes($array[prj_budget]);
             $this->m_echeance = stripslashes($array[prj_echeance]);
             $this->m_date = stripslashes($array[prj_date]);
+            
+            $this->m_cat_array = $this->getCategorieIds();
+            if(!is_null($this->m_cat_array))
+                sort($this->m_cat_array); 
+            
+            $this->m_cpt_array = $this->getCompetenceIds();
+            if(!is_null($this->m_cpt_array))
+                sort($this->m_cpt_array);
         }
     }
 
@@ -89,9 +99,30 @@ class Projet extends Classe {
                 " prj_echeance = '" . $this->getEcheance() . "', etat_id = '" . $this->getEtatId() . "'," .
                 " WHERE pjr_id = " . $this->getId() . ";";
 
-        $idProjet = Site::getConnexion()->doSql($requete, "projet");
-        if ($idProjet) {
-            return new Projet($idProjet);
+        $tabAjouterCat = array_diff($this->m_cat_array, $this->getCategorieIds());
+        $tabSupprimerCat = array_diff($this->getCategorieIds(), $this->m_cat_array);
+        
+        $tabAjouterComp = array_diff($this->m_cpt_array, $this->getCompetenceIds());
+        $tabSupprimerComp = array_diff($this->getCompetenceIds(), $this->m_cpt_array);
+        
+        if (Site::getConnexion()->doSql($requete)) {
+            
+            if(is_null($tabAjouterCat))
+                $tabAjouterCat = $this->m_cat_array;
+            
+            Correspondre::addCorrespondance($this->m_id, $tabAjouterCat);
+            Correspondre::removeCategorie($this->m_id, $tabSupprimerCat);
+            
+            return $this;
+            
+            if(is_null($tabAjouterComp))
+                $tabAjouterComp = $this->m_cat_array;
+            
+            Correspondre::addCorrespondance($this->m_id, $tabAjouterComp);
+            Correspondre::removeCategorie($this->m_id, $tabSupprimerCat);
+            
+            return $this;
+            
         }
         return null;
     }
@@ -201,12 +232,26 @@ class Projet extends Classe {
         return $this->m_echeance;
     }
 
-    public function getDateCreation() {
+    public function getDate() {
         return $this->m_date;
     }
 
     public function __toString() {
         return "id : $this->m_id ; libelle : $this->m_libelle";
+    }
+    
+    public function setCategories($p_value) {
+		if (!is_null($p_value))
+        	sort($p_value);
+
+        $this->m_cat_array = $p_value;
+    }
+    
+    public function setCompetences($p_value) {
+        if (!is_null($p_value))
+        	sort($p_value);
+
+        $this->m_cpt_array = $p_value;
     }
     
     public function setDescription($p_value) {

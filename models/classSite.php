@@ -19,7 +19,7 @@ class Site {
      */
     private static $connexion = false;
 
-    public function __construct() {
+    private function __construct() {
         // Ici la connexion existe
         self::getConnexion();
     }
@@ -48,29 +48,29 @@ class Site {
         include_once 'models/classEtat.php';
         include_once 'models/classNotification.php';
         include_once 'models/classEffectuer.php';
-        
+
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         return self::getInstance();
     }
-    
+
     static public function minit() {
 
         /**
-        include_once 'models/classClasse.php';
-        include_once 'models/classStatut.php';
-        include_once 'models/classCategorie.php';
-        include_once 'models/classClient.php';
-        include_once 'models/classCompetence.php';
-        include_once 'models/classConnexion.php';
-        include_once 'models/classCorrespondre.php';
-        include_once 'models/classDemander.php';
-        include_once 'models/classParticiper.php';
-        include_once 'models/classPrestataire.php';
-        include_once 'models/classProjet.php';
-        include_once 'models/classUtilisateur.php';
-        include_once 'models/classEtat.php';
-        */
+          include_once 'models/classClasse.php';
+          include_once 'models/classStatut.php';
+          include_once 'models/classCategorie.php';
+          include_once 'models/classClient.php';
+          include_once 'models/classCompetence.php';
+          include_once 'models/classConnexion.php';
+          include_once 'models/classCorrespondre.php';
+          include_once 'models/classDemander.php';
+          include_once 'models/classParticiper.php';
+          include_once 'models/classPrestataire.php';
+          include_once 'models/classProjet.php';
+          include_once 'models/classUtilisateur.php';
+          include_once 'models/classEtat.php';
+         */
         //setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         //return self::getInstance();
@@ -127,6 +127,34 @@ class Site {
 
     static public function setController($p_controller) {
         $_POST[controller] = "$p_controller";
+    }
+
+    static public function dateMysql2Picker($p_date) {
+
+        if (is_null($p_date))
+            return null;
+
+        $array = split("-", $p_date);
+
+        $annee = $array[0];
+        $mois = $array[1];
+        $jour = $array[2];
+
+        return $mois . "/" . $jour . "/" . $annee;
+    }
+
+    static public function datePicker2Mysql($p_date) {
+
+        if (is_null($p_date))
+            return null;
+
+        $array = split("/", $p_date);
+
+        $mois = $array[0];
+        $jour = $array[1];
+        $annee = $array[2];
+
+        return $annee . "-" . $mois . "-" . $jour;
     }
 
     static public function getInformation($p_libelle = null) {
@@ -229,14 +257,14 @@ class Site {
 
         return $p_array;
     }
-    
+
     /**
      *
      * @param array $p_array Un tableau à plusieurs niveaux.
      * @return array Un tableau à un niveau. 
      */
     static public function getOneLevelAssArray($p_array) {
-        
+
         $t_array = null;
         while (is_array($p_array[0])) {
             $t_array = $p_array[0];
@@ -247,21 +275,21 @@ class Site {
 
         return $t_array;
     }
-    
+
     /**
      *
      * @param array $p_array Un tableau à plusieurs niveaux.
      * @return array Un tableau à un niveau. 
      */
     static public function getOneLevelIntArray($p_array) {
-        
+
         //TODO
         $t_array = null;
         while (is_array($p_array[0])) {
             $t_array[] = $p_array[0][0];
-            
-            if(isset($p_array[1])) {
-                for($i = 0; $i < count($p_array); $i++) {
+
+            if (isset($p_array[1])) {
+                for ($i = 0; $i < count($p_array); $i++) {
                     $p_array[$i] = $p_array[$i + 1];
                 }
                 unset($p_array[--$i]);

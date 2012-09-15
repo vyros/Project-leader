@@ -21,33 +21,32 @@ class Demander extends Classe {
         }
     }
 
-    public function addDemande($p_prj_id, $p_tab_cpt) {
+    public static function addCompetences($p_prj_id, $p_tab_cpt) {
 
-        if(is_null($p_tab_cpt))
+        if (is_null($p_tab_cpt) || count($p_tab_cpt) == 0)
             return null;
-        
-        foreach ($p_tab_cpt as $t_cpt_id) {
+
+        foreach ($p_tab_cpt as $cpt_id) {
             $requete = "INSERT INTO demander (prj_id, cpt_id) " .
-                    "VALUES ('" . $p_prj_id . "', '" . $t_cpt_id . "')";
-            
+                    "VALUES (" . $p_prj_id . ", " . $cpt_id . ");";
+
             Site::getConnexion()->doSql($requete);
         }
     }
-    
-    public function modifDemande($p_prj_id, $p_tab_cpt) {
-        
-        if(is_null($p_tab_cpt))
+
+    public static function removeCompetences($p_prj_id, $p_cat_array) {
+
+        if (is_null($p_cat_array) || count($p_cat_array) == 0)
             return null;
-        
-        foreach ($p_tab_cpt as $p_cpt_id) {
-            $requete = "UPDATE demander SET cpt_id = '". $p_cpt_id."' WHERE prj_id = '".$p_prj_id."' ";
-            echo $requete;
-//            Site::getConnexion()->doSql($requete);
-         
+
+        foreach ($p_cat_array as $cat_id) {
+            $requete = " DELETE FROM correspondre WHERE cat_id = " . $cat_id .
+                    " AND prj_id = " . $p_prj_id . ";";
+
+            Site::getConnexion()->doSql($requete);
         }
-        
     }
-    
+
     /**
      * Obtenir N elements. tous les enregistrements sont retournés par défaut.
      * 

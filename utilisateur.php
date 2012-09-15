@@ -23,10 +23,10 @@ if (!is_null($action) && $action == "activer") {
             $objTmp->editUtilisateur();
 
             $message[succes] = "Activation effectuée avec succès, vous pouvez à présent vous connecter !";
-            $view = "accueil";
         } else {
             $message[erreur] = "Erreur !";
         }
+        $view = "accueil";
     }
 } elseif (!is_null($action) && $action == "ajouter") {
 
@@ -56,15 +56,18 @@ if (!is_null($action) && $action == "activer") {
 
     Site::kill();
     $view = "accueil";
-    //$view = "deconnexion";
+    
 } elseif (!is_null($action) && $action == "onglet") {
 
     $contenu = (isset($_POST["contenu"])) ? $_POST["contenu"] : null;
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
 
-    if (!is_null($idUtilisateur)) {
+    if (!is_null($idUtilisateur) && $idUtilisateur != Site::getUtilisateur()->getId()) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
+        
+    } elseif (!is_null($idUtilisateur) && $idUtilisateur == Site::getUtilisateur()->getId()) {
+        $objUtilisateur = &Site::getUtilisateur();
     }
 
     if (is_null($objUtilisateur)) {
@@ -88,16 +91,18 @@ if (!is_null($action) && $action == "activer") {
                 default:
                     break;
             }
-            
+
             include 'views/utilisateurOnglet.php';
         }
     }
 } elseif (!is_null($action) && $action == "profil") {
 
     $id = (isset($_POST["id"])) ? $_POST["id"] : null;
+    $_POST["id"] = (!is_null($id)) ? null : null;
     $nom = (isset($_POST["nom"])) ? $_POST["nom"] : null;
     $prenom = (isset($_POST["prenom"])) ? $_POST["prenom"] : null;
-    $ddn = (isset($_POST["ddn"])) ? $_POST["ddn"] : null;
+    $ddn = (isset($_POST["datepicker"])) ? $_POST["datepicker"] : null;
+    $presentation = (isset($_POST["presentation"])) ? $_POST["presentation"] : null;
     $ville = (isset($_POST["ville"])) ? $_POST["ville"] : null;
     $cv = (isset($_POST["cv"])) ? $_POST["cv"] : null;
     $tel = (isset($_POST["tel"])) ? $_POST["tel"] : null;
@@ -112,11 +117,12 @@ if (!is_null($action) && $action == "activer") {
     $objUtilisateur->setNom($nom);
     $objUtilisateur->setPrenom($prenom);
     $objUtilisateur->setDdn($ddn);
+    $objUtilisateur->setPresentation($presentation);
     $objUtilisateur->setVille($ville);
     $objUtilisateur->setCvs($cv);
     $objUtilisateur->setTel($tel);
     $objUtilisateur->setCompetenses($lstCompetenceIds);
-    
+
     if (is_null($objUtilisateur->editUtilisateur())) {
         $message[erreur] = "Erreur lors de la modification !";
     } else {
@@ -156,38 +162,18 @@ if (!is_null($action) && $action == "activer") {
 }
 
 /**
- * Message 
- */
-//include 'views/message.php';
-
-/**
  * Vues
  * 
- * Chargement du header lorsqu'une vue est définie
  */
-if (!is_null($view)) {
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            getHeader();
-        });
-    </script>
-    <?php
-}
-
 if (!is_null($view) && $view == "accueil") {
 
     if (Site::getUtilisateur() instanceof Utilisateur) {
-        ?>
-        <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
-        <?php
-
         /**
          * L'accueil d'un utilisateur montre ses N derniers projets 
          */
         $lstUtilisateurProjetObjs = Site::getUtilisateur()->getLstNLastProjetObjs(5);
 
-        if (Site::getUtilisateur()->getStatut() instanceof Client) {
+        if (Site::getUtilisateur()->getStatut() == "client") {
             /**
              * L'accueill d'un client montre une liste de N prestataires 
              */
@@ -200,12 +186,22 @@ if (!is_null($view) && $view == "accueil") {
             $lstProjetObjs = Projet::getLstNObjs(10);
             include 'views/accueilPrestataire.php';
         }
+        ?>
+        <style>
+            .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
+        </style>
+        <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+        <script>
+            $(document).ready(function(){
+                $( "#progressbar" ).progressbar({
+                    value: <?php echo Site::getUtilisateur()->getRatio(); ?>
+                });
+            });
+        </script>
+        <?php
     } else {
         include 'views/accueilVisiteur.php';
     }
-} elseif (!is_null($view) && $view == "deconnexion") {
-    include 'views/utilisateurDeconnexion.php';
-    
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
     
@@ -214,27 +210,29 @@ if (!is_null($view) && $view == "accueil") {
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
 
-    if (!is_null(Site::getUtilisateur())) {
+    if (!is_null(Site::getUtilisateur()) && is_null($idUtilisateur)) {
         $objUtilisateur = &Site::getUtilisateur();
-    }
-
-    if (!is_null($idUtilisateur)) {
+        
+    } elseif (!is_null($idUtilisateur)) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
     }
 
     if (is_null($objUtilisateur)) {
         $message[erreur] = "Utilisateur inexistant !";
+        include 'views/accueilVisiteur.php';
+        
     } else {
         $lstCompetenceIds = Competence::getLstNIds();
         $lstUserCompetenceIds = $objUtilisateur->getCompetenceIds();
-        
+
         include 'views/utilisateurProfil.php';
         ?>
         <script type="text/javascript">
             $(document).ready(function(){
                 // Bug via la fonction                
-                //getContenuOnglet({'id' : '<?php //echo $objUtilisateur->getId(); ?>'});
-                                
+                //getContenuOnglet({'id' : '<?php //echo $objUtilisateur->getId();        ?>'});
+                        
+                // Chargement des onglets
                 $.post("utilisateur.php", {
                     'action' : 'onglet',
                     'contenu' : 'closed',
@@ -242,9 +240,58 @@ if (!is_null($view) && $view == "accueil") {
                 }, function(data) {
                     $('#contenuOnglet').html(data);
                 })
-            });
+
+                // Calendrier
+                $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
+                $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
+                        
+                // Liste
+                $("#demo-input-local").tokenInput([
+        <?php
+        if (!is_null($lstCompetenceIds)) {
+            foreach ($lstCompetenceIds as $value) {
+                $objCompetence = new Competence($value);
+                ?>
+                                {
+                                    id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                    name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                },
+                <?php
+            }
+        }
+        ?>
+            ],
+            { prePopulate: [
+        <?php
+        if (!is_null($lstUserCompetenceIds)) {
+            foreach ($lstUserCompetenceIds as $value) {
+                $objCompetence = new Competence($value);
+                ?>
+                                    {
+                                        id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                        name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                                    },
+                <?php
+            }
+        }
+        ?>
+                ]});
+        });
         </script>
         <?php
     }
 }
-?>
+
+/**
+ * Chargement du header lorsqu'une vue est définie
+ */
+if (!is_null($view)) {
+    include_once('views/message.php');
+    ?>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            getHeader();
+        });
+    </script>
+    <?php
+}

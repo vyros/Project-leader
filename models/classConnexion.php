@@ -2,7 +2,7 @@
 
 class Connexion {
 
-    CONST SERVEUR = 'localhost';
+    CONST SERVEUR = 'hp';
     CONST UTILISATEUR = 'project-leader';
     CONST PASSWORD = 'L9psTTUGyZUArLE6';
     CONST SEL_PASSWORD = '';
@@ -105,7 +105,14 @@ class Connexion {
     public function getFetchRessource($requete) {
         return mysql_query($requete);
     }
-
+    
+    public static function getSafeString($p_value) {
+        return mysql_real_escape_string($p_value);
+    }
+    
+    public static function getOriginalString($p_value) {
+        return stripslashes($p_value);
+    }
 }
 
 ?>

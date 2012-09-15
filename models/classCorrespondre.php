@@ -21,27 +21,32 @@ class Correspondre extends Classe {
         }
     }
     
-    public function addCorrespondance($p_prj_id, $p_cat_id) {
+    public static function addCategories($p_prj_id, $p_cat_array) {
 
-        $requete = "INSERT INTO correspondre (prj_id, cat_id) " .
-                "VALUES ('" . $p_prj_id . "','" . $p_cat_id . "')";
+         if (is_null($p_cat_array) || count($p_cat_array) == 0)
+            return null;
 
-        return Site::getConnexion()->doSql($requete);
+        foreach ($p_cat_array as $cat_id) {
+            $requete = "INSERT INTO correspondre (prj_id, cat_id) " .
+                    "VALUES (" . $cat_id . ", " . $p_prj_id . ");";
+
+            Site::getConnexion()->doSql($requete);
+        }
     }
     
-    public function modifCorrespondance($p_prj_id, $p_tab_categ) {
-        
-        if(is_null($p_tab_categ))
+    public static function removeCategories($p_prj_id, $p_cat_array) {
+
+        if (is_null($p_cat_array) || count($p_cat_array) == 0)
             return null;
-        
-        foreach ($p_tab_categ as $p_categ_id) {
-            $requete = " UPDATE correspondre SET cat_id = ". $p_categ_id." WHERE prj_id = ".$p_prj_id;
-            echo $requete;
-//            Site::getConnexion()->doSql($requete);
+
+        foreach ($p_cat_array as $cat_id) {
+            $requete = " DELETE FROM correspondre WHERE cat_id = " . $cat_id .
+                    " AND prj_id = " . $p_prj_id . ";";
+
+            Site::getConnexion()->doSql($requete);
         }
-        
-        
     }
+
     public function getIdProjet() {
         return $this->m_prj_id;
     }
@@ -49,7 +54,14 @@ class Correspondre extends Classe {
     public function getIdCategorie() {
         return $this->m_cat_id;
     }
+    
+    public static function getCategorieIdsFromPjtId($p_id) {
 
+        $requete = " SELECT cat_id FROM correspondre " .
+                " WHERE prj_id = " . $p_id . ";";
+
+        return Site::getOneLevelIntArray(Site::getConnexion()->getFetchArray($requete));
+    }
 }
 
 ?>

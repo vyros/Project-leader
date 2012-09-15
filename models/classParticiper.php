@@ -28,7 +28,7 @@ class Participer extends Classe {
      * @param int $p_prj_id Id du projet.
      * @return boolean Retourne vrai si succès, sinon retourne non.
      */
-    public function addParticipation($p_uti_id, $p_prj_id) {
+    public static function addParticipation($p_uti_id, $p_prj_id) {
 
         $requete = "INSERT INTO participer (prj_id, uti_id, par_date) " .
                 "VALUES ('" . $p_prj_id . "','" . $p_uti_id . "','" . date("c") . "')";

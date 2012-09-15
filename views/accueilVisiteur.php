@@ -46,4 +46,4 @@
         </ul>
     </div>
 
-</div><!-- end of a section -->
+</div>

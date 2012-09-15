@@ -4,7 +4,7 @@
 /* ********************************************************************************** */
 
 // Write less, do more
-function getActivation(params){
+function getActivation(params) {
 
     var properties = $.extend(  
     {  
@@ -28,7 +28,7 @@ function getActivation(params){
     }
 }
 
-function getController(params){
+function getController(params) {
     
     var properties = $.extend(  
     {  
@@ -344,9 +344,8 @@ function getView(params){
     }
 }
 
-function visibilite(message,champ)
-{
-  if(document.getElementById)
-    document.getElementById(champ).innerHTML = message;
+function visibilite(message,champ) {
+    if(document.getElementById)
+        document.getElementById(champ).innerHTML = message;
 } 
 
