@@ -22,7 +22,7 @@
             <label for="libelle">Intitulé : </label><br />
             <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="categorie">Catégorie : </label><br />
+            <label for="categorie">Catégorie(s) concernée(s) : </label><br />
             <input type="text" id="demo-input-local" name="blahCat" /><br /><br />
             
             <script type="text/javascript">
@@ -44,7 +44,6 @@
                 ]);
                 });
             </script>
-            <br /><br />
 
             <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local2" name="blahComp" /><br /><br />
@@ -79,8 +78,12 @@
             <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" /><br /><br />
 
             <label for="doc">Document attaché : </label><br />
-            <input id="doc" type='file' name='echeance' size='25' maxlength='10' value="" /><br /><br />
+            <input id="doc" type='file' name='doc' size='25' maxlength='10' value="" /><br /><br />
 
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+            <label for="fichier">Fichier : </label><br />
+            <input type="file" name="fichier"><a onClick="inserLigne();">add</a><br />
+            
             <input type="button" onclick="getFormulary('pa1');" value="Valider" />
 
         </form>

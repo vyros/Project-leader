@@ -11,7 +11,7 @@
  * @author nicolas.gard
  */
 class Effectuer extends Classe {
-    
+
     private $m_uti_id;
     private $m_not_id;
 
@@ -28,16 +28,19 @@ class Effectuer extends Classe {
         if ($array != null) {
             $this->m_uti_id = $p_id;
             $this->m_not_id = stripslashes($array[not_id]);
+        } else {
+            unset($this);
         }
     }
-    
-    public static function addEvent($idUti, $idNot){
-        
+
+    public static function addEvent($idUti, $idNot) {
+
         $requete = "INSERT INTO effectuer (uti_id, not_id) " .
-                "VALUES ('". $idUti ."','" . $idNot . "')";
+                "VALUES ('" . $idUti . "','" . $idNot . "')";
         echo $requete;
 //        return Site::getConnexion()->doSql($requete);
     }
+
 }
 
 ?>

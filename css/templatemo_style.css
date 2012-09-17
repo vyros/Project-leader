@@ -281,7 +281,9 @@ img {
     width:40px;
 }
 
-
+.fancybox-custom .fancybox-skin {
+    box-shadow: 0 0 50px #222;
+}
 /* partie commentaire */
 
 

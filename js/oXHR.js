@@ -100,6 +100,69 @@ function getData(form) {
     return objJSon;
 }
 
+function getEvaluation(params){
+    
+    var properties = $.extend(  
+    {  
+        'controller' : 'utilisateur',  
+        'view' : 'note',
+        'idProjet' : '',
+        'idUtilisateur' : ''
+    }, params || {} );  
+  
+    if (properties.controller == ''){  
+        console.log('Erreur, un contrôleur est necessaire !');
+        
+    } else {
+        if(properties.view == ''){
+            console.log('Erreur, une vue est necessaire !');
+            
+        } else {
+            $.post(properties.controller.toString() + ".php", {
+                'view' : properties.view,
+                'idProjet' : properties.idProjet,
+                'idUtilisateur' : properties.idUtilisateur
+            }, function(data) {
+                $('#evaluation').html(data);
+            })
+        }
+    }
+}
+
+function setEvaluation(params){
+    
+    var properties = $.extend(  
+    {  
+        'controller' : 'utilisateur',  
+        'action' : 'note',
+        'idFormulaire' : $("#idFormulaire").attr("value"),
+        'idProjet' : '',
+        'idUtilisateur' : '',
+        'score' : $("#noteE").attr("value")
+    }, params || {} );  
+  
+    if (properties.controller == ''){  
+        console.log('Erreur, un contrôleur est necessaire !');
+        
+    } else {
+        if(properties.view == ''){
+            console.log('Erreur, une vue est necessaire !');
+            
+        } else {
+            $.post(properties.controller.toString() + ".php", {
+                'action' : properties.action,
+                'idFormulaire' : properties.idFormulaire,
+                'idProjet' : properties.idProjet,
+                'idUtilisateur' : properties.idUtilisateur,
+                'score' : properties.score
+                
+            }, function(data) {
+                getView({'controller' : 'projet', 'view' : 'liste', 'id' : properties.idProjet, 'message' : ''})
+            })
+        }
+    }
+}
+
 function getHeader() {
     $.post('entete.php', function(data){
         $('#entete').html(data);
@@ -327,6 +390,11 @@ function getView(params){
             })
         }
     }
+}
+
+function inserLigne(){
+    
+    alert('ok');
 }
 
 function visibilite(message, champ) {

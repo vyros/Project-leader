@@ -40,6 +40,7 @@ class Site {
         include_once 'models/classConnexion.php';
         include_once 'models/classCorrespondre.php';
         include_once 'models/classDemander.php';
+        include_once 'models/classEvaluation.php';
         include_once 'models/classParticiper.php';
         include_once 'models/classPosseder.php';
         include_once 'models/classPrestataire.php';
@@ -48,12 +49,32 @@ class Site {
         include_once 'models/classEtat.php';
         include_once 'models/classNotification.php';
         include_once 'models/classEffectuer.php';
+        include_once 'models/classDocument.php';
 
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
         session_start();
         return self::getInstance();
     }
 
+    
+    /**
+     * Test la validité d'un Id
+     * 
+     * @param String $p_id L'Id a tester
+     * 
+     * @return Integer
+     */
+    static public function isValidId($p_id = null) {
+
+        if (!is_numeric($p_id))
+            return null;
+        
+        if ((Integer)$p_id <= 0)
+            return null;
+        
+        return (Integer)$p_id;
+    }
+    
     /**
      * Déconnexion.
      * 

@@ -138,7 +138,7 @@ return false;
         <div id="participant" class="infoProjet">
             Participant :
             <?php
-            $lstParticipants = PARTICIPER::voirParticipationPresta($idProjet);
+            $lstParticipants = $objProjet->getPrestataireIds();
             if (!is_null($lstParticipants)) {
                 foreach ($lstParticipants as $value) {
                     $objUtilisateur = new Utilisateur($value);
@@ -155,7 +155,7 @@ return false;
         <div id="client" class="infoProjet">
                 Client :
                 <?php
-                $lstClient = PARTICIPER::voirParticipationCli($idProjet);
+                $lstClient = $objProjet->getPorteurIds();
                 if (!is_null($lstClient)) {
                     
                     if(mysql_num_rows($lstClient)== 1)			

@@ -3,16 +3,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-$idProjet = $lstProjetIds[0][0];
-$objProjet = new Projet($idProjet);
-//print_r($lstProjetIds);
-$idUti = Site::getUtilisateur()->getId();
 ?>
-
 <script type="text/javascript">
     $(function() {
-    
-    
         $(".commenter").click(function() {
 
             var idUti = $("#idUti").val();
@@ -52,11 +45,7 @@ $idUti = Site::getUtilisateur()->getId();
             }
             return false;
         });
-
-
     });
-
-
 </script>
 
 <div class="content_col_w420 fl">
@@ -68,22 +57,24 @@ $idUti = Site::getUtilisateur()->getId();
             <div class="header_02">Fiche de votre projet </div>
         </div>
         </br></br>
-        <form id="pf1">    
+
+        <form id="pf1">
 
             <input type="hidden" name="action" value="editer"/>
             <input type="hidden" name="controller" value="projet"/>
-            <input type="hidden" name="idProjet" value="<?php echo $idProjet; ?>"/>
+            <input type="hidden" name="id" value="<?php echo $objProjet->getId(); ?>"/>
 
-            <label for="infoPrj">Titre du projet : </label>
-            <input id="titre" accesskey="l" type='text' name='titre' size='18' maxlength='100' value="<?php echo $objProjet->getLibelle(); ?>" />
+            <label for="libelle">Titre du projet : </label><br />
+            <input id="libelle" accesskey="l" type='text' name='libelle' size='18' maxlength='100' value="<?php echo $objProjet->getLibelle(); ?>" />
             </br></br>
 
-            <label for="infoPrj">Description du projet : </label></br>
+            <label for="description">Description du projet : </label></br>
             <textarea name="description" id="description"><?php echo $objProjet->getDescription(); ?></textarea>
             </br></br>
 
-            <label for="demo-input-local">Catégorie du projet : </label>
+            <label for="blahCat">Catégorie du projet : </label><br />
             <input type="text" id="demo-input-local" name="blahCat" />
+            <br /><br />
 
 
             <script type="text/javascript">
@@ -92,46 +83,43 @@ $idUti = Site::getUtilisateur()->getId();
                     $("#demo-input-local").tokenInput([
 <?php
 $lstCategorieIds = Categorie::getLstNIds();
-
 if (!is_null($lstCategorieIds)) {
     foreach ($lstCategorieIds as $value) {
 
         $objCategorie = new Categorie($value);
         ?>
-                                            {
-                                                id: <?php echo str_replace('"', '', json_encode($objCategorie->getId())); ?>, 
-                                                name: "<?php echo str_replace('"', '', json_encode($objCategorie->getLibelle())); ?>"
-                                            },   
+                            {
+                                id: <?php echo str_replace('"', '', json_encode($objCategorie->getId())); ?>, 
+                                name: "<?php echo str_replace('"', '', json_encode($objCategorie->getLibelle())); ?>"
+                            },   
         <?php
     }
 }
 ?>
-                        ],
-                        { prePopulate: [
+        ],
+        { prePopulate: [
 <?php
 $lstCategorieIds = $objProjet->getCategorieIds();
 if (!is_null($lstCategorieIds)) {
     foreach ($lstCategorieIds as $idCategorie) {
         $objCategorie = new Categorie($idCategorie);
         ?>
-                                                {
-                                                    id: <?php echo $idCategorie; ?>, 
-                                                    name: "<?php echo $objCategorie->getLibelle(); ?>"
-                                                },
+                                {
+                                    id: <?php echo $idCategorie; ?>, 
+                                    name: "<?php echo $objCategorie->getLibelle(); ?>"
+                                },
         <?php
     }
 }
 ?>					
-                            ]});
+            ]});
             
-                    });
+    });
             </script>
-            </br></br>
 
-
-            <label for="demo-input-local">Compétence(s) demandée(s) : </label>
+            <label for="blahComp">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local2" name="blahComp" />
-
+            <br /><br />
 
             <script type="text/javascript">
                 $(document).ready(function() {
@@ -143,111 +131,209 @@ if (!is_null($lstCompetenceIds)) {
     foreach ($lstCompetenceIds as $value) {
         $objCompetence = new Competence($value);
         ?>
-                                            {
-                                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                                            },   
+                            {
+                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
+                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
+                            },   
         <?php
     }
 }
 ?>
-                        ],
-                        { prePopulate: [
+        ],
+        { prePopulate: [
 <?php
 $lstCompetenceIds = $objProjet->getCompetenceIds();
 if (!is_null($lstCompetenceIds)) {
     foreach ($lstCompetenceIds as $idCompetence) {
         $objCompetence = new Competence($idCompetence);
         ?>
-                                                {
-                                                    id: <?php echo $idCompetence; ?>, 
-                                                    name: "<?php echo $objCompetence->getLibelle(); ?>"
-                                                },
+                                {
+                                    id: <?php echo $idCompetence; ?>, 
+                                    name: "<?php echo $objCompetence->getLibelle(); ?>"
+                                },
         <?php
     }
 }
 ?>					
-                            ]});
+            ]});
             
-                    });
+    });
             </script>
-            </br></br>
 
-            <label for="infoPrj">Budget : </label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+            <label for="fichier">Fichier : </label><br />
+            <?php
+            $lstDoc = Document::getDoc($objProjet->get, $idProjet);
+            //var_dump($listComProjet);
+            if (!is_null($lstDoc)) {
+                foreach ($lstDoc as $value) {
+
+                    $objDoc = new Document($value);
+                    $nom = $objDoc->getLibelle();
+                    $chemin = $objDoc->getChemin();
+                    ?>
+                    <input type="file" name="fichier" value="<?php echo $chemin; ?>">
+
+                    <?php
+                }
+            }
+            ?>
+            <br /><br />
+
+            <label for="budget">Budget : </label><br />
             <input id="budget" accesskey="l" type='text' name='budget' size='18' maxlength='100' value="<?php echo $objProjet->getBudget(); ?>" />
             </br></br>
-            <label for="infoPrj">Délai fixé : </label>
-            <input id="delai" accesskey="l" type='text' name='delai' size='18' maxlength='100' value="<?php echo $objProjet->getEcheance(); ?>" />
-            </br></br>
-            <label for="infoPrj">Date de création : </label>
-            <input id="ddc" accesskey="l" type='text' name='ddc' size='18' maxlength='100' value="<?php echo $objProjet->getDateCreation(); ?>" />
-            </br></br>
-            <?php
-            $idEtat = $objProjet->getEtatId();
-            $monEtat = new Etat($idEtat);
-            ?>
-            <label for="infoPrj">Statut : </label>
-            <input id="statut" accesskey="l" type='text' name='statut' size='18' maxlength='100' value="<?php echo $monEtat->getLibelle(); ?>" />
-            </br></br>
-            <div id="participant" class="infoProjet">
-                Participant :
-                <?php
-                $lstParticipants = PARTICIPER::voirParticipationPresta($idProjet);
-                if (!is_null($lstParticipants)) {
-                    foreach ($lstParticipants as $value) {
-                        $objUtilisateur = new Utilisateur($value);
-                        echo ('- ');
-                        ?>
-                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
-                            <?php echo $objUtilisateur->getLogin(); ?></a><br />
-                        <?php
-                    }
-                }
-                ?>
-            </div>
-            </br></br>
-            <div id="client" class="infoProjet">
-                Client :
-                <?php
-                $lstClient = PARTICIPER::voirParticipationCli($idProjet);
-                if (!is_null($lstClient)) {
 
-                    if (mysql_num_rows($lstClient) == 1) {
-                        $object = mysql_fetch_object($lstClient);
-                        $idClientProjet = $object->uti_id;
-                        $objUtilisateur = new Utilisateur($idClientProjet);
-                        echo ('- ');
-                        ?>
-                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
-                            <?php echo $objUtilisateur->getLogin(); ?></a><br />
-                            <?php
-                        }
-                    }
-                    ?>
-            </div>
+            <label for="echeance">Echéance fixée : </label><br />
+            <input id="echeance" accesskey="l" type='text' name='echeance' size='18' maxlength='100' value="<?php echo $objProjet->getEcheance(); ?>" />
             </br></br>
+
+            <label for="date">Date de création : </label><br />
+            <input id="date" accesskey="l" type='text' name='date' size='18' maxlength='100' value="<?php echo $objProjet->getDate(); ?>" />
+            </br></br>
+
+            <label for="etat">Etat : </label><br />
+            <input id="etat" accesskey="l" type='text' name='etat' size='18' maxlength='100' value="<?php echo $objProjet->getEtatObj(); ?>" />
+            </br></br>
+
+            <div id="demo">
+                <?php
+                $evaluation = false;
+                if ($objProjet->getEtatId() == "3" && $objProjet->isPorteur(Site::getUtilisateur()))
+                    $evaluation = true;
+                ?>
+                <table id="listePrestataire">
+                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauPrestataire">
+                        <thead>
+                            <tr>
+                                <th class="sorting_asc">Prestataire</th>
+                                <th class="sorting_asc">Accès fiche</th>
+                                <?php
+                                if ($evaluation) {
+                                    ?>
+                                    <th class="sorting_asc">Évaluer</th>
+                                    <?php
+                                }
+                                ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (!is_null($lstParticipants = $objProjet->getPrestataireIds())) {
+                                foreach ($lstParticipants as $value) {
+                                    $objUtilisateur = new Utilisateur($value);
+                                    ?>
+                                    <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+                                        <td id="id">
+                                            <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>">
+                                            <?php echo $objUtilisateur; ?>											
+                                        </td>
+
+                                        <td id="access">
+                                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                                <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                        </td>
+                                        <?php
+                                        if ($evaluation) {
+                                            ?>
+                                            <td id="note">
+                                                <a onclick="getEvaluation({'idUtilisateur' : '<?php echo $objUtilisateur->getId(); ?>', 'idProjet' : '<?php echo $objProjet->getId(); ?>'});">
+                                                    <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  											
+                                            </td>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tr>
+                                    <?php
+                                    unset($objUtilisateur);
+                                }
+                            } else {
+                                // Aucun
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </table>
+            </div>
+
+            <div id="demo">
+                <?php
+                $evaluation = false;
+                if ($objProjet->getEtatId() == "3" && $objProjet->isPrestataire(Site::getUtilisateur()))
+                    $evaluation = true;
+                ?>
+                <table id="listePorteur">
+                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauPorteur">
+                        <thead>
+                            <tr>
+                                <th class="sorting_asc">Porteur</th>
+                                <th class="sorting_asc">Accès fiche</th>
+                                <?php
+                                if ($evaluation) {
+                                    ?>
+                                    <th class="sorting_asc">Évaluer</th>
+                                    <?php
+                                }
+                                ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if (!is_null($lstParticipants = $objProjet->getPorteurIds())) {
+                                foreach ($lstParticipants as $value) {
+                                    $objUtilisateur = new Utilisateur($value);
+                                    ?>
+                                    <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+                                        <td id="id">
+                                            <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>">
+                                            <?php echo $objUtilisateur; ?>											
+                                        </td>
+
+                                        <td id="access">
+                                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                                <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                        </td>
+                                        <?php
+                                        if ($evaluation) {
+                                            ?>
+                                            <td id="note">
+                                                <a onclick="getEvaluation({'idUtilisateur' : '<?php echo $objUtilisateur->getId(); ?>', 'idProjet' : '<?php echo $objProjet->getId(); ?>'});">
+                                                    <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  											
+                                            </td>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tr>
+                                    <?php
+                                    unset($objUtilisateur);
+                                }
+                            } else {
+                                // Aucun
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </table>
+            </div>
 
             <div class="margin_bottom_30"></div>
-
-            <input type="button" onclick="getFormulary('pf1');" value="Valider" />
-
+            <?php
+            if ($objProjet->isPorteur(Site::getUtilisateur())) {
+                ?>
+                <input type="button" onclick="getFormulary('pf1');" value="Valider" />
+                <?php
+            }
+            ?>
             <div class="margin_bottom_20 border_bottom"></div>
             <div class="margin_bottom_30"></div>
-
-
-
         </form>
 
         <div id="main">
-
             <ol  id="update" class="timeline">
-
                 <?php
                 $listComProjet = Notification::getComProjet($idProjet);
-                //var_dump($listComProjet);
                 if (!is_null($listComProjet)) {
                     foreach ($listComProjet as $value) {
-
                         $objCom = new Notification($value);
                         $titre = $objCom->getTitre();
                         $nom = $objCom->getNom();
@@ -257,17 +343,13 @@ if (!is_null($lstCompetenceIds)) {
                         <li class="box" style="display:list-item;">
                             <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
                             <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCom->getUti(); ?>'});"><?php echo $nom ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
-        <?php echo $libelle; ?>
+                            <?php echo $libelle; ?>
                         </li>
-
                     </ol>
-
-
-
-        <?php
-    }
-}
-?>
+                    <?php
+                }
+            }
+            ?>
 
             <div id="flash" align="left"></div>
 
@@ -300,6 +382,7 @@ if (!is_null($lstCompetenceIds)) {
     </div>
 
 </div>
+
 <div class="content_col_w420 fr">
 
     <div class="sub_content_col">
@@ -307,18 +390,21 @@ if (!is_null($lstCompetenceIds)) {
 
         <div class="conteneur_bulleAcc">
             <div class="messageBulle">
-<?php
-if (isset($message)) {
-    include_once('views/message.php');
-} else {
-    ?>
+                <?php
+                if (isset($message)) {
+                    include_once('views/message.php');
+                } else {
+                    ?>
                     <span>Sur cette page, vous pouvez modifier les informations de votre projet : "<?php echo $objProjet->getLibelle(); ?>". N'oubliez pas de valider ces modifications !</span>
                     <?php
                 }
                 ?>
             </div>
         </div>
-
     </div>
 
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+    <div id="evaluation"></div>
 </div>

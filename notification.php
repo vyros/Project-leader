@@ -1,8 +1,7 @@
 <?php
 
 header("Content-Type: text/plain");
-//faudra mexpliquer pourquoi quand on inclue d class dan la fct init de la class site il percute rien... A VERIFIER JIM
-//include_once("models/classEffectuer.php");
+
 include_once("models/classSite.php");
 Site::init();
 
@@ -12,13 +11,16 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
 /**
  * Actions 
  */
-if (!is_null($action) && $action == "addCom ") {
+if (!is_null($action) && $action == "addCom ") { //commentaire
 
+    if ($idPjt = Site::isValidId($_POST['idPjt'])) {
+        $objProjet = new Projet($idPjt);
+        $tabClientProjet = $objProjet->getPorteurIds();
+    }
+        
     $idUti = $_POST['idUti'];
     $nom = $_POST['nomUti'];
-    $idPjt = $_POST['idPjt'];
     
-    $tabClientProjet = PARTICIPER::voirParticipationCli($idPjt);
     $i = 0;
     while ($row = mysql_fetch_array($tabClientProjet)) {
         $idClientProjet[$i] = "$row[uti_id]";
@@ -39,12 +41,12 @@ if (!is_null($action) && $action == "addCom ") {
 ?>
 <li class="box">
     <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
-    <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $idUti; ?>'});"><?php echo $nom; ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a Ã©crit : <br />
+    <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $idUti; ?>'});"><?php echo $nom; ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
     <?php echo $libelle; ?>
 </li>
             
 <?php
-} else if (!is_null($action) && $action == "newMsg ") {
+} else if (!is_null($action) && $action == "message ") {
     
     echo "test";
 //    $idUti2 = explode(',', $_POST["blah"]);
@@ -58,9 +60,9 @@ if (!is_null($action) && $action == "addCom ") {
  */
 if (!is_null($view)) {
     ?>
-    <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
-    <script language="javascript" type="text/javascript" src="js/shadowbox/shadowbox.js"></script>
-    <link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css">
+     <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
+    <script type="text/javascript" src="js/jquery.fancybox.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.fancybox.css" media="screen" />
     <script language="javascript" type="text/javascript" src="js/jquery.tokeninput.js"></script>
     <?php
 }
@@ -105,61 +107,55 @@ if (!is_null($view) && $view == "messagerie") {
     
 }
 ?>
-<script type="text/javascript">// <![CDATA[
-Shadowbox.init({enableKeys:false,displayNav:false});
-  Shadowbox.init({
-language: "fr",
-players: ["html"]
-}); ;
-// ]]></script>
-
- <script type="text/javascript">// <![CDATA[
-function initializeXhrObject()
-{
-	var xhr_object = null; //je declare une variable et je la mÃ© a null
-	
-	if(window.XMLHttpRequest) //un test pour connaitre lorigine de son navigateur mais on senfou c pour tester si son navigateur date de matusalem 
-		xhr_object = new XMLHttpRequest(); //pour firefox / chrome etc... je declare mon objet grace Ã  XMLHttpRequest
-	else if(window.ActiveXObject) 
-		xhr_object = new ActiveXObject("Microsoft.XMLHTTP"); //pour ie la meme chose
-	else { 
-		alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
-		return; } 
+ 
+ <script type="text/javascript"> 
+$(function() {
 	 
-	return xhr_object;// enfin je le retourne
-}
+ $(".fancybox").fancybox();
 
-function openShadowbox(url)
-{
+			/*
+			 *  Button helper. Disable animations, hide close button, change title type and content
+			 */
 
-//je te met des petit numero pour comprendre lordre dexecution exemple *1*//
-	var content;
-	var xhrObj=initializeXhrObject();//jinitialise mon objet
-	xhrObj.open("POST", url, true);//*1*// jouvre une requete ajax de type post (un pe comme <form method="post"></form>
-	xhrObj.onreadystatechange = function(){
-											if(xhrObj.readyState != 4) // la requete ajax se fait en 4 etape la 4eme Ã©tant "jai fini"
-												return;
-											content=xhrObj.responseText;//*4*//quand jai fini je stock le contenu de la page qui porte ladresse du parametre "url"
-											Shadowbox.open({ //ensuite jouvre la shadowbox de maniere classique
-        content:    content,//dans le content je met le contenu de ma variable
-        player:     "html",//je lui dis quil va recevoir du html
-		enableKeys : false, //je desactive les touches qui fon des actions bizar avec la shadowbox (genre q pour quitter)
-        height:     320,//la hauteur 
-        width:      900//la largeur
-    });
+			$('.fancybox-buttons').fancybox({
+				openEffect  : 'none',
+				closeEffect : 'none',
 
-											}
-	xhrObj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");//*2*//le header
-	xhrObj.send();	//*3*//jenvoi ma requete post
-	
-}
+				prevEffect : 'none',
+				nextEffect : 'none',
 
-function fenetreNouveauMsg(idUtilisateur) 
-{ 
+				closeBtn  : false,
 
-        openShadowbox('views/nouveauMessage.php?idUti='+idUtilisateur);
+				helpers : {
+					title : {
+						type : 'inside'
+					},
+					buttons	: {}
+				},
 
-}
+				afterLoad : function() {
+					this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+				}
+			});
+ 
+		 
+
+			/*
+			 *  Open manually
+			 */
+
+			 
+
+			$("#fancybox-manual-b").click(function() {
+				$.fancybox.open({
+					href : 'views/nouveauMessage.php',
+					type : 'iframe',
+					padding : 5
+				});
+			});
+
+			 
+		});
 </script>
 <script type="text/javascript">
 $(function() {

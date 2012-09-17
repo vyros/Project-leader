@@ -17,14 +17,12 @@
             <div class="testimonial_box">
                 <p>
                     <?php
-                    $i = 0;
                     if (!is_null($lstUtilisateurProjetObjs)) {
                         foreach ($lstUtilisateurProjetObjs as $objProjet) {
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                                 <?php echo "- " . $objProjet->getLibelle(); ?></a><br />
                             <?php
-                            $i++;
                         }
                     }
                     ?>
@@ -33,7 +31,7 @@
         </div>
 
         <?php
-        if ($i != 0) {
+        if (!is_null($lstUtilisateurProjetObjs)) {
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
@@ -69,7 +67,7 @@
 
         <div class="testimonial_box_wrapper">
             <div class="testimonial_box">
-                <div class="header_03"><a onclick=""><div id="progressbar"></div></a></div>
+                <div class="header_03"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil'});"><div id="progressbar"></div></a></div>
             </div>
         </div>
 

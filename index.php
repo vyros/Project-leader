@@ -26,10 +26,12 @@ Site::init();
         <script language="javascript" type="text/javascript" src="js/jquery.dataTables.js"></script>
         <script language="javascript" type="text/javascript" src="js/jquery.tokeninput.js"></script>
         <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
+        <script language="javascript" type="text/javascript" src="js/fonctions.js"></script>
 
         <script language="javascript" type="text/javascript">
             var varTable;
             var varTable2;
+            var varTableTest;
         </script>
     </head>
     <body>

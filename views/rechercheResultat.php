@@ -84,9 +84,9 @@ echo '</script>';
                                     ?>									
                                 </td>
 
-                                <td id="dateCreation">
-                                    <?php $date = new DateTime($objProjet->getDateCreation()); ?>
-                                    <input type="hidden" name="dateCreation" value="<?php echo $date->format('d-m-Y'); ?>">
+                                <td id="date">
+                                    <?php $date = new DateTime($objProjet->getDate()); ?>
+                                    <input type="hidden" name="date" value="<?php echo $date->format('d-m-Y'); ?>">
                                     <?php echo $date->format('d-m-Y'); ?>											
                                 </td>
 

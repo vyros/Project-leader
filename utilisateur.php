@@ -20,7 +20,7 @@ if (!is_null($action) && $action == "activer") {
         // a rendre mieux !!!
         if ($token == $objTmp->getToken()) {
             $objTmp->setActif(true);
-            $objTmp->editUtilisateur();
+            $objTmp->edit();
 
             $message[succes] = "Activation effectuée avec succès, vous pouvez à présent vous connecter !";
         } else {
@@ -41,7 +41,7 @@ if (!is_null($action) && $action == "activer") {
     } else {
 
         /* @var $objUtilisateur Utilisateur */
-        $objUtilisateur = Utilisateur::addUtilisateur($log, $mail, $mdp, $statut);
+        $objUtilisateur = Utilisateur::add($log, $mail, $mdp, $statut);
         if ($objUtilisateur instanceof Utilisateur) {
 
             include 'emails/emValidation.php';
@@ -56,6 +56,31 @@ if (!is_null($action) && $action == "activer") {
 
     Site::kill();
     $view = "accueil";
+    
+} elseif (!is_null($action) && $action == "note") {
+    
+    if ($idFormulaire = Site::isValidId($_POST[idFormulaire]))
+        ;
+    
+    if ($idProjet = Site::isValidId($_POST[idProjet]))
+        ;
+    
+    if ($idUtilisateur = Site::isValidId($_POST[idUtilisateur]))
+        ;
+    
+    if ($score = Site::isValidId($_POST[score]))
+        ;
+    
+    if (Evaluation::check($idUtilisateur, Site::getUtilisateur()->getId(), $idFormulaire, $idProjet)) {
+        $objEvaluation = Evaluation::add($idProjet, Site::getUtilisateur()->getId(), $idUtilisateur, $idFormulaire, $score);
+        $message[succes] = "Évaluation enregistrée !";
+        
+    } else {
+        $message[erreur] = "Évaluation déjà enregistrée !";
+    }
+    
+    $view = "accueil";
+    
 } elseif (!is_null($action) && $action == "onglet") {
 
     $contenu = (isset($_POST["contenu"])) ? $_POST["contenu"] : null;
@@ -137,7 +162,7 @@ if (!is_null($action) && $action == "activer") {
     $objUtilisateur->setTel($tel);
     $objUtilisateur->setCompetenses($lstCompetenceIds);
 
-    if (is_null($objUtilisateur->editUtilisateur())) {
+    if (is_null($objUtilisateur->edit())) {
         $message[erreur] = "Erreur lors de la modification !";
     } else {
         $message[succes] = "Modification réussie !";
@@ -218,6 +243,7 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
+    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -246,7 +272,7 @@ if (!is_null($view) && $view == "accueil") {
                 // Calendrier
                 $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
                 $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-                                                
+                                                                
                 // Liste
                 $("#demo-input-local").tokenInput([
         <?php
@@ -282,6 +308,16 @@ if (!is_null($view) && $view == "accueil") {
         </script>
         <?php
     }
+} elseif (!is_null($view) && $view == "note") {
+    if ($idProjet = Site::isValidId($_POST[idProjet]))
+        ;
+    
+    if ($idUtilisateur = Site::isValidId($_POST[idUtilisateur]))
+        ;
+    ?>
+    <script language="javascript" type="text/javascript" src="js/evaluation.js"></script>
+    <?php
+    include 'views/evaluation.php';
 }
 
 /**

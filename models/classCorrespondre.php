@@ -18,12 +18,14 @@ class Correspondre extends Classe {
         if ($array != null) {
             $this->m_prj_id = $p_id;
             $this->m_cat_id = stripslashes($array[cat_id]);
+        } else {
+            unset($this);
         }
     }
-    
+
     public static function addCategories($p_prj_id, $p_cat_array) {
 
-         if (is_null($p_cat_array) || count($p_cat_array) == 0)
+        if (is_null($p_cat_array) || count($p_cat_array) == 0)
             return null;
 
         foreach ($p_cat_array as $cat_id) {
@@ -33,7 +35,7 @@ class Correspondre extends Classe {
             Site::getConnexion()->doSql($requete);
         }
     }
-    
+
     public static function removeCategories($p_prj_id, $p_cat_array) {
 
         if (is_null($p_cat_array) || count($p_cat_array) == 0)
@@ -54,7 +56,7 @@ class Correspondre extends Classe {
     public function getIdCategorie() {
         return $this->m_cat_id;
     }
-    
+
     public static function getCategorieIdsFromPjtId($p_id) {
 
         $requete = " SELECT cat_id FROM correspondre " .
@@ -62,6 +64,7 @@ class Correspondre extends Classe {
 
         return Site::getOneLevelIntArray(Site::getConnexion()->getFetchArray($requete));
     }
+
 }
 
 ?>

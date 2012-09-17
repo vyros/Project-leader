@@ -52,9 +52,9 @@
                                     ?>											
                                 </td>
 
-                                <td id="dateCreation">
-                                    <input type="hidden" name="dateCreation" value="<?php echo $objProjet->getDateCreation(); ?>">
-                                    <?php echo $objProjet->getDateCreation(); ?>											
+                                <td id="date">
+                                    <input type="hidden" name="date" value="<?php echo $objProjet->getDate(); ?>">
+                                    <?php echo $objProjet->getDate(); ?>											
                                 </td>
 
                                 <td id="description">

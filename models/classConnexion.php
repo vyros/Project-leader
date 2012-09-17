@@ -2,7 +2,7 @@
 
 class Connexion {
 
-    CONST SERVEUR = 'hp';
+    CONST SERVEUR = 'localhost';
     CONST UTILISATEUR = 'project-leader';
     CONST PASSWORD = 'L9psTTUGyZUArLE6';
     CONST SEL_PASSWORD = '';

@@ -17,21 +17,5 @@ if (!is_null($message)) {
         <span> <?php echo $message; ?></span>
         <?php
     }
-    ?>
-
-    <div class="conteneur_bulle">
-        <div class="messageBulle">
-            <?php
-            if (isset($message)) {
-                include_once('views/message.php');
-            } else {
-                ?>
-                <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez 0 notification(s).</span>
-                <?php
-            }
-            ?>
-        </div>
-    </div>
-    <?php
 }
 ?>

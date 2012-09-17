@@ -147,7 +147,7 @@
 
         <div class="testimonial_box_wrapper">
             <div class="testimonial_box">
-                <div class="header_03"><a href="#"><div id="progressbar"></div></a></div>
+                <div class="header_03"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil'});"><div id="progressbar"></div></a></div>
 
             </div>
         </div>
@@ -159,3 +159,17 @@
 
 </div>
 <img class="imgAcc" src="images/demilogo2.png"/>
+
+<div class="conteneur_bulle">
+    <div class="messageBulle">
+        <?php
+        if (isset($message)) {
+            include_once('views/message.php');
+        } else {
+            ?>
+            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez 0 notification(s).</span>
+            <?php
+        }
+        ?>
+    </div>
+</div>

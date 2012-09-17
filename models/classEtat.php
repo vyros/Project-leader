@@ -22,17 +22,23 @@ class Etat extends Classe {
 
     public function exists($p_id) {
 
-        $requete = " SELECT * FROM categorie " .
-                " WHERE cat_id = " . $p_id . " LIMIT 1;";
+        $requete = " SELECT * FROM etat " .
+                " WHERE eta_id = " . $p_id . " LIMIT 1;";
 
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[eta_libelle]);
             $this->m_date = stripslashes($array[eta_date]);
+        } else {
+            unset($this);
         }
     }
-    
+
+    public function __toString() {
+        return $this->m_libelle;
+    }
+
     public function getId() {
         return $this->m_id;
     }
@@ -40,11 +46,11 @@ class Etat extends Classe {
     public function getLibelle() {
         return $this->m_libelle;
     }
-    
+
     public function getDate() {
         return $this->m_date;
     }
-    
+
 }
 
 ?>

@@ -8,7 +8,7 @@
         </div>
         
         <br />
-        <a onClick="fenetreNouveauMsg()" class="link_new_pm">Nouveau message priv&eacute;</a><br />
+        <a href="javascript:;" id="fancybox-manual-b" class="link_new_pm">Nouveau message priv&eacute;</a><br />
 
 
         <h3>Messages non-lus(<?php echo $nbreNonLu; ?>):</h3>

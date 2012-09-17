@@ -1,5 +1,4 @@
 <?php
-
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -61,7 +60,7 @@ if (Site::getUtilisateur()) {
             <li class="topmenu"><a onclick="getView({'controller' : 'notification', 'view' : 'messagerie'});" style="height:24px;line-height:24px;"><img src="images/icone_messagerie.png" alt="Messagerie"/></a></li>
         </ul>
 
-    <?php } else if (Site::getUtilisateur()->getStatut() == "prestataire") { ?>
+    <?php } elseif (Site::getUtilisateur()->getStatut() == "prestataire") { ?>
 
         <!-- Start css3menu.com BODY section -->
         <ul id="css3menu1" class="topmenu">

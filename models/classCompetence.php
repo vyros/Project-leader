@@ -7,7 +7,7 @@ class Competence extends Classe {
      * @var int 
      */
     private $m_id;
-    
+
     /**
      *
      * @var string 
@@ -27,6 +27,8 @@ class Competence extends Classe {
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[cpt_libelle]);
+        } else {
+            unset($this);
         }
     }
 
@@ -74,7 +76,7 @@ class Competence extends Classe {
     public function getId() {
         return $this->m_id;
     }
-    
+
     public function getLibelle() {
         return $this->m_libelle;
     }

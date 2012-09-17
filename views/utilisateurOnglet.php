@@ -7,7 +7,8 @@
 if (!is_null($lstObjets)) {
     echo '<ul>';
     foreach ($lstObjets as $obj) {
-        echo '<li>' . $obj . '</li>';
+        echo "<li><a onclick=\"getView({'controller' : 'projet', 'view' : 'liste', 'id' : '" . $obj->getId() . "'});\">" . $obj . "</a></li><br />";
+        //echo '<li>' . $obj . '</li><br />';
     }
     echo '</ul>';
 }

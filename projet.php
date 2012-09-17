@@ -13,52 +13,58 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
  */
 if (!is_null($action) && $action == "ajouter") {
 
-    $etatId = (isset($_POST["etat"])) ? $_POST["etat"] : null;
+    $idEtat = (isset($_POST["etat"])) ? $_POST["etat"] : null;
     $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
     $tabIdCompetence = explode(',', $_POST["blahComp"]);
     $tabIdCategorie = explode(',', $_POST["blahCat"]);
     $description = (isset($_POST["description"])) ? $_POST["description"] : null;
     $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
     $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
-
+    $tabFichiers = (isset($_POST["fichier"])) ? $_POST["fichier"] : null;
+    
     /* @var $objProjet Projet */
-    $objProjet = Projet::addProjet($etatId, $libelle, $description, $budget, $echeance);
-
+    $objProjet = Projet::add($idEtat, $libelle, $description, $budget, $echeance);
     if ($objProjet instanceof Projet) {
-        $idUtilisateur = Site::getUtilisateur()->getId();
 
-        Participer::addParticipation(Site::getUtilisateur()->getId(), $objProjet->getId());
-
+        // AUCUN TEST DE GETUTILISATEUR
+        $objProjet->addParticipation(Site::getUtilisateur()->getId());
+        
+        // Retirer les classes d'associations
         Correspondre::addCategories($objProjet->getId(), $tabIdCategorie);
-
         Demander::addCompetences($objProjet->getId(), $tabIdCompetence);
 
+        if (!is_null($tabFichiers))
+            Document::addDocument($fichier, date("c"), Site::getUtilisateur()->getId(), $objProjet->getId());
+
         $message[succes] = "Enregistrement effectué avec succès !";
+        $view = "liste";
+        
     } else {
-        $message[erreur] = "Erreur !";
+        $message[erreur] = "Erreur lors de l'enregistrement !";
+        $view = "ajouter";
     }
+    
 } elseif (!is_null($action) && $action == "editer") {
 
+    if ($idProjet = Site::isValidId($_POST["id"])) {
 
-    $idProjet = (isset($_POST["idProjet"])) ? $_POST["idProjet"] : null;
+//        $idEtat = (isset($_POST["idEtat"])) ? $_POST["idEtat"] : null;
+        $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+        $tabIdCompetence = explode(',', $_POST["blahComp"]);
+        $tabIdCategorie = explode(',', $_POST["blahCat"]);
+        $description = (isset($_POST["description"])) ? $_POST["description"] : null;
+        $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
+        $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
 
-    $etatId = (isset($_POST["etat"])) ? $_POST["etat"] : null;
-    $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
-    $tabIdCompetence = explode(',', $_POST["blahComp"]);
-    $tabIdCategorie = explode(',', $_POST["blahCat"]);
-    $description = (isset($_POST["description"])) ? $_POST["description"] : null;
-    $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
-    $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
+        /* @var $objProjet Projet */
+        $objProjet = new Projet($idProjet);
 
-
-    $objProjet = new Projet($idProjet);
-
-    $objProjet->setDescription($description);
-    $objProjet->setBudget($budget);
-    $objProjet->setEcheance($echeance);
-    $objProjet->setStatut($etatId);
-    $objProjet->setCategories($tabIdCategorie);
-    $objProjet->setCompetences($tabIdCompetence);
+        $objProjet->setBudget($budget);
+        $objProjet->setDescription($description);
+        $objProjet->setEcheance($echeance);
+//        $objProjet->setEtat($idEtat);
+        $objProjet->setCategories($tabIdCategorie);
+        $objProjet->setCompetences($tabIdCompetence);
 
 //    $objDemander = new Demander();
 //    $objDemander->modifDemande($idProjet, $tabIdCompetence);
@@ -66,19 +72,19 @@ if (!is_null($action) && $action == "ajouter") {
 //    $objCorrespondance = new Correspondre();
 //    $objCorrespondance->modifCorrespondance($idProjet, $tabIdCategorie);
 
+        if (is_null($objProjet->edit())) {
+            $message[erreur] = "Erreur lors de la modification !";
+        } else {
+            $message[succes] = "Modification réussie !";
+        }
 
-    if (is_null($objProjet->editProjet())) {
-        $message[erreur] = "Erreur lors de la modification !";
+        $view = "liste";
     } else {
-        $message[succes] = "Modification réussie !";
+        $message[erreur] = "Erreur lors de la modification !";
     }
-
-    $view = "liste";
-    $idTmp = $idProjet;
+} elseif (!is_null($action)) {
+    $message[erreur] = "Action inconnue !";
 }
-
-
-//include 'views/message.php';
 
 /**
  * Vues 
@@ -89,6 +95,7 @@ if (!is_null($view) && $view == "ajouter") {
     $lstCompetenceIds = Competence::getLstNIds();
 
     include 'views/projetAjouter.php';
+    
 } elseif (!is_null($view) && $view == "fini") {
 
     $idUtilisateur = null;
@@ -99,50 +106,30 @@ if (!is_null($view) && $view == "ajouter") {
 
     include 'views/projetFini.php';
 } elseif (!is_null($view) && $view == "liste") {
+    
+    $message[erreur] = (isset($_POST["message"])) ? $_POST["message"] : null;
+    $message[succes] = (isset($_POST["message"])) ? $_POST["message"] : null;
 
-    if (isset($idTmp) && $idTmp != "") {
-        $idProjet = $idTmp;
-    } else {
-        $idProjet = (isset($_POST["id"])) ? $_POST["id"] : null;
-    }
-
-    $lstProjetIds = Projet::getLstNIds(10);
-
-    $idUtilisateur = null;
-    if (Site::getUtilisateur() && !isset($_POST['all'])) {
-        $idUtilisateur = Site::getUtilisateur()->getId();
-        $lstProjetIds = Site::getUtilisateur()->getLstNLastProjetIds(10);
-    }
-
-    if (!is_null($idProjet)) {
-        unset($lstProjetIds);
-        $lstProjetIds[] = array(0 => $idProjet);
-    }
-
-    if ($lstProjetIds[1] == "") {
-
-        $idProjet = $lstProjetIds[0][0];
+    if ($objProjet instanceof Projet) {
+        // Projet récupéré (suite à un ajout ou une edition)
+        ;
+    } elseif ($idProjet = Site::isValidId($_POST["id"])) {
+        // Projet demandé (via getView)
         $objProjet = new Projet($idProjet);
-
+    } else {
+        // Pour liste de projets
+        ;
+    }
+    
+    $lstCategorieIds = Site::getOneLevelIntArray(Categorie::getLstNIds());
+    
+    
+    if (!is_null($objProjet)) {
+        
         //requete qui a pour result l'id CLIENT du projet selectionner
-        $lstClient = PARTICIPER::voirParticipationCli($idProjet);
-        if (mysql_num_rows($lstClient) == 1) {
-            $object = mysql_fetch_object($lstClient);
-            $idClientProjet = $object->uti_id;
-        }
-
-        // CA C NAZE
-//        $i = 0;
-//        while ($row = mysql_fetch_array($tabClientProjet)) {
-//            $idClientProjet[$i] = "$row[uti_id]";
-//        }
-
-        if ($idClientProjet[0] == $idUtilisateur) {
-
-            include 'views/projetFichePerso.php';
-        } else {
-            include 'views/projetFiche.php';
-        }
+        $lstClient = Site::getOneLevelIntArray($objProjet->getPorteurIds());
+        include 'views/projetFichePerso.php';
+        
     } else {
         include 'views/projetListe.php';
     }
@@ -156,6 +143,7 @@ if (!is_null($view) && $view == "ajouter") {
 if (!is_null($view)) {
     include_once('views/message.php');
     ?>
+    <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
     <script language="javascript" type="text/javascript" src="js/tabler.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){

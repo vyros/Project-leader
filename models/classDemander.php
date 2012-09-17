@@ -18,6 +18,8 @@ class Demander extends Classe {
         if ($array != null) {
             $this->m_prj_id = $p_id;
             $this->m_cpt_id = stripslashes($array[cpt_id]);
+        } else {
+            unset($this);
         }
     }
 

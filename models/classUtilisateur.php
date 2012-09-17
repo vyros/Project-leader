@@ -20,6 +20,12 @@ class Utilisateur extends Classe {
      */
     private $m_private;
 
+    /**
+     *
+     * @var String 
+     */
+    private static $suffix = "uti";
+
     public function __construct() {
         parent::__construct(func_get_args());
     }
@@ -29,7 +35,7 @@ class Utilisateur extends Classe {
      * 
      * @return Utilisateur Retourne le nouvel objet en cas de succès, sinon retourne null.
      */
-    public static function addUtilisateur($p_log, $p_mail, $p_mdp, $p_statut) {
+    public static function add($p_log, $p_mail, $p_mdp, $p_statut) {
 
         $actif = 0;
         $hdp = sha1($p_mdp);
@@ -54,7 +60,7 @@ class Utilisateur extends Classe {
      * 
      * @return Utilisateur Retourne l'objet utilisateur en cas de succès, sinon retourne null.
      */
-    public function editUtilisateur() {
+    public function edit() {
 
         $requete = " UPDATE utilisateur SET uti_nom = '" . $this->getSafePrivate("nom") . "'," .
                 " uti_actif = " . $this->getSafePrivate("actif") . ", uti_token = '" . $this->getSafePrivate("token") . "'," .
@@ -89,11 +95,15 @@ class Utilisateur extends Classe {
 
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
         //$arraytmp = Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC);
-        
+
         if ($array != null) {
             foreach ($array as $key => $value) {
                 $cle = split("_", $key);
-                $this->m_private[$cle[1]] = Connexion::getOriginalString($value);
+                if ($cle[0] != self::$suffix) {
+                    $this->m_private[$cle[0]] = Connexion::getOriginalString($value);
+                } else {
+                    $this->m_private[$cle[1]] = Connexion::getOriginalString($value);
+                }
             }
 
             # Les competences
@@ -103,6 +113,10 @@ class Utilisateur extends Classe {
 
             # Les CVs
             $this->m_cv_array = $this->getCvIds();
+            if (!is_null($this->m_cv_array))
+                sort($this->m_cv_array);
+        } else {
+            unset($this);
         }
     }
 
@@ -172,7 +186,7 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getFetchArray($requete);
     }
-    
+
     public function getLstNLastOpenedProjetIds($p_n = 0) {
 
         $requete = " SELECT pa.prj_id FROM participer as pa " .
@@ -211,7 +225,7 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getFetchArray($requete);
     }
-    
+
     public function getLstNLastCommentIds($p_n = 0) {
 
         $requete = " SELECT prj_id FROM participer " .
@@ -476,5 +490,7 @@ class Utilisateur extends Classe {
     public function setVille($p_value) {
         return $this->setPrivate("ville", $p_value);
     }
+
 }
+
 ?>
