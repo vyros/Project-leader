@@ -54,7 +54,24 @@ $.ajax({
 return false;
 	});
 
+$("#btnfavoris").click(function() {
+        
+        var idUti = $("#idUti").val();
+        var idPjt = $("#idPjt").val();
 
+        var dataString = '&idUti=' + idUti + '&idPjt=' + idPjt;
+
+        $.ajax({
+        type: "POST",
+        url: "favoris.php",
+        data: dataString,
+        cache: false,
+        success: function(res){
+            $("#btnfavoris").hide();
+            $("#lblFav").show();
+            }
+        });   
+    });
 });
 
 
@@ -69,31 +86,28 @@ return false;
             <div class="header_02"> Fiche de projet</div>
         </div>
         </br></br>
+       
+        <!-- favoris -->
+        
+        <?php
+            if (Site::getUtilisateur()->getStatut() == "prestataire"){
+                if (Site::getUtilisateur()->IsFavoris($idProjet)){
+                    echo "<label id='lblFav' for='infoPrj'>Ce projet est dans vos favoris</label>";                   
+                }else{
+                    echo "<input id='btnfavoris' type='button' value='Favoris' />";
+                    echo "<label style='display:none' id='lblFav' for='infoPrj'>Ce projet est dans vos favoris</label>";    
+                }
+            } ?>
+        
+        </br>
         <label for="infoPrj">Titre du projet : </label>
         <input id="titre" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getLibelle(); ?>" disabled/>
-            </br></br>
+        </br></br>
             
         <label for="infoPrj">Description du projet : </label>
         <input id="description" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objProjet->getDescription(); ?>" disabled/>
         </br></br>
 
-        <label for="infoPrj">Catégorie du projet : </label>
-            <?php
-            $lstCategorieIds = $objProjet->getCategorieIds();
-
-            if (!is_null($lstCategorieIds)) {
-                foreach ($lstCategorieIds as $idCategorie) {
-                    $objCategorie = new Categorie($idCategorie);
-                    echo ('- ');
-                    ?>
-                    <input id="categorie" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objCategorie->getLibelle(); ?>" disabled/> 
-                    <?php
-                }
-            }
-            ?>
-        </div>
-        <br/>
-        <br/>
         <label for="demo-input-local">Compétence(s) demandée(s) : </label>
             <?php
             $lstCompetenceIds = $objProjet->getCompetenceIds();
@@ -101,7 +115,6 @@ return false;
             if (!is_null($lstCompetenceIds)) {
                 foreach ($lstCompetenceIds as $idCompetence) {
                     $objCompetence = new Competence($idCompetence);
-                    echo ('- ');
                     ?>
                     <input id="competence" accesskey="l" type='text' name='log' size='18' maxlength='100' value="<?php echo $objCompetence->getLibelle(); ?>" disabled/> 
                     <?php
@@ -142,7 +155,6 @@ return false;
             if (!is_null($lstParticipants)) {
                 foreach ($lstParticipants as $value) {
                     $objUtilisateur = new Utilisateur($value);
-                    echo ('- ');
                     ?>
                     <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
                         <?php echo $objUtilisateur->getLogin(); ?></a><br />
@@ -163,7 +175,6 @@ return false;
                         $object=mysql_fetch_object($lstClient);	
                         $idClientProjet = $object->uti_id;
                         $objUtilisateur = new Utilisateur($idClientProjet);
-                        echo ('- ');
                         ?>
                         <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
                             <?php echo $objUtilisateur->getLogin(); ?></a><br />

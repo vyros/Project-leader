@@ -57,7 +57,6 @@
                                     if (!is_null($lstCategorieIds)) {
                                         foreach ($lstCategorieIds as $idCategorie) {
                                             $objCategorie = new Categorie($idCategorie);
-                                            echo ('- ');
                                             echo $objCategorie->getLibelle();
                                             echo ('</br>');
                                         }
@@ -78,7 +77,6 @@
                                     if (!is_null($lstCompetenceIds)) {
                                         foreach ($lstCompetenceIds as $idCompetence) {
                                             $objCompetence = new Competence($idCompetence);
-                                            echo ('- ');
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
                                         }

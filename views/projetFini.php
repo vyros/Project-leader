@@ -44,7 +44,6 @@
                                     if (!is_null($lstCategorieIds)) {
                                         foreach ($lstCategorieIds as $idCategorie) {
                                             $objCategorie = new Categorie($idCategorie);
-                                            echo ('- ');
                                             echo $objCategorie->getLibelle();
                                             echo ('</br>');
                                         }

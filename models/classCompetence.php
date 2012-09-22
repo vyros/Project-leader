@@ -20,13 +20,13 @@ class Competence extends Classe {
 
     public function exists($p_id) {
 
-        $requete = " SELECT * FROM competence " .
-                " WHERE cpt_id = " . $p_id . " LIMIT 1;";
+        $requete = " SELECT * FROM categorie " .
+                " WHERE cat_id = " . $p_id . " LIMIT 1;";
 
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($array[cpt_libelle]);
+            $this->m_libelle = stripslashes($array[cat_libelle]);
         } else {
             unset($this);
         }
@@ -41,7 +41,7 @@ class Competence extends Classe {
      */
     public static function getLstNIds($p_n = 0) {
 
-        $requete = "SELECT cpt_id FROM competence ";
+        $requete = "SELECT cat_id FROM categorie ";
 
         if ($p_n != 0) {
             $requete .= " LIMIT $p_n;";
@@ -61,8 +61,8 @@ class Competence extends Classe {
      */
     public static function getIdFromLibelle($p_libelle) {
 
-        $requete = "SELECT cpt_id FROM competence " .
-                "WHERE cpt_libelle = '" . $p_libelle . "'";
+        $requete = "SELECT cat_id FROM categorie " .
+                "WHERE cat_libelle = '" . $p_libelle . "'";
 
 
         $array = Site::getConnexion()->getFetchArray($requete);

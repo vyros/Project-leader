@@ -3,7 +3,7 @@
 class Demander extends Classe {
 
     private $m_prj_id;
-    private $m_cpt_id;
+    private $m_cat_id;
 
     public function __construct() {
         parent::__construct(func_get_args());
@@ -17,7 +17,7 @@ class Demander extends Classe {
         $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
         if ($array != null) {
             $this->m_prj_id = $p_id;
-            $this->m_cpt_id = stripslashes($array[cpt_id]);
+            $this->m_cat_id = stripslashes($array[cat_id]);
         } else {
             unset($this);
         }
@@ -29,7 +29,7 @@ class Demander extends Classe {
             return null;
 
         foreach ($p_tab_cpt as $cpt_id) {
-            $requete = "INSERT INTO demander (prj_id, cpt_id) " .
+            $requete = "INSERT INTO demander (prj_id, cat_id) " .
                     "VALUES (" . $p_prj_id . ", " . $cpt_id . ");";
 
             Site::getConnexion()->doSql($requete);
@@ -58,7 +58,7 @@ class Demander extends Classe {
      */
     public function getLstNIds($p_n = 0) {
 
-        $requete = " SELECT cpt_id FROM demander " .
+        $requete = " SELECT cat_id FROM demander " .
                 " WHERE prj_id = " . $this->m_prj_id . " ";
 
         if ($p_n != 0) {
@@ -75,7 +75,7 @@ class Demander extends Classe {
     }
 
     public function getIdCompetence() {
-        return $this->m_cpt_id;
+        return $this->m_cat_id;
     }
 
 }

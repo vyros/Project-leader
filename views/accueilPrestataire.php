@@ -21,7 +21,7 @@
                         foreach ($lstUtilisateurProjetObjs as $objProjet) {
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                <?php echo "- " . $objProjet->getLibelle(); ?></a><br />
+                                <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
                         }
                     }
@@ -118,7 +118,6 @@
 
                                         if (!is_null($lstCategorieObjs)) {
                                             foreach ($lstCategorieObjs as $objCategorie) {
-                                                echo ('- ');
                                                 echo $objCategorie->getLibelle();
                                                 echo ('</br>');
                                             }
@@ -133,7 +132,6 @@
 
                                         if (!is_null($lstCompetenceObjs)) {
                                             foreach ($lstCompetenceObjs as $objCompetence) {
-                                                echo ('- ');
                                                 echo $objCompetence->getLibelle();
                                                 echo ('</br>');
                                             }

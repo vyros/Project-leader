@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="content_col_w840">
 
     <div class="sub_content_col">
@@ -18,112 +13,42 @@
             <input type="hidden" name="action" value="liste"/>
             <input type="hidden" name="controller" value="recherche"/>
 
-            <div>
-                <div style="color:red">
-                    <a id="TitreDev">D&eacute;veloppement Web / Software</a>
-                </div>
-                <div id="divDev">
-                    <?php
+            <?php
+            //construction des blocs 
+            foreach ($lstCatIdPere as &$catpere) { //pour chaque id pere
+                echo "<div>";
+                    echo "<div class='divtitre' id='Titre" . $catpere[cat_id_pere] . "'>"; 
+                        echo "<span class='libtitre'>" . $catpere[cat_libelle] . "</span>";
+                    echo "</div>";
+                    echo "<div class='divbloc' id='div" . $catpere[cat_id_pere] . "'>";                
                     $i = 0;
+                    $lstCategorieFils = Categorie::getListCategoriesFilsByCode($catpere[cat_id_pere]);
                     /* Sur 4 colonnes */
-                    if (!is_null($lstCategorieFilsDev)) {
-                        foreach ($lstCategorieFilsDev as &$lstFils) {
+                    if (!is_null($lstCategorieFils)) {
+                        echo "</br>";
+                        foreach ($lstCategorieFils as &$lstFils) { //pour chaque id fils
                             if ($i == 4) {
                                 ?></br><?php
-                    $i = 0;
-                }
-                $i++;
-                            ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                            <?php
+                                $i = 0;
+                            }
+                            $i++;                                             
+                            echo "<div class='bloc'><input type='checkbox' name='rech' value=" . $lstFils[cat_id] . "id=" . $lstFils[cat_id] . "/>" . $lstFils[cat_libelle] . "</div>";  
                         }
                     }
-                    ?>
-                    </br>
-                </div>
-            </div>
-            </br>
-            <div>
-                </br>
-                <div style="color:red">
-                    <a id="TitreMobile">Mobile</a>
-                </div>
-                <div id="divMobile">
-                    <?php
-                    $i = 0;
-                    /* Sur 4 colonnes */
-                    if (!is_null($lstCategorieFilsMobile)) {
-                        foreach ($lstCategorieFilsMobile as &$lstFils) {
-                            if ($i == 4) {
-                                ?></br><?php
-                    $i = 0;
-                }
-                $i++;
-                            ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                            <?php
-                        }
-                    }
-                    ?>             
-                    </br>
-                </div>
-            </div>
-            </br>
-            <div>
-                </br>
-                <div style="color:red">
-                    <a id="TitreBDD">Base de donn&eacute;es</a>
-                </div>
-                <div id="divBDD">
-                    <?php
-                    $i = 0;
-                    /* Sur 4 colonnes */
-                    if (!is_null($lstCategorieFilsBDD)) {
-                        foreach ($lstCategorieFilsBDD as &$lstFils) {
-                            if ($i == 4) {
-                                ?></br><?php
-                    $i = 0;
-                }
-                $i++;
-                            ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                            <?php
-                        }
-                    }
-                    ?>            
-                    </br>
-                </div>
-            </div>
-            </br>
-            <div>
-                </br>
-                <div style="color:red">
-                    <a id="TitreDesign">Design</a>
-                </div>
-                <div id="divDesign">
-                    <?php
-                    $i = 0;
-                    /* Sur 4 colonnes */
-                    if (!is_null($lstCategorieFilsDesign)) {
-                        foreach ($lstCategorieFilsDesign as &$lstFils) {
-                            if ($i == 4) {
-                                ?></br><?php
-                    $i = 0;
-                }
-                $i++;
-                            ?>                  
-                            <div style="width:200px;float:left"><input type="checkbox" name="rech" value=<?php echo $lstFils[cat_id] ?> id=<?php echo $lstFils[cat_id] ?> /><?php echo $lstFils[cat_libelle] ?></div>
-                            <?php
-                        }
-                    }
-                    ?>         
-                    </br>
-                </div>
-            </div>
-            </br>
-            </br>
-            <div>
-                <input type="button" onclick="getFormulary('rp1');" value="Valider" />
+                    echo "</br>";
+                    echo "</div>"; //fermeture divid
+                 echo "</div>";  
+                 echo "</br></br>";
+                 echo "<script type='text/javascript'>";
+                    echo "$('#Titre" . $catpere[cat_id_pere] . "').click(function () { $('#div" . $catpere[cat_id_pere] ."').toggle('normal'); });";
+                 echo "</script>";
+            }
+            ?>
+
+         
+            <div style="width:600px">
+                <div class="rc_btn_02" style="float:left"><a id="btnvalider" onclick="getFormulary('rp1');">Valider</a></div>
+                <div id="nores"></div>
             </div>
         </form>
 
@@ -134,7 +59,8 @@
 
 </div>
 
-<div class="content_col_w840">
+<!-- Tableau de résultats pour les projets -->
+<div class="content_col_w840" id="content_col_w840">
 
     <div class="sub_content_col">
 
@@ -225,8 +151,9 @@
                                 if ($idUtilisateur !== null) {
                                     ?>
                                     <td id="action">
-                                        <a onclick="getView('projet', 'liste', '<?php echo $objProjet->getId(); ?>');">
-                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>                                       
+                                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
+                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>
+
                                     </td>
                                     <?php
                                 } else {
@@ -234,6 +161,85 @@
                                 }
                                 ?>
                             </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="margin_bottom_20 border_bottom"></div>
+    <div class="margin_bottom_30"></div>
+
+</div>
+
+<!-- Tableau de résultats pour les clients -->
+<div class="content_col_w840" id="content_col_w840Clients">
+
+    <div class="sub_content_col">
+
+        <div class="header_wrapper">
+            <img src="images/icone_resultat.png"/> 
+            <div class="header_02">Résultat(s)</div>
+        </div>
+        
+        <div id="demo">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+                <thead>
+                    <tr>
+                            <th class="sorting_asc">Pseudo</th>
+                            <th class="sorting_asc">Compétence</th>
+                            <th class="sorting_asc">Nombre de projet à ce jour</th>
+                            <th class="sorting_asc">Date d'inscription</th>
+                        <?php
+                        if ($idUtilisateur !== null) {
+                            ?>
+                            <th class="sorting_asc">Accès profil</th>
+                            <?php
+                        }
+                        ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!is_null($listUsers)) {
+                        foreach ($listUsers as $idUser) {
+                            $objUtilisateur = new Utilisateur($idUser);
+                            ?>
+                             <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+
+                                    <td id="pseudo">
+                                        <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 
+                                        <?php echo $objUtilisateur->getLogin(); ?>
+                                    </td>
+
+                                    <td id="competence">
+                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                        <?php
+                                        echo 'test';
+                                        ?>											
+                                    </td>
+
+                                    <td id="nbreProjet">
+                                        <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>">
+                                        <?php echo $objUtilisateur->getNombreProjets(); ?>											
+                                    </td>
+
+                                    <td id="dateInscri">
+                                        <input type="hidden" name="dateInscri" value="<?php echo '???'; ?>">
+                                        <?php
+                                        echo $objUtilisateur->getDate();
+                                        ?>									
+                                    </td>
+
+                                    <td id="access">
+                                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                    </td> 
+                                 </tr>  
                             <?php
                         }
                     }

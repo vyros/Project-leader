@@ -1,0 +1,27 @@
+    .divtitre{
+        color:black;
+        background-color:orange;
+        cursor:pointer;
+        border-radius: 10px;
+    }
+    
+    .libtitre{
+        font-weight:bold;
+        padding-left:10px;
+        text-decoration: none;
+    }
+    
+    .divbloc{
+        margin-left:30px;
+    }
+    
+    .bloc{
+        width:200px;
+        float:left
+    }
+    
+    #nores{
+        float:right;
+        font-size:20px;
+    }
+    

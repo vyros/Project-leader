@@ -22,28 +22,6 @@
             <label for="libelle">Intitulé : </label><br />
             <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
 
-            <label for="categorie">Catégorie(s) concernée(s) : </label><br />
-            <input type="text" id="demo-input-local" name="blahCat" /><br /><br />
-            
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("#demo-input-local").tokenInput([
-                    <?php
-                    if (!is_null($lstCategorieIds)) {
-                        foreach ($lstCategorieIds as $value) {
-                            $objCategorie = new Categorie($value);
-                            ?>
-                            {
-                                id: <?php echo str_replace('"', '', json_encode($objCategorie->getId())); ?>, 
-                                name: "<?php echo str_replace('"', '', json_encode($objCategorie->getLibelle())); ?>"
-                            },   
-                            <?php
-                        }
-                    }
-                    ?>
-                ]);
-                });
-            </script>
 
             <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local2" name="blahComp" /><br /><br />

@@ -5,6 +5,7 @@ class Document extends Classe {
     private $m_id;
     private $m_libelle;
     private $m_chemin;
+    private $m_date;
     private $m_uti_id;
     private $m_prj_id;
 
@@ -21,6 +22,8 @@ class Document extends Classe {
         if ($array != null) {
             $this->m_id = $p_id;
             $this->m_libelle = stripslashes($array[doc_libelle]);
+            $this->m_chemin = stripslashes($array[doc_chemin]);
+            $this->m_date = stripslashes($array[doc_date]);
             $this->m_uti_id = stripslashes($array[uti_id]);
             $this->m_prj_id = stripslashes($array[prj_id]);
         } else {
@@ -38,7 +41,7 @@ class Document extends Classe {
     public static function addDocument($p_libelle, $p_date, $p_uti_id, $p_prj_id) {
 
 
-        $dossier = 'uploadDocPjt/';
+        $dossier = 'upload/';
         $fichier = basename($_FILES['avatar']['name']);
         $taille_maxi = 100000;
         $taille = filesize($_FILES['avatar']['tmp_name']);
@@ -70,18 +73,18 @@ class Document extends Classe {
         $requete = "INSERT INTO document (doc_id, doc_libelle, doc_date, uti_id, prj_id) " .
                 "VALUES ('" . $p_libelle . "','" . $p_date . "','" . $p_uti_id . "','" . $p_prj_id . "')";
 
-        $idProjet = Site::getConnexion()->doSql($requete, "document");
-        if ($idProjet) {
-            return new Projet($idProjet);
+        $idDocument = Site::getConnexion()->doSql($requete, "document");
+        if ($idDocument) {
+            return new Projet($idDocument);
         }
         return null;
     }
-
-    public static function getDoc($p_uti_id, $p_prj_id) {
-
-        $requete = " SELECT * FROM utilisateur, projet, document " .
-                " WHERE uti_id = " . $p_uti_id .
-                " AND prj_id = " . $p_prj_id . ";";
+    
+    public static function getDoc($p_uti_id, $p_prj_id){
+        
+        $requete = " SELECT * FROM document " .
+                   " WHERE uti_id = '".$p_uti_id."' " .
+                   " AND prj_id = '".$p_prj_id."'";
 
         return Site::getConnexion()->getFetchArray($requete);
     }
@@ -97,7 +100,11 @@ class Document extends Classe {
     public function getChemin() {
         return $this->m_chemin;
     }
-
+    
+    public function getDate() {
+        return $this->m_date;
+    }
+    
     public function getUtiId() {
         return $this->m_uti_id;
     }

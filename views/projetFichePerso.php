@@ -72,51 +72,6 @@
             <textarea name="description" id="description"><?php echo $objProjet->getDescription(); ?></textarea>
             </br></br>
 
-            <label for="blahCat">Catégorie du projet : </label><br />
-            <input type="text" id="demo-input-local" name="blahCat" />
-            <br /><br />
-
-
-            <script type="text/javascript">
-                $(document).ready(function() {
-				
-                    $("#demo-input-local").tokenInput([
-<?php
-$lstCategorieIds = Categorie::getLstNIds();
-if (!is_null($lstCategorieIds)) {
-    foreach ($lstCategorieIds as $value) {
-
-        $objCategorie = new Categorie($value);
-        ?>
-                            {
-                                id: <?php echo str_replace('"', '', json_encode($objCategorie->getId())); ?>, 
-                                name: "<?php echo str_replace('"', '', json_encode($objCategorie->getLibelle())); ?>"
-                            },   
-        <?php
-    }
-}
-?>
-        ],
-        { prePopulate: [
-<?php
-$lstCategorieIds = $objProjet->getCategorieIds();
-if (!is_null($lstCategorieIds)) {
-    foreach ($lstCategorieIds as $idCategorie) {
-        $objCategorie = new Categorie($idCategorie);
-        ?>
-                                {
-                                    id: <?php echo $idCategorie; ?>, 
-                                    name: "<?php echo $objCategorie->getLibelle(); ?>"
-                                },
-        <?php
-    }
-}
-?>					
-            ]});
-            
-    });
-            </script>
-
             <label for="blahComp">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local2" name="blahComp" />
             <br /><br />

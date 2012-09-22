@@ -184,6 +184,7 @@ if (!is_null($action) && $action == "activer") {
         switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {
             case 1:
                 $message[succes] = "Connexion réussie !";
+                Utilisateur::StatutConnecte($idUtilisateur[0][uti_id]);
                 break;
             case -1:
                 $message[erreur] = "Erreur, ce compte est inactif !";

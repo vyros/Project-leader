@@ -12,14 +12,14 @@
  */
 class Posseder {
 
-    public static function addCompetences($p_uti_id, $p_cpt_array) {
+    public static function addCompetences($p_uti_id, $p_cat_array) {
 
-        if (is_null($p_cpt_array) || count($p_cpt_array) == 0)
+        if (is_null($p_cat_array) || count($p_cat_array) == 0)
             return null;
 
-        foreach ($p_cpt_array as $cpt_id) {
-            $requete = "INSERT INTO posseder (cpt_id, uti_id) " .
-                    "VALUES (" . $cpt_id . ", " . $p_uti_id . ");";
+        foreach ($p_cat_array as $cat_id) {
+            $requete = "INSERT INTO posseder (cat_id, uti_id) " .
+                    "VALUES (" . $cat_id . ", " . $p_uti_id . ");";
 
             Site::getConnexion()->doSql($requete);
         }
@@ -27,7 +27,7 @@ class Posseder {
 
     public static function getCompetencesIdsFromUserId($p_id) {
 
-        $requete = " SELECT cpt_id FROM posseder " .
+        $requete = " SELECT cat_id FROM posseder " .
                 " WHERE uti_id = " . $p_id . ";";
 
         return Site::getOneLevelIntArray(Site::getConnexion()->getFetchArray($requete));
@@ -36,18 +36,18 @@ class Posseder {
     public static function getUserIdsFromCompetenceId($p_id) {
 
         $requete = " SELECT uti_id FROM posseder " .
-                " WHERE cpt_id = " . $p_id . ";";
+                " WHERE cat_id = " . $p_id . ";";
 
         return Site::getOneLevelIntArray(Site::getConnexion()->getFetchArray($requete));
     }
 
-    public static function removeCompetences($p_uti_id, $p_cpt_array) {
+    public static function removeCompetences($p_uti_id, $p_cat_array) {
 
-        if (is_null($p_cpt_array) || count($p_cpt_array) == 0)
+        if (is_null($p_cat_array) || count($p_cat_array) == 0)
             return null;
 
-        foreach ($p_cpt_array as $cpt_id) {
-            $requete = " DELETE FROM posseder WHERE cpt_id = " . $cpt_id .
+        foreach ($p_cat_array as $cat_id) {
+            $requete = " DELETE FROM posseder WHERE cat_id = " . $cat_id .
                     " AND uti_id = " . $p_uti_id . ";";
 
             Site::getConnexion()->doSql($requete);

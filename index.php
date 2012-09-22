@@ -12,6 +12,7 @@ Site::init();
         <meta name="keywords"    content="web design template, free css html layout" />
         <meta name="description" content="web design template, free css html layout provided by templatemo.com for any website purpose" />
 
+        <link rel="stylesheet" type="text/css" href="css/styleSite.css" />
         <link rel="stylesheet" type="text/css" href="css/templatemo_style.css" />
         <link rel="stylesheet" type="text/css" href="css/demo_page.css" media="all" />
         <link rel="stylesheet" type="text/css" href="css/demo_table.css" media="all" />
@@ -26,7 +27,6 @@ Site::init();
         <script language="javascript" type="text/javascript" src="js/jquery.dataTables.js"></script>
         <script language="javascript" type="text/javascript" src="js/jquery.tokeninput.js"></script>
         <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
-        <script language="javascript" type="text/javascript" src="js/fonctions.js"></script>
 
         <script language="javascript" type="text/javascript">
             var varTable;
@@ -39,7 +39,7 @@ Site::init();
             <div id="templatemo_header_wrapper">
                 <!-- Free Web Templates from TemplateMo.com -->
                 <div id="templatemo_header">
-                    <div id="logo"></div>
+                    <div id="logo" onclick="getView({'controller' : 'utilisateur', 'view' : 'accueil'});" style="cursor:pointer"></div>
                     <div id="entete">
                         <?php
                         /**
@@ -66,17 +66,31 @@ Site::init();
 
         <div id="templatemo_footer_wrapper">
             <div id="templatemo_footer">
-                <div class="content_col_w420 fl">
-                    <div class="header_01">Aliquam tristique lacus</div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc quis sem nec tellus blandit tincidunt. Duis vitae velit sed dui malesuada dignissim. Donec mollis aliquet ligula. Maecenas adipiscing elementum ipsum.est. Suspendisse a nibh tristique justo rhoncus volutpat. Suspendisse vitae neque eget ante tristique vestibulum. Pellentesque dolor nulla, congue vitae, fringilla in, varius.</p>
-
+                <div style="position:relative;width:360px;float:left">
+                    <div class="header_01">Partagez nous</div>
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+                        <a class="addthis_button_preferred_1"></a>
+                        <a class="addthis_button_preferred_2"></a>
+                        <a class="addthis_button_preferred_3"></a>
+                        <a class="addthis_button_preferred_4"></a>
+                        <a class="addthis_button_compact"></a>
+                        <a class="addthis_counter addthis_bubble_style"></a>
+                    </div>
+                    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5059d51a326357a0"></script>
+                    <!-- AddThis Button END -->
                     <div class="margin_bottom_20"></div>
-                    Copyright © 2024 <a href="#">Your Company Name</a> | Designed by <a href="http://www.templatemo.com" target="_parent">Free CSS Templates</a>
+                    <div id="nbConnecte" style="font-size:20px;font-weight:bold"></div>
+                    <div style="font-size:17px;font-weight:bold">utilisateurs connectés</div></br>
+                    <div id="nbUtilisateurs" style="font-size:20px;font-weight:bold"></div>
+                    <div style="font-size:17px;font-weight:bold">utilisateurs inscrits</div></br>
+                    <div id="nbProjets" style="font-size:20px;font-weight:bold"></div>
+                    <div style="font-size:17px;font-weight:bold">projets</div>
 
                     <div class="cleaner"></div>
                 </div>
 
-                <div class="content_col_w420 fr">
+                <div style="position:relative;width:560px;float:right">
                     <div class="section_w220 fl">
                         <div class="header_01">Praesent varius</div>
                         <ul class="normal_list">
@@ -105,6 +119,34 @@ Site::init();
         </div> 
         <!-- Free CSS Templates @ www.TemplateMo.com -->
     </body>
+    <div id="fb-root"></div>
+    <script>
+        //fonction pour facebook
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+            
+        //Reactualisation du nb de connectés   
+        function ReactConnectes(){
+
+            $.ajax({
+                type: "POST",
+                url: "NbConnectes.php",
+                cache: false,
+                success: function(res){
+                    var str = res.split("/");
+                    $("#nbConnecte").html(str[0]);
+                    $("#nbUtilisateurs").html(str[1]);
+                    $("#nbProjets").html(str[2]);
+                }
+            });   
+        }
+        setInterval(function(){ReactConnectes()},3000);
+    </script>
 </html>
 <?php
 if (isset($_GET['activer']) && isset($_GET['id']) && isset($_GET['token'])) {

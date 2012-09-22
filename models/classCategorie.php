@@ -75,7 +75,19 @@ class Categorie extends Classe {
             return $array;
         }
     }
-
+    
+    public static function getListCategoriesPere(){
+        
+        $requete = "SELECT DISTINCT A.cat_id_pere, C.cat_libelle " .
+                   "FROM appartenir AS A, categorie AS C " .
+                   "WHERE A.cat_id_pere = C.cat_id";
+                
+        $array = Site::getConnexion()->getFetchArray($requete);
+        if ($array != null){  
+            return $array;
+        }
+    }
+            
 }
 
 ?>

@@ -22,6 +22,28 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `aimer`
+--
+
+CREATE TABLE IF NOT EXISTS `aimer` (
+  `uti_id` int(11) NOT NULL,
+  `prj_id` int(11) NOT NULL,
+  PRIMARY KEY (`uti_id`,`prj_id`),
+  KEY `fk_aimer` (`uti_id`),
+  KEY `fk_aimer2` (`prj_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Contenu de la table `aimer`
+--
+
+INSERT INTO `aimer` (`uti_id`, `prj_id`) VALUES
+(2, 1),
+(2, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `appartenir`
 --
 
@@ -172,19 +194,19 @@ INSERT INTO `categorie` (`cat_id`, `cat_libelle`, `cat_description`) VALUES
 -- Structure de la table `competence`
 --
 
-CREATE TABLE IF NOT EXISTS `competence` (
-  `cpt_id` int(8) NOT NULL AUTO_INCREMENT,
-  `cpt_libelle` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`cpt_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+-- CREATE TABLE IF NOT EXISTS `competence` (
+--   `cpt_id` int(8) NOT NULL AUTO_INCREMENT,
+--   `cpt_libelle` varchar(100) DEFAULT NULL,
+--   PRIMARY KEY (`cpt_id`)
+-- ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `competence`
 --
 
-INSERT INTO `competence` (`cpt_id`, `cpt_libelle`) VALUES
-(1, 'PHP'),
-(2, 'Ruby');
+-- INSERT INTO `competence` (`cpt_id`, `cpt_libelle`) VALUES
+-- (1, 'PHP'),
+-- (2, 'Ruby');
 
 -- --------------------------------------------------------
 
@@ -202,6 +224,13 @@ CREATE TABLE IF NOT EXISTS `completer` (
   KEY `fk_completer2` (`for_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+--
+-- Contenu de la table `completer`
+--
+
+INSERT INTO `completer` (`eva_id`, `for_id`, `com_score`, `com_date`) VALUES
+(1, 1, 5, '2012-09-17 16:14:23'),
+(2, 1, 5, '2012-09-17 16:45:14');
 
 -- --------------------------------------------------------
 
@@ -209,29 +238,29 @@ CREATE TABLE IF NOT EXISTS `completer` (
 -- Structure de la table `correspondre`
 --
 
-CREATE TABLE IF NOT EXISTS `correspondre` (
-  `prj_id` int(8) NOT NULL,
-  `cat_id` int(8) NOT NULL,
-  PRIMARY KEY (`prj_id`,`cat_id`),
-  KEY `fk_correspondre` (`prj_id`),
-  KEY `fk_correspondre2` (`cat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- CREATE TABLE IF NOT EXISTS `correspondre` (
+--   `prj_id` int(8) NOT NULL,
+--   `cat_id` int(8) NOT NULL,
+--   PRIMARY KEY (`prj_id`,`cat_id`),
+--   KEY `fk_correspondre` (`prj_id`),
+--   KEY `fk_correspondre2` (`cat_id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `correspondre`
 --
 
-INSERT INTO `correspondre` (`prj_id`, `cat_id`) VALUES
-(1, 6),
-(4, 6),
-(7, 6),
-(2, 27),
-(9, 27),
-(10, 27),
-(3, 39),
-(5, 39),
-(6, 39),
-(8, 39);
+-- INSERT INTO `correspondre` (`prj_id`, `cat_id`) VALUES
+-- (1, 6),
+-- (4, 6),
+-- (7, 6),
+-- (2, 27),
+-- (9, 27),
+-- (10, 27),
+-- (3, 39),
+-- (5, 39),
+-- (6, 39),
+-- (8, 39);
 
 -- --------------------------------------------------------
 
@@ -261,27 +290,27 @@ CREATE TABLE IF NOT EXISTS `cv` (
 
 CREATE TABLE IF NOT EXISTS `demander` (
   `prj_id` int(8) NOT NULL,
-  `cpt_id` int(8) NOT NULL,
-  PRIMARY KEY (`prj_id`,`cpt_id`),
+  `cat_id` int(8) NOT NULL,
+  PRIMARY KEY (`prj_id`,`cat_id`),
   KEY `fk_demander` (`prj_id`),
-  KEY `fk_demander2` (`cpt_id`)
+  KEY `fk_demander2` (`cat_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `demander`
 --
 
-INSERT INTO `demander` (`prj_id`, `cpt_id`) VALUES
-(1, 1),
-(4, 1),
-(7, 1),
-(9, 1),
-(10, 1),
-(2, 2),
-(3, 2),
-(5, 2),
-(6, 2),
-(8, 2);
+INSERT INTO `demander` (`prj_id`, `cat_id`) VALUES
+(1, 6),
+(4, 6),
+(7, 6),
+(2, 27),
+(9, 27),
+(10, 27),
+(3, 39),
+(5, 39),
+(6, 39),
+(8, 39);
 
 -- --------------------------------------------------------
 
@@ -290,13 +319,13 @@ INSERT INTO `demander` (`prj_id`, `cpt_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `document` (
-  `doc_id` int(8) NOT NULL auto_increment,
+  `doc_id` int(8) NOT NULL AUTO_INCREMENT,
   `doc_libelle` text NOT NULL,
   `doc_chemin` text NOT NULL,
-  `doc_date` datetime default NULL,
+  `doc_date` datetime DEFAULT NULL,
   `uti_id` int(8) NOT NULL,
   `prj_id` int(8) NOT NULL,
-  PRIMARY KEY  (`doc_id`),
+  PRIMARY KEY (`doc_id`),
   KEY `fk_document` (`uti_id`),
   KEY `fk_document2` (`prj_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -344,7 +373,15 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   KEY `fk_evaluation` (`utilisateur_id`),
   KEY `fk_evaluation2` (`evaluateur_id`),
   KEY `fk_evaluation3` (`projet_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Contenu de la table `evaluation`
+--
+
+INSERT INTO `evaluation` (`eva_id`, `eva_date`, `utilisateur_id`, `evaluateur_id`, `projet_id`) VALUES
+(1, '2012-09-17 16:14:23', 2, 1, 9),
+(2, '2012-09-17 16:43:50', 2, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -402,10 +439,10 @@ INSERT INTO `participer` (`prj_id`, `uti_id`, `par_date`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `posseder` (
-  `cpt_id` int(8) NOT NULL,
+  `cat_id` int(8) NOT NULL,
   `uti_id` int(8) NOT NULL,
-  PRIMARY KEY (`cpt_id`,`uti_id`),
-  KEY `fk_posseder` (`cpt_id`),
+  PRIMARY KEY (`cat_id`,`uti_id`),
+  KEY `fk_posseder` (`cat_id`),
   KEY `fk_posseder2` (`uti_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -473,6 +510,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `uti_presentation` varchar(256) DEFAULT NULL,
   `uti_date` datetime DEFAULT NULL,
   `uti_ddc` datetime DEFAULT NULL,
+  `uti_enligne` varchar(4) NOT NULL,
   PRIMARY KEY (`uti_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -480,13 +518,20 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 -- Contenu de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`uti_id`, `uti_login`, `uti_statut`, `uti_mail`, `uti_mdp`, `uti_hdp`, `uti_actif`, `uti_token`, `uti_nom`, `uti_prenom`, `uti_ddn`, `uti_adresse`, `uti_cp`, `uti_ville`, `uti_tel`, `uti_presentation`, `uti_date`, `uti_ddc`) VALUES
-(1, 'vyros', 'client', 'vyros', 'vyros', '3764d7b86ac120706e8325a59f66c6d5b4d98057', 1, '3764d7b86ac120706e8325a59f66c6d5b4d98057', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Bruges', '0630056136', '', '2012-04-09 13:12:21', NULL),
-(2, 'varius', 'prestataire', 'varius', 'varius', '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 1, '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Pessac', '', '', '2012-04-09 18:57:13', NULL);
+INSERT INTO `utilisateur` (`uti_id`, `uti_login`, `uti_statut`, `uti_mail`, `uti_mdp`, `uti_hdp`, `uti_actif`, `uti_token`, `uti_nom`, `uti_prenom`, `uti_ddn`, `uti_adresse`, `uti_cp`, `uti_ville`, `uti_tel`, `uti_presentation`, `uti_date`, `uti_ddc`, `uti_enligne`) VALUES
+(1, 'vyros', 'client', 'vyros', 'vyros', '3764d7b86ac120706e8325a59f66c6d5b4d98057', 1, '3764d7b86ac120706e8325a59f66c6d5b4d98057', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Bruges', '0630056136', '', '2012-04-09 13:12:21', NULL, ''),
+(2, 'varius', 'prestataire', 'varius', 'varius', '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 1, '61b91fae58f3327ee2d3c7e8073e8049fd99fd0a', 'Deweer', 'Jimmy', '0000-00-00', '', '', 'Pessac', '', '', '2012-04-09 18:57:13', NULL, '');
 
 --
 -- Contraintes pour les tables exportées
 --
+
+--
+-- Contraintes pour la table `aimer`
+--
+ALTER TABLE `aimer`
+  ADD CONSTRAINT `fk_aimer` FOREIGN KEY (`uti_id`) REFERENCES `utilisateur` (`uti_id`),
+  ADD CONSTRAINT `fk_aimer2` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`);
 
 --
 -- Contraintes pour la table `appartenir`
@@ -498,9 +543,9 @@ ALTER TABLE `appartenir`
 --
 -- Contraintes pour la table `correspondre`
 --
-ALTER TABLE `correspondre`
-  ADD CONSTRAINT `fk_correspondre` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`),
-  ADD CONSTRAINT `fk_correspondre2` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`);
+-- ALTER TABLE `correspondre`
+--   ADD CONSTRAINT `fk_correspondre` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`),
+--   ADD CONSTRAINT `fk_correspondre2` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`);
 
 --
 -- Contraintes pour la table `completer`
@@ -520,7 +565,7 @@ ALTER TABLE `cv`
 --
 ALTER TABLE `demander`
   ADD CONSTRAINT `fk_demander` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`),
-  ADD CONSTRAINT `fk_demander2` FOREIGN KEY (`cpt_id`) REFERENCES `competence` (`cpt_id`);
+  ADD CONSTRAINT `fk_demander2` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`);
 
 --
 -- Contraintes pour la table `document`
@@ -548,7 +593,7 @@ ALTER TABLE `participer`
 -- Contraintes pour la table `posseder`
 --
 ALTER TABLE `posseder`
-  ADD CONSTRAINT `fk_posseder` FOREIGN KEY (`cpt_id`) REFERENCES `competence` (`cpt_id`),
+  ADD CONSTRAINT `fk_posseder` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`),
   ADD CONSTRAINT `fk_posseder2` FOREIGN KEY (`uti_id`) REFERENCES `utilisateur` (`uti_id`);
 
 --

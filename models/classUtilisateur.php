@@ -491,6 +491,44 @@ class Utilisateur extends Classe {
         return $this->setPrivate("ville", $p_value);
     }
 
+    /**
+     * A revoir
+     */
+    public function IsFavoris($p_prjId) {
+
+        $requete = " SELECT * FROM aimer " .
+                " WHERE prj_id = '" . $p_prjId . "'" .
+                " AND uti_id = '" . $this->getSafePrivate("id") . "'";
+
+        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
+        if ($array != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function StatutConnecte($idUti) {
+        $requete = " UPDATE utilisateur SET uti_enligne = 'ok'" .
+                " WHERE uti_id = '" . $idUti . "';";
+
+        Site::getConnexion()->doSql($requete);
+    }
+
+    public static function StatutDeconnecte($idUti) {
+        $requete = " UPDATE utilisateur SET uti_enligne = ''" .
+                " WHERE uti_id = '" . $idUti . "';";
+
+        Site::getConnexion()->doSql($requete);
+    }
+
+    public function GetListProjetsFavoris() {
+        $requete = " SELECT prj_id FROM aimer " .
+                " WHERE uti_id = '" . $this->getSafePrivate("id") . "'";
+
+        return Site::getConnexion()->getFetchArray($requete);
+    }
+
 }
 
 ?>
