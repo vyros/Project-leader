@@ -48,18 +48,18 @@ INSERT INTO `aimer` (`uti_id`, `prj_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `appartenir` (
-  `cat_id_pere` int(8) NOT NULL,
-  `cat_id_fils` int(8) NOT NULL,
-  PRIMARY KEY (`cat_id_pere`,`cat_id_fils`),
-  KEY `fk_appertenir` (`cat_id_pere`),
-  KEY `fk_appertenir2` (`cat_id_fils`)
+  `cpt_id_mere` int(8) NOT NULL,
+  `cpt_id_fille` int(8) NOT NULL,
+  PRIMARY KEY (`cpt_id_mere`,`cpt_id_fille`),
+  KEY `fk_appertenir` (`cpt_id_mere`),
+  KEY `fk_appertenir2` (`cpt_id_fille`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `appartenir`
 --
 
-INSERT INTO `appartenir` (`cat_id_pere`, `cat_id_fils`) VALUES
+INSERT INTO `appartenir` (`cpt_id_mere`, `cpt_id_fille`) VALUES
 (1, 5),
 (1, 6),
 (1, 7),
@@ -116,21 +116,21 @@ INSERT INTO `appartenir` (`cat_id_pere`, `cat_id_fils`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `categorie`
+-- Structure de la table `competence`
 --
 
-CREATE TABLE IF NOT EXISTS `categorie` (
-  `cat_id` int(8) NOT NULL AUTO_INCREMENT,
-  `cat_libelle` varchar(100) DEFAULT NULL,
-  `cat_description` text,
-  PRIMARY KEY (`cat_id`)
+CREATE TABLE IF NOT EXISTS `competence` (
+  `cpt_id` int(8) NOT NULL AUTO_INCREMENT,
+  `cpt_libelle` varchar(100) DEFAULT NULL,
+  `cpt_description` text,
+  PRIMARY KEY (`cpt_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=57 ;
 
 --
--- Contenu de la table `categorie`
+-- Contenu de la table `competence`
 --
 
-INSERT INTO `categorie` (`cat_id`, `cat_libelle`, `cat_description`) VALUES
+INSERT INTO `competence` (`cpt_id`, `cpt_libelle`, `cpt_description`) VALUES
 (1, 'Developpement web / Software', NULL),
 (2, 'Mobile', NULL),
 (3, 'Base de données', NULL),
@@ -191,26 +191,6 @@ INSERT INTO `categorie` (`cat_id`, `cat_libelle`, `cat_description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `competence`
---
-
--- CREATE TABLE IF NOT EXISTS `competence` (
---   `cpt_id` int(8) NOT NULL AUTO_INCREMENT,
---   `cpt_libelle` varchar(100) DEFAULT NULL,
---   PRIMARY KEY (`cpt_id`)
--- ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Contenu de la table `competence`
---
-
--- INSERT INTO `competence` (`cpt_id`, `cpt_libelle`) VALUES
--- (1, 'PHP'),
--- (2, 'Ruby');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `completer`
 --
 
@@ -235,72 +215,22 @@ INSERT INTO `completer` (`eva_id`, `for_id`, `com_score`, `com_date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `correspondre`
---
-
--- CREATE TABLE IF NOT EXISTS `correspondre` (
---   `prj_id` int(8) NOT NULL,
---   `cat_id` int(8) NOT NULL,
---   PRIMARY KEY (`prj_id`,`cat_id`),
---   KEY `fk_correspondre` (`prj_id`),
---   KEY `fk_correspondre2` (`cat_id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `correspondre`
---
-
--- INSERT INTO `correspondre` (`prj_id`, `cat_id`) VALUES
--- (1, 6),
--- (4, 6),
--- (7, 6),
--- (2, 27),
--- (9, 27),
--- (10, 27),
--- (3, 39),
--- (5, 39),
--- (6, 39),
--- (8, 39);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `cv`
---
-
-CREATE TABLE IF NOT EXISTS `cv` (
-  `cv_id` int(8) NOT NULL AUTO_INCREMENT,
-  `uti_id` int(8) NOT NULL,
-  `cv_lien` varchar(256) DEFAULT NULL,
-  `cv_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`cv_id`),
-  KEY `fk_renseigner` (`uti_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Contenu de la table `cv`
---
-
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `demander`
 --
 
 CREATE TABLE IF NOT EXISTS `demander` (
   `prj_id` int(8) NOT NULL,
-  `cat_id` int(8) NOT NULL,
-  PRIMARY KEY (`prj_id`,`cat_id`),
+  `cpt_id` int(8) NOT NULL,
+  PRIMARY KEY (`prj_id`,`cpt_id`),
   KEY `fk_demander` (`prj_id`),
-  KEY `fk_demander2` (`cat_id`)
+  KEY `fk_demander2` (`cpt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Contenu de la table `demander`
 --
 
-INSERT INTO `demander` (`prj_id`, `cat_id`) VALUES
+INSERT INTO `demander` (`prj_id`, `cpt_id`) VALUES
 (1, 6),
 (4, 6),
 (7, 6),
@@ -320,14 +250,15 @@ INSERT INTO `demander` (`prj_id`, `cat_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `document` (
   `doc_id` int(8) NOT NULL AUTO_INCREMENT,
+  `doc_nature` varchar(25) NOT NULL,
   `doc_libelle` text NOT NULL,
-  `doc_chemin` text NOT NULL,
+  `doc_lien` varchar(256) NOT NULL,
   `doc_date` datetime DEFAULT NULL,
-  `uti_id` int(8) NOT NULL,
-  `prj_id` int(8) NOT NULL,
+  `utilisateur_id` int(8) NOT NULL,
+  `projet_id` int(8) NULL,
   PRIMARY KEY (`doc_id`),
-  KEY `fk_document` (`uti_id`),
-  KEY `fk_document2` (`prj_id`)
+  KEY `fk_document` (`utilisateur_id`),
+  KEY `fk_document2` (`projet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
@@ -403,6 +334,28 @@ INSERT INTO `formulaire` (`for_id`, `for_libelle`, `for_description`, `for_max`)
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `notification`
+--
+
+CREATE TABLE IF NOT EXISTS `notification` (
+  `not_id` int(8) NOT NULL AUTO_INCREMENT,
+  `not_nature` varchar(10) DEFAULT NULL,
+  `not_sujet` varchar(100) DEFAULT NULL,
+  `not_date` datetime DEFAULT NULL,
+  `not_lu` int(1) NOT NULL, 
+  `not_corps` text NOT NULL,
+  `emetteur_id` int(8) NOT NULL,
+  `receveur_id` int(8) NOT NULL,
+  `projet_id` int(8) NOT NULL,
+  PRIMARY KEY (`for_id`),
+  KEY `fk_notification` (`emetteur_id`),
+  KEY `fk_notification2` (`receveur_id`),
+  KEY `fk_notification3` (`projet_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `participer`
 --
 
@@ -439,10 +392,10 @@ INSERT INTO `participer` (`prj_id`, `uti_id`, `par_date`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `posseder` (
-  `cat_id` int(8) NOT NULL,
+  `cpt_id` int(8) NOT NULL,
   `uti_id` int(8) NOT NULL,
-  PRIMARY KEY (`cat_id`,`uti_id`),
-  KEY `fk_posseder` (`cat_id`),
+  PRIMARY KEY (`cpt_id`,`uti_id`),
+  KEY `fk_posseder` (`cpt_id`),
   KEY `fk_posseder2` (`uti_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -459,21 +412,21 @@ CREATE TABLE IF NOT EXISTS `posseder` (
 
 CREATE TABLE IF NOT EXISTS `projet` (
   `prj_id` int(8) NOT NULL AUTO_INCREMENT,
-  `eta_id` int(8) NOT NULL,
+  `etat_id` int(8) NOT NULL,
   `prj_libelle` varchar(100) DEFAULT NULL,
   `prj_date` datetime DEFAULT NULL,
   `prj_budget` int(11) DEFAULT NULL,
   `prj_echeance` int(11) DEFAULT NULL,
   `prj_description` text,
   PRIMARY KEY (`prj_id`),
-  KEY `fk_etat` (`eta_id`)
+  KEY `fk_projet` (`etat_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Contenu de la table `projet`
 --
 
-INSERT INTO `projet` (`prj_id`, `eta_id`, `prj_libelle`, `prj_date`, `prj_budget`, `prj_echeance`, `prj_description`) VALUES
+INSERT INTO `projet` (`prj_id`, `etat_id`, `prj_libelle`, `prj_date`, `prj_budget`, `prj_echeance`, `prj_description`) VALUES
 (1, 1, 'project-leader', '2012-04-09 13:13:34', 5000, 0, 'site de gestion de projets'),
 (2, 1, '12 monkeys', '2012-04-09 23:06:33', 454, 0, '12 monkeys'),
 (3, 1, 'machete', '2012-04-09 23:06:35', 454, 0, 'machete'),
@@ -537,15 +490,8 @@ ALTER TABLE `aimer`
 -- Contraintes pour la table `appartenir`
 --
 ALTER TABLE `appartenir`
-  ADD CONSTRAINT `fk_appertenir` FOREIGN KEY (`cat_id_pere`) REFERENCES `categorie` (`cat_id`),
-  ADD CONSTRAINT `fk_appertenir2` FOREIGN KEY (`cat_id_fils`) REFERENCES `categorie` (`cat_id`);
-
---
--- Contraintes pour la table `correspondre`
---
--- ALTER TABLE `correspondre`
---   ADD CONSTRAINT `fk_correspondre` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`),
---   ADD CONSTRAINT `fk_correspondre2` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`);
+  ADD CONSTRAINT `fk_appertenir` FOREIGN KEY (`cpt_id_mere`) REFERENCES `competence` (`cpt_id`),
+  ADD CONSTRAINT `fk_appertenir2` FOREIGN KEY (`cpt_id_fille`) REFERENCES `competence` (`cpt_id`);
 
 --
 -- Contraintes pour la table `completer`
@@ -555,24 +501,18 @@ ALTER TABLE `completer`
   ADD CONSTRAINT `fk_completer2` FOREIGN KEY (`for_id`) REFERENCES `formulaire` (`for_id`);
 
 --
--- Contraintes pour la table `cv`
---
-ALTER TABLE `cv`
-  ADD CONSTRAINT `fk_renseigner` FOREIGN KEY (`uti_id`) REFERENCES `utilisateur` (`uti_id`);
-
---
 -- Contraintes pour la table `demander`
 --
 ALTER TABLE `demander`
   ADD CONSTRAINT `fk_demander` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`),
-  ADD CONSTRAINT `fk_demander2` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`);
+  ADD CONSTRAINT `fk_demander2` FOREIGN KEY (`cpt_id`) REFERENCES `competence` (`cpt_id`);
 
 --
 -- Contraintes pour la table `document`
 --
 ALTER TABLE `document`
-  ADD CONSTRAINT `fk_document` FOREIGN KEY (`uti_id`) REFERENCES `utilisateur` (`uti_id`),
-  ADD CONSTRAINT `fk_document2` FOREIGN KEY (`prj_id`) REFERENCES `projet` (`prj_id`);
+  ADD CONSTRAINT `fk_document` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`uti_id`),
+  ADD CONSTRAINT `fk_document2` FOREIGN KEY (`projet_id`) REFERENCES `projet` (`prj_id`);
 
 --
 -- Contraintes pour la table `evaluation`
@@ -581,6 +521,14 @@ ALTER TABLE `evaluation`
   ADD CONSTRAINT `fk_evaluation` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`uti_id`),
   ADD CONSTRAINT `fk_evaluation2` FOREIGN KEY (`evaluateur_id`) REFERENCES `utilisateur` (`uti_id`),
   ADD CONSTRAINT `fk_evaluation3` FOREIGN KEY (`projet_id`) REFERENCES `projet` (`prj_id`);
+
+--
+-- Contraintes pour la table `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `fk_notification` FOREIGN KEY (`emetteur_id`) REFERENCES `utilisateur` (`uti_id`),
+  ADD CONSTRAINT `fk_notification2` FOREIGN KEY (`receveur_id`) REFERENCES `utilisateur` (`uti_id`),
+  ADD CONSTRAINT `fk_notification3` FOREIGN KEY (`projet_id`) REFERENCES `projet` (`prj_id`);
 
 --
 -- Contraintes pour la table `participer`
@@ -593,11 +541,11 @@ ALTER TABLE `participer`
 -- Contraintes pour la table `posseder`
 --
 ALTER TABLE `posseder`
-  ADD CONSTRAINT `fk_posseder` FOREIGN KEY (`cat_id`) REFERENCES `categorie` (`cat_id`),
+  ADD CONSTRAINT `fk_posseder` FOREIGN KEY (`cpt_id`) REFERENCES `competence` (`cpt_id`),
   ADD CONSTRAINT `fk_posseder2` FOREIGN KEY (`uti_id`) REFERENCES `utilisateur` (`uti_id`);
 
 --
 -- Contraintes pour la table `projet`
 --
 ALTER TABLE `projet`
-  ADD CONSTRAINT `fk_etat` FOREIGN KEY (`eta_id`) REFERENCES `etat` (`eta_id`);
+  ADD CONSTRAINT `fk_projet` FOREIGN KEY (`etat_id`) REFERENCES `etat` (`eta_id`);
