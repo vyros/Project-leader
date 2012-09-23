@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -18,11 +13,12 @@
                 <p>
                     <?php
                     if (!is_null($lstUtilisateurProjetObjs)) {
-                        foreach ($lstUtilisateurProjetObjs as $objProjet) {
+                        foreach ($lstUtilisateurProjetObjs as &$objProjet) {
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                                 <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
+                            unset($objProjet);
                         }
                     }
                     ?>
@@ -93,7 +89,7 @@
                     <thead>
                         <tr>
                             <th class="sorting_asc">Intitulé</th>
-                            <th class="sorting_asc">Catégorie</th>
+                            <th class="sorting_asc">Compétences</th>
                             <th class="sorting_asc">Compétence requise</th>
                             <th class="sorting_asc">Date de création</th>
                             <th class="sorting_asc">Accès fiche</th>
@@ -103,7 +99,7 @@
                     <tbody>
                         <?php
                         if (!is_null($lstProjetObjs)) {
-                            foreach ($lstProjetObjs as $objProjet) {
+                            foreach ($lstProjetObjs as &$objProjet) {
                                 ?>
                                 <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                     <td id="libelle">
@@ -111,26 +107,10 @@
                                         <?php echo $objProjet->getLibelle(); ?>
                                     </td>
 
-                                    <td id="categorie">
-                                        <input type="hidden" name="categorie" value="">
-                                        <?php
-                                        $lstCategorieObjs = $objProjet->getCategorieObjs();
-
-                                        if (!is_null($lstCategorieObjs)) {
-                                            foreach ($lstCategorieObjs as $objCategorie) {
-                                                echo $objCategorie->getLibelle();
-                                                echo ('</br>');
-                                            }
-                                        }
-                                        ?>											
-                                    </td>
-
                                     <td id="competence">
                                         <input type="hidden" name="competence" value="">
                                         <?php
-                                        $lstCompetenceObjs = $objProjet->getCompetenceObjs();
-
-                                        if (!is_null($lstCompetenceObjs)) {
+                                        if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
                                             foreach ($lstCompetenceObjs as $objCompetence) {
                                                 echo $objCompetence->getLibelle();
                                                 echo ('</br>');
@@ -157,6 +137,7 @@
 
                                 </tr>
                                 <?php
+                                unset($objProjet);
                             }
                         }
                         ?>

@@ -6,13 +6,14 @@ include_once("models/classSite.php");
 Site::init();
 
 $requeteNbConnecte = "SELECT COUNT(uti_id) FROM utilisateur" .
-        " WHERE uti_connected = 'ok' ;";
+        " WHERE uti_enligne = 'ok' ;";
+
 $requeteNbUtilisateur = "SELECT COUNT(uti_id) FROM utilisateur";
 $requeteNbProjet = "SELECT COUNT(prj_id) FROM projet";
 
-$arrayNbConnecte = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requeteNbConnecte));
-$arrayNbUtilisateur = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requeteNbUtilisateur));
-$arrayNbProjets = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requeteNbProjet));
+$arrayNbConnecte = Site::getConnexion()->getFetchIntArray($requeteNbConnecte);
+$arrayNbUtilisateur = Site::getConnexion()->getFetchIntArray($requeteNbUtilisateur);
+$arrayNbProjets = Site::getConnexion()->getFetchIntArray($requeteNbProjet);
 
 echo $arrayNbConnecte[0] . "/" . $arrayNbUtilisateur[0] . "/" . $arrayNbProjets[0];
 ?>

@@ -1,9 +1,3 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
 
 <div class="content_col_w420 fr">	
     <img class="logoAccueil" src="images/logo_300_modifSansFond.png"/>

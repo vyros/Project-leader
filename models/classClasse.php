@@ -6,7 +6,6 @@
  * @author jimmy
  */
 abstract class Classe {
-
     /**
      *
      * @var String
@@ -25,21 +24,33 @@ abstract class Classe {
      */
     protected $private;
 
-    public function __construct() {
-        $t_argv = Site::getOneLevelArray(func_get_arg(0));
-        $this->exists($t_argv[0]);
-    }
+    /**
+     * 
+     * @param int $p_id
+     */
+    public function __construct($p_id) {
 
-    public function exists($p_id) {
+        // Id depuis un int, tableau numérique ou tableau associatif.
+        if (is_array($p_id)) {
+            while (!array_key_exists(0, $p_id)) {
+                $p_id = array_values($p_id);
+            }
+            $idTmp = $p_id[0];
+        } else {
+            $idTmp = $p_id;
+        }
 
-        if (!is_numeric($p_id))
-            return null;
+        // Test de l'id.
+        if (is_null($id = Site::isValidId($idTmp))) {
+            return;
+        }
 
+        // Requête de construction.
         $requete = " SELECT * FROM " . $this->getTable() .
-                " WHERE " . $this->getPrefix() . "_id = " . $p_id . " LIMIT 1;";
+                " WHERE " . $this->getPrefix() . "_id = " . $id . " LIMIT 1;";
 
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
-        if ($array != null) {
+        // Construction de la variable private.
+        if (!is_null($array = Site::getConnexion()->getFetchAssArray($requete))) {
             foreach ($array as $key => $value) {
                 $cle = split("_", $key);
                 if ($cle[0] != $this->getPrefix()) {
@@ -48,20 +59,27 @@ abstract class Classe {
                     $this->private[$cle[1]] = Connexion::getOriginalString($value);
                 }
             }
-        } else {
-            unset($this);
         }
     }
 
     protected function getPrefix() {
+//        return self::PREFIX;
         return $this->prefix;
     }
 
     protected function getTable() {
+//        return self::TABLE;
         return $this->table;
     }
 
     // Accesseurs
+    public function checkPrivate() {
+        if (is_null($this->private))
+            return false;
+        
+        return true;
+    }
+    
     protected function getPrivate($key = null) {
         if (!is_string($key) || $key == "")
             return null;

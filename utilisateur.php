@@ -56,52 +56,52 @@ if (!is_null($action) && $action == "activer") {
 
     Site::kill();
     $view = "accueil";
-    
 } elseif (!is_null($action) && $action == "note") {
-    
-    if ($idFormulaire = Site::isValidId($_POST[idFormulaire]))
-        ;
-    
-    if ($idProjet = Site::isValidId($_POST[idProjet]))
-        ;
-    
-    if ($idUtilisateur = Site::isValidId($_POST[idUtilisateur]))
-        ;
-    
-    if ($score = Site::isValidId($_POST[score]))
-        ;
-    
+
+    if (is_null($idFormulaire = Site::isValidId($_POST[idFormulaire])))
+        return null;
+
+    if (is_null($idProjet = Site::isValidId($_POST[idProjet])))
+        return null;
+
+    if (is_null($idUtilisateur = Site::isValidId($_POST[idUtilisateur])))
+        return null;
+
+    if (is_null($score = Site::isValidId($_POST[score])))
+        return null;
+
     if (Evaluation::check($idUtilisateur, Site::getUtilisateur()->getId(), $idFormulaire, $idProjet)) {
         $objEvaluation = Evaluation::add($idProjet, Site::getUtilisateur()->getId(), $idUtilisateur, $idFormulaire, $score);
         $message[succes] = "Évaluation enregistrée !";
-        
     } else {
         $message[erreur] = "Évaluation déjà enregistrée !";
     }
-    
+
     $view = "accueil";
-    
 } elseif (!is_null($action) && $action == "onglet") {
 
+    if (is_null($idUtilisateur = Site::isValidId($_POST["id"])))
+        ;
+
     $contenu = (isset($_POST["contenu"])) ? $_POST["contenu"] : null;
-    $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
     $objUtilisateur = null;
 
     if (!is_null($idUtilisateur) && $idUtilisateur != Site::getUtilisateur()->getId()) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
+        
     } elseif (!is_null($idUtilisateur) && $idUtilisateur == Site::getUtilisateur()->getId()) {
         $objUtilisateur = &Site::getUtilisateur();
     }
 
     if (is_null($objUtilisateur)) {
-        $message[erreur] = "Utilisateur inexistant !";
+        $message[erreur] = "Utilisateur incorrect !";
     } else {
         if (!is_null($contenu)) {
 
             $lstObjets = null;
             switch ($contenu) {
                 case 'closed':
-                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastClosedProjetIds(5));
+                    $t_array = $objUtilisateur->getNClosedProjetIds(5);
                     if (!is_null($t_array)) {
                         foreach ($t_array as $value) {
                             $lstObjets[] = new Projet($value);
@@ -110,7 +110,7 @@ if (!is_null($action) && $action == "activer") {
                     break;
 
                 case 'opened':
-                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastOpenedProjetIds(5));
+                    $t_array = $objUtilisateur->getNOpenedProjetIds(5);
                     if (!is_null($t_array)) {
                         foreach ($t_array as $value) {
                             $lstObjets[] = new Projet($value);
@@ -119,7 +119,7 @@ if (!is_null($action) && $action == "activer") {
                     break;
 
                 case 'comments':
-                    $t_array = Site::getOneLevelIntArray($objUtilisateur->getLstNLastCommentIds(5));
+                    $t_array = $objUtilisateur->getNCommentaireIds(5);
                     if (!is_null($t_array)) {
                         foreach ($t_array as $value) {
                             $lstObjets[] = new Projet($value);
@@ -158,9 +158,9 @@ if (!is_null($action) && $action == "activer") {
     $objUtilisateur->setDdn($ddn);
     $objUtilisateur->setPresentation($presentation);
     $objUtilisateur->setVille($ville);
-    $objUtilisateur->setCvs($cv);
+    $objUtilisateur->setCvIds($cv);
     $objUtilisateur->setTel($tel);
-    $objUtilisateur->setCompetenses($lstCompetenceIds);
+    $objUtilisateur->setCompetenseIds($lstCompetenceIds);
 
     if (is_null($objUtilisateur->edit())) {
         $message[erreur] = "Erreur lors de la modification !";
@@ -184,7 +184,9 @@ if (!is_null($action) && $action == "activer") {
         switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {
             case 1:
                 $message[succes] = "Connexion réussie !";
-                Utilisateur::StatutConnecte($idUtilisateur[0][uti_id]);
+
+                // Faire la méthode sur l'utilisateur
+                Utilisateur::StatutConnecte(Site::getUtilisateur()->getId());
                 break;
             case -1:
                 $message[erreur] = "Erreur, ce compte est inactif !";
@@ -211,19 +213,19 @@ if (!is_null($view) && $view == "accueil") {
         /**
          * L'accueil d'un utilisateur montre ses N derniers projets 
          */
-        $lstUtilisateurProjetObjs = Site::getUtilisateur()->getLstNLastProjetObjs(5);
+        $lstUtilisateurProjetObjs = Site::getUtilisateur()->getNProjetObjs(5);
 
         if (Site::getUtilisateur()->getStatut() == "client") {
             /**
              * L'accueill d'un client montre une liste de N prestataires 
              */
-            $lstUtilisateurObjs = Prestataire::getLstNObjs(10);
+            $lstUtilisateurObjs = Prestataire::getNObjs(10);
             include 'views/accueilClient.php';
         } else {
             /**
              * L'accueill d'un prestataire montre une liste de N projets 
              */
-            $lstProjetObjs = Projet::getLstNObjs(10);
+            $lstProjetObjs = Projet::getNObjs(10);
             include 'views/accueilPrestataire.php';
         }
         ?>
@@ -260,7 +262,7 @@ if (!is_null($view) && $view == "accueil") {
         $message[erreur] = "Utilisateur inexistant !";
         include 'views/accueilVisiteur.php';
     } else {
-        $lstCompetenceIds = Competence::getLstNIds();
+        $lstCompetenceIds = Competence::getNIds();
         $lstUserCompetenceIds = $objUtilisateur->getCompetenceIds();
 
         include 'views/utilisateurProfil.php';
@@ -273,7 +275,7 @@ if (!is_null($view) && $view == "accueil") {
                 // Calendrier
                 $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
                 $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-                                                                
+                                                                        
                 // Liste
                 $("#demo-input-local").tokenInput([
         <?php
@@ -310,10 +312,11 @@ if (!is_null($view) && $view == "accueil") {
         <?php
     }
 } elseif (!is_null($view) && $view == "note") {
-    if ($idProjet = Site::isValidId($_POST[idProjet]))
-        ;
     
-    if ($idUtilisateur = Site::isValidId($_POST[idUtilisateur]))
+    if (is_null($idProjet = Site::isValidId($_POST[idProjet])))
+        ;
+
+    if (is_null($idUtilisateur = Site::isValidId($_POST[idUtilisateur])))
         ;
     ?>
     <script language="javascript" type="text/javascript" src="js/evaluation.js"></script>

@@ -34,21 +34,15 @@ class Site {
 
         include_once 'models/classClasse.php';
         include_once 'models/classStatut.php';
-        include_once 'models/classCategorie.php';
         include_once 'models/classClient.php';
         include_once 'models/classCompetence.php';
         include_once 'models/classConnexion.php';
-        include_once 'models/classCorrespondre.php';
-        include_once 'models/classDemander.php';
         include_once 'models/classEvaluation.php';
-        include_once 'models/classParticiper.php';
-        include_once 'models/classPosseder.php';
         include_once 'models/classPrestataire.php';
         include_once 'models/classProjet.php';
         include_once 'models/classUtilisateur.php';
         include_once 'models/classEtat.php';
         include_once 'models/classNotification.php';
-        include_once 'models/classEffectuer.php';
         include_once 'models/classDocument.php';
 
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
@@ -56,7 +50,6 @@ class Site {
         return self::getInstance();
     }
 
-    
     /**
      * Test la validité d'un Id
      * 
@@ -68,13 +61,13 @@ class Site {
 
         if (!is_numeric($p_id))
             return null;
-        
-        if ((Integer)$p_id <= 0)
+
+        if ((Integer) $p_id <= 0)
             return null;
-        
-        return (Integer)$p_id;
+
+        return (Integer) $p_id;
     }
-    
+
     /**
      * Déconnexion.
      * 
@@ -109,23 +102,6 @@ class Site {
         }
 
         return self::$connexion;
-    }
-
-    /**
-     * Inclut le controleur demandé par la variable $_POST 
-     */
-    static public function getController($check = false) {
-        if (isset($_POST[controller]) && !$check) {
-            include "$_POST[controller].php";
-        } elseif (isset($_POST[controller])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    static public function setController($p_controller) {
-        $_POST[controller] = "$p_controller";
     }
 
     static public function dateMysql2Picker($p_date) {
@@ -169,7 +145,6 @@ class Site {
         $_SESSION[$p_libelle] = $p_information;
     }
 
-    // bug
     public static function getInstance() {
         if (!isset($_SESSION[site]) || !self::$instance instanceof Site) {
             $_SESSION[site] = new Site();
@@ -182,20 +157,6 @@ class Site {
         if (isset($_POST[succes]) || isset($_POST[erreur])) {
             ;
         }
-    }
-
-    /**
-     * Inclut le controleur demandé par la variable $_POST 
-     */
-    static public function getView() {
-        if (isset($_POST[view])) {
-            include 'views/message.php';
-            include "views/$_POST[view]";
-        }
-    }
-
-    static public function setView($p_view) {
-        $_POST[view] = "$p_view.php";
     }
 
     /**
@@ -222,9 +183,9 @@ class Site {
      */
     static public function setUtilisateur($p_objUtilisateur) {
 
-        if ($p_objUtilisateur instanceof Utilisateur) {
+        if ($p_objUtilisateur instanceof Utilisateur && $p_objUtilisateur->checkPrivate()) {
             if ($p_objUtilisateur->getActif() == 1) {
-                $_SESSION[utilisateur] = $p_objUtilisateur;
+                $_SESSION[utilisateur] = &$p_objUtilisateur;
                 return 1;
             }
             // Compte inactif
@@ -239,64 +200,6 @@ class Site {
             unset($_SESSION[utilisateur]);
             session_destroy();
         }
-    }
-
-    /**
-     *
-     * @param array $p_array Un tableau à plusieurs niveaux.
-     * @return array Un tableau à un niveau. 
-     */
-    static public function getOneLevelArray($p_array) {
-        while (is_array($p_array[0])) {
-            $t_array = $p_array[0];
-            unset($p_array);
-            $p_array = $t_array;
-            unset($t_array);
-        }
-
-        return $p_array;
-    }
-
-    /**
-     *
-     * @param array $p_array Un tableau à plusieurs niveaux.
-     * @return array Un tableau à un niveau. 
-     */
-    static public function getOneLevelAssArray($p_array) {
-
-        $t_array = null;
-        while (is_array($p_array[0])) {
-            $t_array = $p_array[0];
-            
-            sort($t_array, 'SORT_REGULAR');
-
-        }
-
-        return $t_array;
-    }
-
-    /**
-     *
-     * @param array $p_array Un tableau à plusieurs niveaux.
-     * @return array Un tableau à un niveau. 
-     */
-    static public function getOneLevelIntArray($p_array) {
-
-        //TODO
-        $t_array = null;
-        while (is_array($p_array[0])) {
-            $t_array[] = $p_array[0][0];
-
-            if (isset($p_array[1])) {
-                for ($i = 0; $i < count($p_array); $i++) {
-                    $p_array[$i] = $p_array[$i + 1];
-                }
-                unset($p_array[--$i]);
-            } else {
-                unset($p_array);
-            }
-        }
-        return $t_array;
     }
 }
 ?>

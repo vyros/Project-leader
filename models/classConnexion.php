@@ -27,7 +27,7 @@ class Connexion {
         $resultat = mysql_connect(self::SERVEUR, self::UTILISATEUR, self::PASSWORD)
                 or die("Erreur connexion serveur : " . mysql_error());
 
-        mysql_select_db(self::BASE) or die("Erreur selection base : " . mysql_error());
+        mysql_select_db(self::BASE) or die("Erreur de selection de base : " . mysql_error());
         mysql_query("SET NAMES 'utf8'");
 
         return $resultat;
@@ -77,6 +77,31 @@ class Connexion {
     }
 
     /**
+     *
+     * @param array $p_array Un tableau à plusieurs niveaux.
+     * @return array Un tableau à un niveau. 
+     */
+    static public function getOneLevelArray($p_array) {
+        $t_array = null;
+        while (is_array($p_array[0])) {
+            if (is_null($t_array))
+                $t_array = array();
+
+            $t_array = array_merge($p_array[0]);
+
+            if (isset($p_array[1])) {
+                for ($i = 0; $i < count($p_array); $i++) {
+                    $p_array[$i] = $p_array[$i + 1];
+                }
+                unset($p_array[--$i]);
+            } else {
+                unset($p_array);
+            }
+        }
+        return $t_array;
+    }
+
+    /**
      * Retourne un tableau contenant le resultat d'une requête.
      * 
      * @param string $requete
@@ -87,32 +112,44 @@ class Connexion {
 
         $resultat = mysql_query($requete);
 
-        for ($array = null, $i = 0, $obj = mysql_fetch_array($resultat, $type); 
-            $obj != false; $obj = mysql_fetch_array($resultat, $type), $i++)
+        for ($array = null, $i = 0, $obj = mysql_fetch_array($resultat, $type); $obj != false; $obj = mysql_fetch_array($resultat, $type), $i++)
             $array[$i] = $obj;
 
         mysql_free_result($resultat);
 
-        return $array;
+        return $this->getOneLevelArray($array);
     }
 
     /**
-     * Retourne la ressource associée au resultat d'une requête.
+     * Retourne un tableau contenant le resultat d'une requête, clés chaînées uniqement.
      * 
      * @param string $requete
-     * @return ressource Retourne la ressource, si aucun resultat retourne faux.
+     * @param type $type Type de retour depuis la base. Type MYSQL_ASSOC par défaut.
+     * @return array Retourne null si aucun resultat.
      */
-    public function getFetchRessource($requete) {
-        return mysql_query($requete);
+    public function getFetchAssArray($requete) {
+        return $this->getFetchArray($requete, MYSQL_ASSOC);
     }
-    
+
+    /**
+     * Retourne un tableau contenant le resultat d'une requête, clés numériques uniqement.
+     * 
+     * @param string $requete
+     * @param type $type Type de retour depuis la base. Type MYSQL_ASSOC par défaut.
+     * @return array Retourne null si aucun resultat.
+     */
+    public function getFetchIntArray($requete) {
+        return $this->getFetchArray($requete, MYSQL_NUM);
+    }
+
     public static function getSafeString($p_value) {
         return mysql_real_escape_string($p_value);
     }
-    
+
     public static function getOriginalString($p_value) {
         return stripslashes($p_value);
     }
+
 }
 
 ?>

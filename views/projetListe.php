@@ -1,8 +1,4 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 // faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
 // Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
 // bout de code séparer et mis dans une autre vue pour respect MVC
@@ -21,9 +17,8 @@
                 <thead>
                     <tr>
                         <th class="sorting_asc">Intitulé</th>
-                        <th class="sorting_asc">Catégorie</th>
                         <th class="sorting_asc">Budget</th>
-                        <th class="sorting_asc">Compétence requise</th>
+                        <th class="sorting_asc">Compétences requises</th>
                         <th class="sorting_asc">Date de création</th>
                         <th class="sorting_asc">Description</th>
                         <?php
@@ -32,16 +27,15 @@
                             <th class="sorting_asc">Accès</th>
                             <?php
                         } else {
-                            
+                            ;
                         }
                         ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstProjetIds)) {
-                        foreach ($lstProjetIds as $idProjet) {
-                            $objProjet = new Projet($idProjet);
+                    if (!is_null($lstProjetObjs = Projet::getNObjs())) {
+                        foreach ($lstProjetObjs as &$objProjet) {
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                 <td id="libelle">
@@ -49,39 +43,22 @@
                                     <?php echo $objProjet->getLibelle(); ?>
                                 </td>
 
-                                <td id="categorie">
-                                    <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="">
                                     <?php
-                                    $lstCategorieIds = $objProjet->getCategorieIds();
-
-                                    if (!is_null($lstCategorieIds)) {
-                                        foreach ($lstCategorieIds as $idCategorie) {
-                                            $objCategorie = new Categorie($idCategorie);
-                                            echo $objCategorie->getLibelle();
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as &$objCompetence) {
+                                            echo $objCompetence->getLibelle();
                                             echo ('</br>');
+                                            unset($objCompetence);
                                         }
                                     }
-                                    ?>											
+                                    ?>									
                                 </td>
 
                                 <td id="budget">
                                     <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
                                     <?php echo $objProjet->getBudget(); ?>											
-                                </td>
-
-                                <td id="competence">
-                                    <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                                    <?php
-                                    $lstCompetenceIds = $objProjet->getCompetenceIds();
-
-                                    if (!is_null($lstCompetenceIds)) {
-                                        foreach ($lstCompetenceIds as $idCompetence) {
-                                            $objCompetence = new Competence($idCompetence);
-                                            echo $objCompetence->getLibelle();
-                                            echo ('</br>');
-                                        }
-                                    }
-                                    ?>									
                                 </td>
 
                                 <td id="date">
@@ -108,6 +85,7 @@
                                 ?>
                             </tr>
                             <?php
+                            unset($objProjet);
                         }
                     }
                     ?>

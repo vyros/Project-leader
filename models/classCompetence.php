@@ -2,34 +2,15 @@
 
 class Competence extends Classe {
 
-    /**
-     *
-     * @var int 
-     */
-    private $m_id;
+//    const PREFIX = 'cpt';
+//    const TABLE = 'competence';
 
-    /**
-     *
-     * @var string 
-     */
-    private $m_libelle;
+    public function __construct($p_id) {
 
-    public function __construct() {
-        parent::__construct(func_get_args());
-    }
+        $this->prefix = 'cpt';
+        $this->table = 'competence';
 
-    public function exists($p_id) {
-
-        $requete = " SELECT * FROM categorie " .
-                " WHERE cat_id = " . $p_id . " LIMIT 1;";
-
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
-        if ($array != null) {
-            $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($array[cat_libelle]);
-        } else {
-            unset($this);
-        }
+        parent::__construct($p_id);
     }
 
     /**
@@ -39,9 +20,9 @@ class Competence extends Classe {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    public static function getLstNIds($p_n = 0) {
+    private static function getNIds($p_n = 0) {
 
-        $requete = "SELECT cat_id FROM categorie ";
+        $requete = "SELECT cpt_id FROM competence ";
 
         if ($p_n != 0) {
             $requete .= " LIMIT $p_n;";
@@ -49,7 +30,29 @@ class Competence extends Classe {
             $requete .= ";";
         }
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
+    }
+
+    /**
+     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    public static function getNObjs($p_n = 0) {
+
+        $lstIds = self::getNIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Competence($idObj);
+        }
+
+        return $lstObjs;
     }
 
     /**
@@ -61,11 +64,12 @@ class Competence extends Classe {
      */
     public static function getIdFromLibelle($p_libelle) {
 
-        $requete = "SELECT cat_id FROM categorie " .
-                "WHERE cat_libelle = '" . $p_libelle . "'";
+        $libelle = Connexion::getSafeString($p_libelle);
+        
+        $requete = "SELECT cpt_id FROM competence " .
+                "WHERE cpt_libelle = '" . $libelle . "'";
 
-
-        $array = Site::getConnexion()->getFetchArray($requete);
+        $array = Site::getConnexion()->getFetchAssArray($requete);
         if ($array != null) {
             return $array[cpt_id];
         }
@@ -74,11 +78,32 @@ class Competence extends Classe {
     }
 
     public function getId() {
-        return $this->m_id;
+        return $this->getPrivate('id');
     }
 
     public function getLibelle() {
-        return $this->m_libelle;
+        return $this->getPrivate('libelle');
+    }
+
+    public static function getCompetenceMereIds() {
+
+        $requete = "SELECT DISTINCT A.cpt_id_mere " .
+                " FROM appartenir AS A, comptence AS C " .
+                " WHERE A.cpt_id_mere = C.cpt_id ;";
+
+        return Site::getConnexion()->getFetchIntArray($requete);
+    }
+
+    public static function getCompetenceFilleIds($p_cpt_id) {
+
+        if(is_null($idCompetence = Site::isValidId($p_cpt_id)))
+            return null;
+        
+        $requete = " SELECT C.cpt_id FROM competence AS C , appartenir AS A " .
+                " WHERE C.cpt_id = A.cpt_id_fils " .
+                " AND cpt_id_mere = " . $idCompetence . ";";
+
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
 }

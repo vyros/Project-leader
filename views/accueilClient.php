@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -17,14 +12,15 @@
             <div class="testimonial_box">
                 <p>
                     <?php
-                    $i = 0;
+                    $verrou = true;
                     if (!is_null($lstUtilisateurProjetObjs)) {
-                        foreach ($lstUtilisateurProjetObjs as $objProjet) {
+                        foreach ($lstUtilisateurProjetObjs as &$objProjet) {
+                            $verrou = false;
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                <?php echo "- " . $objProjet->getLibelle(); ?></a><br />
+                                <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
-                            $i++;
+                            unset($objProjet);
                         }
                     }
                     ?>
@@ -32,7 +28,7 @@
             </div>
         </div>
         <?php
-        if ($i != 0) {
+        if (!$verrou) {
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
@@ -78,7 +74,7 @@
                     <tbody>
                         <?php
                         if (!is_null($lstUtilisateurObjs)) {
-                            foreach ($lstUtilisateurObjs as $objUtilisateur) {
+                            foreach ($lstUtilisateurObjs as &$objUtilisateur) {
                                 ?>
                                 <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
@@ -88,10 +84,7 @@
                                     </td>
 
                                     <td id="competence">
-                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                                        <?php
-                                        echo 'test';
-                                        ?>											
+                                        <input type="hidden" name="competence" value="">										
                                     </td>
 
                                     <td id="nbreProjet">
@@ -121,6 +114,7 @@
 
 
                                 <?php
+                                unset($objUtilisateur);
                             }
                         }
                         ?>

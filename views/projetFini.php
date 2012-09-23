@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -18,7 +13,7 @@
                 <thead>
                     <tr>
                         <th class="sorting_asc">Intitulé</th>
-                        <th class="sorting_asc">Catégorie</th>
+                        <th class="sorting_asc">Compétences</th>
                         <th class="sorting_asc">Date de création</th>
                         <th class="sorting_asc">Description</th>
                         <th class="sorting_asc">Accès</th>
@@ -26,7 +21,7 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstProjetIds)) {
+                    if (!is_null($lstProjetIds = Site::getUtilisateur()->getNClosedProjetIds())) {
                         foreach ($lstProjetIds as $idProjet) {
                             $objProjet = new Projet($idProjet);
                             ?>
@@ -36,19 +31,17 @@
                                     <?php echo $objProjet->getLibelle(); ?>
                                 </td>
 
-                                <td id="categorie">
-                                    <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="">
                                     <?php
-                                    $lstCategorieIds = $objProjet->getCategorieIds();
-
-                                    if (!is_null($lstCategorieIds)) {
-                                        foreach ($lstCategorieIds as $idCategorie) {
-                                            $objCategorie = new Categorie($idCategorie);
-                                            echo $objCategorie->getLibelle();
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as &$objCompetence) {
+                                            echo $objCompetence->getLibelle();
                                             echo ('</br>');
+                                            unset($objCompetence);
                                         }
                                     }
-                                    ?>											
+                                    ?>									
                                 </td>
 
                                 <td id="date">
@@ -73,6 +66,7 @@
                                 ?>
                             </tr>
                             <?php
+                            unset($objProjet);
                         }
                     }
                     ?>

@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <script language="javascript">
     var obj = document.getElementById('evaluation');
     var old = document.getElementById('note');       

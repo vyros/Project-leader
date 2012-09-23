@@ -1,10 +1,4 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Evaluation
  *
@@ -12,146 +6,105 @@
  */
 class Evaluation extends Classe {
 
-    /**
-     *
-     * @var array 
-     */
-    private $m_private;
+//    const PREFIX = 'eva';
+//    const TABLE = 'evaluation';
+    
+    public function __construct($p_id) {
 
-    /**
-     *
-     * @var String 
-     */
-    private static $suffix = "eva";
+        $this->prefix = 'eva';
+        $this->table = 'evaluation';
 
-    public function __construct() {
-        parent::__construct(func_get_args());
+        parent::__construct($p_id);
     }
 
-    public function exists($p_id) {
-
-        $requete = " SELECT * FROM evaluation " .
-                " WHERE eva_id = " . Connexion::getSafeString($p_id) . " LIMIT 1;";
-
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
-        if ($array != null) {
-            foreach ($array as $key => $value) {
-                $cle = split("_", $key);
-                if ($cle[0] != self::$suffix) {
-                    $this->m_private[$cle[0]] = Connexion::getOriginalString($value);
-                } else {
-                    $this->m_private[$cle[1]] = Connexion::getOriginalString($value);
-                }
-            }
-        } else {
-            unset($this);
-        }
-    }
-
+    /**
+     * Ajoute une evaluation.
+     * 
+     * @return Evaluation Retourne le nouvel objet en cas de succès, sinon retourne null.
+     *  Permet instanceof Object.
+     */
     public static function add($p_projet, $p_evaluateur, $p_utilisateur, $p_formulaire, $p_score) {
 
-        if (!$idProjet = Site::isValidId($p_projet))
+        if (is_null($idProjet = Site::isValidId($p_projet)))
             return null;
 
-        if (!$idEvaluateur = Site::isValidId($p_evaluateur))
+        if (is_null($idEvaluateur = Site::isValidId($p_evaluateur)))
             return null;
 
-        if (!$idUtilisateur = Site::isValidId($p_utilisateur))
+        if (is_null($idUtilisateur = Site::isValidId($p_utilisateur)))
             return null;
 
         $requete = "INSERT INTO evaluation (eva_date, utilisateur_id, evaluateur_id, projet_id) " .
                 "VALUES ('" . date('c') . "'," . $idUtilisateur . "," . $idEvaluateur . "," . $idProjet . ");";
 
-        $idEvaluation = Site::getConnexion()->doSql($requete, "evaluation");
-        if ($idEvaluation) {
+        if ($idEvaluation = Site::getConnexion()->doSql($requete, "evaluation")) {
             $objEvaluation = new Evaluation($idEvaluation);
 
-            if (!is_null($objEvaluation))
-                return $objEvaluation->addFormulaire($p_formulaire, $p_score);
+            if ($objEvaluation->addFormulaire($p_formulaire, $p_score))
+                return $objEvaluation;
+                
         }
 
         return null;
     }
 
+    /**
+     * Ajoute un evaluation.
+     * 
+     * @param int $p_formulaire
+     * @param int $p_score
+     * @return boolean Retourne true en cas de succès, sinon retourne false.
+     */
     public function addFormulaire($p_formulaire, $p_score) {
 
-        if (!$idEvaluation = Site::isValidId($this->getPrivate("id")))
-            return null;
+        if (is_null($idFormulaire = Site::isValidId($p_formulaire)))
+            return false;
 
-        if (!$idFormulaire = Site::isValidId($p_formulaire))
-            return null;
-
-        if (!is_numeric($p_score))
-            return null;
-
-        $score = $p_score;
+        if (is_null($score = Site::isValidId($p_score)))
+            return false;
 
         $requete = "INSERT INTO completer (eva_id, for_id, com_score, com_date) " .
-                "VALUES (" . $idEvaluation . "," . $idFormulaire . "," . $score . ",'" . date('c') . "');";
+                "VALUES (" . $this->getPrivate("id") . "," . $idFormulaire . "," . $score . ",'" . date('c') . "');";
 
         if (Site::getConnexion()->doSql($requete)) {
-            return $this;
+            return true;
         }
-
-        unset($this);
-        return null;
-    }
-
-    // Accesseurs privés
-    private function getPrivate($key = null) {
-        if (!is_string($key) || $key == "")
-            return null;
-
-        if (!array_key_exists($key, $this->m_private))
-            return null;
-
-        return $this->m_private[$key];
-    }
-
-    private function getSafePrivate($key = null) {
-        if (!is_string($key) || $key == "")
-            return null;
-
-        if (!array_key_exists($key, $this->m_private))
-            return null;
-
-        return Connexion::getSafeString($this->m_private[$key]);
-    }
-
-    private function setPrivate($key = null, $value = null) {
-        if (!is_string($key) || $key == "")
-            return false;
-
-        if (!array_key_exists($key, $this->m_private) || is_null($value))
-            return false;
-
-        $this->m_private[$key] = $value;
-
-        return true;
-    }
-
-    public static function check($p_utilisateur, $p_evaluateur, $p_formulaire, $p_projet) {
         
-        if ($idUtilisateur = Site::isValidId($p_utilisateur))
-            ;
+        return false;
+    }
 
-        if ($idEvaluateur = Site::isValidId($p_evaluateur))
-            ;
+    /**
+     * Test si l'evaluateur n'a pas déjà evalué l'utilisateur via le formulaire 
+     *  et concernant le projet.
+     * 
+     * @param int $p_utilisateur
+     * @param int $p_evaluateur
+     * @param int $p_formulaire
+     * @param int $p_projet
+     * @return boolean Retourne true en cas de succès, sinon retourne false.
+     */
+    public static function check($p_utilisateur, $p_evaluateur, $p_formulaire, $p_projet) {
 
-        if ($idFormulaire = Site::isValidId($p_formulaire))
-            ;
+        if (is_null($idUtilisateur = Site::isValidId($p_utilisateur)))
+            return false;
 
-        if ($idProjet = Site::isValidId($p_projet))
-            ;
+        if (is_null($idEvaluateur = Site::isValidId($p_evaluateur)))
+            return false;
+
+        if (is_null($idFormulaire = Site::isValidId($p_formulaire)))
+            return false;
+
+        if (is_null($idProjet = Site::isValidId($p_projet)))
+            return false;
 
         $requete = " SELECT COUNT(1) FROM evaluation e, completer c WHERE e.utilisateur_id = " . $idUtilisateur .
                 " AND e.evaluateur_id = " . $idEvaluateur . " AND e.projet_id = " . $idProjet .
                 " AND e.eva_id = c.eva_id AND c.for_id = " . $idFormulaire . ";";
 
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
+        $array = Site::getConnexion()->getFetchIntArray($requete);
         if (empty($array))
             return true;
-        
+
         return false;
     }
 

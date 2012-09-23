@@ -23,15 +23,6 @@ abstract class Statut {
         }
     }
 
-    /**
-     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
-     * 
-     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
-     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
-     *  retourne null si aucun.
-     */
-    private static function getLstNIds($p_n = 0) {}
-
     public function __toString() {
         $res = strtolower(get_class($this));
         return $res;

@@ -1,83 +1,89 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of classNotification
+ * Description of Notification
  *
  * @author nicolas.gard
  */
 class Notification extends Classe {
 
-    private $m_id;
-    private $m_titre;
-    private $m_nom;
-    private $m_libelle;
-    private $m_nature;
-    private $m_date;
-    private $m_lu;
-    private $m_uti_id;
-    private $m_uti_id2;
-    private $m_projet_id;
+//    const PREFIX = 'not';
+//    const TABLE = 'notification';
+    
+    public function __construct($p_id) {
 
-    public function __construct() {
-        parent::__construct(func_get_args());
+        $this->prefix = 'not';
+        $this->table = 'notification';
+
+        parent::__construct($p_id);
     }
 
-    public function exists($p_id) {
+    /**
+     * Ajoute une notification.
+     * 
+     * @return Notification Retourne le nouvel objet en cas de succès, sinon retourne null.
+     *  Permet instanceof Object.
+     */
+    public static function add($p_idUtilisateur, $p_idNotification) {
 
-        $requete = " SELECT * FROM notification " .
-                " WHERE not_id = " . $p_id . " LIMIT 1;";
+        /**
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         */
+        
+        $utilisateur = Connexion::getSafeString($p_idUtilisateur);
+        $notification = Connexion::getSafeString($p_idNotification);
 
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
-        if ($array != null) {
-            $this->m_id = $p_id;
-            $this->m_titre = stripslashes($array[not_titre]);
-            $this->m_nom = stripslashes($array[not_nom]);
-            $this->m_libelle = stripslashes($array[not_libelle]);
-            $this->m_nature = stripslashes($array[not_nature]);
-            $this->m_date = stripslashes($array[not_date]);
-            $this->m_lu = stripslashes($array[not_lu]);
-            $this->m_uti_id = stripslashes($array[uti_id]);
-            $this->m_uti_id2 = stripslashes($array[uti_id2]);
-            $this->m_projet_id = stripslashes($array[projet_id]);
-        } else {
-            unset($this);
+        $requete = "INSERT INTO effectuer (uti_id, not_id) " .
+                "VALUES ('" . $utilisateur . "','" . $notification . "')";
+
+        $idNotification = Site::getConnexion()->doSql($requete, "notification");
+        if ($idNotification) {
+            return new Notification($idNotification);
         }
+
+        return null;
     }
 
-    public static function getComProjet($idProjet) {
+    public static function addCommentaire($p_titre, $libelle, $p_idEmetteur, $p_idReceveur, $p_idProjet) {
 
-        $requete = "SELECT * FROM notification " .
+        $today = date("Y/m/d");
+
+//        $requete = "INSERT INTO notification (not_sujet, not_nom, not_libelle, not_nature, not_date, not_lu, uti_id, uti_id2, projet_id) " .
+        $requete = "INSERT INTO notification (not_sujet, not_corps, not_nature, not_date, not_lu, emetteur_id, receveur_id, projet_id) " .
+                "VALUES ('" . $p_titre . "','" . $libelle . "','commentaire','" . date('c') . "','0','" . $idEmetteur . "','" . $idReceveur . "','" . $idProjet . "')";
+        echo $requete;
+//        return Site::getConnexion()->doSql($requete);
+    }
+    
+    public static function getCommentaireProjetIds($p_idProjet) {
+
+        
+        
+        $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'commentaire'" .
                 " AND projet_id = " . $idProjet . ";";
         //echo $requete;
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
-
-    public static function addCom($titre, $nom, $libelle, $idUti, $idUti2, $idPjt) {
-
-        $today = date("Y/m/d");
-
-        $requete = "INSERT INTO notification (not_titre, not_nom, not_libelle, not_nature, not_date, not_lu, uti_id, uti_id2, projet_id) " .
-                "VALUES ('" . $titre . "','" . $nom . "','" . $libelle . "','commentaire','" . $today . "','0','" . $idUti . "','" . $idUti2 . "','" . $idPjt . "')";
-        echo $requete;
-//        return Site::getConnexion()->doSql($requete);
-    }
-
+    
     public static function msgNonLu($idUtilisateur) {
 
-        $requete = "SELECT * FROM notification " .
+        $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND not_lu = '0' " .
-                " AND uti_id2 = " . $idUtilisateur . ";";
+                " AND receveur_id = " . $idUtilisateur . ";";
 //        echo $requete;
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     public static function msgLu($idUtilisateur) {
@@ -85,10 +91,10 @@ class Notification extends Classe {
         $requete = "SELECT * FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND not_lu = '1' " .
-                " AND uti_id2 = " . $idUtilisateur . ";";
+                " AND receveur_id = " . $idUtilisateur . ";";
 //        echo $requete;
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     public static function getNbreNonLu($idUtilisateur) {
@@ -136,7 +142,7 @@ class Notification extends Classe {
 //                   " AND n.uti_id2 = '".$idUtilisateur2."' " .
 //                   " AND n.not_date = '".$date."'";
 
-        $requete = " SELECT * FROM notification " .
+        $requete = " SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND (uti_id = '" . $idUtilisateurCourant . "' OR uti_id2 = '" . $idUtilisateurCourant . "') " .
                 " AND (uti_id = '" . $idUtilisateur1 . "' OR uti_id2 = '" . $idUtilisateur1 . "') " .
@@ -144,14 +150,14 @@ class Notification extends Classe {
 
         echo $requete;
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     public function editMsgLu($idMsg) {
 
         $requete = " UPDATE notification SET not_lu = '1'" .
-                " WHERE not_id = " . $idMsg . ";";
-        echo $requete;
+                " WHERE not_id = " . $this->getPrivate('id') . ";";
+
         if (Site::getConnexion()->doSql($requete)) {
             return $this;
         }
@@ -159,35 +165,39 @@ class Notification extends Classe {
     }
 
     public function getId() {
-        return $this->m_id;
+        return $this->getPrivate('id');
     }
 
-    public function getNom() {
-        return $this->m_nom;
+    public function getSujet() {
+        return $this->getPrivate('sujet');
     }
 
     public function getTitre() {
-        return $this->m_titre;
+        return $this->getPrivate('sujet');
     }
 
     public function getLibelle() {
-        return $this->m_libelle;
+        return $this->getPrivate('corps');
     }
 
+    /**
+     *
+     * @return String 
+     */
     public function getDate() {
-        return $this->m_date;
+        return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
-    public function getUti() {
-        return $this->m_uti_id;
+    public function getEmetteur() {
+        return $this->getPrivate('emetteur');
     }
 
-    public function getUti2() {
-        return $this->m_uti_id2;
+    public function getReceveur() {
+        return $this->getPrivate('receveur');
     }
 
-    public function setLu($p_value) {
-        $this->m_lu = $p_value;
+    public function setLu($value) {
+        $this->setPrivate('lu', $value);
     }
 
 }

@@ -1,8 +1,4 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 $idProjet = $lstProjetIds[0][0];
 $objProjet = new Projet($idProjet);
 //print_r($lstProjetIds);
@@ -91,7 +87,7 @@ $("#btnfavoris").click(function() {
         
         <?php
             if (Site::getUtilisateur()->getStatut() == "prestataire"){
-                if (Site::getUtilisateur()->IsFavoris($idProjet)){
+                if (Site::getUtilisateur()->isFavoris($idProjet)){
                     echo "<label id='lblFav' for='infoPrj'>Ce projet est dans vos favoris</label>";                   
                 }else{
                     echo "<input id='btnfavoris' type='button' value='Favoris' />";
@@ -196,29 +192,6 @@ $("#btnfavoris").click(function() {
             
             <label for="infoPrj">Voir plus : </label>
             
-            <?php
-                // a faire: sortir les projet de meme competence et les associer les projet de meme categorie et de meme competence 
-                $tabIdCompetence = $objProjet->getCompetenceIds();
-                
-                $objCorrespondre = new Correspondre($idProjet);
-                $idCategorie = $objCorrespondre->getIdCategorie();
-                $listPjtSimilaire = Projet::getProjetSimilaire($idCategorie);
-                
-                 if (!is_null($listPjtSimilaire)) {
-                            foreach ($listPjtSimilaire as $value) {
-                                
-                               $objProjet = new Projet($value);
-                               $nom = $objProjet->getLibelle();
-                               ?>
-<!--                               <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                    <?php // echo $nom ?></a><br />-->
-                               <?php
-                            }
-                 }
-       
-            ?>
-            
-            
             <div class="margin_bottom_20 border_bottom"></div>
             <div class="margin_bottom_30"></div>
             
@@ -227,13 +200,13 @@ $("#btnfavoris").click(function() {
                 <ol  id="update" class="timeline">
             
                     <?php
-                        $listComProjet = Notification::getComProjet($idProjet);
+                        $listComProjet = Notification::getCommentaireProjetIds($idProjet);
                         //var_dump($listComProjet);
                         if (!is_null($listComProjet)) {
                             foreach ($listComProjet as $value) {
 
                                 $objCom = new Notification($value);
-                                $nom = $objCom->getNom();
+                                $nom = $objCom->getSujet();
                                 $titre = $objCom->getTitre();
                                 $libelle = $objCom->getLibelle();
                                 $date = $objCom->getDate();
@@ -242,7 +215,7 @@ $("#btnfavoris").click(function() {
                     ?>
                     <li class="box" style="display:list-item;">
                         <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
-                        <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCom->getUti(); ?>'});"><?php echo $nom; ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
+                        <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCom->getEmetteur(); ?>'});"><?php echo $nom; ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
                         <?php echo $libelle; ?>
                     </li>
             
@@ -261,7 +234,7 @@ $("#btnfavoris").click(function() {
                 
                 <form action="notification.php" method="post">
                     
-                <input type="hidden" id="action" name="action" value="addCom"/><!--
+                <input type="hidden" id="action" name="action" value="commentaire"/><!--
                     <input type="hidden" name="controller" value="projet"/>-->
             
                     <input type="hidden" name="idUti" id="idUti"  value="<?php echo $idUti; ?>"/>

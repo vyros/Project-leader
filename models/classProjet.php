@@ -1,146 +1,57 @@
 <?php
 
 class Projet extends Classe {
+//    const PREFIX = 'prj';
+//    const TABLE = 'projet';
 
     /**
      *
      * @var array 
      */
-    private $m_cat_array;
-
-    /**
-     *
-     * @var array 
-     */
-    private $m_cpt_array;
+    private $competence_ids;
 
     /**
      *
      * @var Etat 
      */
-    private $m_etat_obj;
+    private $etat_obj;
 
-    /**
-     *
-     * @var array 
-     */
-    private $m_private;
+    public function __construct($p_id) {
 
-    /**
-     *
-     * @var String 
-     */
-    private static $suffix = "prj";
+        $this->prefix = 'prj';
+        $this->table = 'projet';
 
-    public function __construct() {
-        parent::__construct(func_get_args());
-    }
+        parent::__construct($p_id);
 
-    public function exists($p_id) {
+        if ($this->checkPrivate()) {
+            # Les competences
+            $this->getCompetenceIds();
 
-        $requete = " SELECT * FROM projet " .
-                " WHERE prj_id = " . Connexion::getSafeString($p_id) . " LIMIT 1;";
-
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete, MYSQL_ASSOC));
-        if ($array != null) {
-            foreach ($array as $key => $value) {
-                $cle = split("_", $key);
-                if ($cle[0] != self::$suffix) {
-                    $this->m_private[$cle[0]] = Connexion::getOriginalString($value);
-                } else {
-                    $this->m_private[$cle[1]] = Connexion::getOriginalString($value);
-                }
-            }
-
-            $this->m_cat_array = $this->getCategorieIds();
-            if (!is_null($this->m_cat_array))
-                sort($this->m_cat_array);
-
-            $this->m_cpt_array = $this->getCompetenceIds();
-            if (!is_null($this->m_cpt_array))
-                sort($this->m_cpt_array);
-
+            # L'objet état
             $this->getEtatObj();
-        } else {
-            unset($this);
         }
-    }
-
-    public function getDocumentIds() {
-
-        $requete = " SELECT doc_id FROM document " .
-                " WHERE prj_id = " . $this->getSafePrivate("id") . ";";
-
-        return Site::getConnexion()->getFetchArray($requete);
-    }
-
-    /**
-     * Contrôle, instancie et retourne
-     * 
-     * @return Etat 
-     */
-    public function getEtatObj() {
-
-        if (!$this->m_etat_obj instanceof Etat) {
-
-            if ($idEtat = Site::isValidId($this->getPrivate("eta"))) {
-                $this->m_etat_obj = new Etat($idEtat);
-            } else {
-                return null;
-            }
-        }
-
-        return $this->m_etat_obj;
-    }
-
-    /**
-     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
-     * 
-     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
-     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
-     *  retourne null si aucun.
-     */
-    public static function getLstNIds($p_n = 0) {
-
-        $requete = "SELECT prj_id FROM projet ORDER BY prj_date DESC ";
-
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchArray($requete);
-    }
-
-    public static function getLstNObjs($p_n = 0) {
-        $lstArray = self::getLstNIds($p_n);
-        $objArray = null;
-
-        if (is_null($lstArray))
-            return null;
-
-        foreach ($lstArray as $value) {
-            $objArray[] = new Projet($value);
-        }
-
-        return $objArray;
     }
 
     /**
      * Ajoute un projet.
      * 
      * @return Projet Retourne le nouvel objet en cas de succès, sinon retourne null.
+     *  Permet instanceof Object.
      */
-    static public function add($p_etat, $p_libelle, $p_description, $p_budget, $p_echeance) {
+    static public function add($p_etat_id, $p_libelle, $p_description, $p_budget, $p_echeance) {
 
-        // Controle
+        if (is_null($idEtat = Site::isValidId($p_etat_id)))
+            return null;
+
+        $libelle = Connexion::getSafeString($p_libelle);
+        $description = Connexion::getSafeString($p_description);
+        $budget = Connexion::getSafeString($p_budget);
+        $echeance = Connexion::getSafeString($p_echeance);
 
         $requete = "INSERT INTO projet (eta_id, prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
-                "VALUES (" . $p_etat . ", '" . $p_libelle . "','" . $p_description . "','" . $p_budget . "','" . $p_echeance . "','" . date("c") . "')";
+                "VALUES (" . $idEtat . ", '" . $libelle . "','" . $description . "','" . $budget . "','" . $echeance . "','" . date("c") . "')";
 
-        $idProjet = Site::getConnexion()->doSql($requete, "projet");
-        if ($idProjet) {
+        if ($idProjet = Site::getConnexion()->doSql($requete, "projet")) {
             return new Projet($idProjet);
         }
 
@@ -156,10 +67,48 @@ class Projet extends Classe {
      */
     public function addParticipation($p_idUtilisateur) {
 
+        if (is_null($idUtilisateur = Site::isValidId($p_idUtilisateur)))
+            return false;
+
         $requete = "INSERT INTO participer (prj_id, uti_id, par_date) " .
-                "VALUES (" . $this->getSafePrivate("id") . "," . $p_idUtilisateur . ",'" . date("c") . "')";
+                "VALUES (" . $this->getPrivate("id") . "," . $idUtilisateur . ",'" . date("c") . "')";
 
         return Site::getConnexion()->doSql($requete);
+    }
+
+    // Gestion des compétences
+    public function addCompetences($p_cpt_ids) {
+
+        if (is_null($p_cpt_ids) || !count($p_cpt_ids))
+            return null;
+
+        foreach ($p_cpt_ids as $cpt_id) {
+
+            if (is_null($idCompetence = Site::isValidId($cpt_id)))
+                continue;
+
+            $requete = "INSERT INTO demander (prj_id, cpt_id) " .
+                    "VALUES (" . $this->getPrivate("id") . ", " . $idCompetence . ");";
+
+            Site::getConnexion()->doSql($requete);
+        }
+    }
+
+    public function removeCompetences($p_cpt_array) {
+
+        if (is_null($p_cpt_array) || !count($p_cpt_array))
+            return null;
+
+        foreach ($p_cpt_array as $cpt_id) {
+
+            if (is_null($idCompetence = Site::isValidId($cpt_id)))
+                continue;
+
+            $requete = " DELETE FROM demander WHERE cpt_id = " . $idCompetence .
+                    " AND prj_id = " . $this->getPrivate("id") . ";";
+
+            Site::getConnexion()->doSql($requete);
+        }
     }
 
     public function edit() {
@@ -167,68 +116,22 @@ class Projet extends Classe {
         $requete = " UPDATE projet SET prj_libelle = '" . $this->getSafePrivate("libelle") . "'," .
                 " prj_description = '" . $this->getSafePrivate("description") . "', prj_budget = '" . $this->getSafePrivate("budget") . "'," .
                 " prj_echeance = '" . $this->getSafePrivate("echeance") . "', etat_id = " . $this->getSafePrivate("eta") . "," .
-                " WHERE pjr_id = " . $this->getSafePrivate("id") . ";";
+                " WHERE pjr_id = " . $this->getPrivate("id") . ";";
 
-        $tabAjouterCat = array_diff($this->m_cat_array, $this->getCategorieIds());
-        $tabSupprimerCat = array_diff($this->getCategorieIds(), $this->m_cat_array);
-
-        $tabAjouterComp = array_diff($this->m_cpt_array, $this->getCompetenceIds());
-        $tabSupprimerComp = array_diff($this->getCompetenceIds(), $this->m_cpt_array);
+        $tabAjouterComp = array_diff($this->competence_ids, $this->getCompetenceIds());
+        $tabSupprimerComp = array_diff($this->getCompetenceIds(), $this->competence_ids);
 
         if (Site::getConnexion()->doSql($requete)) {
 
-            if (is_null($tabAjouterCat))
-                $tabAjouterCat = $this->m_cat_array;
-
-            Correspondre::addCorrespondance($this->getPrivate("id"), $tabAjouterCat);
-            Correspondre::removeCategorie($this->getPrivate("id"), $tabSupprimerCat);
-
-            // Y A UN BUG ICI?!?
-            //return $this;
-
             if (is_null($tabAjouterComp))
-                $tabAjouterComp = $this->m_cat_array;
+                $tabAjouterComp = $this->competence_ids;
 
-            Correspondre::addCorrespondance($this->getPrivate("id"), $tabAjouterComp);
-            Correspondre::removeCategorie($this->getPrivate("id"), $tabSupprimerCat);
+            $this->addCompetences($tabAjouterComp);
+            $this->removeCompetences($tabSupprimerComp);
 
             return $this;
         }
         return null;
-    }
-
-    /**
-     * Retourne la categorie associée au projet.
-     * 
-     * @return array Retourne un tableau contenant l'id de l'enregistrement,
-     *  retourne null si aucun.
-     */
-    public function getCategorieIds() {
-
-        $requete = "SELECT cat_id FROM correspondre " .
-                " WHERE prj_id = " . $this->getSafePrivate("id") . ";";
-
-        return Site::getConnexion()->getFetchArray($requete);
-    }
-
-    /**
-     * Retourne la categorie associée au projet.
-     * 
-     * @return array Retourne un tableau contenant l'objet de l'enregistrement,
-     *  retourne null si aucun.
-     */
-    public function getCategorieObjs() {
-        $lstArray = $this->getCategorieIds();
-        $objArray = null;
-
-        if (is_null($lstArray))
-            return null;
-
-        foreach ($lstArray as $value) {
-            $objArray[] = new Categorie($value);
-        }
-
-        return $objArray;
     }
 
     /**
@@ -237,12 +140,25 @@ class Projet extends Classe {
      * @return array Retourne un tableau contenant l'id de l'enregistrement,
      *  retourne null si aucun.
      */
-    public function getCompetenceIds() {
+    private function getCompetenceIds($p_n) {
 
-        $requete = "SELECT cpt_id FROM demander " .
-                " WHERE prj_id = " . $this->getSafePrivate("id") . ";";
+        if (!isset($this->competence_ids)) {
 
-        return Site::getConnexion()->getFetchArray($requete);
+            $requete = "SELECT cpt_id FROM demander " .
+                    " WHERE prj_id = " . $this->getPrivate("id");
+
+            if ($p_n != 0) {
+                $requete .= " LIMIT $p_n;";
+            } else {
+                $requete .= ";";
+            }
+
+            $this->competence_ids = Site::getConnexion()->getFetchIntArray($requete);
+
+            if (count($this->competence_ids))
+                sort($this->competence_ids);
+        }
+        return $this->competence_ids;
     }
 
     /**
@@ -252,62 +168,92 @@ class Projet extends Classe {
      *  retourne null si aucun.
      */
     public function getCompetenceObjs() {
-        $lstArray = $this->getCompetenceIds();
-        $objArray = null;
 
-        if (is_null($lstArray))
+        $lstObjs = null;
+        if (is_null($this->competence_ids) || !count($this->competence_ids))
             return null;
 
-        foreach ($lstArray as $value) {
-            $objArray[] = new Competence($value);
+        foreach ($this->competence_ids as $idObj) {
+            $lstObjs[] = new Competence($idObj);
+        }
+        return $lstObjs;
+    }
+
+    public function getDocumentIds() {
+
+        $requete = " SELECT doc_id FROM document " .
+                " WHERE prj_id = " . $this->getPrivate("id") . ";";
+
+        return Site::getConnexion()->getFetchIntArray($requete);
+    }
+
+    /**
+     * Contrôle, instancie et retourne.
+     * 
+     * @return Etat Retourne null sinon.
+     */
+    public function getEtatObj() {
+
+        if (!$this->etat_obj instanceof Etat) {
+            $this->etat_obj = new Etat($this->getPrivate("etat"));
         }
 
-        return $objArray;
+        return $this->etat_obj;
     }
 
-    public static function getProjetSimilaire($idCategorie) {
+    /**
+     * Obtenir N elements. tous les enregistrements sont retournés par défaut.
+     * 
+     * @param type $p_n Nombre d'enregistrements du tableau à retourner.
+     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
+     *  retourne null si aucun.
+     */
+    private static function getNIds($p_n = 0) {
 
-        $requete = " SELECT p.prj_id FROM categorie cat, demander d, correspondre c, projet p " .
-                " WHERE cat.cat_id = '" . $idCategorie . "' " .
-                " AND cat.cat_id = c.cat_id " .
-                " AND p.prj_id = c.prj_id ";
+        $requete = "SELECT prj_id FROM projet ORDER BY prj_date DESC ";
 
-        echo $requete;
+        if ($p_n != 0) {
+            $requete .= " LIMIT $p_n;";
+        } else {
+            $requete .= ";";
+        }
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
-    // Accesseurs privés
-    private function getPrivate($key = null) {
-        if (!is_string($key) || $key == "")
+    public static function getNObjs($p_n = 0) {
+
+        $lstIds = self::getNIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
             return null;
 
-        if (!array_key_exists($key, $this->m_private))
-            return null;
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Competence($idObj);
+        }
 
-        return $this->m_private[$key];
+        return $lstObjs;
     }
 
-    private function getSafePrivate($key = null) {
-        if (!is_string($key) || $key == "")
-            return null;
+    public function getProjetSimilaireIds() {
 
-        if (!array_key_exists($key, $this->m_private))
-            return null;
+        $lstIds = array();
 
-        return Connexion::getSafeString($this->m_private[$key]);
-    }
+        if (!is_null($this->competence_ids) && count($this->competence_ids)) {
+            foreach ($this->competence_ids as $cpt_id) {
 
-    private function setPrivate($key = null, $value = null) {
-        if (!is_string($key) || $key == "")
-            return false;
+                if (is_null($idCompetence = Site::isValidId($cpt_id)))
+                    continue;
 
-        if (!array_key_exists($key, $this->m_private) || is_null($value))
-            return false;
+                $requete = " SELECT prj_id FROM demander" .
+                        " WHERE cpt_id = " . $idCompetence . ";";
 
-        $this->m_private[$key] = $value;
+                $lstIds[] = Site::getConnexion()->getFetchIntArray($requete);
+            }
+        }
 
-        return true;
+        return $lstIds;
     }
 
     // Accesseurs publics
@@ -316,7 +262,7 @@ class Projet extends Classe {
     }
 
     public function getEtatId() {
-        return $this->getPrivate("eta");
+        return $this->getPrivate("etat");
     }
 
     public function getLibelle() {
@@ -335,26 +281,30 @@ class Projet extends Classe {
         return $this->getPrivate("echeance");
     }
 
+    /**
+     *
+     * @return String 
+     */
     public function getDate() {
-        return $this->getPrivate("date");
+        return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
     public function getPorteurIds() {
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'client' " .
                 " AND u.uti_id = p.uti_id " .
-                " AND p.prj_id = " . $this->getSafePrivate("id") . ";";
+                " AND p.prj_id = " . $this->getPrivate("id") . ";";
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     public function getPrestataireIds() {
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'prestataire' " .
                 " AND u.uti_id = p.uti_id " .
-                " AND p.prj_id = " . $this->getSafePrivate("id") . ";";
+                " AND p.prj_id = " . $this->getPrivate("id") . ";";
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     /**
@@ -364,24 +314,24 @@ class Projet extends Classe {
      * @return boolean 
      */
     public function isPorteur($p_porteur) {
-        if ($lstPorteurIds = $this->getPorteurIds()) {
+        if (!is_null($lstPorteurIds = $this->getPorteurIds())) {
             foreach ($lstPorteurIds as $value) {
                 if ($value[0] == $p_porteur->getId())
                     return true;
             }
         }
-        
+
         return false;
     }
 
     public function isPrestataire($p_prestataire) {
-        if ($lstPrestataireIds = $this->getPrestataireIds()) {
+        if (!is_null($lstPrestataireIds = $this->getPrestataireIds())) {
             foreach ($lstPrestataireIds as $value) {
                 if ($value[0] == $p_prestataire->getId())
                     return true;
             }
         }
-        
+
         return false;
     }
 
@@ -389,18 +339,11 @@ class Projet extends Classe {
         return "id : " . $this->getPrivate("id") . " ; libelle : " . $this->getPrivate("libelle");
     }
 
-    public function setCategories($p_value) {
+    public function setCompetenceIds($p_value) {
         if (!is_null($p_value))
             sort($p_value);
 
-        $this->m_cat_array = $p_value;
-    }
-
-    public function setCompetences($p_value) {
-        if (!is_null($p_value))
-            sort($p_value);
-
-        $this->m_cpt_array = $p_value;
+        $this->competence_ids = $p_value;
     }
 
     public function setBudget($p_value) {

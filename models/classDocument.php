@@ -1,116 +1,127 @@
 <?php
 
+/**
+ * Description of Document
+ *
+ * @author nicolas.gard
+ */
 class Document extends Classe {
 
-    private $m_id;
-    private $m_libelle;
-    private $m_chemin;
-    private $m_date;
-    private $m_uti_id;
-    private $m_prj_id;
+//    const PREFIX = 'doc';
+//    const TABLE = 'document';
 
-    public function __construct() {
-        parent::__construct(func_get_args());
-    }
+    public function __construct($p_id) {
 
-    public function exists($p_id) {
+        $this->prefix = 'doc';
+        $this->table = 'document';
 
-        $requete = " SELECT * FROM document " .
-                " WHERE doc_id = " . $p_id . " LIMIT 1;";
-
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
-        if ($array != null) {
-            $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($array[doc_libelle]);
-            $this->m_chemin = stripslashes($array[doc_chemin]);
-            $this->m_date = stripslashes($array[doc_date]);
-            $this->m_uti_id = stripslashes($array[uti_id]);
-            $this->m_prj_id = stripslashes($array[prj_id]);
-        } else {
-            unset($this);
-        }
+        parent::__construct($p_id);
     }
 
     /**
-     * Obtenir N elements. tous les enregistrements sont retournÃ©s par dÃ©faut.
+     * Ajoute un document.
      * 
-     * @param type $p_n Nombre d'enregistrements du tableau Ã  retourner.
-     * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
-     *  retourne null si aucun.
+     * @return Document Retourne le nouvel objet en cas de succès, sinon retourne null.
+     *  Permet instanceof Object.
      */
-    public static function addDocument($p_libelle, $p_date, $p_uti_id, $p_prj_id) {
+    public static function add($p_nature, $p_libelle, $p_uti_id, $p_prj_id) {
 
+        $nature = Connexion::getSafeString($p_nature);
+        $libelle = Connexion::getSafeString($p_libelle);
 
+        if (is_null($idUtilisateur = Site::isValidId($p_uti_id)))
+            $erreur = 'Utilisateur incorrect !';
+
+        // $idProjet null n'est pas une erreur cf BDD
+        $idProjet = Site::isValidId($p_prj_id);
+
+        // Vérifications liées au document
         $dossier = 'upload/';
-        $fichier = basename($_FILES['avatar']['name']);
+        $document = basename($_FILES['document']['name']);
         $taille_maxi = 100000;
-        $taille = filesize($_FILES['avatar']['tmp_name']);
+        $taille = filesize($_FILES['document']['tmp_name']);
         $extensions = array('.doc', '.docx', '.rtf', '.pdf', '.txt');
-        $extension = strrchr($_FILES['avatar']['name'], '.');
-        //Début des vérifications de sécurité...
+        $extension = strrchr($_FILES['document']['name'], '.');
+
         if (!in_array($extension, $extensions)) { //Si l'extension n'est pas dans le tableau
-            $erreur = 'Vous devez uploader un fichier de type doc, docx, jpg, rtf, txt ou pdf...';
+            $erreur = 'Vous devez charger un document de type doc, docx, jpg, rtf, txt ou pdf.';
         }
+
         if ($taille > $taille_maxi) {
-            $erreur = 'Le fichier est trop gros...';
+            $erreur = 'Le document est trop gros...';
         }
+
         if (!isset($erreur)) { //S'il n'y a pas d'erreur, on upload
-            //On formate le nom du fichier ici...
-            $fichier = strtr($fichier, 'Ã€Ã�Ã‚ÃƒÃ„Ã…Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã’Ã“Ã”Ã•Ã–Ã™ÃšÃ›ÃœÃ�Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã²Ã³Ã´ÃµÃ¶Ã¹ÃºÃ»Ã¼Ã½Ã¿', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-            $fichier = preg_replace('/([^.a-z0-9]+)/i', '-', $fichier);
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], $dossier . $fichier)) { //Si la fonction renvoie TRUE, c'est que Ã§a a fonctionnÃ©...
-                //echo 'Upload effectuÃ© avec succÃ¨s !';
-                $message[succes] = "Upload effectué avec succès !";
-            } else { //Sinon (la fonction renvoie FALSE).
-                //echo 'Echec de l\'upload !';
-                $message[erreur] = "Echec de l'upload !";
+            //On formate le nom du document ici...
+            $document = strtr($document, 'Ã€Ã�Ã‚ÃƒÃ„Ã…Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã’Ã“Ã”Ã•Ã–Ã™ÃšÃ›ÃœÃ�Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã²Ã³Ã´ÃµÃ¶Ã¹ÃºÃ»Ã¼Ã½Ã¿', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+            $document = preg_replace('/([^.a-z0-9]+)/i', '-', $document);
+            $lien = $dossier . $document;
+
+            if (move_uploaded_file($_FILES['document']['tmp_name'], $lien)) {
+                
+                $requete = "INSERT INTO document (doc_nature, doc_libelle, doc_lien, doc_date, utilisateur_id, projet_id) " .
+                        "VALUES ('" . $nature . "', '" . $libelle . "','" . $lien . "','" . date('c') . "'," . $idUtilisateur . "," . $idProjet . ")";
+
+                if ($idDocument = Site::getConnexion()->doSql($requete, "document")) {
+
+                    $message[succes] = "Enregistrement effectué avec succès !";
+                    return new Document($idDocument);
+                } else {
+                    $message[erreur] = "Echec de l'enregistrement en base, document supprimé !";
+                    exec('rm -f '.$lien);
+                }
+                
+            } else {
+                $message[erreur] = "Echec du chargement !";
             }
         } else {
-            //echo $erreur;
             $message[erreur] = $erreur;
         }
 
-        $requete = "INSERT INTO document (doc_id, doc_libelle, doc_date, uti_id, prj_id) " .
-                "VALUES ('" . $p_libelle . "','" . $p_date . "','" . $p_uti_id . "','" . $p_prj_id . "')";
-
-        $idDocument = Site::getConnexion()->doSql($requete, "document");
-        if ($idDocument) {
-            return new Projet($idDocument);
-        }
         return null;
     }
-    
-    public static function getDoc($p_uti_id, $p_prj_id){
-        
-        $requete = " SELECT * FROM document " .
-                   " WHERE uti_id = '".$p_uti_id."' " .
-                   " AND prj_id = '".$p_prj_id."'";
 
-        return Site::getConnexion()->getFetchArray($requete);
+    public static function getDocumentIds($p_uti_id, $p_prj_id) {
+
+        if (is_null($idUtilisateur = Site::isValidId($p_uti_id)))
+            return null;
+
+        if (is_null($idProjet = Site::isValidId($p_prj_id)))
+            return null;
+
+        $requete = " SELECT doc_id FROM document " .
+                " WHERE utilisateur_id = '" . $idUtilisateur . "' " .
+                " AND projet_id = " . $idProjet . ";";
+
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
     public function getId() {
-        return $this->m_id;
+        return $this->getPrivate('id');
     }
 
     public function getLibelle() {
-        return $this->m_libelle;
+        return $this->getPrivate('libelle');
     }
 
-    public function getChemin() {
-        return $this->m_chemin;
+    public function getLien() {
+        return $this->getPrivate('lien');
     }
-    
+
+    /**
+     *
+     * @return String 
+     */
     public function getDate() {
-        return $this->m_date;
-    }
-    
-    public function getUtiId() {
-        return $this->m_uti_id;
+        return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
-    public function getPrjId() {
-        return $this->m_prj_id;
+    public function getUtilisateurId() {
+        return $this->getPrivate('utilisateur');
+    }
+
+    public function getProjetId() {
+        return $this->getPrivate('projet');
     }
 
 }

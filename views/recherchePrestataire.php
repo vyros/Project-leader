@@ -14,38 +14,43 @@
             <input type="hidden" name="controller" value="recherche"/>
 
             <?php
-            //construction des blocs 
-            foreach ($lstCatIdPere as &$catpere) { //pour chaque id pere
+            //construction des blocs
+            foreach ($lstCompetenceMereIds as $idMere) {
+                $objMere = new Competence($idMere);
+
                 echo "<div>";
-                    echo "<div class='divtitre' id='Titre" . $catpere[cat_id_pere] . "'>"; 
-                        echo "<span class='libtitre'>" . $catpere[cat_libelle] . "</span>";
-                    echo "</div>";
-                    echo "<div class='divbloc' id='div" . $catpere[cat_id_pere] . "'>";                
-                    $i = 0;
-                    $lstCategorieFils = Categorie::getListCategoriesFilsByCode($catpere[cat_id_pere]);
-                    /* Sur 4 colonnes */
-                    if (!is_null($lstCategorieFils)) {
-                        echo "</br>";
-                        foreach ($lstCategorieFils as &$lstFils) { //pour chaque id fils
-                            if ($i == 4) {
-                                ?></br><?php
-                                $i = 0;
-                            }
-                            $i++;                                             
-                            echo "<div class='bloc'><input type='checkbox' name='rech' value=" . $lstFils[cat_id] . "id=" . $lstFils[cat_id] . "/>" . $lstFils[cat_libelle] . "</div>";  
-                        }
-                    }
+                echo "<div class='divtitre' id='Titre" . $objMere->getId() . "'>";
+                echo "<span class='libtitre'>" . $objMere->getLibelle() . "</span>";
+                echo "</div>";
+                echo "<div class='divbloc' id='div" . $objMere->getId() . "'>";
+                $i = 0;
+                $lstCompetenceFilleIds = Competence::getCompetenceFilleIds($objMere->getId());
+                /* Sur 4 colonnes */
+                if (!is_null($lstCompetenceFilleIds)) {
                     echo "</br>";
-                    echo "</div>"; //fermeture divid
-                 echo "</div>";  
-                 echo "</br></br>";
-                 echo "<script type='text/javascript'>";
-                    echo "$('#Titre" . $catpere[cat_id_pere] . "').click(function () { $('#div" . $catpere[cat_id_pere] ."').toggle('normal'); });";
-                 echo "</script>";
+                    foreach ($lstCompetenceFilleIds as $idFille) {
+                        $objFille = new Competence($idFille);
+                        if ($i == 4) {
+                            ?></br><?php
+                $i = 0;
             }
+            $i++;
+            echo "<div class='bloc'><input type='checkbox' name='rech' value=" . $objFille->getId() . "id=" . $objFille->getId() . "/>" . $objFille->getLibelle() . "</div>";
+        }
+    }
+    echo "</br>";
+    echo "</div>"; //fermeture divid
+    echo "</div>";
+    echo "</br></br>";
+    echo "<script type='text/javascript'>";
+    echo "$('#Titre" . $objMere->getId() . "').click(function () { $('#div" . $objMere->getId() . "').toggle('normal'); });";
+    echo "</script>";
+
+    unset($objMere);
+}
             ?>
 
-         
+
             <div style="width:600px">
                 <div class="rc_btn_02" style="float:left"><a id="btnvalider" onclick="getFormulary('rp1');">Valider</a></div>
                 <div id="nores"></div>
@@ -68,15 +73,14 @@
             <img src="images/icone_result_recherche.png"/> 
             <div class="header_02">Résultat(s)</div>
         </div>
-        
+
         <div id="demo">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                 <thead>
                     <tr>
                         <th class="sorting_asc">Intitul&eacute;</th>
-                        <th class="sorting_asc">Cat&eacute;gorie</th>
                         <th class="sorting_asc">Budget</th>
-                        <th class="sorting_asc">Comp&eacute;tence requise</th>
+                        <th class="sorting_asc">Comp&eacute;tences requises</th>
                         <th class="sorting_asc">Date de cr&eacute;ation</th>
                         <th class="sorting_asc">Description</th>
                         <?php
@@ -90,8 +94,8 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($listProjets)) {
-                        foreach ($listProjets as $idProjet) {
+                    if (!is_null($lstProjetIds)) {
+                        foreach ($lstProjetIds as $idProjet) {
                             $objProjet = new Projet($idProjet);
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
@@ -100,38 +104,19 @@
                                     <?php echo $objProjet->getLibelle(); ?>
                                 </td>
 
-                                <td id="categorie">
-                                    <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-                                    <?php
-                                    $lstCategorieIds = $objProjet->getCategorieIds();
-
-                                    if (!is_null($lstCategorieIds)) {
-                                        foreach ($lstCategorieIds as $idCategorie) {
-                                            $objCategorie = new Categorie($idCategorie);
-                                            //echo ('- ');
-                                            echo $objCategorie->getLibelle();
-                                            echo ('</br>');
-                                        }
-                                    }
-                                    ?>											
-                                </td>
-
                                 <td id="budget">
                                     <input type="hidden" name="budget" value="<?php echo $objProjet->getBudget(); ?>">
                                     <?php echo $objProjet->getBudget(); ?>											
                                 </td>
 
                                 <td id="competence">
-                                    <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                    <input type="hidden" name="competence" value="">
                                     <?php
-                                    $lstCompetenceIds = $objProjet->getCompetenceIds();
-
-                                    if (!is_null($lstCompetenceIds)) {
-                                        foreach ($lstCompetenceIds as $idCompetence) {
-                                            $objCompetence = new Competence($idCompetence);
-                                            //echo ('- ');
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as &$objCompetence) {
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
+                                            unset($objCompetence);
                                         }
                                     }
                                     ?>									
@@ -162,6 +147,7 @@
                                 ?>
                             </tr>
                             <?php
+                            unset($objProjet);
                         }
                     }
                     ?>
@@ -185,15 +171,15 @@
             <img src="images/icone_resultat.png"/> 
             <div class="header_02">Résultat(s)</div>
         </div>
-        
+
         <div id="demo">
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                 <thead>
                     <tr>
-                            <th class="sorting_asc">Pseudo</th>
-                            <th class="sorting_asc">Compétence</th>
-                            <th class="sorting_asc">Nombre de projet à ce jour</th>
-                            <th class="sorting_asc">Date d'inscription</th>
+                        <th class="sorting_asc">Pseudo</th>
+                        <th class="sorting_asc">Compétences</th>
+                        <th class="sorting_asc">Nombre de projet à ce jour</th>
+                        <th class="sorting_asc">Date d'inscription</th>
                         <?php
                         if ($idUtilisateur !== null) {
                             ?>
@@ -205,42 +191,43 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($listUsers)) {
-                        foreach ($listUsers as $idUser) {
-                            $objUtilisateur = new Utilisateur($idUser);
+                    if (!is_null($lstUtilisateurIds)) {
+                        foreach ($lstUtilisateurIds as $idUtilisateur) {
+                            $objUtilisateur = new Utilisateur($idUtilisateur);
                             ?>
-                             <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+                            <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
-                                    <td id="pseudo">
-                                        <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 
-                                        <?php echo $objUtilisateur->getLogin(); ?>
-                                    </td>
+                                <td id="pseudo">
+                                    <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 
+                                    <?php echo $objUtilisateur->getLogin(); ?>
+                                </td>
 
-                                    <td id="competence">
-                                        <input type="hidden" name="competence" value="<?php echo '???'; ?>">
-                        <?php
-                                        echo 'test';
-                                        ?>											
-                                    </td>
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="<?php echo '???'; ?>">
+                                    <?php
+                                    echo 'test';
+                                    ?>											
+                                </td>
 
-                                    <td id="nbreProjet">
-                                        <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>">
-                                        <?php echo $objUtilisateur->getNombreProjets(); ?>											
-                                    </td>
+                                <td id="nbreProjet">
+                                    <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>">
+                                    <?php echo $objUtilisateur->getNombreProjets(); ?>											
+                                </td>
 
-                                    <td id="dateInscri">
-                                        <input type="hidden" name="dateInscri" value="<?php echo '???'; ?>">
-                                        <?php
-                                        echo $objUtilisateur->getDate();
-                                        ?>									
-                                    </td>
+                                <td id="date">
+                                    <input type="hidden" name="date" value="<?php echo '???'; ?>">
+                                    <?php
+                                    echo $objUtilisateur->getDate();
+                                    ?>									
+                                </td>
 
-                                    <td id="access">
-                                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
-                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
-                                    </td> 
-                                 </tr>  
+                                <td id="access">
+                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                        <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                </td> 
+                            </tr>  
                             <?php
+                            unset($objUtilisateur);
                         }
                     }
                     ?>

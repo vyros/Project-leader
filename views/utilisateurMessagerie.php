@@ -30,7 +30,7 @@
                             foreach ($lstMsgNonLu as $value) {
 
                                 $objMsg = new Notification($value);
-                                $nom = $objMsg->getNom();
+                                $nom = $objMsg->getSujet();
                                 $titre = $objMsg->getTitre();
                         //      $libelle = $objMsg->getLibelle();
                                 $date = $objMsg->getDate();
@@ -47,7 +47,7 @@
                         
                         <td id="user">
                             <input type="hidden" name="user" value="<?php echo $nom ?>"> 
-                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getUti(); ?>'});"><?php echo $nom ?></a>
+                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getEmetteur(); ?>'});"><?php echo $nom ?></a>
                         </td>
                         
                         <td id="date">
@@ -93,7 +93,7 @@
                             foreach ($lstMsgLu as $value) {
 
                                 $objMsg = new Notification($value);
-                                $nom = $objMsg->getNom();
+                                $nom = $objMsg->getSujet();
                                 $titre = $objMsg->getTitre();
                         //      $libelle = $objMsg->getLibelle();
                                 $date = $objMsg->getDate();
@@ -110,7 +110,7 @@
                         
                         <td id="user">
                             <input type="hidden" name="user" value="<?php echo $nom ?>"> 
-                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getUti(); ?>'});"><?php echo $nom ?></a>
+                            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getEmetteur(); ?>'});"><?php echo $nom ?></a>
                         </td>
                         
                         <td id="date">

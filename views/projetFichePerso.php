@@ -1,53 +1,3 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
-<script type="text/javascript">
-    $(function() {
-        $(".commenter").click(function() {
-
-            var idUti = $("#idUti").val();
-            var idPjt = $("#idPjt").val();
-            var nomUti = $("#nomUti").val();
-            var titre = $("#titre").val();
-            var comment = $("#comment").val();
-            var action = $("#action").val();
-
-            var dataString = 'action=' + action + ' &titre=' + titre + ' &comment=' + comment + '&idUti=' + idUti + '&idPjt=' + idPjt + '&nomUti=' + nomUti;
-            //alert(dataString);	
-            if(comment=='')
-            {
-                alert('Veuillez saisir un commentaire');
-            }
-            else
-            {
-                $("#flash").show();
-                $("#flash").fadeIn(400).html('<img src="ajax-loader.gif" align="absmiddle">&nbsp;<span class="loading">Loading Comment...</span>');
-
-                $.ajax({
-                    type: "POST",
-                    url: "notification.php",
-                    data: dataString,
-                    cache: false,
-                    success: function(html){
- 
-                        $("ol#update").append(html);
-                        $("ol#update li:last").fadeIn("slow");
-                        document.getElementById('comment').value='';
-                        $("#name").focus();
- 
-                        $("#flash").hide();
-	
-                    }
-                });
-            }
-            return false;
-        });
-    });
-</script>
-
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -81,32 +31,30 @@
 				
                     $("#demo-input-local2").tokenInput([
 <?php
-$lstCompetenceIds = Competence::getLstNIds();
-if (!is_null($lstCompetenceIds)) {
-    foreach ($lstCompetenceIds as $value) {
-        $objCompetence = new Competence($value);
+if (!is_null($lstCompetenceObjs = Competence::getNObjs())) {
+    foreach ($lstCompetenceObjs as &$objCompetence) {
         ?>
                             {
                                 id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
                                 name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                             },   
         <?php
+        unset($objCompetence);
     }
 }
 ?>
         ],
         { prePopulate: [
 <?php
-$lstCompetenceIds = $objProjet->getCompetenceIds();
-if (!is_null($lstCompetenceIds)) {
-    foreach ($lstCompetenceIds as $idCompetence) {
-        $objCompetence = new Competence($idCompetence);
+if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+    foreach ($lstCompetenceObjs as &$objCompetence) {
         ?>
                                 {
-                                    id: <?php echo $idCompetence; ?>, 
+                                    id: <?php echo $objCompetence->getId(); ?>, 
                                     name: "<?php echo $objCompetence->getLibelle(); ?>"
                                 },
         <?php
+        unset($objCompetence);
     }
 }
 ?>					
@@ -116,20 +64,16 @@ if (!is_null($lstCompetenceIds)) {
             </script>
 
             <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-            <label for="fichier">Fichier : </label><br />
+            <label for="document">Fichier : </label><br />
             <?php
-            $lstDoc = Document::getDoc($objProjet->get, $idProjet);
-            //var_dump($listComProjet);
-            if (!is_null($lstDoc)) {
-                foreach ($lstDoc as $value) {
-
-                    $objDoc = new Document($value);
-                    $nom = $objDoc->getLibelle();
-                    $chemin = $objDoc->getChemin();
+            if (!is_null($lstDocumentIds = Document::getDocumentIds($objProjet->getId()))) {
+                foreach ($lstDocumentIds as $idDocument) {
+                    $objDocument = new Document($idDocument);
+                    $libelle = $objDocument->getLibelle();
                     ?>
-                    <input type="file" name="fichier" value="<?php echo $chemin; ?>">
-
+                    <input type="file" name="document" value="<?php echo $objDocument->getLien(); ?>">
                     <?php
+                    unset($objDocument);
                 }
             }
             ?>
@@ -153,9 +97,9 @@ if (!is_null($lstCompetenceIds)) {
 
             <div id="demo">
                 <?php
-                $evaluation = false;
+                $verrou = false;
                 if ($objProjet->getEtatId() == "3" && $objProjet->isPorteur(Site::getUtilisateur()))
-                    $evaluation = true;
+                    $verrou = true;
                 ?>
                 <table id="listePrestataire">
                     <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauPrestataire">
@@ -164,7 +108,7 @@ if (!is_null($lstCompetenceIds)) {
                                 <th class="sorting_asc">Prestataire</th>
                                 <th class="sorting_asc">Accès fiche</th>
                                 <?php
-                                if ($evaluation) {
+                                if ($verrou) {
                                     ?>
                                     <th class="sorting_asc">Évaluer</th>
                                     <?php
@@ -174,9 +118,9 @@ if (!is_null($lstCompetenceIds)) {
                         </thead>
                         <tbody>
                             <?php
-                            if (!is_null($lstParticipants = $objProjet->getPrestataireIds())) {
-                                foreach ($lstParticipants as $value) {
-                                    $objUtilisateur = new Utilisateur($value);
+                            if (!is_null($lstParticipantIds = $objProjet->getPrestataireIds())) {
+                                foreach ($lstParticipantIds as $idParticipant) {
+                                    $objUtilisateur = new Utilisateur($idParticipant);
                                     ?>
                                     <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
                                         <td id="id">
@@ -189,7 +133,7 @@ if (!is_null($lstCompetenceIds)) {
                                                 <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
                                         </td>
                                         <?php
-                                        if ($evaluation) {
+                                        if ($verrou) {
                                             ?>
                                             <td id="note">
                                                 <a onclick="getEvaluation({'idUtilisateur' : '<?php echo $objUtilisateur->getId(); ?>', 'idProjet' : '<?php echo $objProjet->getId(); ?>'});">
@@ -213,9 +157,9 @@ if (!is_null($lstCompetenceIds)) {
 
             <div id="demo">
                 <?php
-                $evaluation = false;
+                $verrou = false;
                 if ($objProjet->getEtatId() == "3" && $objProjet->isPrestataire(Site::getUtilisateur()))
-                    $evaluation = true;
+                    $verrou = true;
                 ?>
                 <table id="listePorteur">
                     <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauPorteur">
@@ -224,7 +168,7 @@ if (!is_null($lstCompetenceIds)) {
                                 <th class="sorting_asc">Porteur</th>
                                 <th class="sorting_asc">Accès fiche</th>
                                 <?php
-                                if ($evaluation) {
+                                if ($verrou) {
                                     ?>
                                     <th class="sorting_asc">Évaluer</th>
                                     <?php
@@ -234,9 +178,9 @@ if (!is_null($lstCompetenceIds)) {
                         </thead>
                         <tbody>
                             <?php
-                            if (!is_null($lstParticipants = $objProjet->getPorteurIds())) {
-                                foreach ($lstParticipants as $value) {
-                                    $objUtilisateur = new Utilisateur($value);
+                            if (!is_null($lstParticipantIds = $objProjet->getPorteurIds())) {
+                                foreach ($lstParticipantIds as $idParticipant) {
+                                    $objUtilisateur = new Utilisateur($idParticipant);
                                     ?>
                                     <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
                                         <td id="id">
@@ -249,10 +193,10 @@ if (!is_null($lstCompetenceIds)) {
                                                 <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
                                         </td>
                                         <?php
-                                        if ($evaluation) {
+                                        if ($verrou) {
                                             ?>
                                             <td id="note">
-                                                <a onclick="getEvaluation({'idUtilisateur' : '<?php echo $objUtilisateur->getId(); ?>', 'idProjet' : '<?php echo $objProjet->getId(); ?>'});">
+                                                <a onclick="getEvaluation({'idUtilisateurlisateur' : '<?php echo $objUtilisateur->getId(); ?>', 'idProjet' : '<?php echo $objProjet->getId(); ?>'});">
                                                     <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  											
                                             </td>
                                             <?php
@@ -286,22 +230,18 @@ if (!is_null($lstCompetenceIds)) {
         <div id="main">
             <ol  id="update" class="timeline">
                 <?php
-                $listComProjet = Notification::getComProjet($idProjet);
-                if (!is_null($listComProjet)) {
-                    foreach ($listComProjet as $value) {
-                        $objCom = new Notification($value);
-                        $titre = $objCom->getTitre();
-                        $nom = $objCom->getNom();
-                        $libelle = $objCom->getLibelle();
-                        $date = $objCom->getDate();
+                if (!is_null($lstCommentaireIds = Notification::getCommentaireProjetIds($idProjet))) {
+                    foreach ($lstCommentaireIds as $idCommentaire) {
+                        $objCommentaire = new Notification($idCommentaire);
                         ?>
                         <li class="box" style="display:list-item;">
                             <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
-                            <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCom->getUti(); ?>'});"><?php echo $nom ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
-                            <?php echo $libelle; ?>
+                            <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCommentaire->getEmetteur(); ?>'});"><?php echo $objCommentaire->getSujet(); ?></a></span>, le <span class="com_date"> <?php echo $objCommentaire->getDate(); ?></span> a écrit : <br />
+                            <?php echo $objCommentaire->getLibelle(); ?>
                         </li>
                     </ol>
                     <?php
+                    unset($objCommentaire);
                 }
             }
             ?>
@@ -309,26 +249,21 @@ if (!is_null($lstCompetenceIds)) {
             <div id="flash" align="left"></div>
 
             <div style="margin-left:100px">
-
                 <form action="" method="post">
 
-                    <input type="hidden" id="action" name="action" value="addCom"/><!--
-                        <input type="hidden" name="controller" value="projet"/>-->
+                    <input type="hidden" id="action" name="action" value="commentaire"/>
+                    <input type="hidden" name="controller" value="notification"/>
 
-                    <input type="hidden" name="idUti" id="idUti"  value="<?php echo $idUti; ?>"/>
-                    <input type="hidden" name="idPjt" id="idPjt"  value="<?php echo $idProjet; ?>"/>
-                    <input type="hidden" name="nomUti" id="nomUti"  value="<?php echo Site::getUtilisateur()->getLogin(); ?>"/>
+                    <input type="hidden" name="idEmetteur" id="idEmetteur"  value="<?php echo $idUtilisateur; ?>"/>
+                    <input type="hidden" name="idProjet" id="idProjet"  value="<?php echo $idProjet; ?>"/>
+                    <input type="hidden" name="logEmetteur" id="logEmetteur"  value="<?php echo Site::getUtilisateur()->getLogin(); ?>"/>
                     <input type="hidden" name="titre" id="titre"  value="<?php echo $titre; ?>"/>
 
                     <textarea name="comment" id="comment"></textarea><br />
 
-                    <input type="submit" class="commenter" value=" Submit Comment " />
-<!--                    <input type="button" onclick="getFormulary('pf2');" value="Submit Comment" />-->
-
+                    <input type="submit" class="commenter" value="Envoyer" />
                 </form>
-
             </div>
-
         </div> 
 
         <div class="margin_bottom_20 border_bottom"></div>
@@ -363,3 +298,45 @@ if (!is_null($lstCompetenceIds)) {
 
     <div id="evaluation"></div>
 </div>
+<script type="text/javascript">
+    $(function() {
+        $(".commenter").click(function() {
+
+            var idEmetteur = $("#idEmetteur").val();
+            var idProjet = $("#idProjet").val();
+            var logEmetteur = $("#logEmetteur").val();
+            var titre = $("#titre").val();
+            var comment = $("#comment").val();
+            var action = $("#action").val();
+
+            var dataString = 'action=' + action + ' &titre=' + titre + ' &comment=' + comment + '&idEmetteur=' + idEmetteur + '&idProjet=' + idProjet + '&logEmetteur=' + logEmetteur;
+            //alert(dataString);	
+            if(comment=='')
+            {
+                alert('Veuillez saisir un commentaire');
+            }
+            else
+            {
+                $("#flash").show();
+                $("#flash").fadeIn(400).html('<img src="ajax-loader.gif" align="absmiddle">&nbsp;<span class="loading">Loading Comment...</span>');
+
+                $.ajax({
+                    type: "POST",
+                    url: "notification.php",
+                    data: dataString,
+                    cache: false,
+                    success: function(html){
+ 
+                        $("ol#update").append(html);
+                        $("ol#update li:last").fadeIn("slow");
+                        document.getElementById('comment').value='';
+                        $("#name").focus();
+ 
+                        $("#flash").hide();
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>

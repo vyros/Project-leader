@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Description of Prestataire
  *
@@ -19,7 +18,7 @@ class Prestataire extends Statut {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    private static function getLstNIds($p_n = 0) {
+    private static function getNIds($p_n = 0) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "'";
@@ -30,15 +29,15 @@ class Prestataire extends Statut {
             $requete .= ";";
         }
 
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
-    public static function getLstNObjs($p_n = 0) {
+    public static function getNObjs($p_n = 0) {
 
-        $lstArray = self::getLstNIds($p_n);
+        $lstArray = self::getNIds($p_n);
         $objArray = null;
 
-        if (is_null($lstArray))
+        if (is_null($lstArray) || !count($lstArray))
             return null;
 
         foreach ($lstArray as $value) {

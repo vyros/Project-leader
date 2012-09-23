@@ -6,6 +6,7 @@ Site::init();
 
 $action = (isset($_POST["action"])) ? $_POST["action"] : null;
 $view = (isset($_POST["view"])) ? $_POST["view"] : null;
+
 ?>
 <script type="text/javascript">
     $('#content_col_w840').hide();
@@ -21,17 +22,17 @@ if (!is_null($action) && $action == "liste") {
     if (isset($_POST[rech]) && $_POST[rech] != null) {
 
         //recupere les id des categories
-        $lstCatId = $_POST[rech];
+        $lstCptId = $_POST[rech];
         $iter = 0;
         $req = "";
 
         //construction du where
-        foreach ($lstCatId as $idCat) {
+        foreach ($lstCptId as $idCpt) {
             if ($iter == 0) {
-                $req = " cat_id = '" . $idCat . "' ";
+                $req = " cpt_id = " . $idCpt;
                 $iter++;
             } else {
-                $req = $req . " OR cat_id = '" . $idCat . "' ";
+                $req = $req . " OR cpt_id = " . $idCpt;
                 $iter++;
             }
         }
@@ -40,14 +41,14 @@ if (!is_null($action) && $action == "liste") {
         if (!is_null($req)) {
 
             if (Site::getUtilisateur()->getStatut() == "prestataire") {
-                //recupere les id des projets associÃƒÂ©s       
-                $requete = " SELECT prj_id FROM correspondre " .
+                //recupere les id des projets associés       
+                $requete = " SELECT prj_id FROM demander " .
                         " WHERE " . $req;
 
-                $listProjets = Site::getConnexion()->getFetchArray($requete);
+                $lstProjetIds = Site::getConnexion()->getFetchIntArray($requete);
                 $idUtilisateur = Site::getUtilisateur()->getId();
 
-                if (!is_null($listProjets)) {
+                if (!is_null($lstProjetIds)) {
                     ?>
                     <script type="text/javascript">
                         $('#content_col_w840').show();
@@ -59,14 +60,14 @@ if (!is_null($action) && $action == "liste") {
                     </script>'<?php
                 }
             } elseif (Site::getUtilisateur()->getStatut() == "client") {
-                //recupere les id des projets associÃƒÂ©s       
+                //recupere les id des projets associés
                 $requete = " SELECT uti_id FROM posseder " .
                         " WHERE " . $req;
 
-                $listUsers = Site::getConnexion()->getFetchArray($requete);
+                $lstUtilisateurIds = Site::getConnexion()->getFetchIntArray($requete);
                 $idUtilisateur = Site::getUtilisateur()->getId();
 
-                if (!is_null($listUsers)) {
+                if (!is_null($lstUtilisateurIds)) {
                     ?>
                     <script type="text/javascript">
                         $('#content_col_w840Clients').show();
@@ -82,7 +83,7 @@ if (!is_null($action) && $action == "liste") {
     }
 }
 
-$lstCatIdPere = Categorie::getListCategoriesPere();
+$lstCompetenceMereIds = Competence::getCompetenceMereIds();
 include 'views/recherchePrestataire.php';
 ?>
 <script type="text/javascript">

@@ -1,56 +1,40 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of classEtat
+ * Description of Etat
  *
  * @author nicolas.gard
  */
 class Etat extends Classe {
-
-    private $m_id;
-    private $m_libelle;
-    private $m_date;
-
-    public function __construct() {
-        parent::__construct(func_get_args());
-    }
-
-    public function exists($p_id) {
-
-        $requete = " SELECT * FROM etat " .
-                " WHERE eta_id = " . $p_id . " LIMIT 1;";
-
-        $array = Site::getOneLevelArray(Site::getConnexion()->getFetchArray($requete));
-        if ($array != null) {
-            $this->m_id = $p_id;
-            $this->m_libelle = stripslashes($array[eta_libelle]);
-            $this->m_date = stripslashes($array[eta_date]);
-        } else {
-            unset($this);
-        }
+    
+//    const PREFIX = 'eta';
+//    const TABLE = 'etat';
+    
+    public function __construct($p_id) {
+        
+        $this->prefix = 'eta';
+        $this->table = 'etat';
+        
+        parent::__construct($p_id);
     }
 
     public function __toString() {
-        return $this->m_libelle;
+        return $this->getLibelle();
     }
 
     public function getId() {
-        return $this->m_id;
+        return $this->getSafePrivate('id');
     }
 
     public function getLibelle() {
-        return $this->m_libelle;
+        return $this->getPrivate('libelle');
     }
 
+    /**
+     *
+     * @return String 
+     */
     public function getDate() {
-        return $this->m_date;
+        return Site::dateMysql2Picker($this->getPrivate("date"));
     }
-
 }
-
 ?>

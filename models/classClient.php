@@ -18,7 +18,7 @@ class Client extends Statut {
      * @return array Retourne un tableau contenant l'id de N premiers enregistrements,
      *  retourne null si aucun.
      */
-    private static function getLstNIds($p_n) {
+    private static function getNIds($p_n) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "' ";
@@ -29,7 +29,7 @@ class Client extends Statut {
             $requete .= ";";
         }
         
-        return Site::getConnexion()->getFetchArray($requete);
+        return Site::getConnexion()->getFetchIntArray($requete);
     }
 
 }

@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="sub_content_col">
     <input type="hidden" value=""  id="noteE"/>
     <input type="hidden" value="1" id="idFormulaire"/>

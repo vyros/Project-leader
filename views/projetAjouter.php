@@ -1,9 +1,4 @@
-<?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -30,15 +25,15 @@
                 $(document).ready(function() {
                     $("#demo-input-local2").tokenInput([
                     <?php
-                    if (!is_null($lstCompetenceIds)) {
-                        foreach ($lstCompetenceIds as $value) {
-                            $objCompetence = new Competence($value);
+                    if (!is_null($lstCompetenceObjs)) {
+                        foreach ($lstCompetenceObjs as &$objCompetence) {
                             ?>
                             {
                                 id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
                                 name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                             },   
                             <?php
+                            unset($objCompetence);
                         }
                     }
                     ?>
@@ -49,19 +44,17 @@
             <label for="description">Description : </label><br />
             <textarea id="description" style="font-weight:700; color:blue;" name="description"></textarea><br /><br />
 
-            <label for="budget">Budget : </label><br />
+            <label for="budget">Budget (en euros) : </label><br />
             <input id="budget" type='text' name='budget' size='25' maxlength='10' value="" /><br /><br />
 
             <label for="echeance">Echeance (en jours) : </label><br />
             <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" /><br /><br />
 
-            <label for="doc">Document attaché : </label><br />
-            <input id="doc" type='file' name='doc' size='25' maxlength='10' value="" /><br /><br />
-
             <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-            <label for="fichier">Fichier : </label><br />
-            <input type="file" name="fichier"><a onClick="inserLigne();">add</a><br />
-            
+            <label for="document">Document(s) attaché(s) : </label><br />
+            <input id="document" type='file' name='document' size='25' maxlength='10' value="" />
+            <a onClick="inserLigne();">add</a><br /><br />
+
             <input type="button" onclick="getFormulary('pa1');" value="Valider" />
 
         </form>

@@ -1,4 +1,6 @@
 <?php
+////????
+
 $objNotification = new Notification($idMsg);
 $idUtilisateur = Site::getUtilisateur()->getId();
 ?>
@@ -8,7 +10,7 @@ $idUtilisateur = Site::getUtilisateur()->getId();
 
         <div class="header_wrapper">
             <img src="images/icone_msg.png"/> 
-            <div class="header_02">Message de : <?php echo $objNotification->getNom();?></div>
+            <div class="header_02">Message de : <?php echo $objNotification->getSujet();?></div>
         </div>
         
         <br />
@@ -23,7 +25,7 @@ $idUtilisateur = Site::getUtilisateur()->getId();
                             foreach ($listMsgConvers as $value) {
 
                                 $objMsg = new Notification($value);
-                                $nom = $objMsg->getNom();
+                                $nom = $objMsg->getSujet();
                                 $titre = $objMsg->getTitre();
                                 $libelle = $objMsg->getLibelle();
                                 $date = $objMsg->getDate();
@@ -34,7 +36,7 @@ $idUtilisateur = Site::getUtilisateur()->getId();
                     <br/>
                     <li class="box" style="display:list-item;">
                         <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
-                        <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getUti(); ?>'});"><?php echo $nom ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
+                        <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getEmetteur(); ?>'});"><?php echo $nom ?></a></span>, le <span class="com_date"> <?php echo $date; ?></span> a écrit : <br />
                         <?php echo $libelle; ?>
                     </li>
             
@@ -51,7 +53,7 @@ $idUtilisateur = Site::getUtilisateur()->getId();
                 
                 <form action="views/messageajax.php" method="post">
                     
-<!--                <input type="hidden" name="action" value="addCom"/>
+<!--                <input type="hidden" name="action" value="commentaire"/>
                     <input type="hidden" name="controller" value="projet"/>-->
             
                     <input type="hidden" name="idUti" id="idUti"  value="<?php echo $idUtilisateur; ?>"/>

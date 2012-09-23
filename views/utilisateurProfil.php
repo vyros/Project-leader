@@ -31,7 +31,7 @@
             <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>"/>
 
             <label for="nom">Nom : </label>  <br />
-            <input id="nom" name="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br /><br />
+            <input id="nom" name="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getSujet(); ?>"/><br /><br />
 
             <label for="prenom">Prénom : </label><br />
             <input id="prenom" name="prenom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getPrenom(); ?>"/><br /><br />
@@ -111,7 +111,7 @@
                 <?php
             } else {
                 ?>
-                <span>Voici le profil de <?php echo $objUtilisateur->getNom(); ?>, vous avez 0 notification(s).</span>
+                <span>Voici le profil de <?php echo $objUtilisateur->getSujet(); ?>, vous avez 0 notification(s).</span>
                 <?php
             }
         }

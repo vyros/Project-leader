@@ -1,8 +1,4 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 echo '<script type="text/javascript">';
 echo "      $('#demo').show();";
 echo '</script>';
@@ -21,7 +17,6 @@ echo '</script>';
                 <thead>
                     <tr>
                         <th class="sorting_asc">Intitul&eacute;</th>
-                        <th class="sorting_asc">Cat&eacute;gorie</th>
                         <th class="sorting_asc">Budget</th>
                         <th class="sorting_asc">Comp&eacute;tence requise</th>
                         <th class="sorting_asc">Date de cr&eacute;ation</th>
@@ -37,30 +32,14 @@ echo '</script>';
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($listProjets)) {
-                        foreach ($listProjets as $idProjet) {
+                    if (!is_null($lstProjetIds)) {
+                        foreach ($lstProjetIds as $idProjet) {
                             $objProjet = new Projet($idProjet);
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                 <td id="libelle">
                                     <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
                                     <?php echo $objProjet->getLibelle(); ?>
-                                </td>
-
-                                <td id="categorie">
-                                    <input type="hidden" name="categorie" value="<?php echo '???'; ?>">
-                                    <?php
-                                    $lstCategorieIds = $objProjet->getCategorieIds();
-
-                                    if (!is_null($lstCategorieIds)) {
-                                        foreach ($lstCategorieIds as $idCategorie) {
-                                            $objCategorie = new Categorie($idCategorie);
-                                            //echo ('- ');
-                                            echo $objCategorie->getLibelle();
-                                            echo ('</br>');
-                                        }
-                                    }
-                                    ?>											
                                 </td>
 
                                 <td id="budget">
@@ -71,14 +50,11 @@ echo '</script>';
                                 <td id="competence">
                                     <input type="hidden" name="competence" value="<?php echo '???'; ?>">
                                     <?php
-                                    $lstCompetenceIds = $objProjet->getCompetenceIds();
-
-                                    if (!is_null($lstCompetenceIds)) {
-                                        foreach ($lstCompetenceIds as $idCompetence) {
-                                            $objCompetence = new Competence($idCompetence);
-                                            //echo ('- ');
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as &$objCompetence) {
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
+                                            unset($objCompetence);
                                         }
                                     }
                                     ?>									
@@ -108,6 +84,7 @@ echo '</script>';
                                 ?>
                             </tr>
                             <?php
+                            unset($objProjet);
                         }
                     }
                     ?>
