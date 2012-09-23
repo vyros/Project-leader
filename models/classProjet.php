@@ -48,8 +48,8 @@ class Projet extends Classe {
         $budget = Connexion::getSafeString($p_budget);
         $echeance = Connexion::getSafeString($p_echeance);
 
-        $requete = "INSERT INTO projet (eta_id, prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
-                "VALUES (" . $idEtat . ", '" . $libelle . "','" . $description . "','" . $budget . "','" . $echeance . "','" . date("c") . "')";
+        $requete = "INSERT INTO projet (etat_id, prj_libelle, prj_description, prj_budget, prj_echeance, prj_date) " .
+                "VALUES (" . $idEtat . ", '" . $libelle . "','" . $description . "','" . $budget . "','" . $echeance . "','" . date("c") . "');";
 
         if ($idProjet = Site::getConnexion()->doSql($requete, "projet")) {
             return new Projet($idProjet);
@@ -147,16 +147,12 @@ class Projet extends Classe {
             $requete = "SELECT cpt_id FROM demander " .
                     " WHERE prj_id = " . $this->getPrivate("id");
 
-            if ($p_n != 0) {
-                $requete .= " LIMIT $p_n;";
-            } else {
-                $requete .= ";";
-            }
+            $this->competence_ids = Site::getConnexion()->getIds($requete, $p_n);
 
-            $this->competence_ids = Site::getConnexion()->getFetchIntArray($requete);
-
-            if (count($this->competence_ids))
+            if (Site::isValidIds($this->competence_ids))
                 sort($this->competence_ids);
+            else
+                $this->competence_ids = array();
         }
         return $this->competence_ids;
     }
@@ -179,12 +175,12 @@ class Projet extends Classe {
         return $lstObjs;
     }
 
-    public function getDocumentIds() {
+    public function getDocumentIds($p_n = 0) {
 
         $requete = " SELECT doc_id FROM document " .
                 " WHERE prj_id = " . $this->getPrivate("id") . ";";
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     /**
@@ -212,13 +208,7 @@ class Projet extends Classe {
 
         $requete = "SELECT prj_id FROM projet ORDER BY prj_date DESC ";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public static function getNObjs($p_n = 0) {
@@ -236,7 +226,7 @@ class Projet extends Classe {
         return $lstObjs;
     }
 
-    public function getProjetSimilaireIds() {
+    public function getProjetSimilaireIds($p_n = 0) {
 
         $lstIds = array();
 
@@ -249,7 +239,7 @@ class Projet extends Classe {
                 $requete = " SELECT prj_id FROM demander" .
                         " WHERE cpt_id = " . $idCompetence . ";";
 
-                $lstIds[] = Site::getConnexion()->getFetchIntArray($requete);
+                $lstIds[] = Site::getConnexion()->getIds($requete, $p_n);
             }
         }
 
@@ -289,22 +279,24 @@ class Projet extends Classe {
         return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
-    public function getPorteurIds() {
+    public function getPorteurIds($p_n = 0) {
+        
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'client' " .
                 " AND u.uti_id = p.uti_id " .
-                " AND p.prj_id = " . $this->getPrivate("id") . ";";
+                " AND p.prj_id = " . $this->getPrivate("id");
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
-    public function getPrestataireIds() {
+    public function getPrestataireIds($p_n = 0) {
+        
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'prestataire' " .
                 " AND u.uti_id = p.uti_id " .
-                " AND p.prj_id = " . $this->getPrivate("id") . ";";
+                " AND p.prj_id = " . $this->getPrivate("id");
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     /**

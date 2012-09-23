@@ -81,7 +81,7 @@ class Document extends Classe {
         return null;
     }
 
-    public static function getDocumentIds($p_uti_id, $p_prj_id) {
+    public static function getDocumentIds($p_uti_id, $p_prj_id, $p_n = 0) {
 
         if (is_null($idUtilisateur = Site::isValidId($p_uti_id)))
             return null;
@@ -93,7 +93,7 @@ class Document extends Classe {
                 " WHERE utilisateur_id = '" . $idUtilisateur . "' " .
                 " AND projet_id = " . $idProjet . ";";
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public function getId() {

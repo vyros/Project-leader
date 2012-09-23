@@ -76,6 +76,18 @@ class Connexion {
         }
     }
 
+    public function getIds($p_requete, $p_n = 0) {
+
+        if ($p_n != 0) {
+            $p_requete .= " LIMIT $p_n;";
+        } else {
+            $p_requete .= ";";
+        }
+        
+        $res = Site::getConnexion()->getFetchIntArray($p_requete);
+        return $res;
+    }
+
     /**
      *
      * @param array $p_array Un tableau à plusieurs niveaux.
@@ -87,7 +99,13 @@ class Connexion {
             if (is_null($t_array))
                 $t_array = array();
 
-            $t_array = array_merge($p_array[0]);
+            // Tableau d'IDs
+            if (array_key_exists(0, $p_array[0])) {
+                array_push($t_array, $p_array[0][0]);
+            } else {
+                // Tableau associatif d'information
+                $t_array = array_merge($p_array[0]);
+            }
 
             if (isset($p_array[1])) {
                 for ($i = 0; $i < count($p_array); $i++) {
@@ -117,7 +135,8 @@ class Connexion {
 
         mysql_free_result($resultat);
 
-        return $this->getOneLevelArray($array);
+        $res = $this->getOneLevelArray($array);
+        return $res;
     }
 
     /**

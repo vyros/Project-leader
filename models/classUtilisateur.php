@@ -135,9 +135,9 @@ class Utilisateur extends Classe {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_login = '" . Connexion::getSafeString($p_log) . "' " .
-                " AND uti_mdp = '" . Connexion::getSafeString($p_mdp) . "' LIMIT 1;";
+                " AND uti_mdp = '" . Connexion::getSafeString($p_mdp) . "'";
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, 1);
     }
 
     /**
@@ -158,20 +158,14 @@ class Utilisateur extends Classe {
 
     private function getCompetenceIds($p_n = 0) {
 
-        if (is_null($this->competence_ids)) {
+        if (!isset($this->competence_ids)) {
 
             $requete = "SELECT cpt_id FROM posseder " .
                     " WHERE uti_id = " . $this->getPrivate("id");
 
-            if ($p_n != 0) {
-                $requete .= " LIMIT $p_n;";
-            } else {
-                $requete .= ";";
-            }
+            $this->competence_ids = Site::getConnexion()->getIds($requete, $p_n);
 
-            $this->competence_ids = Site::getConnexion()->getFetchIntArray($requete);
-
-            if (!is_null($this->competence_ids))
+            if (Site::isValidIds($this->competence_ids))
                 sort($this->competence_ids);
             else
                 $this->competence_ids = array();
@@ -195,22 +189,16 @@ class Utilisateur extends Classe {
     }
 
     private function getCvIds($p_n = 0) {
-
-        if (is_null($this->cv_ids)) {
+        
+        if (!isset($this->cv_ids)) {
 
             $requete = " SELECT doc_id FROM document " .
                     " WHERE utilisateur_id = " . $this->getPrivate("id") .
                     " AND doc_nature = 'curriculum' ";
 
-            if ($p_n != 0) {
-                $requete .= " LIMIT $p_n;";
-            } else {
-                $requete .= ";";
-            }
+            $this->cv_ids = Site::getConnexion()->getIds($requete, $p_n);
 
-            $this->cv_ids = Site::getConnexion()->getFetchIntArray($requete);
-
-            if (!is_null($this->cv_ids))
+            if (Site::isValidIds($this->cv_ids))
                 sort($this->cv_ids);
             else
                 $this->cv_ids = array();
@@ -228,14 +216,8 @@ class Utilisateur extends Classe {
     private static function getNIds($p_n = 0) {
 
         $requete = "SELECT uti_id FROM utilisateur ORDER BY uti_date DESC ";
-
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public static function getNObjs($p_n = 0) {
@@ -267,13 +249,7 @@ class Utilisateur extends Classe {
                 " WHERE pa.uti_id = " . $this->getPrivate("id") .
                 " AND pr.eta_id = 3 ORDER BY pa.par_date DESC ";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     /**
@@ -290,13 +266,7 @@ class Utilisateur extends Classe {
                 " WHERE pa.uti_id = " . $this->getPrivate("id") .
                 " AND pr.eta_id = 2 ORDER BY pa.par_date DESC ";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public function getNCommentaireIds($p_n = 0) {
@@ -305,13 +275,7 @@ class Utilisateur extends Classe {
                 " WHERE uti_id = " . $this->getPrivate("id") .
                 " ORDER BY par_date DESC ";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
     
     /**
@@ -328,13 +292,7 @@ class Utilisateur extends Classe {
                 " WHERE uti_id = " . $this->getPrivate("id") .
                 " ORDER BY prj_id DESC ";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public function getNProjetObjs($p_n = 0) {
@@ -379,18 +337,18 @@ class Utilisateur extends Classe {
         return $result * 10;
     }
 
-    public function setCompetenseIds($p_value) {
-        if (!is_null($p_value))
-            sort($p_value);
-
-        $this->competence_ids = $p_value;
+    public function setCompetenseIds($p_ids) {
+        if(Site::isValidIds($p_ids)) {
+            sort($p_ids);
+            $this->competence_ids = $p_ids;
+        }
     }
 
-    public function setCvIds($p_value) {
-        if (!is_null($p_value))
-            sort($p_value);
-
-        $this->cv_ids = $p_value;
+    public function setCvIds($p_ids) {
+        if(Site::isValidIds($p_ids)) {
+            sort($p_ids);
+            $this->cv_ids = $p_ids;
+        }
     }
 
     // Token

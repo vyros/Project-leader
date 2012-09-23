@@ -23,14 +23,8 @@ class Competence extends Classe {
     private static function getNIds($p_n = 0) {
 
         $requete = "SELECT cpt_id FROM competence ";
-
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     /**
@@ -69,12 +63,7 @@ class Competence extends Classe {
         $requete = "SELECT cpt_id FROM competence " .
                 "WHERE cpt_libelle = '" . $libelle . "'";
 
-        $array = Site::getConnexion()->getFetchAssArray($requete);
-        if ($array != null) {
-            return $array[cpt_id];
-        }
-
-        return null;
+        return Site::getConnexion()->getIds($requete);
     }
 
     public function getId() {

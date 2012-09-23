@@ -76,8 +76,6 @@ if (!is_null($action) && $action == "activer") {
     } else {
         $message[erreur] = "Évaluation déjà enregistrée !";
     }
-
-    $view = "accueil";
 } elseif (!is_null($action) && $action == "onglet") {
 
     if (is_null($idUtilisateur = Site::isValidId($_POST["id"])))
@@ -262,9 +260,6 @@ if (!is_null($view) && $view == "accueil") {
         $message[erreur] = "Utilisateur inexistant !";
         include 'views/accueilVisiteur.php';
     } else {
-        $lstCompetenceIds = Competence::getNIds();
-        $lstUserCompetenceIds = $objUtilisateur->getCompetenceIds();
-
         include 'views/utilisateurProfil.php';
         ?>
         <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
@@ -279,30 +274,30 @@ if (!is_null($view) && $view == "accueil") {
                 // Liste
                 $("#demo-input-local").tokenInput([
         <?php
-        if (!is_null($lstCompetenceIds)) {
-            foreach ($lstCompetenceIds as $value) {
-                $objCompetence = new Competence($value);
+        if (!is_null($lstCompetenceObjs = Competence::getNObjs())) {
+            foreach ($lstCompetenceObjs as &$objCompetence) {
                 ?>
                                     {
                                         id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
                                         name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                                     },
                 <?php
+                unset($lstCompetenceObjs);
             }
         }
         ?>
                 ],
                 { prePopulate: [
         <?php
-        if (!is_null($lstUserCompetenceIds)) {
-            foreach ($lstUserCompetenceIds as $value) {
-                $objCompetence = new Competence($value);
+        if (!is_null($lstCompetenceUtilisateurObjs = $objUtilisateur->getCompetenceObjs())) {
+            foreach ($lstCompetenceUtilisateurObjs as &$objCompetence) {
                 ?>
                                         {
                                             id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
                                             name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
                                         },
                 <?php
+                unset($objCompetence);
             }
         }
         ?>

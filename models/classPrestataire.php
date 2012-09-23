@@ -23,13 +23,7 @@ class Prestataire extends Statut {
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_statut = '" . strtolower(get_class()) . "'";
 
-        if ($p_n != 0) {
-            $requete .= " LIMIT $p_n;";
-        } else {
-            $requete .= ";";
-        }
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
     public static function getNObjs($p_n = 0) {

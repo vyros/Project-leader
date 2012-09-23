@@ -29,8 +29,7 @@ $idUtilisateur = Site::getUtilisateur()->getId();
                                 $titre = $objMsg->getTitre();
                                 $libelle = $objMsg->getLibelle();
                                 $date = $objMsg->getDate();
-                                
-                                $objMsg->editMsgLu($objMsg->getId());
+                                $objMsg->editMsgLu();
                     ?>
                     <h2>Titre du message : <?php echo $titre; ?></h2>
                     <br/>

@@ -67,6 +67,14 @@ class Site {
 
         return (Integer) $p_id;
     }
+    
+    static public function isValidIds($p_ids) {
+
+        if (is_null($p_ids) || !count($p_ids))
+            return false;
+        
+        return true;
+    }
 
     /**
      * Déconnexion.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of Notification
  *
@@ -8,7 +9,7 @@ class Notification extends Classe {
 
 //    const PREFIX = 'not';
 //    const TABLE = 'notification';
-    
+
     public function __construct($p_id) {
 
         $this->prefix = 'not';
@@ -37,7 +38,6 @@ class Notification extends Classe {
          * 
          * 
          */
-        
         $utilisateur = Connexion::getSafeString($p_idUtilisateur);
         $notification = Connexion::getSafeString($p_idNotification);
 
@@ -54,78 +54,62 @@ class Notification extends Classe {
 
     public static function addCommentaire($p_titre, $libelle, $p_idEmetteur, $p_idReceveur, $p_idProjet) {
 
-        $today = date("Y/m/d");
-
-//        $requete = "INSERT INTO notification (not_sujet, not_nom, not_libelle, not_nature, not_date, not_lu, uti_id, uti_id2, projet_id) " .
         $requete = "INSERT INTO notification (not_sujet, not_corps, not_nature, not_date, not_lu, emetteur_id, receveur_id, projet_id) " .
                 "VALUES ('" . $p_titre . "','" . $libelle . "','commentaire','" . date('c') . "','0','" . $idEmetteur . "','" . $idReceveur . "','" . $idProjet . "')";
-        echo $requete;
-//        return Site::getConnexion()->doSql($requete);
-    }
-    
-    public static function getCommentaireProjetIds($p_idProjet) {
 
-        
-        
+        return Site::getConnexion()->doSql($requete);
+    }
+
+    public static function getCommentaireProjetIds($p_idProjet, $p_n = 0) {
+
+        if (is_null($idProjet = Site::isValidId($p_idProjet)))
+            return null;
+
         $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'commentaire'" .
                 " AND projet_id = " . $idProjet . ";";
-        //echo $requete;
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
-    
-    public static function msgNonLu($idUtilisateur) {
+
+    public static function msgNonLu($p_idUtilisateur, $p_n = 0) {
+
+        if (is_null($idUtilisateur = Site::isValidId($p_idUtilisateur)))
+            return null;
 
         $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND not_lu = '0' " .
                 " AND receveur_id = " . $idUtilisateur . ";";
-//        echo $requete;
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
-    public static function msgLu($idUtilisateur) {
+    public static function msgLu($p_idUtilisateur, $p_n = 0) {
 
-        $requete = "SELECT * FROM notification " .
+        if (is_null($idUtilisateur = Site::isValidId($p_idUtilisateur)))
+            return null;
+
+        $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND not_lu = '1' " .
                 " AND receveur_id = " . $idUtilisateur . ";";
-//        echo $requete;
 
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete, $p_n);
     }
 
-    public static function getNbreNonLu($idUtilisateur) {
+    public static function getNbreNonLu($p_idUtilisateur) {
 
-        $res = Notification::msgNonLu($idUtilisateur);
-        $i = 0;
-
-        if (!is_null($res)) {
-            foreach ($res as $idMsg) {
-                $i++;
-            }
-        }
-
-        return $i;
+        return count(self::msgNonLu($p_idUtilisateur));
     }
 
-    public static function getNbreLu($idUtilisateur) {
+    public static function getNbreLu($p_idUtilisateur) {
 
-        $res = Notification::msgLu($idUtilisateur);
-        $i = 0;
-
-        if (!is_null($res)) {
-            foreach ($res as $idMsg) {
-                $i++;
-            }
-        }
-
-        return $i;
+        return count(self::msgLu($p_idUtilisateur));
     }
 
     public static function getMaxNot() {
+        
         $requete = "SELECT MAX(not_id) FROM notification ";
         return Site::getConnexion()->doSql($requete);
     }
@@ -144,24 +128,19 @@ class Notification extends Classe {
 
         $requete = " SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
-                " AND (uti_id = '" . $idUtilisateurCourant . "' OR uti_id2 = '" . $idUtilisateurCourant . "') " .
-                " AND (uti_id = '" . $idUtilisateur1 . "' OR uti_id2 = '" . $idUtilisateur1 . "') " .
-                " ORDER BY not_id";
+                " AND (emetteur_id = " . $idUtilisateurCourant . " OR receveur_id = " . $idUtilisateurCourant . ") " .
+                " AND (emetteur_id = " . $idUtilisateur1 . " OR receveur_id = " . $idUtilisateur1 . ") " .
+                " ORDER BY not_id DESC ";
 
-        echo $requete;
-
-        return Site::getConnexion()->getFetchIntArray($requete);
+        return Site::getConnexion()->getIds($requete);
     }
 
-    public function editMsgLu($idMsg) {
+    public function editMsgLu() {
 
         $requete = " UPDATE notification SET not_lu = '1'" .
                 " WHERE not_id = " . $this->getPrivate('id') . ";";
 
-        if (Site::getConnexion()->doSql($requete)) {
-            return $this;
-        }
-        return null;
+        return Site::getConnexion()->doSql($requete);
     }
 
     public function getId() {

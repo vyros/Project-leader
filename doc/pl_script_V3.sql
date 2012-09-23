@@ -347,7 +347,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `emetteur_id` int(8) NOT NULL,
   `receveur_id` int(8) NOT NULL,
   `projet_id` int(8) NOT NULL,
-  PRIMARY KEY (`for_id`),
+  PRIMARY KEY (`not_id`),
   KEY `fk_notification` (`emetteur_id`),
   KEY `fk_notification2` (`receveur_id`),
   KEY `fk_notification3` (`projet_id`)
