@@ -1,4 +1,10 @@
 <?php
+/*
+ * Contrôleur de recherche.
+ * 
+ * @author folin
+ */
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");

@@ -1,4 +1,9 @@
 <?php
+/*
+ * Vue pour onglets.
+ * 
+ * @author nicolas.gard
+ */
 if (!is_null($lstObjets)) {
     ?>
     <ul>

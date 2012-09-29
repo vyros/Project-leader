@@ -1,6 +1,12 @@
 <!-- FAVORIS -->
 
 <?php
+/*
+ * Contrôleur de favoris.
+ * 
+ * @author folin
+ */
+
 header("Content-Type: text/plain");
 include_once("models/classSite.php");
 Site::init();

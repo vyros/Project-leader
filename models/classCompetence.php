@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of Competence
+ *
+ * @author jimmy
+ */
 class Competence extends Classe {
 
 //    const PREFIX = 'cpt';

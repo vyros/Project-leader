@@ -392,9 +392,11 @@ function getView(params){
     }
 }
 
-function inserLigne(){
-    
-    alert('ok');
+function inserLigne(){ 
+
+    contenu = contenu + "<br /><label for='document" + i + "'>Document "+ i +" : </label><br /><input type='file' name='document" + i + "' /><br />";
+    document.getElementById('nouveau_input').innerHTML = contenu;
+    i = i + 1; 
 }
 
 function visibilite(message, champ) {

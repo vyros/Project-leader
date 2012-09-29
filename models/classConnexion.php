@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of Connexion
+ *
+ * @author jimmy
+ */
 class Connexion {
 
     CONST SERVEUR = 'localhost';

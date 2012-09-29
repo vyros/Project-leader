@@ -1,4 +1,8 @@
 <?php
+/*
+ * @author folin
+ */
+
 echo '<script type="text/javascript">';
 echo "      $('#demo').show();";
 echo '</script>';

@@ -1,4 +1,10 @@
 <?php
+/*
+ * Contrôleur utilisateur.
+ * 
+ * @author jimmy
+ */
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -86,7 +92,6 @@ if (!is_null($action) && $action == "activer") {
 
     if (!is_null($idUtilisateur) && $idUtilisateur != Site::getUtilisateur()->getId()) {
         $objUtilisateur = new Utilisateur($idUtilisateur);
-        
     } elseif (!is_null($idUtilisateur) && $idUtilisateur == Site::getUtilisateur()->getId()) {
         $objUtilisateur = &Site::getUtilisateur();
     }
@@ -244,7 +249,6 @@ if (!is_null($view) && $view == "accueil") {
     }
 } elseif (!is_null($view) && $view == "inscription") {
     include 'views/utilisateurInscription.php';
-    
 } elseif (!is_null($view) && $view == "profil") {
     // Data
     $idUtilisateur = (isset($_POST["id"])) ? $_POST["id"] : null;
@@ -270,7 +274,7 @@ if (!is_null($view) && $view == "accueil") {
                 // Calendrier
                 $.datepicker.setDefaults( $.datepicker.regional[ "" ] );
                 $( "#datepicker" ).datepicker( $.datepicker.regional[ "fr" ] );
-                                                                        
+                                                                                
                 // Liste
                 $("#demo-input-local").tokenInput([
         <?php
@@ -307,7 +311,7 @@ if (!is_null($view) && $view == "accueil") {
         <?php
     }
 } elseif (!is_null($view) && $view == "note") {
-    
+
     if (is_null($idProjet = Site::isValidId($_POST[idProjet])))
         ;
 

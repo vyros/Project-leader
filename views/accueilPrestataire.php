@@ -1,4 +1,10 @@
-
+<?php
+/*
+ * Vue d'un prestataire de services.
+ * 
+ * @author jimmy
+ */
+?>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -89,8 +95,7 @@
                     <thead>
                         <tr>
                             <th class="sorting_asc">Intitulé</th>
-                            <th class="sorting_asc">Compétences</th>
-                            <th class="sorting_asc">Compétence requise</th>
+                            <th class="sorting_asc">Compétence(s) requise(s)</th>
                             <th class="sorting_asc">Date de création</th>
                             <th class="sorting_asc">Accès fiche</th>
                             <th>test</th>

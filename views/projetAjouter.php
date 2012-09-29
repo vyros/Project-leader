@@ -1,4 +1,10 @@
-
+<?php
+/*
+ * Vue d'ajout d'un nouveau projet.
+ * 
+ * @author nicolas.gard
+ */
+?>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -17,29 +23,8 @@
             <label for="libelle">Intitulé : </label><br />
             <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
 
-
             <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
-            <input type="text" id="demo-input-local2" name="blahComp" /><br /><br />
-            
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $("#demo-input-local2").tokenInput([
-                    <?php
-                    if (!is_null($lstCompetenceObjs)) {
-                        foreach ($lstCompetenceObjs as &$objCompetence) {
-                            ?>
-                            {
-                                id: <?php echo str_replace('"', '', json_encode($objCompetence->getId())); ?>, 
-                                name: "<?php echo str_replace('"', '', json_encode($objCompetence->getLibelle())); ?>"
-                            },   
-                            <?php
-                            unset($objCompetence);
-                        }
-                    }
-                    ?>
-            ]);
-        });
-            </script>
+            <input type="text" id="demo-input-local" name="blahComp" /><br /><br />
 
             <label for="description">Description : </label><br />
             <textarea id="description" style="font-weight:700; color:blue;" name="description"></textarea><br /><br />
@@ -69,13 +54,13 @@
 
     <div class="sub_content_col">
         <img style="width:350px; position: relative; left:60px; top:70px;" class="" src="images/logo_seul.png"/>
-    
+
         <div class="conteneur_bulleAcc">
             <div class="messageBulle">
                 <span>Sur cette page, vous avez la possibilité de créer votre projet. Les caratéristiques du projet pourront être modifiés si besoin directement sur la fiche.</span>
             </div>
         </div>
-    
+
     </div>
-    
+
 </div>

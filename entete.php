@@ -1,4 +1,10 @@
 <?php
+/*
+ * Contrôleur d'en-tête.
+ * 
+ * @author jimmy
+ */
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -54,7 +60,6 @@ if (Site::getUtilisateur()) {
                     <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Nouveau projet</a></li>
                     <li><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Projets en cours</a></li>
                     <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
-                    <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'favori'});">Projets favoris</a></li>
                 </ul></li>
             <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a>
                 <ul>
@@ -73,7 +78,6 @@ if (Site::getUtilisateur()) {
                 <ul>
                     <li class="subfirst"><a onclick="getView({'controller' : 'projet', 'view' : 'liste'});">Mes projets</a></li>
                     <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'fini'});">Projets finis</a></li>
-                    <li class="sublast"><a onclick="getView({'controller' : 'projet', 'view' : 'favori'});">Projets favoris</a></li>
                 </ul></li>
             <li class="topmenu"><a onclick="getController({'controller' : 'recherche'});" style="height:24px;line-height:24px;"><img src="css/css3menu1/smile.png" alt="Espace recherche"/>Espace recherche</a>
                 <ul>

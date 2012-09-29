@@ -82,7 +82,7 @@ $(document).ready(function() {
                     },
                     "aoColumnDefs": 
                         [
-                            { "bSearchable": false, "bVisible": false, "aTargets": [ 5 ] }
+                            { "bSearchable": false, "bVisible": false, "aTargets": [ 4 ] }
                         ] 
              });
                 

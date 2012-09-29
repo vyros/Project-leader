@@ -1,8 +1,8 @@
 <?php
 /*
- * Par contre, 2 possibles affichages, si c'est le profil de l'utilisateur connecté, il pourra modifier
- * directement ses informations profil et valider. Chaque getXXX devra etre des setXXX (à verif)
- * Si ce n'est pas le profil de l'utilisateur connecté, le profil s'affiche en "read-only"
+ * Vue du profil.
+ * 
+ * @author jimmy
  */
 ?>
 <div class="content_col_w420 fl">

@@ -1,4 +1,9 @@
 <?php
+/*
+ * Index...
+ * 
+ * @author jimmy
+ */
 include_once("models/classSite.php");
 Site::init();
 ?>
@@ -32,6 +37,8 @@ Site::init();
             var varTable;
             var varTable2;
             var varTableTest;
+            var i = 2;
+            var contenu = "";
         </script>
     </head>
     <body>

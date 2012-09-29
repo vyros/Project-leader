@@ -1,4 +1,8 @@
-
+<?php
+/*
+ * @author folin
+ */
+?>
 <div class="content_col_w840">
 
     <div class="sub_content_col">

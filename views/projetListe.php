@@ -1,15 +1,35 @@
 <?php
-// faire autre condition pour le cas ou c'est un projet de l'utilisateur connecté
-// Dans ce cas, les informations (qui seront dans des inputs) seront modifiables directement (via des set)
-// bout de code séparer et mis dans une autre vue pour respect MVC
+/*
+ * Vue d'une liste de projets existant.
+ * 
+ * @author nicolas.gard
+ */
 ?>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
 
         <div class="header_wrapper">
-            <img src="images/icone_projet.png"/> 
-            <div class="header_02">Vos derniers projets</div>
+
+            <?php
+            if ($view == "fini") {
+                ?>
+                <img src="images/icone_lstPjtFini.png"/> 
+                <div class="header_02">Vos projets menés à terme</div>
+                <?php
+            } else if ($view == "liste") {
+                ?>
+                <img src="images/icone_projet.png"/>
+                <div class="header_02">Vos derniers projets</div>
+                <?php
+            } else if ($view == "favori") {
+                ?>
+                <img src="images/icone_lstPjtFavori.png"/> 
+                <div class="header_02">Mes projets favoris</div>
+                <?php
+            }
+            ?>
+
         </div>
 
         <div id="demo">
@@ -105,14 +125,20 @@
     <div class="messageBulle">
         <?php
         if ($idUtilisateur !== null) {
-        ?>
-            <span>Voici votre liste de projets sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
-        <?php
-        } else {
-        ?>    
+            if ($view == "liste") {
+                ?>
+                <span>Voici votre liste de projets sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
+                <?php
+            } else {
+                ?>
+                <span>Voici votre liste de projets finis sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
+                    <?php
+                }
+            } else {
+                ?>    
             <span>Voici une liste de projets posté sur le site. Pour voir la description complète des projets, vous devez être inscrit ou vous connecter ! <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});">Cliquez ici</a></span>
-        <?php    
-        } 
+            <?php
+        }
         ?>
     </div>
 </div>	

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of Projet
+ *
+ * @author nicolas.gard
+ */
 class Projet extends Classe {
 //    const PREFIX = 'prj';
 //    const TABLE = 'projet';
@@ -220,7 +225,7 @@ class Projet extends Classe {
             return null;
 
         foreach ($lstIds as $idObj) {
-            $lstObjs[] = new Competence($idObj);
+            $lstObjs[] = new Projet($idObj);
         }
 
         return $lstObjs;

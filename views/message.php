@@ -1,4 +1,10 @@
 <?php
+/*
+ * Vue d'un message.
+ * 
+ * @author nicolas.gard
+ */
+
 if (isset($message['succes']) && $message['succes'])
     $message = $message['succes'];
 

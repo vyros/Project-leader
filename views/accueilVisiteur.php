@@ -1,4 +1,10 @@
-
+<?php
+/*
+ * Vue d'un visiteur.
+ * 
+ * @author jimmy
+ */
+?>
 <div class="content_col_w420 fr">	
     <img class="logoAccueil" src="images/logo_300_modifSansFond.png"/>
     <div class="conteneur_bulleAcc">

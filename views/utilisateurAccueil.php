@@ -1,10 +1,6 @@
 <?php
 /*
- * Vue utilisateurAccueil
- * 
- * Est appelée par le contrôleur utilsateur.
- * Lorsqu'un utilisateur s'est inscrit avec succès.
- * Est un formulaire lui demander log/mdp pour le connecter au site.
+ * @author jimmy
  */
 ?>
 <div class="content_col_w420 fl">
@@ -13,7 +9,7 @@
 
         <div class="header_wrapper">
             <img src="images/icone_projet.png"/> 
-            <div class="header_02">Acc&egrave;s &agrave; votre compte<br/></div>
+            <div class="header_02">Accédez à votre compte<br/></div>
         </div>
 
         <form id="au1">

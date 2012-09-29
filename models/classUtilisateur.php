@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Description of Utilisateur
+ *
+ * @author jimmy
+ */
 class Utilisateur extends Classe {
 //    const PREFIX = 'uti';
 //    const TABLE = 'utilisateur';
@@ -251,6 +256,21 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getIds($requete, $p_n);
     }
+    
+    public function getNClosedProjetObjs($p_n = 0) {
+
+        $lstIds = $this->getNClosedProjetIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Projet($idObj);
+        }
+
+        return $lstObjs;
+    }
 
     /**
      * Obtenir les N derniers projets ouverts de l'utilisateur. 
@@ -268,6 +288,21 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getIds($requete, $p_n);
     }
+    
+    public function getNOpenedProjetObjs($p_n = 0) {
+
+        $lstIds = $this->getNOpenedProjetIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Projet($idObj);
+        }
+
+        return $lstObjs;
+    }
 
     public function getNCommentaireIds($p_n = 0) {
 
@@ -276,6 +311,21 @@ class Utilisateur extends Classe {
                 " ORDER BY par_date DESC ";
 
         return Site::getConnexion()->getIds($requete, $p_n);
+    }
+    
+    public function getNCommentaireObjs($p_n = 0) {
+
+        $lstIds = $this->getNCommentaireIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Projet($idObj);
+        }
+
+        return $lstObjs;
     }
     
     /**

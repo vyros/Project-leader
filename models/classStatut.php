@@ -3,7 +3,7 @@
 /**
  * Description of Statut
  *
- * @author jimmy
+ * @author nicolas.gard
  */
 abstract class Statut {
 

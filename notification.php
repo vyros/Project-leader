@@ -1,4 +1,10 @@
 <?php
+/*
+ * Contrôleur de notification.
+ * 
+ * @author nicolas.gard
+ */
+
 header("Content-Type: text/plain");
 
 include_once("models/classSite.php");
@@ -47,7 +53,7 @@ if (!is_null($action) && $action == "commentaire ") {
 
     <?php
 } else if (!is_null($action) && $action == "message ") {
-    
+
     $idEmetteur = Site::getUtilisateur()->getId();
     $receveurIds = (isset($_POST["blah"])) ? explode(',', $_POST["blah"]) : null;
 }
@@ -111,88 +117,53 @@ if (!is_null($view)) {
 
     <script type="text/javascript"> 
         $(function() {
-            
-            // Fancybox
-            $(".fancybox").fancybox();
 
-            $('.fancybox-buttons').fancybox({
-                openEffect  : 'none',
-                closeEffect : 'none',
+            // Envoyer un message
+            $(function() {
+                $(".envoyerMsg").click(function() {
 
-                prevEffect : 'none',
-                nextEffect : 'none',
+                    var idEmetteur = $("#idEmetteur").val();
+                    var receveurIds = jQuery('input[name=blah]').val();
+                    
+                    // Serialiser le blah
+                    
+                    var logEmetteur = $("#logEmetteur").val();
+                    var titre = $("#titre").val();
+                    var comment = $("#comment").val();
+                    var action = $("#action").val();
 
-                closeBtn  : false,
+                    var dataString = 'action=' + action + ' &titre=' + titre + ' &comment=' + comment + '&idEmetteur=' + idEmetteur + '&receveurIds=' + receveurIds + '&logEmetteur=' + logEmetteur;
 
-                helpers : {
-                    title : {
-                        type : 'inside'
-                    },
-                    buttons	: {}
-                },
+                    if(comment=='')
+                    {
+                        alert('Veuillez saisir un commentaire');
+                    }
+                    else
+                    {
+                        $("#flash").show();
+                        $("#flash").fadeIn(400).html('<span class="loading">Loading Comment...</span>');
 
-                afterLoad : function() {
-                    this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
-                }
-            });
-            
-            $("#fancybox-manual-b").click(function() {
-                $.fancybox.open({
-                    href : 'views/nouveauMessage.php',
-                    type : 'iframe',
-                    padding : 5
+                        $.ajax({
+                            type: "POST",
+                            url: "notification.php",
+                            //  url: "views/commentajax.php",
+                            data: dataString,
+                            cache: false,
+                            success: function(html){
+         
+                                $("ol#update").append(html);
+                                $("ol#update li:last").fadeIn("slow");
+                                document.getElementById('comment').value='';
+                                $("#name").focus();
+         
+                                $("#flash").hide();
+        	
+                            }
+                        });
+                    }
+                    return false;
                 });
             });
-
-    			 
-        });
-
-        // Envoyer un message
-        $(function() {
-            $(".envoyerMsg").click(function() {
-
-                var idEmetteur = $("#idEmetteur").val();
-                var receveurIds = jQuery('input[name=blah]').val();
-                
-                // Serialiser le blah
-                
-                var logEmetteur = $("#logEmetteur").val();
-                var titre = $("#titre").val();
-                var comment = $("#comment").val();
-                var action = $("#action").val();
-
-                var dataString = 'action=' + action + ' &titre=' + titre + ' &comment=' + comment + '&idEmetteur=' + idEmetteur + '&receveurIds=' + receveurIds + '&logEmetteur=' + logEmetteur;
-
-                if(comment=='')
-                {
-                    alert('Veuillez saisir un commentaire');
-                }
-                else
-                {
-                    $("#flash").show();
-                    $("#flash").fadeIn(400).html('<span class="loading">Loading Comment...</span>');
-
-                    $.ajax({
-                        type: "POST",
-                        url: "notification.php",
-                        //  url: "views/commentajax.php",
-                        data: dataString,
-                        cache: false,
-                        success: function(html){
-     
-                            $("ol#update").append(html);
-                            $("ol#update li:last").fadeIn("slow");
-                            document.getElementById('comment').value='';
-                            $("#name").focus();
-     
-                            $("#flash").hide();
-    	
-                        }
-                    });
-                }
-                return false;
-            });
-        });
 
     </script>
     <?php

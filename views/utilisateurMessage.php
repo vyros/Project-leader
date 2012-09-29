@@ -1,5 +1,7 @@
 <?php
-////????
+/*
+ * @author nicolas.gard
+ */
 
 $objNotification = new Notification($idMsg);
 $idUtilisateur = Site::getUtilisateur()->getId();

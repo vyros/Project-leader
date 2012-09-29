@@ -1,4 +1,10 @@
-
+<?php
+/*
+ * Vue d'un porteur de projets.
+ * 
+ * @author jimmy
+ */
+?>
 <div class="content_col_w420 fl">
 
     <div class="sub_content_col">
@@ -157,7 +163,7 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (isset($message)) {
+        if (is_null($message)) {
             include_once('views/message.php');
         } else {
             ?>

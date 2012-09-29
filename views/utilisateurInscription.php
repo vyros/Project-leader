@@ -1,7 +1,6 @@
 <?php
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * @author jimmy
  */
 ?>
 <div class="content_col_w420 fl">
