@@ -24,15 +24,17 @@
         </div>
 
         <div class="service_box fl margin_right_10">
-            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});" onmouseover="visibilite('Client','div_libelle_cli')" onMouseOut="visibilite('','div_libelle_cli')"><img src="images/icone_acces_client.png" alt="service" /></a>
-            <div id="div_libelle_cli">
-            </div> 
+            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});" onmouseover="getVisibility('Client','div_libelle_cli')" onMouseOut="getVisibility('','div_libelle_cli')">
+                <img src="images/icone_acces_client.png" alt="service" />
+            </a>
+            <div id="div_libelle_cli"></div> 
         </div> 
 
         <div class="service_box fl">
-            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});" onmouseover="visibilite('Prestataire','div_libelle_prest')" onMouseOut="visibilite('','div_libelle_prest')"><img src="images/icone_acces_prestataire.png" alt="service" /></a>
-            <div id="div_libelle_prest">
-            </div> 
+            <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});" onmouseover="getVisibility('Prestataire','div_libelle_prest')" onMouseOut="getVisibility('','div_libelle_prest')">
+                <img src="images/icone_acces_prestataire.png" alt="service" />
+            </a>
+            <div id="div_libelle_prest"></div> 
         </div>
 
         <div class="margin_bottom_20 border_bottom"></div>
@@ -40,7 +42,7 @@
         
         <div class="header_02">Avantages d'être inscrit :</div>
         <ul type="circle">
-            <li>Client : Pouvoir poster des projets informatique de toute sortes</li>
+            <li>Porteur de projets : Pouvoir poster des projets informatique de toute sortes</li>
             <li>Prestataire : Pouvoir visualiser ces projets et y répondre</li>
            
         </ul>

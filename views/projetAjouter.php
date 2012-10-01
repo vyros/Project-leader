@@ -21,24 +21,23 @@
             </div>
 
             <label for="libelle">Intitulé : </label><br />
-            <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/><br /><br />
+            <input id="libelle" type='text' name='libelle' size='25' maxlength='100' value=""/>
+            <br /><br />
 
             <label for="demo-input-local">Compétence(s) demandée(s) : </label><br />
-            <input type="text" id="demo-input-local" name="blahComp" /><br /><br />
+            <input type="text" id="demo-input-local" name="blahComp" />
+            <br /><br />
 
             <label for="description">Description : </label><br />
             <textarea id="description" style="font-weight:700; color:blue;" name="description"></textarea><br /><br />
 
             <label for="budget">Budget (en euros) : </label><br />
-            <input id="budget" type='text' name='budget' size='25' maxlength='10' value="" /><br /><br />
+            <input id="budget" type='text' name='budget' size='25' maxlength='10' value="" />
+            <br /><br />
 
-            <label for="echeance">Echeance (en jours) : </label><br />
-            <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" /><br /><br />
-
-            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-            <label for="document">Document(s) attaché(s) : </label><br />
-            <input id="document" type='file' name='document' size='25' maxlength='10' value="" />
-            <a onClick="inserLigne();">add</a><br /><br />
+            <label for="echeance">Écheance (en jours) : </label><br />
+            <input id="echeance" type='text' name='echeance' size='25' maxlength='10' value="" />
+            <br /><br />
 
             <input type="button" onclick="getFormulary('pa1');" value="Valider" />
 
@@ -60,7 +59,5 @@
                 <span>Sur cette page, vous avez la possibilité de créer votre projet. Les caratéristiques du projet pourront être modifiés si besoin directement sur la fiche.</span>
             </div>
         </div>
-
     </div>
-
 </div>

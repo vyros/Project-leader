@@ -32,50 +32,6 @@
             }
             ?>
 
-            <script type="text/javascript">
-                $(document).ready(function() {
-<?php
-if (is_null($idUti)) {
-    ?>
-                                $("#demo-input-local").tokenInput([
-    <?php
-    if (!is_null($listToutLesUtis)) {
-        foreach ($listToutLesUtis as $value) {
-            $objUtilisateur = new Utilisateur($value);
-            ?>
-                                                            {
-                                                                id: <?php echo str_replace('"', '', json_encode($objUtilisateur->getId())); ?>, 
-                                                                name: "<?php echo str_replace('"', '', json_encode($objUtilisateur->getLogin())); ?>"
-                                                            },   
-            <?php
-        }
-    }
-    ?>
-                                    ]);
-    <?php
-} else {
-    ?>
-                                $("#demo-input-pre-populated").tokenInput( {
-                                    prePopulate: [
-    <?php
-    $objUtilisateur = new Utilisateur($idUti);
-    ?>
-                                                {
-                                                    id: <?php echo str_replace('"', '', json_encode($objUtilisateur->getId())); ?>, 
-                                                    name: "<?php echo str_replace('"', '', json_encode($objUtilisateur->getLogin())); ?>"
-                                                },        
-                                            ]
-                                        });
-                        
-    <?php
-}
-?>
-            
-            
-                        });
-            </script>
-
-
             Titre de votre message :<input id="titre" accesskey="l" type='text' name='log' size='18' maxlength='100' value="" /> 
             Contenu du message :<textarea name="message" id="message"></textarea><br />
 

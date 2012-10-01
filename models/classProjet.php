@@ -116,6 +116,20 @@ class Projet extends Classe {
         }
     }
 
+    public function addDocuments($p_doc_ids) {
+
+        if (is_null($p_doc_ids) || !count($p_doc_ids))
+            return null;
+
+        foreach ($p_doc_ids as $doc_id) {
+
+            if (is_null($idDocument = Site::isValidId($doc_id)))
+                continue;
+
+            ;
+        }
+    }
+    
     public function edit() {
 
         $requete = " UPDATE projet SET prj_libelle = '" . $this->getSafePrivate("libelle") . "'," .
@@ -183,9 +197,24 @@ class Projet extends Classe {
     public function getDocumentIds($p_n = 0) {
 
         $requete = " SELECT doc_id FROM document " .
-                " WHERE prj_id = " . $this->getPrivate("id") . ";";
+                " WHERE projet_id = " . $this->getPrivate("id") . ";";
 
         return Site::getConnexion()->getIds($requete, $p_n);
+    }
+    
+    public function getDocumentObjs($p_n = 0) {
+
+        $lstIds = $this->getDocumentIds($p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Document($idObj);
+        }
+
+        return $lstObjs;
     }
 
     /**
@@ -285,7 +314,7 @@ class Projet extends Classe {
     }
 
     public function getPorteurIds($p_n = 0) {
-        
+
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'client' " .
                 " AND u.uti_id = p.uti_id " .
@@ -295,7 +324,7 @@ class Projet extends Classe {
     }
 
     public function getPrestataireIds($p_n = 0) {
-        
+
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
                 " WHERE u.uti_statut = 'prestataire' " .
                 " AND u.uti_id = p.uti_id " .

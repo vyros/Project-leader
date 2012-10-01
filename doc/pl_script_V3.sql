@@ -209,8 +209,7 @@ CREATE TABLE IF NOT EXISTS `completer` (
 --
 
 INSERT INTO `completer` (`eva_id`, `for_id`, `com_score`, `com_date`) VALUES
-(1, 1, 5, '2012-09-17 16:14:23'),
-(2, 1, 5, '2012-09-17 16:45:14');
+(1, 1, 5, '2012-09-17 16:14:23');
 
 -- --------------------------------------------------------
 
@@ -304,15 +303,14 @@ CREATE TABLE IF NOT EXISTS `evaluation` (
   KEY `fk_evaluation` (`utilisateur_id`),
   KEY `fk_evaluation2` (`evaluateur_id`),
   KEY `fk_evaluation3` (`projet_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Contenu de la table `evaluation`
 --
 
 INSERT INTO `evaluation` (`eva_id`, `eva_date`, `utilisateur_id`, `evaluateur_id`, `projet_id`) VALUES
-(1, '2012-09-17 16:14:23', 2, 1, 9),
-(2, '2012-09-17 16:43:50', 2, 1, 9);
+(1, '2012-09-17 16:43:50', 2, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -394,6 +392,7 @@ INSERT INTO `participer` (`prj_id`, `uti_id`, `par_date`) VALUES
 CREATE TABLE IF NOT EXISTS `posseder` (
   `cpt_id` int(8) NOT NULL,
   `uti_id` int(8) NOT NULL,
+  `pos_date` datetime DEFAULT NULL,
   PRIMARY KEY (`cpt_id`,`uti_id`),
   KEY `fk_posseder` (`cpt_id`),
   KEY `fk_posseder2` (`uti_id`)
@@ -403,6 +402,8 @@ CREATE TABLE IF NOT EXISTS `posseder` (
 -- Contenu de la table `posseder`
 --
 
+INSERT INTO `posseder` (`cpt_id`, `uti_id`, `pos_date`) VALUES
+(1, 2, '2012-04-09 13:13:34');
 
 -- --------------------------------------------------------
 
@@ -428,15 +429,15 @@ CREATE TABLE IF NOT EXISTS `projet` (
 
 INSERT INTO `projet` (`prj_id`, `etat_id`, `prj_libelle`, `prj_date`, `prj_budget`, `prj_echeance`, `prj_description`) VALUES
 (1, 1, 'project-leader', '2012-04-09 13:13:34', 5000, 0, 'site de gestion de projets'),
-(2, 1, '12 monkeys', '2012-04-09 23:06:33', 454, 0, '12 monkeys'),
-(3, 1, 'machete', '2012-04-09 23:06:35', 454, 0, 'machete'),
+(2, 2, '12 monkeys', '2012-04-09 23:06:33', 454, 0, '12 monkeys'),
+(3, 3, 'machete', '2012-04-09 23:06:35', 454, 0, 'machete'),
 (4, 1, 'mr. brooks', '2012-04-09 22:49:18', 300, 0, 'mr. brooks'),
-(5, 1, 'bliss', '2012-04-09 23:25:18', 4000, 0, 'bliss'),
-(6, 1, 'crash', '2012-04-09 23:36:06', 300, 300, 'crash'),
-(7, 2, 'the killer', '2012-04-09 23:39:20', 434, 34, 'the killer'),
-(8, 3, 'blade runner', '2012-04-09 23:45:21', 32, 32, 'blade runner'),
+(5, 2, 'bliss', '2012-04-09 23:25:18', 4000, 0, 'bliss'),
+(6, 3, 'crash', '2012-04-09 23:36:06', 300, 300, 'crash'),
+(7, 1, 'the killer', '2012-04-09 23:39:20', 434, 34, 'the killer'),
+(8, 2, 'blade runner', '2012-04-09 23:45:21', 32, 32, 'blade runner'),
 (9, 3, 'le diable boiteux', '2012-04-14 23:22:13', 4, 6, 'le diable boiteux'),
-(10, 4, 'spaceballs', '2012-04-14 23:31:52', 5, 5, 'spaceballs');
+(10, 1, 'spaceballs', '2012-04-14 23:31:52', 5, 5, 'spaceballs');
 
 -- --------------------------------------------------------
 

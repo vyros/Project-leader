@@ -15,12 +15,12 @@
         </div>
 
         <br />
-        <a onclick="getView({'controller' : 'notification', 'view' : 'nouveauMsg'});">Nouveau message priv&eacute;</a>
+        <a onclick="getView({'controller' : 'notification', 'view' : 'message'});">Nouveau message priv&eacute;</a>
 
-        <h3>Messages non-lus(<?php echo $nbreNonLu; ?>):</h3>
+        <h3>Messages non-lus(<?php echo Site::getUtilisateur()->getMessageCount(0); ?>):</h3>
 
         <div id="demo">
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="example2">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauMessagerieNonLu">
                 <thead>
                     <tr>
                         <th class="sorting_asc">Titre du message</th>
@@ -30,38 +30,32 @@
                 </thead>
                 <tbody>
                     <?php
-                    //On affiche la liste des messages non-lus
-                    if (!is_null($lstMsgNonLu)) {
-                        foreach ($lstMsgNonLu as $value) {
-
-                            $objMsg = new Notification($value);
-                            $nom = $objMsg->getSujet();
-                            $titre = $objMsg->getTitre();
-                            //      $libelle = $objMsg->getLibelle();
-                            $date = $objMsg->getDate();
+                    // Messages non lus
+                    if (!is_null($lstMessageObjs = Site::getUtilisateur()->getMessageObjs(0))) {
+                        foreach ($lstMessageObjs as $objMessage) {
+                            $objEmetteur = $objMessage->getEmetteurObj();
                             ?>
-
-                            <tr id="ligneMsg<?php echo $objMsg->getId(); ?>" class="gradeX">
+                            <tr id="ligneMsg<?php echo $objMessage->getId(); ?>" class="gradeX">
                                 <td id="titre">
-                                    <input type="hidden" name="titre" value="<?php echo $titre ?>"> 
-                    <!--                                    <a href="read_pm.php?id=<?php ?>"><?php // echo htmlentities($titre, ENT_QUOTES, 'UTF-8');  ?></a>-->
-                                    <a onclick="getView({'controller' : 'notification', 'view' : 'message', 'id' : '<?php echo $objMsg->getId(); ?>'});"><?php echo $titre ?></a>
+                                    <input type="hidden" name="titre" value="<?php echo $objMessage->getTitre(); ?>"> 
+                                    <a onclick="getView({'controller' : 'notification', 'view' : 'message', 'id' : '<?php echo $objMessage->getId(); ?>'});"><?php echo $objMessage->getTitre(); ?></a>
                                 </td>
 
                                 <td id="user">
-                                    <input type="hidden" name="user" value="<?php echo $nom ?>"> 
-                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getEmetteur(); ?>'});"><?php echo $nom ?></a>
+                                    <input type="hidden" name="user" value="<?php echo $objEmetteur->getLogin(); ?>"> 
+                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objEmetteur->getId(); ?>'});"><?php echo $objEmetteur->getLogin(); ?></a>
                                 </td>
 
                                 <td id="date">
-                                    <input type="hidden" name="date" value="<?php echo $date ?>"> 
-                                    <?php echo $date ?>
+                                    <input type="hidden" name="date" value="<?php echo $objMessage->getDate(); ?>"> 
+                                    <?php echo $objMessage->getDate(); ?>
                                 </td>
                             </tr>
                             <?php
+                            unset($objEmetteur);
+                            unset($objMessage);
                         }
                     } else {
-                        //Sil na aucun message non-lu, on le dit   
                         ?>
                         <tr>
                             <td colspan="4" class="center">Vous n'avez aucun message non-lu.</td>
@@ -75,11 +69,13 @@
             </table>
         </div>
 
-        <br />
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
 
-        <h3>Messages lus(<?php echo $nbreLu; ?>):</h3>
+        <h3>Messages lus(<?php echo Site::getUtilisateur()->getMessageCount(1); ?>):</h3>
+
         <div id="demo">
-            <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauMessagerieLu">
                 <thead>
                     <tr>
                         <th class="sorting_asc">Titre du message</th>
@@ -89,54 +85,43 @@
                 </thead>
                 <tbody>
                     <?php
-                    //var_dump($lstMsgNonLu);
-                    //On affiche la liste des messages non-lus
-                    if (!is_null($lstMsgLu)) {
-                        foreach ($lstMsgLu as $value) {
-
-                            $objMsg = new Notification($value);
-                            $nom = $objMsg->getSujet();
-                            $titre = $objMsg->getTitre();
-                            //      $libelle = $objMsg->getLibelle();
-                            $date = $objMsg->getDate();
+                    if (!is_null($lstMessageObjs = Site::getUtilisateur()->getMessageObjs(1))) {
+                        foreach ($lstMessageObjs as $objMessage) {
+                            $objEmetteur = $objMessage->getEmetteurObj();
                             ?>
-
-
-                            <tr id="ligneMsg<?php echo $objMsg->getId(); ?>" class="gradeX">
+                            <tr id="ligneMsg<?php echo $objMessage->getId(); ?>" class="gradeX">
                                 <td id="titre">
-                                    <input type="hidden" name="titre" value="<?php echo $titre ?>"> 
-                    <!--                                    <a href="read_pm.php?id=<?php ?>"><?php // echo htmlentities($titre, ENT_QUOTES, 'UTF-8');  ?></a>-->
-                                    <a onclick="getView({'controller' : 'notification', 'view' : 'message', 'id' : '<?php echo $objMsg->getId(); ?>'});"><?php echo $titre ?></a>
+                                    <input type="hidden" name="titre" value="<?php echo $objMessage->getTitre(); ?>"> 
+                                    <a onclick="getView({'controller' : 'notification', 'view' : 'message', 'id' : '<?php echo $objMessage->getId(); ?>'});"><?php echo $objMessage->getTitre(); ?></a>
                                 </td>
 
                                 <td id="user">
-                                    <input type="hidden" name="user" value="<?php echo $nom ?>"> 
-                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objMsg->getEmetteur(); ?>'});"><?php echo $nom ?></a>
+                                    <input type="hidden" name="user" value="<?php echo $objEmetteur->getLogin(); ?>"> 
+                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objEmetteur->getId(); ?>'});"><?php echo $objEmetteur->getLogin(); ?></a>
                                 </td>
 
                                 <td id="date">
-                                    <input type="hidden" name="date" value="<?php echo $date ?>"> 
-        <?php echo $date ?>
+                                    <input type="hidden" name="date" value="<?php echo $objMessage->getDate(); ?>"> 
+                                    <?php echo $date ?>
                                 </td>
                             </tr>
 
-        <?php
-    }
-} else {
-    //Sil na aucun message non-lu, on le dit   
-    ?>
+                            <?php
+                            unset($objEmetteur);
+                            unset($objMessage);
+                        }
+                    } else {
+                        ?>
                         <tr>
                             <td colspan="4" class="center">Vous n'avez aucun message lu.</td>
                             <td id="user"></td>
                             <td id="date"></td>
                         </tr>
-    <?php
-}
-?>
+                        <?php
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
-
     </div>
-
 </div>

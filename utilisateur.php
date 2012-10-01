@@ -100,40 +100,23 @@ if (!is_null($action) && $action == "activer") {
         $message[erreur] = "Utilisateur incorrect !";
     } else {
         if (!is_null($contenu)) {
-
             $lstObjets = null;
             switch ($contenu) {
                 case 'closed':
-                    $t_array = $objUtilisateur->getNClosedProjetIds(5);
-                    if (!is_null($t_array)) {
-                        foreach ($t_array as $value) {
-                            $lstObjets[] = new Projet($value);
-                        }
-                    }
+                    $lstObjets = $objUtilisateur->getNClosedProjetObjs(5);
                     break;
 
                 case 'opened':
-                    $t_array = $objUtilisateur->getNOpenedProjetIds(5);
-                    if (!is_null($t_array)) {
-                        foreach ($t_array as $value) {
-                            $lstObjets[] = new Projet($value);
-                        }
-                    }
+                    $lstObjets = $objUtilisateur->getNOpenedProjetObjs(5);
                     break;
 
                 case 'comments':
-                    $t_array = $objUtilisateur->getNCommentaireIds(5);
-                    if (!is_null($t_array)) {
-                        foreach ($t_array as $value) {
-                            $lstObjets[] = new Projet($value);
-                        }
-                    }
+                    $lstObjets = $objUtilisateur->getNCommentaireObjs(5);
                     break;
 
                 default:
                     break;
             }
-
             include 'views/utilisateurOnglet.php';
         }
     }
@@ -181,7 +164,7 @@ if (!is_null($action) && $action == "activer") {
     /**
      * Le controleur définit le message suite à l'action 
      */
-    $idUtilisateur = Utilisateur::getAccessToId($log, $mdp);
+    $idUtilisateur = Utilisateur::access2Id($log, $mdp);
     if ($idUtilisateur !== null) {
 
         switch (Site::setUtilisateur(new Utilisateur($idUtilisateur))) {

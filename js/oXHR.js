@@ -2,6 +2,25 @@
 /*                                                                                    */
 /* ********************************************************************************** */
 
+function addLine(params){
+    
+    var properties = $.extend(  
+    {  
+        'form' : ''
+    }, params || {} ); 
+    
+    if (properties.form == ''){  
+        console.log('Erreur, un formulaire est necessaire !');
+    }
+    
+    var i = $('#next').val();
+    var contenu = $('#nouveau_input').html();
+
+    contenu = contenu + "<label for='document" + i + "'>Document "+ i +" : </label><br /><input type='file' name='document" + i + "' /><br /><br />";
+    $('#nouveau_input').html(contenu);
+    $('#next').attr('value', ++i);
+}
+
 // Write less, do more
 function getActivation(params) {
 
@@ -79,7 +98,9 @@ function setOngletActif(params) {
     $("#ongletsProfil .active").removeClass("active");
     $("#"+properties.contenu).attr("class", "active");
     
-    getOngletActif({'id' : properties.id});
+    getOngletActif({
+        'id' : properties.id
+    });
 }
 
 // Private
@@ -157,7 +178,12 @@ function setEvaluation(params){
                 'score' : properties.score
                 
             }, function(data) {
-                getView({'controller' : 'projet', 'view' : 'liste', 'id' : properties.idProjet, 'message' : ''})
+                getView({
+                    'controller' : 'projet', 
+                    'view' : 'liste', 
+                    'id' : properties.idProjet, 
+                    'message' : ''
+                })
             })
         }
     }
@@ -235,7 +261,7 @@ function getField(params) {
                         result = 0;
                 }
 				
-                if($(form+"*[name="+name+"]").attr("type") == 'text'  
+                if($(form+"*[name="+name+"]").attr("type") == 'text'
                     || $(form+"*[name="+name+"]").attr("type") == 'password'
                     || $(form+"*[name="+name+"]").attr("type") == 'hidden') {
                     result = getTextBox({
@@ -243,7 +269,14 @@ function getField(params) {
                         'name' : name
                     });	
                 }
-				
+                
+                if($(form+"*[name="+name+"]").attr("type") == 'file') {
+                    result = getFile({
+                        'form' : form, 
+                        'name' : name
+                    });	
+                }
+
                 break;
                 
             case "TEXTAREA" :
@@ -358,6 +391,21 @@ function getCheckBox(params) {
     return objetJson;
 }
 
+function getFile(params) {
+    
+    var properties = $.extend(  
+    {
+        'form' : '',  
+        'name' : ''
+    }, params || {} );
+    
+    var form = properties.form;
+    var name = properties.name;
+    
+    // Attention, compatibilité navigateur
+    return($(form+"input[name="+name+"]").val());
+}
+
 function getView(params){
     
     var properties = $.extend(  
@@ -392,14 +440,7 @@ function getView(params){
     }
 }
 
-function inserLigne(){ 
-
-    contenu = contenu + "<br /><label for='document" + i + "'>Document "+ i +" : </label><br /><input type='file' name='document" + i + "' /><br />";
-    document.getElementById('nouveau_input').innerHTML = contenu;
-    i = i + 1; 
-}
-
-function visibilite(message, champ) {
+function getVisibility(message, champ) {
     if(document.getElementById)
         document.getElementById(champ).innerHTML = message;
 } 

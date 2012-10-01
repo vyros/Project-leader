@@ -73,8 +73,8 @@ class Utilisateur extends Classe {
             if (is_null($idCompetence = Site::isValidId($cpt_id)))
                 continue;
 
-            $requete = "INSERT INTO posseder (uti_id, cpt_id) " .
-                    "VALUES (" . $this->getPrivate("id") . ", " . $idCompetence . ");";
+            $requete = "INSERT INTO posseder (uti_id, cpt_id, pos_date) " .
+                    "VALUES (" . $this->getPrivate("id") . ", " . $idCompetence . ", '" . date("c") . "');";
 
             Site::getConnexion()->doSql($requete);
         }
@@ -136,11 +136,19 @@ class Utilisateur extends Classe {
      * @return array Retourne un tableau avec l'id de l'utilisateur associé 
      *  au couple login|mdp, retourne null si aucun enregistrement.
      */
-    public static function getAccessToId($p_log, $p_mdp) {
+    public static function access2Id($p_log, $p_mdp) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
                 " WHERE uti_login = '" . Connexion::getSafeString($p_log) . "' " .
                 " AND uti_mdp = '" . Connexion::getSafeString($p_mdp) . "'";
+
+        return Site::getConnexion()->getIds($requete, 1);
+    }
+    
+    public static function login2Id($p_log) {
+
+        $requete = " SELECT uti_id FROM utilisateur " .
+                " WHERE uti_login = '" . Connexion::getSafeString($p_log) . "'";
 
         return Site::getConnexion()->getIds($requete, 1);
     }
@@ -194,7 +202,7 @@ class Utilisateur extends Classe {
     }
 
     private function getCvIds($p_n = 0) {
-        
+
         if (!isset($this->cv_ids)) {
 
             $requete = " SELECT doc_id FROM document " .
@@ -211,6 +219,39 @@ class Utilisateur extends Classe {
         return $this->cv_ids;
     }
 
+    public function getMessageCount($p_lu = null) {
+        return count($this->getMessageIds($p_lu));
+    }
+    
+    public function getMessageIds($p_lu = null) {
+
+        $requete = "SELECT not_id FROM notification " .
+                " WHERE not_nature = 'message' " .
+                " AND receveur_id = " . $this->getPrivate('id');
+        
+        if(!is_null($p_lu) && is_numeric($lu = $p_lu))
+            $requete .= " AND not_lu = " .$lu;
+        
+        $requete .= ";";
+
+        return Site::getConnexion()->getIds($requete, $p_n);
+    }
+
+    public function getMessageObjs($p_lu = null) {
+
+        $lstIds = $this->getMessageIds($p_lu);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Notification($idObj);
+        }
+
+        return $lstObjs;
+    }
+
     /**
      * Obtenir N elements. tous les enregistrements sont retournés par défaut.
      * 
@@ -221,7 +262,7 @@ class Utilisateur extends Classe {
     private static function getNIds($p_n = 0) {
 
         $requete = "SELECT uti_id FROM utilisateur ORDER BY uti_date DESC ";
-        
+
         return Site::getConnexion()->getIds($requete, $p_n);
     }
 
@@ -252,11 +293,11 @@ class Utilisateur extends Classe {
         $requete = " SELECT pa.prj_id FROM participer as pa " .
                 " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
                 " WHERE pa.uti_id = " . $this->getPrivate("id") .
-                " AND pr.eta_id = 3 ORDER BY pa.par_date DESC ";
+                " AND pr.etat_id = 3 ORDER BY pa.par_date DESC ";
 
         return Site::getConnexion()->getIds($requete, $p_n);
     }
-    
+
     public function getNClosedProjetObjs($p_n = 0) {
 
         $lstIds = $this->getNClosedProjetIds($p_n);
@@ -284,11 +325,11 @@ class Utilisateur extends Classe {
         $requete = " SELECT pa.prj_id FROM participer as pa " .
                 " INNER JOIN projet as pr ON pa.prj_id = pr.prj_id " .
                 " WHERE pa.uti_id = " . $this->getPrivate("id") .
-                " AND pr.eta_id = 2 ORDER BY pa.par_date DESC ";
+                " AND pr.etat_id = 2 ORDER BY pa.par_date DESC ";
 
         return Site::getConnexion()->getIds($requete, $p_n);
     }
-    
+
     public function getNOpenedProjetObjs($p_n = 0) {
 
         $lstIds = $this->getNOpenedProjetIds($p_n);
@@ -312,7 +353,7 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getIds($requete, $p_n);
     }
-    
+
     public function getNCommentaireObjs($p_n = 0) {
 
         $lstIds = $this->getNCommentaireIds($p_n);
@@ -327,7 +368,7 @@ class Utilisateur extends Classe {
 
         return $lstObjs;
     }
-    
+
     /**
      * Obtenir les N derniers projets de l'utilisateur. 
      * Tous les enregistrements sont retournés par défaut.
@@ -388,14 +429,14 @@ class Utilisateur extends Classe {
     }
 
     public function setCompetenseIds($p_ids) {
-        if(Site::isValidIds($p_ids)) {
+        if (Site::isValidIds($p_ids)) {
             sort($p_ids);
             $this->competence_ids = $p_ids;
         }
     }
 
     public function setCvIds($p_ids) {
-        if(Site::isValidIds($p_ids)) {
+        if (Site::isValidIds($p_ids)) {
             sort($p_ids);
             $this->cv_ids = $p_ids;
         }
@@ -467,7 +508,7 @@ class Utilisateur extends Classe {
         return $this->getPrivate("mdp");
     }
 
-    public function getSujet() {
+    public function getNom() {
         return $this->getPrivate("nom");
     }
 

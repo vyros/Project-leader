@@ -199,7 +199,7 @@
                         foreach ($lstUtilisateurIds as $idUtilisateur) {
                             $objUtilisateur = new Utilisateur($idUtilisateur);
                             ?>
-                            <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+                            <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
                                 <td id="pseudo">
                                     <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 

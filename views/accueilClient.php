@@ -65,67 +65,71 @@
         </div>
 
         <div id="demo">
-            <table id="listePresta">
-                <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauDetail">
-                    <thead>
-                        <tr>
-                            <th class="sorting_asc">Pseudo</th>
-                            <th class="sorting_asc">Compétence</th>
-                            <th class="sorting_asc">Nombre de projet à ce jour</th>
-                            <th class="sorting_asc">Date d'inscription</th>
-                            <th class="sorting_asc">Accès profil</th>
-                            <th>test</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (!is_null($lstUtilisateurObjs)) {
-                            foreach ($lstUtilisateurObjs as &$objUtilisateur) {
-                                ?>
-                                <tr id="lignePresta<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauAccueilPorteur">
+                <thead>
+                    <tr>
+                        <th class="sorting_asc">Pseudo</th>
+                        <th class="sorting_asc">Compétence</th>
+                        <th class="sorting_asc">Nombre de projet à ce jour</th>
+                        <th class="sorting_asc">Date d'inscription</th>
+                        <th class="sorting_asc">Accès profil</th>
+                        <th>Présentation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!is_null($lstUtilisateurObjs)) {
+                        foreach ($lstUtilisateurObjs as &$objUtilisateur) {
+                            ?>
+                            <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
-                                    <td id="pseudo">
-                                        <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>"> 
-                                        <?php echo $objUtilisateur->getLogin(); ?>
-                                    </td>
+                                <td id="pseudo">
+                                    <input type="hidden" name="pseudo" value="<?php echo $objUtilisateur->getLogin(); ?>" /> 
+                                    <?php echo $objUtilisateur->getLogin(); ?>
+                                </td>
 
-                                    <td id="competence">
-                                        <input type="hidden" name="competence" value="">										
-                                    </td>
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="" />
+                                    <?php
+                                    if (!is_null($lstCompetenceObjs = $objUtilisateur->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as $objCompetence) {
+                                            echo $objCompetence->getLibelle();
+                                            echo ('</br>');
+                                        }
+                                    }
+                                    ?>	
+                                </td>
 
-                                    <td id="nbreProjet">
-                                        <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>">
-                                        <?php echo $objUtilisateur->getNombreProjets(); ?>											
-                                    </td>
+                                <td id="nbreProjet">
+                                    <input type="hidden" name="nbrePjt" value="<?php echo $objUtilisateur->getNombreProjets(); ?>" />
+                                    <?php echo $objUtilisateur->getNombreProjets(); ?>											
+                                </td>
 
-                                    <td id="dateInscri">
-                                        <input type="hidden" name="dateInscri" value="<?php echo '???'; ?>">
-                                        <?php
-                                        echo $objUtilisateur->getDate();
-                                        ?>									
-                                    </td>
+                                <td id="date">
+                                    <input type="hidden" name="date" value="<?php echo $objUtilisateur->getDate(); ?>" />
+                                    <?php
+                                    echo $objUtilisateur->getDate();
+                                    ?>									
+                                </td>
 
-                                    <td id="access">
-                                        <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
-                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
-                                    </td>
+                                <td id="access">
+                                    <a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objUtilisateur->getId(); ?>'});">
+                                        <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                </td>
 
-                                    <td id="detail" class="details" colspan="6">
-                                        <?php
-                                        echo $objUtilisateur->getPresentation();
-                                        ?>
-                                    </td>
+                                <td id="detail" class="details" colspan="6">
+                                    <?php
+                                    echo $objUtilisateur->getPresentation();
+                                    ?>
+                                </td>
 
-                                </tr>   
-
-
-                                <?php
-                                unset($objUtilisateur);
-                            }
+                            </tr>
+                            <?php
+                            unset($objUtilisateur);
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </tbody>
             </table>
         </div>
 
@@ -163,7 +167,7 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (is_null($message)) {
+        if (!is_null($message)) {
             include_once('views/message.php');
         } else {
             ?>

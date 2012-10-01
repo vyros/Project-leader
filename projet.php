@@ -2,7 +2,7 @@
 /*
  * Contrôleur de projet.
  * 
- * @author nicolas.gard
+ * @author nicolas.gard / jimmy
  */
 
 header("Content-Type: text/plain");
@@ -26,22 +26,106 @@ if (!is_null($action) && $action == "ajouter") {
     $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
     $tabDocuments = (isset($_POST["document"])) ? $_POST["document"] : null;
 
-    /* @var $objProjet Projet */
-    $objProjet = Projet::add($idEtat, $libelle, $description, $budget, $echeance);
-    if ($objProjet instanceof Projet) {
+    if (!is_null($libelle) && $libelle != "") {
 
-        // TEST DE GETUTILISATEUR
-        $objProjet->addParticipation(Site::getUtilisateur()->getId());
-        $objProjet->addCompetences($tabCompetenceIds);
+        /* @var $objProjet Projet */
+        $objProjet = Projet::add($idEtat, $libelle, $description, $budget, $echeance);
+        if ($objProjet instanceof Projet) {
 
-        if (!is_null($tabDocuments))
-            Document::add($tabDocuments, date("c"), Site::getUtilisateur()->getId(), $objProjet->getId());
+            // TEST DE GETUTILISATEUR
+            $objProjet->addParticipation(Site::getUtilisateur()->getId());
+            $objProjet->addCompetences($tabCompetenceIds);
 
-        $message[succes] = "Enregistrement effectué avec succès !";
-        $view = "liste";
+            if (!is_null($tabDocuments))
+                Document::add($tabDocuments, date("c"), Site::getUtilisateur()->getId(), $objProjet->getId());
+
+            $message[succes] = "Enregistrement effectué avec succès !";
+            $view = "liste";
+        } else {
+            $message[erreur] = "Erreur lors de l'enregistrement !";
+            $view = "ajouter";
+        }
     } else {
-        $message[erreur] = "Erreur lors de l'enregistrement !";
+        $message[erreur] = "Erreur, veuillez au moins donner un intitulé au projet !";
         $view = "ajouter";
+    }
+} elseif (!is_null($action) && $action == "document") {
+
+    // Permet d'inclure l'index comme html
+    header("Content-Type: text/html");
+
+    if (!is_null($idProjet = Site::isValidId($_POST["id"]))) {
+
+        $maxsize = (isset($_POST["MAX_FILE_SIZE"])) ? $_POST["MAX_FILE_SIZE"] : "1048576";
+        $next = (isset($_POST["next"])) ? $_POST["next"] : "1";
+
+        if (is_numeric($next))
+            $next = (Integer) $next;
+        else
+            $next = 0;
+
+        if (Site::getUtilisateur() instanceof Utilisateur) {
+            $idUtilisateur = Site::getUtilisateur()->getId();
+        }
+
+        /* @var $objProjet Projet */
+        $objProjet = new Projet($idProjet);
+
+        $i = $next;
+        while (isset($_FILES["document$i"])) {
+            if (isset($_FILES["document$i"]['name']) && $_FILES["document$i"]['name'] != "") {
+                $libelle = basename($_FILES["document$i"]['name']);
+                $filesize = filesize($_FILES["document$i"]['tmp_name']);
+                $extension = strrchr($_FILES["document$i"]['name'], '.');
+                $extensions = array('.doc', '.docx', '.rtf', '.pdf', '.txt');
+
+                // Contrôle de taille
+                if ($filesize > $maxsize) {
+                    $message[erreur] = "$filename est trop gros !";
+                    $i++;
+                    continue;
+                }
+
+                // Contrôle de type
+                if (!in_array($extension, $extensions)) {
+                    $message[erreur] = "$filename n'est pas un document de type doc, docx, rtf, txt ou pdf.";
+                    $i++;
+                    continue;
+                }
+
+                // Contrôle du libelle
+                $libelle = strtr($libelle, 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+                $libelle = preg_replace('/([^.a-z0-9]+)/i', '-', $libelle);
+
+                // Id unique pour éviter les doublons
+                $filename = uniqid("projet-" . $objProjet->getId() . "-");
+
+                if (is_null($idDocument = Document::add("projet", $filename, $libelle, $idUtilisateur, $objProjet->getId(), $_FILES["document$i"]))) {
+                    $message[erreur] = "Erreur lors de l'ajout de $libelle !";
+                } else {
+                    $message[succes] = "$libelle ajouté avec succès !";
+                }
+            }
+            $i++;
+        }
+        include_once 'index.php';
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});
+            });
+        </script>
+        <?php
+    } else {
+        $message[erreur] = "Erreur lors de la modification !";
+        include_once 'index.php';
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                getView({'controller' : 'utilisateur', 'view' : 'accueil'});
+            });
+        </script>
+        <?php
     }
 } elseif (!is_null($action) && $action == "editer") {
 
@@ -54,37 +138,12 @@ if (!is_null($action) && $action == "ajouter") {
         $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
         $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
 
-        $i = 1;
-
         if (Site::getUtilisateur() instanceof Utilisateur) {
             $idUtilisateur = Site::getUtilisateur()->getId();
         }
 
-        if ($idProjet = Site::isValidId($_POST["id"])) {
-            /* @var $objProjet Projet */
-            $objProjet = new Projet($idProjet);
-        } else {
-            return;
-        }
-
-        //EN TRAVAUX =
-        // PROBLEME RECUP CHEMIN $fichier
-        //A TEST   recup un ou des fichiers + insert / METTRE UNE LIMITE A 3
-//        while(isset($_POST['fichier'.$i]))
-//        { 
-
-        $t1 = $_FILES['document']['name'];
-        $t2 = $_FILES['document1']['name'];
-        $t2 = $_POST['document1']['name'];
-
-        if (isset($_FILES['document']['name'])) {
-            $fichier = basename($_FILES['document']['name']);
-            $taille = filesize($_FILES['document']['tmp_name']);
-
-            $extension[] = strrchr($_FILES['document']['name'], '.');
-        }
-        //Document::addDocument($fichier, date("c"), $idUtilisateur, $objProjet->getId());
-//        }
+        /* @var $objProjet Projet */
+        $objProjet = new Projet($idProjet);
 
         $objProjet->setBudget($budget);
         $objProjet->setDescription($description);
@@ -172,7 +231,7 @@ if (!is_null($view)) {
     <script type="text/javascript">
         $(document).ready(function(){
             getHeader();
-            
+                                                                        
             $("#demo-input-local").tokenInput([
     <?php
     if (!is_null($lstCompetenceObjs = Competence::getNObjs())) {
@@ -253,9 +312,9 @@ if (!is_null($view)) {
                 }
                 return false;
             });
-                
+                                                                            
             $("#btnfavoris").click(function() {
-            
+                                                                        
                 var idUti = $("#idUti").val();
                 var idPjt = $("#idPjt").val();
 
@@ -276,4 +335,3 @@ if (!is_null($view)) {
     </script>
     <?php
 }
-

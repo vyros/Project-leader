@@ -24,32 +24,25 @@ class Notification extends Classe {
      * @return Notification Retourne le nouvel objet en cas de succès, sinon retourne null.
      *  Permet instanceof Object.
      */
-    public static function add($p_idUtilisateur, $p_idNotification) {
+    public static function add($p_nature, $p_sujet, $p_corps, $p_idEmetteur, $p_idReceveur, $p_idProjet) {
 
-        /**
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
-        $utilisateur = Connexion::getSafeString($p_idUtilisateur);
-        $notification = Connexion::getSafeString($p_idNotification);
+        $nature = Connexion::getSafeString($p_nature);
+        $sujet = Connexion::getSafeString($p_sujet);
+        $corps = Connexion::getSafeString($p_corps);
+        
+        if(is_null($idEmetteur = Site::isValidId($p_idEmetteur)))
+            return null;
+        
+        if(is_null($idReceveur = Site::isValidId($p_idReceveur)))
+            return null;
 
-        $requete = "INSERT INTO effectuer (uti_id, not_id) " .
-                "VALUES ('" . $utilisateur . "','" . $notification . "')";
+        if(is_null($idProjet = Site::isValidId($p_idProjet)))
+            $idProjet = 'null';
 
-        $idNotification = Site::getConnexion()->doSql($requete, "notification");
-        if ($idNotification) {
-            return new Notification($idNotification);
-        }
+        $requete = "INSERT INTO notification (not_nature, not_sujet, not_date, not_lu, not_corps, emetteur_id, receveur_id, projet_id) " .
+                "VALUES ('" . $nature . "','" . $sujet . "','" . date('c') . "', 0,'" . $corps . "'," . $idEmetteur . "," . $idReceveur . "," . $idProjet . ")";
 
-        return null;
+        return Site::getConnexion()->doSql($requete);
     }
 
     public static function addCommentaire($p_titre, $libelle, $p_idEmetteur, $p_idReceveur, $p_idProjet) {
@@ -109,35 +102,40 @@ class Notification extends Classe {
     }
 
     public static function getMaxNot() {
-        
+
         $requete = "SELECT MAX(not_id) FROM notification ";
         return Site::getConnexion()->doSql($requete);
     }
 
-    public static function getConvers($idUtilisateurCourant, $idUtilisateur1, $idUtilisateur2) {
-
-
-//        $requete = " SELECT * FROM notification n, utilisateur u, effectuer e " .
-//                   " WHERE u.uti_id = '".$idUtilisateurCourant."' " .
-//                   " AND u.uti_id = e.uti_id " .
-//                   " AND e.uti_id = n.uti_id " .
-//                   " AND n.not_titre = '". $titre ."' " . 
-//                   " AND n.not_nom = '".$nom."' " .
-//                   " AND n.uti_id2 = '".$idUtilisateur2."' " .
-//                   " AND n.not_date = '".$date."'";
+    public static function getConversationIds($idUtilisateurCourant, $idUtilisateur) {
 
         $requete = " SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND (emetteur_id = " . $idUtilisateurCourant . " OR receveur_id = " . $idUtilisateurCourant . ") " .
-                " AND (emetteur_id = " . $idUtilisateur1 . " OR receveur_id = " . $idUtilisateur1 . ") " .
+                " AND (emetteur_id = " . $idUtilisateur . " OR receveur_id = " . $idUtilisateur . ") " .
                 " ORDER BY not_id DESC ";
 
         return Site::getConnexion()->getIds($requete);
     }
 
+    public static function getConversationObjs($idUtilisateurCourant, $idUtilisateur) {
+
+        $lstIds = self::getConversationIds($idUtilisateurCourant, $idUtilisateur);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Notification($idObj);
+        }
+
+        return $lstObjs;
+    }
+
     public function editMsgLu() {
 
-        $requete = " UPDATE notification SET not_lu = '1'" .
+        $requete = " UPDATE notification SET not_lu = 1 " .
                 " WHERE not_id = " . $this->getPrivate('id') . ";";
 
         return Site::getConnexion()->doSql($requete);
@@ -167,12 +165,20 @@ class Notification extends Classe {
         return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
-    public function getEmetteur() {
+    public function getEmetteurId() {
         return $this->getPrivate('emetteur');
     }
 
-    public function getReceveur() {
+    public function getEmetteurObj() {
+        return new Utilisateur($this->getPrivate('emetteur'));
+    }
+
+    public function getReceveurId() {
         return $this->getPrivate('receveur');
+    }
+
+    public function getReceveurObj() {
+        return new Utilisateur($this->getPrivate('receveur'));
     }
 
     public function setLu($value) {

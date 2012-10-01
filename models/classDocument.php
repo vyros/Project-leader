@@ -24,7 +24,7 @@ class Document extends Classe {
      * @return Document Retourne le nouvel objet en cas de succès, sinon retourne null.
      *  Permet instanceof Object.
      */
-    public static function add($p_nature, $p_libelle, $p_uti_id, $p_prj_id) {
+    public static function add($p_nature, $p_filename, $p_libelle, $p_uti_id, $p_prj_id, $p_document) {
 
         $nature = Connexion::getSafeString($p_nature);
         $libelle = Connexion::getSafeString($p_libelle);
@@ -37,27 +37,11 @@ class Document extends Classe {
 
         // Vérifications liées au document
         $dossier = 'upload/';
-        $document = basename($_FILES['document']['name']);
-        $taille_maxi = 100000;
-        $taille = filesize($_FILES['document']['tmp_name']);
-        $extensions = array('.doc', '.docx', '.rtf', '.pdf', '.txt');
-        $extension = strrchr($_FILES['document']['name'], '.');
-
-        if (!in_array($extension, $extensions)) { //Si l'extension n'est pas dans le tableau
-            $erreur = 'Vous devez charger un document de type doc, docx, jpg, rtf, txt ou pdf.';
-        }
-
-        if ($taille > $taille_maxi) {
-            $erreur = 'Le document est trop gros...';
-        }
 
         if (!isset($erreur)) { //S'il n'y a pas d'erreur, on upload
-            //On formate le nom du document ici...
-            $document = strtr($document, 'Ã€Ã�Ã‚ÃƒÃ„Ã…Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã’Ã“Ã”Ã•Ã–Ã™ÃšÃ›ÃœÃ�Ã Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã²Ã³Ã´ÃµÃ¶Ã¹ÃºÃ»Ã¼Ã½Ã¿', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
-            $document = preg_replace('/([^.a-z0-9]+)/i', '-', $document);
-            $lien = $dossier . $document;
+            $lien = $dossier . $p_filename . strrchr($libelle, '.');;
 
-            if (move_uploaded_file($_FILES['document']['tmp_name'], $lien)) {
+            if (move_uploaded_file($p_document['tmp_name'], $lien)) {
                 
                 $requete = "INSERT INTO document (doc_nature, doc_libelle, doc_lien, doc_date, utilisateur_id, projet_id) " .
                         "VALUES ('" . $nature . "', '" . $libelle . "','" . $lien . "','" . date('c') . "'," . $idUtilisateur . "," . $idProjet . ")";
@@ -90,7 +74,7 @@ class Document extends Classe {
             return null;
 
         $requete = " SELECT doc_id FROM document " .
-                " WHERE utilisateur_id = '" . $idUtilisateur . "' " .
+                " WHERE utilisateur_id = " . $idUtilisateur .
                 " AND projet_id = " . $idProjet . ";";
 
         return Site::getConnexion()->getIds($requete, $p_n);

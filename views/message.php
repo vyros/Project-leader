@@ -5,13 +5,13 @@
  * @author nicolas.gard
  */
 
-if (isset($message['succes']) && $message['succes'])
+if (!is_null($message['succes']) && $message['succes'])
     $message = $message['succes'];
 
-elseif ((isset($message['erreur']) && $message['erreur']))
+elseif ((!is_null($message['erreur']) && $message['erreur']))
     $message = $message['erreur'];
 else
-    unset($message);
+    $message = null;
 
 if (!is_null($message)) {
     if ($view == "accueil") {

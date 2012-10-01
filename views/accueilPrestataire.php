@@ -90,64 +90,62 @@
         </div>
 
         <div id="demo">
-            <table id="listeProjet">
-                <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauDetail">
-                    <thead>
-                        <tr>
-                            <th class="sorting_asc">Intitulé</th>
-                            <th class="sorting_asc">Compétence(s) requise(s)</th>
-                            <th class="sorting_asc">Date de création</th>
-                            <th class="sorting_asc">Accès fiche</th>
-                            <th>test</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        if (!is_null($lstProjetObjs)) {
-                            foreach ($lstProjetObjs as &$objProjet) {
-                                ?>
-                                <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
-                                    <td id="libelle">
-                                        <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>"> 
-                                        <?php echo $objProjet->getLibelle(); ?>
-                                    </td>
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauAccueilPrestataire">
+                <thead>
+                    <tr>
+                        <th class="sorting_asc">Intitulé</th>
+                        <th class="sorting_asc">Compétence(s) requise(s)</th>
+                        <th class="sorting_asc">Date de création</th>
+                        <th class="sorting_asc">Accès fiche</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!is_null($lstProjetObjs)) {
+                        foreach ($lstProjetObjs as $objProjet) {
+                            ?>
+                            <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
+                                <td id="libelle">
+                                    <input type="hidden" name="libelle" value="<?php echo $objProjet->getLibelle(); ?>" /> 
+                                    <?php echo $objProjet->getLibelle(); ?>
+                                </td>
 
-                                    <td id="competence">
-                                        <input type="hidden" name="competence" value="">
-                                        <?php
-                                        if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
-                                            foreach ($lstCompetenceObjs as $objCompetence) {
-                                                echo $objCompetence->getLibelle();
-                                                echo ('</br>');
-                                            }
+                                <td id="competence">
+                                    <input type="hidden" name="competence" value="" />
+                                    <?php
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
+                                        foreach ($lstCompetenceObjs as $objCompetence) {
+                                            echo $objCompetence->getLibelle();
+                                            echo ('</br>');
                                         }
-                                        ?>									
-                                    </td>
+                                    }
+                                    ?>									
+                                </td>
 
-                                    <td id="date">
-                                        <input type="hidden" name="date" value="<?php echo $objProjet->getDate(); ?>">
-                                        <?php echo $objProjet->getDate(); ?>											
-                                    </td>
+                                <td id="date">
+                                    <input type="hidden" name="date" value="<?php echo $objProjet->getDate(); ?>" />
+                                    <?php echo $objProjet->getDate(); ?>											
+                                </td>
 
-                                    <td id="access">
-                                        <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
-                                            <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
-                                    </td>
+                                <td id="access">
+                                    <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
+                                        <img class="imgLienFiche" src="images/lien_fiche.png"/> </a>  										
+                                </td>
 
-                                    <td id="detail" class="details" colspan="6">
-                                        <?php
-                                        echo $objProjet->getDescription();
-                                        ?>
-                                    </td>
+                                <td id="detail" class="details" colspan="5">
+                                    <?php
+                                    echo $objProjet->getDescription();
+                                    ?>
+                                </td>
 
-                                </tr>
-                                <?php
-                                unset($objProjet);
-                            }
+                            </tr>
+                            <?php
+                            unset($objProjet);
                         }
-                        ?>
-                    </tbody>
-                </table>
+                    }
+                    ?>
+                </tbody>
             </table>
         </div>
 
@@ -162,7 +160,7 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (isset($message)) {
+        if (!is_null($message)) {
             include_once('views/message.php');
         } else {
             ?>

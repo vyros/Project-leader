@@ -34,9 +34,17 @@ Site::init();
         <script language="javascript" type="text/javascript" src="js/oXHR.js"></script>
 
         <script language="javascript" type="text/javascript">
+            var varAccueilPorteur;
+            var varAccueilPrestataire;
+            
+            var varFichePorteur;
+            var varFichePrestataire;
+            
+            var varMessagerieLu;
+            var varMessagerieNonLu;
+
             var varTable;
-            var varTable2;
-            var varTableTest;
+
             var i = 2;
             var contenu = "";
         </script>
@@ -129,13 +137,13 @@ Site::init();
     <div id="fb-root"></div>
     <script>
         //fonction pour facebook
-//        (function(d, s, id) {
-//            var js, fjs = d.getElementsByTagName(s)[0];
-//            if (d.getElementById(id)) return;
-//            js = d.createElement(s); js.id = id;
-//            js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
-//            fjs.parentNode.insertBefore(js, fjs);
-//        }(document, 'script', 'facebook-jssdk'));
+        //        (function(d, s, id) {
+        //            var js, fjs = d.getElementsByTagName(s)[0];
+        //            if (d.getElementById(id)) return;
+        //            js = d.createElement(s); js.id = id;
+        //            js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+        //            fjs.parentNode.insertBefore(js, fjs);
+        //        }(document, 'script', 'facebook-jssdk'));
             
         //Reactualisation du nb de connectés   
         function ReactConnectes(){

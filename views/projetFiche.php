@@ -11,7 +11,7 @@
 
         <div class="header_wrapper">
             <img src="images/icone_fichePjt.png"/> 
-            <div class="header_02">Fiche de votre projet </div>
+            <div class="header_02">Fiche du projet : "<?php echo $objProjet->getLibelle(); ?>" </div>
         </div>
         </br></br>
 
@@ -22,17 +22,12 @@
             <input type="hidden" name="id" value="<?php echo $objProjet->getId(); ?>"/>
 
             <?php
-            // Si Presta
             if (Site::getUtilisateur()->getStatut() == "prestataire") {
                 $disabled = "disabled";
             } else {
                 $disabled = "";
             }
             ?>
-
-            <label for="libelle">Titre du projet : </label><br />
-            <input id="libelle" accesskey="l" type='text' name='libelle' size='18' maxlength='100' value="<?php echo $objProjet->getLibelle(); ?>" <?php echo $disabled; ?>/>
-            </br></br>
 
             <label for="libelle">Titre du projet : </label><br />
             <input id="libelle" accesskey="l" type='text' name='libelle' size='18' maxlength='100' value="<?php echo $objProjet->getLibelle(); ?>" <?php echo $disabled; ?>/>
@@ -54,31 +49,6 @@
 
             <label for="blahComp">Compétence(s) demandée(s) : </label><br />
             <input type="text" id="demo-input-local" name="blahComp" <?php echo $disabled; ?>/>
-            <br /><br />
-
-            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-            <?php
-            $i = 0;
-            if (!is_null($lstDocumentIds = Document::getDocumentIds($objProjet->getId()))) {
-                foreach ($lstDocumentIds as $idDocument) {
-                    
-                    $objDocument = new Document($idDocument);
-                    $libelle = $objDocument->getLibelle();
-                    ?>
-                    <label for="document">Document <?php echo ++$i; ?> : </label><br />
-                    <input type="file" name="document<?php echo $i; ?>" value="<?php echo $objDocument->getLien(); ?>" />
-                    <div id="nouveau_input"></div><a onClick="inserLigne();">add</a><br />
-                    <?php
-                    unset($objDocument);
-                }
-            } else {
-                ?>
-                <label for="document">Document <?php echo ++$i; ?> : </label><br />
-                <input type="file" name="document<?php echo $i; ?>" value="" />
-                <div id="nouveau_input"></div><a onClick="inserLigne();">add</a><br />
-                <?php
-            }
-            ?>
             <br /><br />
 
             <label for="budget">Budget : </label><br />
@@ -104,8 +74,7 @@
                     $verrou = true;
                 ?>
                 <table id="listePrestataire">
-                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauPrestataire">
-                    <!--<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">-->
+                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="tableauFichePrestataire">
                         <thead>
                             <tr>
                                 <th class="sorting_asc">Prestataire</th>
@@ -150,7 +119,6 @@
                                     unset($objUtilisateur);
                                 }
                             } else {
-                                // Aucun
                                 ?>
                                 <tr>
                                     <td colspan="4" class="center">Aucun participant</td>
@@ -216,8 +184,8 @@
                                     unset($objUtilisateur);
                                 }
                             } else {
-                                // Aucun
                                 // EN théorie il y a toujours un porteur de projet sur une fiche de projet donc Else inutile
+                                ;
                             }
                             ?>
                         </tbody>
@@ -246,7 +214,6 @@
                     <?php
                 }
 
-
                 if (is_null($lstParticipants = $objProjet->getPrestataireIds())) {
                     ?>
                     <a onclick="getView({'controller' : 'notification', 'view' : 'nouveauMsg'});">Postuler</a>
@@ -254,10 +221,49 @@
                 }
             }
             ?>
-            <div class="margin_bottom_20 border_bottom"></div>
-            <div class="margin_bottom_30"></div>
         </form>
 
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
+
+        <form id="pf2" enctype="multipart/form-data" action="projet.php" method="post">
+
+            <h3>Ajouter des documents au projet <?php echo $objProjet->getLibelle(); ?></h3>
+            <br />
+
+            <input type="hidden" name="action" value="document"/>
+            <input type="hidden" name="id" value="<?php echo $objProjet->getId(); ?>"/>
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+
+            <?php
+            $i = 1;
+            if (!is_null($lstDocumentObjs = $objProjet->getDocumentObjs())) {
+                foreach ($lstDocumentObjs as $objDocument) {
+                    ?>
+                    <label for="document<?php echo $i; ?>">Document <?php echo $i; ?> : </label><br />
+                    <a name="document<?php echo $i; ?>" href="<?php echo $objDocument->getLien(); ?>" ><?php echo $objDocument->getLibelle(); ?></a>
+                    <br /><br />
+                    <?php
+                    unset($objDocument);
+                    $i++;
+                }
+            } else {
+                ?>
+                <label for="document<?php echo $i; ?>">Document <?php echo $i; ?> : </label><br />
+                <input type="file" name="document<?php echo $i; ?>" value="" />
+                <br />
+                <?php
+            }
+            ?>
+            <div id="nouveau_input"></div><a onClick="addLine({'form' : 'pf2'});">Ajouter un document</a><br />
+            <br /><br />
+
+            <input type="hidden" id="next" name="next" value="<?php echo $i; ?>"/>
+            <input type="submit" value="Valider" />
+        </form>
+
+        <div class="margin_bottom_20 border_bottom"></div>
+        <div class="margin_bottom_30"></div>
 
         <label for="infoPrj">Voir plus : </label>
         <p>
@@ -267,14 +273,15 @@
 //                    if (!is_null($lstPrjSimilaire)) {
 //                        foreach ($lstPrjSimilaire as $objProjet) {
             ?>
-                            <!--<a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php // echo $objProjet->getId();      ?>'});">-->
+                            <!--<a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php // echo $objProjet->getId();              ?>'});">-->
             <?php // echo "- " . $objProjet->getLibelle(); ?></a><br />
             <?php
 //                            $i++;
 //                        }
 //                    }
             ?>
-        </p>    
+        </p>
+
         <div class="margin_bottom_20 border_bottom"></div>
         <div class="margin_bottom_30"></div>
 
@@ -287,7 +294,7 @@
                         ?>
                         <li class="box" style="display:list-item;">
                             <img src="http://www.gravatar.com/avatar.php?gravatar_id=<?php echo $image; ?>" class="com_img">
-                            <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCommentaire->getEmetteur(); ?>'});"><?php echo $objCommentaire->getSujet(); ?></a></span>, le <span class="com_date"> <?php echo $objCommentaire->getDate(); ?></span> a écrit : <br />
+                            <span class="com_name"><a onclick="getView({'controller' : 'utilisateur', 'view' : 'profil', 'id' : '<?php echo $objCommentaire->getEmetteurId(); ?>'});"><?php echo $objCommentaire->getSujet(); ?></a></span>, le <span class="com_date"> <?php echo $objCommentaire->getDate(); ?></span> a écrit : <br />
                             <?php echo $objCommentaire->getLibelle(); ?>
                         </li>
                     </ol>
@@ -321,7 +328,6 @@
         <div class="margin_bottom_30"></div>
 
     </div>
-
 </div>
 
 <div class="content_col_w420 fr">
@@ -332,7 +338,7 @@
         <div class="conteneur_bulleAcc">
             <div class="messageBulle">
                 <?php
-                if (is_null($message)) {
+                if (!is_null($message)) {
                     include_once('views/message.php');
                 } else {
                     ?>

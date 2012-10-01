@@ -31,7 +31,7 @@
             <input type="hidden" name="id" value="<?php echo $objUtilisateur->getId(); ?>"/>
 
             <label for="nom">Nom : </label>  <br />
-            <input id="nom" name="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getSujet(); ?>"/><br /><br />
+            <input id="nom" name="nom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getNom(); ?>"/><br /><br />
 
             <label for="prenom">Prénom : </label><br />
             <input id="prenom" name="prenom" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getPrenom(); ?>"/><br /><br />
@@ -55,7 +55,6 @@
             <?php
             if ($objUtilisateur->getStatut() == "prestataire") {
                 ?>
-
                 <label for="demo-input-local">Compétence(s) : </label><br />
                 <input type="text" id="demo-input-local" name="blah" /><br /><br />
                 <?php
@@ -102,7 +101,7 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (isset($message)) {
+        if (!is_null($message)) {
             include_once('views/message.php');
         } else {
             if (Site::getUtilisateur()->getLogin() == $objUtilisateur->getLogin()) {
