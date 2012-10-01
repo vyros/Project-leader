@@ -30,7 +30,7 @@ class Projet extends Classe {
 
         if ($this->checkPrivate()) {
             # Les competences
-            $this->getCompetenceIds();
+            $this->getCompetenceIds($p_id);
 
             # L'objet état
             $this->getEtatObj();
@@ -313,6 +313,10 @@ class Projet extends Classe {
         return Site::dateMysql2Picker($this->getPrivate("date"));
     }
 
+    public function getDateTable() {
+        return Site::dateMysql2Table($this->getPrivate("date"));
+    }
+    
     public function getPorteurIds($p_n = 0) {
 
         $requete = "SELECT u.uti_id FROM utilisateur u, participer p " .
@@ -346,7 +350,6 @@ class Projet extends Classe {
                     return true;
             }
         }
-
         return false;
     }
 
@@ -357,7 +360,6 @@ class Projet extends Classe {
                     return true;
             }
         }
-
         return false;
     }
 

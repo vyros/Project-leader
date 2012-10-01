@@ -135,9 +135,11 @@ class Connexion {
 
         $resultat = mysql_query($requete);
 
-        for ($array = null, $i = 0, $obj = mysql_fetch_array($resultat, $type); $obj != false; $obj = mysql_fetch_array($resultat, $type), $i++)
+        for ($array = null, $i = 0, $obj = mysql_fetch_array($resultat, $type); 
+            $obj != false; 
+            $obj = mysql_fetch_array($resultat, $type), $i++)
             $array[$i] = $obj;
-
+            
         mysql_free_result($resultat);
 
         $res = $this->getOneLevelArray($array);

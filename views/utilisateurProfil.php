@@ -6,21 +6,20 @@
  */
 ?>
 <div class="content_col_w420 fl">
-
     <div class="sub_content_col">
 
         <div class="header_wrapper">
             <img src="images/ex_avatar.png"/>
             <?php
-            if ($objUtilisateur->getStatut() == "prestataire") {
+            if ($objUtilisateur->getStatut() == "prestataire"):
                 ?>
                 <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?> : prestataire de compétences</div>
                 <?php
-            } else {
+            else:
                 ?>
                 <div class="header_02"><?php echo $objUtilisateur->getLogin(); ?> : porteur de projets</div>
-                <?php
-            }
+            <?php
+            endif;
             ?>
         </div>
 
@@ -53,18 +52,18 @@
             <input id="cv" name="cv" class="infoProfil" type="text" value="<?php echo $objUtilisateur->getLogin(); ?>"/><br /><br />
 
             <?php
-            if ($objUtilisateur->getStatut() == "prestataire") {
+            if ($objUtilisateur->getStatut() == "prestataire"):
                 ?>
                 <label for="demo-input-local">Compétence(s) : </label><br />
                 <input type="text" id="demo-input-local" name="blah" /><br /><br />
                 <?php
-            }
+            endif;
 
-            if ($objUtilisateur->getId() == Site::getUtilisateur()->getId()) {
+            if ($objUtilisateur->getId() == Site::getUtilisateur()->getId()):
                 ?>
                 <input type="button" onclick="getFormulary('up1');" value="Valider" />
                 <?php
-            }
+            endif;
             ?>
         </form>
 
@@ -72,13 +71,10 @@
         <div class="margin_bottom_30"></div>
 
     </div>
-
 </div>
 
 <div class="content_col_w420 fr">
-
     <div class="sub_content_col">
-
         <div id="menuProfil">
             <ul id="ongletsProfil">
                 <li id="closed" class="active"><a onclick="setOngletActif({'id' : '<?php echo $objUtilisateur->getId(); ?>', 'contenu' : 'closed'});"> Projets réalisés </a></li>
@@ -101,19 +97,19 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (!is_null($message)) {
+        if (!is_null($message)):
             include_once('views/message.php');
-        } else {
-            if (Site::getUtilisateur()->getLogin() == $objUtilisateur->getLogin()) {
+        else:
+            if (Site::getUtilisateur()->getLogin() == $objUtilisateur->getLogin()):
                 ?>
                 <span>Voici votre profil, vous avez la possibilité de modifier vos informations (...)</span>
                 <?php
-            } else {
+            else:
                 ?>
                 <span>Voici le profil de <?php echo $objUtilisateur->getSujet(); ?>, vous avez 0 notification(s).</span>
-                <?php
-            }
-        }
+            <?php
+            endif;
+        endif;
         ?>
     </div>
 </div>

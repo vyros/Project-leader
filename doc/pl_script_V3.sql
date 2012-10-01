@@ -403,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `posseder` (
 --
 
 INSERT INTO `posseder` (`cpt_id`, `uti_id`, `pos_date`) VALUES
-(1, 2, '2012-04-09 13:13:34');
+(6, 2, '2012-04-09 13:13:34');
 
 -- --------------------------------------------------------
 

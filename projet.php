@@ -18,13 +18,13 @@ $view = (isset($_POST["view"])) ? $_POST["view"] : null;
  */
 if (!is_null($action) && $action == "ajouter") {
 
-    $idEtat = (isset($_POST["etat"])) ? $_POST["etat"] : null;
-    $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+    $idEtat = (isset($_POST["etat"])) ? strip_tags($_POST["etat"]) : null;
+    $libelle = (isset($_POST["libelle"])) ? strip_tags($_POST["libelle"]) : null;
     $tabCompetenceIds = explode(',', $_POST["blahComp"]);
-    $description = (isset($_POST["description"])) ? $_POST["description"] : null;
-    $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
-    $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
-    $tabDocuments = (isset($_POST["document"])) ? $_POST["document"] : null;
+    $description = (isset($_POST["description"])) ? strip_tags($_POST["description"]) : null;
+    $budget = (isset($_POST["budget"])) ? strip_tags($_POST["budget"]) : null;
+    $echeance = (isset($_POST["echeance"])) ? strip_tags($_POST["echeance"]) : null;
+    $tabDocuments = (isset($_POST["document"])) ? strip_tags($_POST["document"]) : null;
 
     if (!is_null($libelle) && $libelle != "") {
 
@@ -132,11 +132,11 @@ if (!is_null($action) && $action == "ajouter") {
     if (!is_null($idProjet = Site::isValidId($_POST["id"]))) {
 
 //        $idEtat = (isset($_POST["idEtat"])) ? $_POST["idEtat"] : null;
-        $libelle = (isset($_POST["libelle"])) ? $_POST["libelle"] : null;
+        $libelle = (isset($_POST["libelle"])) ? strip_tags($_POST["libelle"]) : null;
         $tabCompetenceIds = explode(',', $_POST["blahComp"]);
-        $description = (isset($_POST["description"])) ? $_POST["description"] : null;
-        $budget = (isset($_POST["budget"])) ? $_POST["budget"] : null;
-        $echeance = (isset($_POST["echeance"])) ? $_POST["echeance"] : null;
+        $description = (isset($_POST["description"])) ? strip_tags($_POST["description"]) : null;
+        $budget = (isset($_POST["budget"])) ? strip_tags($_POST["budget"]) : null;
+        $echeance = (isset($_POST["echeance"])) ? strip_tags($_POST["echeance"]) : null;
 
         if (Site::getUtilisateur() instanceof Utilisateur) {
             $idUtilisateur = Site::getUtilisateur()->getId();

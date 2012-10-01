@@ -144,7 +144,7 @@ class Utilisateur extends Classe {
 
         return Site::getConnexion()->getIds($requete, 1);
     }
-    
+
     public static function login2Id($p_log) {
 
         $requete = " SELECT uti_id FROM utilisateur " .
@@ -222,16 +222,16 @@ class Utilisateur extends Classe {
     public function getMessageCount($p_lu = null) {
         return count($this->getMessageIds($p_lu));
     }
-    
+
     public function getMessageIds($p_lu = null) {
 
         $requete = "SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
                 " AND receveur_id = " . $this->getPrivate('id');
-        
-        if(!is_null($p_lu) && is_numeric($lu = $p_lu))
-            $requete .= " AND not_lu = " .$lu;
-        
+
+        if (!is_null($p_lu) && is_numeric($lu = $p_lu))
+            $requete .= " AND not_lu = " . $lu;
+
         $requete .= ";";
 
         return Site::getConnexion()->getIds($requete, $p_n);
@@ -340,6 +340,33 @@ class Utilisateur extends Classe {
 
         foreach ($lstIds as $idObj) {
             $lstObjs[] = new Projet($idObj);
+        }
+
+        return $lstObjs;
+    }
+
+    public static function getNUtilisateurIds($p_statut, $p_n = 0) {
+
+        $statut = Connexion::getSafeString($p_statut);
+        if ($statut == "")
+            return null;
+
+        $requete = "SELECT uti_id FROM utilisateur WHERE uti_statut = '" . $statut . "'" .
+                " ORDER BY uti_date DESC ";
+
+        return Site::getConnexion()->getIds($requete, $p_n);
+    }
+
+    public static function getNUtilisateurObjs($p_statut, $p_n = 0) {
+
+        $lstIds = self::getNUtilisateurIds($p_statut, $p_n);
+        $lstObjs = null;
+
+        if (is_null($lstIds) || !count($lstIds))
+            return null;
+
+        foreach ($lstIds as $idObj) {
+            $lstObjs[] = new Utilisateur($idObj);
         }
 
         return $lstObjs;

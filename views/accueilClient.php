@@ -19,37 +19,37 @@
                 <p>
                     <?php
                     $verrou = true;
-                    if (!is_null($lstUtilisateurProjetObjs)) {
-                        foreach ($lstUtilisateurProjetObjs as &$objProjet) {
+                    if (!is_null($lstUtilisateurProjetObjs)):
+                        foreach ($lstUtilisateurProjetObjs as &$objProjet):
                             $verrou = false;
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                                 <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
                             unset($objProjet);
-                        }
-                    }
+                        endforeach;
+                    endif;
                     ?>
                 </p>
             </div>
         </div>
         <?php
-        if (!$verrou) {
+        if (!$verrou):
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
                 <div class="cleaner"></div>            
             </div>
             <?php
-        } else {
+        else:
             echo "Aucun projet en cours";
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer votre projet</a></div>
                 <div class="cleaner"></div>            
             </div>
-            <?php
-        }
+        <?php
+        endif;
         ?>
 
         <div class="margin_bottom_20 border_bottom"></div>
@@ -78,8 +78,8 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstUtilisateurObjs)) {
-                        foreach ($lstUtilisateurObjs as &$objUtilisateur) {
+                    if (!is_null($lstUtilisateurObjs)):
+                        foreach ($lstUtilisateurObjs as &$objUtilisateur):
                             ?>
                             <tr id="lignePrestataire<?php echo $objUtilisateur->getId(); ?>" class="gradeX">
 
@@ -91,12 +91,12 @@
                                 <td id="competence">
                                     <input type="hidden" name="competence" value="" />
                                     <?php
-                                    if (!is_null($lstCompetenceObjs = $objUtilisateur->getCompetenceObjs())) {
-                                        foreach ($lstCompetenceObjs as $objCompetence) {
+                                    if (!is_null($lstCompetenceObjs = $objUtilisateur->getCompetenceObjs())):
+                                        foreach ($lstCompetenceObjs as $objCompetence):
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
-                                        }
-                                    }
+                                        endforeach;
+                                    endif;
                                     ?>	
                                 </td>
 
@@ -126,8 +126,19 @@
                             </tr>
                             <?php
                             unset($objUtilisateur);
-                        }
-                    }
+                        endforeach;
+                    else:
+                        ?>
+                        <tr>
+                            <td colspan="6" class="center">Aucun prestataire trouvé</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php
+                    endif;
                     ?>
                 </tbody>
             </table>
@@ -137,7 +148,6 @@
         <div class="margin_bottom_30"></div>
 
     </div><!-- end of a section -->
-
 </div>
 
 <div class="content_col_w420 fr">
@@ -167,13 +177,13 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (!is_null($message)) {
+        if (!is_null($message)):
             include_once('views/message.php');
-        } else {
+        else:
             ?>
-            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez 0 notification(s).</span>
-            <?php
-        }
+            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez <?php echo Site::getUtilisateur()->getMessageCount(0); ?> message(s).</span>
+        <?php
+        endif;
         ?>
     </div>
 </div>

@@ -81,9 +81,8 @@ class Competence extends Classe {
 
     public static function getCompetenceMereIds() {
 
-        $requete = "SELECT DISTINCT A.cpt_id_mere " .
-                " FROM appartenir AS A, comptence AS C " .
-                " WHERE A.cpt_id_mere = C.cpt_id ;";
+        $requete = "SELECT DISTINCT cpt_id_mere " .
+                   " FROM appartenir; ";
 
         return Site::getConnexion()->getFetchIntArray($requete);
     }
@@ -94,8 +93,8 @@ class Competence extends Classe {
             return null;
         
         $requete = " SELECT C.cpt_id FROM competence AS C , appartenir AS A " .
-                " WHERE C.cpt_id = A.cpt_id_fils " .
-                " AND cpt_id_mere = " . $idCompetence . ";";
+                " WHERE C.cpt_id = A.cpt_id_fille " .
+                " AND A.cpt_id_mere = " . $idCompetence . ";";
 
         return Site::getConnexion()->getFetchIntArray($requete);
     }

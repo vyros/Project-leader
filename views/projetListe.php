@@ -6,28 +6,27 @@
  */
 ?>
 <div class="content_col_w420 fl">
-
     <div class="sub_content_col">
 
         <div class="header_wrapper">
 
             <?php
-            if ($view == "fini") {
+            if ($view == "fini"):
                 ?>
                 <img src="images/icone_lstPjtFini.png"/> 
                 <div class="header_02">Vos projets menés à terme</div>
                 <?php
-            } else if ($view == "liste") {
+            elseif ($view == "liste"):
                 ?>
                 <img src="images/icone_projet.png"/>
                 <div class="header_02">Vos derniers projets</div>
                 <?php
-            } else if ($view == "favori") {
+            elseif ($view == "favori"):
                 ?>
                 <img src="images/icone_lstPjtFavori.png"/> 
                 <div class="header_02">Mes projets favoris</div>
                 <?php
-            }
+            endif;
             ?>
 
         </div>
@@ -42,20 +41,18 @@
                         <th class="sorting_asc">Date de création</th>
                         <th class="sorting_asc">Description</th>
                         <?php
-                        if ($idUtilisateur !== null) {
+                        if (!is_null($idUtilisateur)):
                             ?>
                             <th class="sorting_asc">Accès</th>
                             <?php
-                        } else {
-                            ;
-                        }
+                        endif;
                         ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstProjetObjs = Projet::getNObjs())) {
-                        foreach ($lstProjetObjs as &$objProjet) {
+                    if (!is_null($lstProjetObjs = Projet::getNObjs())):
+                        foreach ($lstProjetObjs as &$objProjet):
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                 <td id="libelle">
@@ -66,13 +63,13 @@
                                 <td id="competence">
                                     <input type="hidden" name="competence" value="">
                                     <?php
-                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
-                                        foreach ($lstCompetenceObjs as &$objCompetence) {
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())):
+                                        foreach ($lstCompetenceObjs as &$objCompetence):
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
                                             unset($objCompetence);
-                                        }
-                                    }
+                                        endforeach;
+                                    endif;
                                     ?>									
                                 </td>
 
@@ -91,7 +88,7 @@
                                     <?php echo $objProjet->getDescription(); ?>											
                                 </td>
                                 <?php
-                                if ($idUtilisateur !== null) {
+                                if (!is_null($idUtilisateur)):
                                     ?>
                                     <td id="action">
                                         <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
@@ -99,15 +96,34 @@
 
                                     </td>
                                     <?php
-                                } else {
-                                    
-                                }
+                                endif;
                                 ?>
                             </tr>
                             <?php
                             unset($objProjet);
-                        }
-                    }
+                        endforeach;
+                    else:
+                        ?>
+                        <tr>
+                            <?php
+                            if (!is_null($idUtilisateur)):
+                                ?>
+                                <td colspan="6" class="center">Aucun projet trouvé</td>
+                                <td></td>
+                                <?php
+                            else:
+                                ?>
+                                <td colspan="5" class="center">Aucun projet trouvé</td>
+                            <?php
+                            endif;
+                            ?>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php
+                    endif;
                     ?>
                 </tbody>
             </table>
@@ -124,21 +140,21 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if ($idUtilisateur !== null) {
-            if ($view == "liste") {
+        if ($idUtilisateur !== null):
+            if ($view == "liste"):
                 ?>
                 <span>Voici votre liste de projets sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
                 <?php
-            } else {
+            else:
                 ?>
                 <span>Voici votre liste de projets finis sur le site. Pour voir la fiche complète d'un projet, cliquez sur  <img class="imgLienFiche" src="images/lien_fiche.png"/></span>
-                    <?php
-                }
-            } else {
+                <?php
+                endif;
+            else:
                 ?>    
             <span>Voici une liste de projets posté sur le site. Pour voir la description complète des projets, vous devez être inscrit ou vous connecter ! <a onclick="getView({'controller' : 'utilisateur', 'view' : 'inscription'});">Cliquez ici</a></span>
-            <?php
-        }
+        <?php
+        endif;
         ?>
     </div>
 </div>	

@@ -18,37 +18,37 @@
             <div class="testimonial_box">
                 <p>
                     <?php
-                    if (!is_null($lstUtilisateurProjetObjs)) {
-                        foreach ($lstUtilisateurProjetObjs as &$objProjet) {
+                    if (!is_null($lstUtilisateurProjetObjs)):
+                        foreach ($lstUtilisateurProjetObjs as &$objProjet):
                             ?>
                             <a onclick="getView({'controller' : 'projet', 'view' : 'liste', 'id' : '<?php echo $objProjet->getId(); ?>'});">
                                 <?php echo $objProjet->getLibelle(); ?></a><br />
                             <?php
                             unset($objProjet);
-                        }
-                    }
+                        endforeach;
+                    endif;
                     ?>
                 </p>
             </div>
         </div>
 
         <?php
-        if (!is_null($lstUtilisateurProjetObjs)) {
+        if (!is_null($lstUtilisateurProjetObjs)):
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'projet', 'view' : 'ajouter'});">Créer un projet</a></div>
                 <div class="cleaner"></div>            
             </div>
             <?php
-        } else {
+        else:
             echo "Aucun projet en cours";
             ?>
             <div class="section_w140 fr">
                 <div class="rc_btn_02"><a onclick="getView({'controller' : 'recherche'});">Rechercher un projet</a></div>
                 <div class="cleaner"></div>            
             </div>
-            <?php
-        }
+        <?php
+        endif;
         ?>
 
         <div class="margin_bottom_20 border_bottom"></div>
@@ -102,8 +102,8 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!is_null($lstProjetObjs)) {
-                        foreach ($lstProjetObjs as $objProjet) {
+                    if (!is_null($lstProjetObjs)):
+                        foreach ($lstProjetObjs as $objProjet):
                             ?>
                             <tr id="ligneProjet<?php echo $objProjet->getId(); ?>" class="gradeX">
                                 <td id="libelle">
@@ -114,12 +114,12 @@
                                 <td id="competence">
                                     <input type="hidden" name="competence" value="" />
                                     <?php
-                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())) {
-                                        foreach ($lstCompetenceObjs as $objCompetence) {
+                                    if (!is_null($lstCompetenceObjs = $objProjet->getCompetenceObjs())):
+                                        foreach ($lstCompetenceObjs as $objCompetence):
                                             echo $objCompetence->getLibelle();
                                             echo ('</br>');
-                                        }
-                                    }
+                                        endforeach;
+                                    endif;
                                     ?>									
                                 </td>
 
@@ -142,8 +142,18 @@
                             </tr>
                             <?php
                             unset($objProjet);
-                        }
-                    }
+                        endforeach;
+                    else:
+                        ?>
+                        <tr>
+                            <td colspan="5" class="center">Aucun projet trouvé</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    <?php
+                    endif;
                     ?>
                 </tbody>
             </table>
@@ -160,13 +170,13 @@
 <div class="conteneur_bulle">
     <div class="messageBulle">
         <?php
-        if (!is_null($message)) {
+        if (!is_null($message)):
             include_once('views/message.php');
-        } else {
+        else:
             ?>
-            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez 0 notification(s).</span>
-            <?php
-        }
+            <span>Bonjour <?php echo Site::getUtilisateur()->getLogin(); ?>, vous avez <?php echo Site::getUtilisateur()->getMessageCount(0); ?> message(s).</span>
+        <?php
+        endif;
         ?>
     </div>
 </div>

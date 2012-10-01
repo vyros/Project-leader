@@ -134,7 +134,7 @@ $(document).ready(function() {
     {
         var aData = varAccueilPrestataire.fnGetData( nTr );
         var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-        sOut += '<tr><td>Description : </td><td>'+aData[5]+'</td></tr>';
+        sOut += '<tr><td>Description : </td><td>'+aData[4]+'</td></tr>';
         sOut += '</table>';
      
         return sOut;
@@ -185,7 +185,7 @@ $(document).ready(function() {
     {
         var aData = varFichePorteur.fnGetData( nTr );
         var sOut = '<table cellpadding="2" cellspacing="0" border="0" style="padding-left:50px;">';
-        sOut += '<tr><td>Qualité : </td><td>'+aData[5]+'</td></tr>';
+        sOut += '<tr><td>Qualité : </td><td>'+aData[1]+'</td></tr>';
         sOut += '</table>';
      
         return sOut;
@@ -235,7 +235,7 @@ $(document).ready(function() {
     {
         var aData = varFichePrestataire.fnGetData( nTr );
         var sOut = '<table cellpadding="2" cellspacing="0" border="0" style="padding-left:50px;">';
-        sOut += '<tr><td>Qualité : </td><td>'+aData[5]+'</td></tr>';
+        sOut += '<tr><td>Qualité : </td><td>'+aData[0]+'</td></tr>';
         sOut += '</table>';
      
         return sOut;

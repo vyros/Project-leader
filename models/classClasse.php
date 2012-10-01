@@ -52,7 +52,7 @@ abstract class Classe {
         // Construction de la variable private.
         if (!is_null($array = Site::getConnexion()->getFetchAssArray($requete))) {
             foreach ($array as $key => $value) {
-                $cle = split("_", $key);
+                $cle = explode("_", $key);
                 if ($cle[0] != $this->getPrefix()) {
                     $this->private[$cle[0]] = Connexion::getOriginalString($value);
                 } else {

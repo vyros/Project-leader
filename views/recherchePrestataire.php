@@ -39,7 +39,7 @@
                 $i = 0;
             }
             $i++;
-            echo "<div class='bloc'><input type='checkbox' name='rech' value=" . $objFille->getId() . "id=" . $objFille->getId() . "/>" . $objFille->getLibelle() . "</div>";
+            echo "<div class='bloc'><input type='checkbox' name='rech' value=" . $objFille->getId() . ">" . $objFille->getLibelle() . "</div>";
         }
     }
     echo "</br>";
@@ -127,7 +127,7 @@
                                 </td>
 
                                 <td id="date">
-                                    <?php $date = new DateTime($objProjet->getDate()); ?>
+                                    <?php $date = new DateTime($objProjet->getDateTable()); ?>
                                     <input type="hidden" name="date" value="<?php echo $date->format('d-m-Y'); ?>">
                                     <?php echo $date->format('d-m-Y'); ?>											
                                 </td>

@@ -107,7 +107,7 @@ class Notification extends Classe {
         return Site::getConnexion()->doSql($requete);
     }
 
-    public static function getConversationIds($idUtilisateurCourant, $idUtilisateur) {
+    private static function getConversationIds($idUtilisateurCourant, $idUtilisateur) {
 
         $requete = " SELECT not_id FROM notification " .
                 " WHERE not_nature = 'message' " .
@@ -164,6 +164,10 @@ class Notification extends Classe {
     public function getDate() {
         return Site::dateMysql2Picker($this->getPrivate("date"));
     }
+    
+    public function getDateTable() {
+        return Site::dateMysql2Table($this->getPrivate("date"));
+    }
 
     public function getEmetteurId() {
         return $this->getPrivate('emetteur');
@@ -184,7 +188,5 @@ class Notification extends Classe {
     public function setLu($value) {
         $this->setPrivate('lu', $value);
     }
-
 }
-
 ?>

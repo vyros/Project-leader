@@ -54,12 +54,12 @@ if (!is_null($action) && $action == "commentaire") {
 } else if (!is_null($action) && $action == "message") {
 
     $nature = 'message';
-    $sujet = (isset($_POST["sujet"])) ? $_POST["sujet"] : 'Sans objet';
-    $message = (isset($_POST["message"])) ? $_POST["message"] : 'Vide';
+    $sujet = (isset($_POST["sujet"])) ? strip_tags($_POST["sujet"]) : 'Sans objet';
+    $corps = (isset($_POST["corps"])) ? strip_tags($_POST["corps"]) : 'Vide';
 
     $idEmetteur = Site::getUtilisateur()->getId();
 //    $receveurIds = (isset($_POST["blah"])) ? explode(',', $_POST["blah"]) : null;
-    
+
     $receveur = (isset($_POST["receveur"])) ? $_POST["receveur"] : null;
     if (!is_null($idReceveur = Utilisateur::login2Id($receveur))) {
 
@@ -89,11 +89,9 @@ if (!is_null($view) && $view == "messagerie") {
     }
 } else if (!is_null($view) && $view == "message") {
 
-    $idMessage = (isset($_POST["id"])) ? $_POST["id"] : null;
-
-    if (!is_null($idMessage)) {
+    if (!is_null($idMessage = Site::isValidId($_POST['id']))) {
         $objMessage = new Notification($idMessage);
-        $lstMessageObjs = Notification::getConversationIds(Site::getUtilisateur()->getId(), $objMessage->getEmetteurId(), $objMessage->getReceveurId());
+        $lstMessageObjs = Notification::getConversationObjs(Site::getUtilisateur()->getId(), $objMessage->getEmetteurId(), $objMessage->getReceveurId());
     }
 
     include 'views/utilisateurMessage.php';
@@ -112,9 +110,9 @@ if (!is_null($view)) {
 
                     var idEmetteur = $("#idEmetteur").val();
                     var receveurIds = jQuery('input[name=blah]').val();
-                                            
+                                                
                     // Serialiser le blah
-                                            
+                                                
                     var logEmetteur = $("#logEmetteur").val();
                     var titre = $("#titre").val();
                     var comment = $("#comment").val();
@@ -138,14 +136,14 @@ if (!is_null($view)) {
                             data: dataString,
                             cache: false,
                             success: function(html){
-                                 
+                                     
                                 $("ol#update").append(html);
                                 $("ol#update li:last").fadeIn("slow");
                                 document.getElementById('comment').value='';
                                 $("#name").focus();
-                                 
+                                     
                                 $("#flash").hide();
-                                	
+                                    	
                             }
                         });
                     }

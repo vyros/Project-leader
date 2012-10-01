@@ -36,11 +36,11 @@ if (!is_null($action) && $action == "activer") {
     }
 } elseif (!is_null($action) && $action == "ajouter") {
 
-    $mail = (isset($_POST["mail"])) ? $_POST["mail"] : null;
-    $log = (isset($_POST["log"])) ? $_POST["log"] : null;
-    $statut = (isset($_POST["statut"])) ? $_POST["statut"] : null;
-    $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
-    $mdp2 = (isset($_POST["mdp2"])) ? $_POST["mdp2"] : null;
+    $mail = (isset($_POST["mail"])) ? strip_tags($_POST["mail"]) : null;
+    $log = (isset($_POST["log"])) ? strip_tags($_POST["log"]) : null;
+    $statut = (isset($_POST["statut"])) ? strip_tags($_POST["statut"]) : null;
+    $mdp = (isset($_POST["mdp"])) ? strip_tags($_POST["mdp"]) : null;
+    $mdp2 = (isset($_POST["mdp2"])) ? strip_tags($_POST["mdp2"]) : null;
 
     if ($mdp != $mdp2) {
         $message[erreur] = "Erreur !";
@@ -122,15 +122,15 @@ if (!is_null($action) && $action == "activer") {
     }
 } elseif (!is_null($action) && $action == "profil") {
 
-    $id = (isset($_POST["id"])) ? $_POST["id"] : null;
+    $id = (isset($_POST["id"])) ? ($_POST["id"]) : null;
     $_POST["id"] = (!is_null($id)) ? null : null;
-    $nom = (isset($_POST["nom"])) ? $_POST["nom"] : null;
-    $prenom = (isset($_POST["prenom"])) ? $_POST["prenom"] : null;
-    $ddn = (isset($_POST["datepicker"])) ? $_POST["datepicker"] : null;
-    $presentation = (isset($_POST["presentation"])) ? $_POST["presentation"] : null;
-    $ville = (isset($_POST["ville"])) ? $_POST["ville"] : null;
-    $cv = (isset($_POST["cv"])) ? $_POST["cv"] : null;
-    $tel = (isset($_POST["tel"])) ? $_POST["tel"] : null;
+    $nom = (isset($_POST["nom"])) ? strip_tags($_POST["nom"]) : null;
+    $prenom = (isset($_POST["prenom"])) ? strip_tags($_POST["prenom"]) : null;
+    $ddn = (isset($_POST["datepicker"])) ? strip_tags($_POST["datepicker"]) : null;
+    $presentation = (isset($_POST["presentation"])) ? strip_tags($_POST["presentation"]) : null;
+    $ville = (isset($_POST["ville"])) ? strip_tags($_POST["ville"]) : null;
+    $cv = (isset($_POST["cv"])) ? strip_tags($_POST["cv"]) : null;
+    $tel = (isset($_POST["tel"])) ? strip_tags($_POST["tel"]) : null;
     $lstCompetenceIds = (isset($_POST["blah"])) ? explode(',', $_POST["blah"]) : null;
 
     if (Site::getUtilisateur()->getId() != $id) {
@@ -158,8 +158,8 @@ if (!is_null($action) && $action == "activer") {
 } elseif (!is_null($action) && $action == "valider") {
 
     // Data
-    $log = (isset($_POST["log"])) ? $_POST["log"] : null;
-    $mdp = (isset($_POST["mdp"])) ? $_POST["mdp"] : null;
+    $log = (isset($_POST["log"])) ? strip_tags($_POST["log"]) : null;
+    $mdp = (isset($_POST["mdp"])) ? strip_tags($_POST["mdp"]) : null;
 
     /**
      * Le controleur définit le message suite à l'action 
@@ -205,7 +205,7 @@ if (!is_null($view) && $view == "accueil") {
             /**
              * L'accueill d'un client montre une liste de N prestataires 
              */
-            $lstUtilisateurObjs = Prestataire::getNObjs(10);
+            $lstUtilisateurObjs = Utilisateur::getNUtilisateurObjs("prestataire", 10);
             include 'views/accueilClient.php';
         } else {
             /**

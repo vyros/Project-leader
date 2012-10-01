@@ -117,7 +117,7 @@ class Site {
         if (is_null($p_date))
             return null;
 
-        $array = split("-", $p_date);
+        $array = explode("-", $p_date);
 
         $annee = $array[0];
         $mois = $array[1];
@@ -125,19 +125,35 @@ class Site {
 
         return $mois . "/" . $jour . "/" . $annee;
     }
-
+    
     static public function datePicker2Mysql($p_date) {
 
         if (is_null($p_date))
             return null;
 
-        $array = split("/", $p_date);
+        $array = explode("/", $p_date);
 
         $mois = $array[0];
         $jour = $array[1];
         $annee = $array[2];
 
         return $annee . "-" . $mois . "-" . $jour;
+    }
+    
+    static public function dateMysql2Table($p_date) {
+
+        if (is_null($p_date))
+            return null;
+
+        $array = explode("-", $p_date);
+
+        $annee = $array[0];
+        $mois = $array[1];
+        
+        $tabJour = explode(" ",$array[2]);
+        $jour = $tabJour[0];
+
+        return $mois . "/" . $jour . "/" . $annee;
     }
 
     static public function getInformation($p_libelle = null) {
